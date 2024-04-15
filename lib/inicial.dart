@@ -33,6 +33,16 @@ class _MyinicialState extends State<Myinicial> {
                   Text("Reciclar e reutilizar, não deixe o momento passar!", style: TextStyle(color: Colors.white, fontSize: 35, fontFamily: 'Nunito', fontWeight: FontWeight.bold), textAlign: TextAlign.center),
                   SizedBox(height: 10),
                   Text("Aqui as suas ideias são salvadoras.", style: TextStyle(color: Colors.white, fontFamily: 'Nunito', fontWeight: FontWeight.bold),),
+                  SizedBox(height: 10,),
+                  ElevatedButton(onPressed: () {
+                    setState(() {
+                      
+                    });
+
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor:Color.fromARGB(255,0,72,82),
+                    );
+                  }, child: Text("Veja mais"))
                 ],)
                 
               ),),
