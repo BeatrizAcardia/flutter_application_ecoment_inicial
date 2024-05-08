@@ -16,13 +16,6 @@ class _MyinicialState extends State<Myinicial> {
     child: Image.asset('assets/imgs/ondaDebaixoLanding.png'),
   );
 
-  List<String> images = [
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVn_r9FnzrIZTPF2fu9lLuYI29wPEtZH4rxw&usqp=CAU"
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRgInhWkazYA_Z6egZCEkyhAT0Iz5fox853fA&usqp=CAU"
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTscdd4U7za3Wg4LktgrPf0fiWzMGqNoLu0yQ&usqp=CAU"
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYYgf68Nz_k1GfItvR0pTxEMf36Aq58s-bBw&usqp=CAU"
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSI9RCaHmaI4zOvGBZiwy-K8lIUwIfFJ-_9Hg&usqp=CAU"
-  ];
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,7 +71,7 @@ class _MyinicialState extends State<Myinicial> {
                 )),
           ),
           onda,
-          SizedBox(height: 10),
+          
           Text(
             "Principais Ideias",
             style: TextStyle(
