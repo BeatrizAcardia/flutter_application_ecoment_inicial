@@ -1,9 +1,9 @@
 // ignore_for_file: prefer_const_constructors, unused_import
 
 import 'package:flutter/material.dart';
-import 'package:flutter_application_ecoment_inicial/cadastro.dart';
-import 'package:flutter_application_ecoment_inicial/inicial.dart';
-import 'package:flutter_application_ecoment_inicial/login.dart';
+import 'package:flutter_application_ecoment_inicial/views/cadastro.dart';
+import 'package:flutter_application_ecoment_inicial/views/inicial.dart';
+import 'package:flutter_application_ecoment_inicial/views/login.dart';
 
 void main() {
   runApp(const MyApp());

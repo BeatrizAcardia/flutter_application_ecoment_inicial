@@ -1,7 +1,7 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last, sized_box_for_whitespace
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last, sized_box_for_whitespace, body_might_complete_normally_nullable, unused_import
 
 import 'package:flutter/material.dart';
-import 'package:flutter_application_ecoment_inicial/pessoa.dart';
+import 'package:flutter_application_ecoment_inicial/models/pessoa.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -12,7 +12,6 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
 
-  Pessoa p = Pessoa.n();
 
   GlobalKey<FormState> keyVal = GlobalKey();
   TextEditingController usernameEmailController = TextEditingController();
