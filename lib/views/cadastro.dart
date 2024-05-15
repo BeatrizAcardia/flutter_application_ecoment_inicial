@@ -86,7 +86,7 @@ class _CadastroState extends State<Cadastro> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Form(key:keyVal ,child: Column(children: [
+      body:SingleChildScrollView(child:  Form(key:keyVal ,child: Column(children: [
         Padding(padding: EdgeInsets.fromLTRB(50, 60, 50, 0)),
 
         Align(alignment: Alignment.center,
@@ -221,7 +221,7 @@ class _CadastroState extends State<Cadastro> {
           child:ecoMomentIcon2
         )
 
-      ],),),
+      ],),),)
     );
   }
 }
