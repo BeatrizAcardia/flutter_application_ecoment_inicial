@@ -91,13 +91,14 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:SingleChildScrollView(child: Form(key: keyVal,child: Column(children: [
-        Padding(padding: EdgeInsets.fromLTRB(50, 60, 50, 0)),
+      body:SingleChildScrollView(child: Form(key: keyVal,child: Container(
+        padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
+        child: Column(children: [
+        Padding(padding: EdgeInsets.fromLTRB(50, 0, 50, 0)),
 
         Align(alignment: Alignment.center,
         child:ecoMomentIcon ,
         ),
-        SizedBox(height: 2,),
 
         Align(alignment: Alignment.center,
           child:title,
@@ -120,13 +121,13 @@ class _LoginState extends State<Login> {
           ),
         ),),
         ),
-        SizedBox(height: 25,),
+        SizedBox(height: 10,),
 
         Align(
           alignment: Alignment.center,
           child: orLabel,
         ),
-        SizedBox(height: 20,),
+        SizedBox(height: 10,),
 
         usernameLabel,
         SizedBox(height: 10,),
@@ -208,7 +209,7 @@ class _LoginState extends State<Login> {
           child:ecoMomentIcon2
         )
 
-      ],),),) 
+      ],),),) )
     );
   }
 }

@@ -8,10 +8,10 @@ class Pessoa{
   final String email;
   final String password;
 
-  const Pessoa(
-    @required this.username,
-    @required this.email, 
-    @required this.password,
+  Pessoa(
+   this.username,
+   this.email, 
+   this.password,
     );
   
 
