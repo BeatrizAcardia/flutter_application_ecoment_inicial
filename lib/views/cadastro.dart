@@ -1,7 +1,9 @@
-// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, sort_child_properties_last, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, sort_child_properties_last, prefer_const_literals_to_create_immutables, avoid_function_literals_in_foreach_calls
 
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:flutter_application_ecoment_inicial/models/pessoa.dart';
+import 'package:flutter_application_ecoment_inicial/views/inicial.dart';
 
 class Cadastro extends StatefulWidget {
   const Cadastro({super.key});
@@ -12,6 +14,7 @@ class Cadastro extends StatefulWidget {
 
 class _CadastroState extends State<Cadastro> {
 
+  List<Pessoa> listaP = [];
   GlobalKey<FormState> keyVal = GlobalKey();
   TextEditingController usernameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
@@ -117,9 +120,9 @@ class _CadastroState extends State<Cadastro> {
             validator: (value){
               if (value!.trim().isEmpty){
                 return "Este campo não pode estar vazio. Preencha o campo corretamente";
-              }else if (value!.trim().length < 3){
+              }else if (value.trim().length < 3){
                 return "O nome de usuario deve ter mais que 3 caracteres";
-              }else if(value!.trim().length > 14){
+              }else if(value.trim().length > 14){
                 return "O nome de usuario deve ter menos que 15 caracteres";
               }
               return null;
@@ -134,6 +137,7 @@ class _CadastroState extends State<Cadastro> {
         Container(
           width: 400,
           child: TextFormField(
+          controller: emailController,
           decoration: InputDecoration(
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10.0),
@@ -151,6 +155,7 @@ class _CadastroState extends State<Cadastro> {
         Container(
           width: 400,
           child: TextFormField(
+            controller: passwordController,
           obscureText: true,
           decoration: InputDecoration(
             border: OutlineInputBorder(
@@ -161,9 +166,9 @@ class _CadastroState extends State<Cadastro> {
             validator: (value) {
               if(value!.trim().isEmpty){
                 return "Este campo não pode estar vazio. Preencha o campo corretamente";
-              }else if (value!.trim().length < 5){
+              }else if (value.trim().length < 5){
                 return "No minimo 5 caracteres";
-              }else if (value!.trim().length >= 8){
+              }else if (value.trim().length >= 8){
                 return "No máximo 8 caracteres";
               }
               return null;
@@ -177,9 +182,9 @@ class _CadastroState extends State<Cadastro> {
           height: 70,
           child: ElevatedButton(onPressed: () {
           if(keyVal.currentState!.validate()){
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text("Sucesso!"))
-              );
+              cadastrarP(usernameController.text, emailController.text, passwordController.text);
+              mostrar();
+              Navigator.push(context, MaterialPageRoute(builder: (context) => Myinicial(),));
               setState(() {
 
             });
@@ -225,5 +230,20 @@ class _CadastroState extends State<Cadastro> {
 
       ],),),)
     ));
+  }
+
+  void cadastrarP(String username, String email, String password){
+    Pessoa p = Pessoa(username, email, password);
+    listaP.add(p);
+  }
+
+  void mostrar(){
+    listaP.forEach((Pessoa p) {
+      print("DADOS");
+      print(p.getUsername);
+      print(p.getEmail);
+      print(p.getPassword);
+      print("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
+    });
   }
 }

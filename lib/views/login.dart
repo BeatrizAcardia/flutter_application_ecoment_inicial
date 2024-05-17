@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_ecoment_inicial/models/pessoa.dart';
+import 'package:flutter_application_ecoment_inicial/views/cadastro.dart';
+import 'package:flutter_application_ecoment_inicial/views/inicial.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -12,7 +14,9 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
 
-
+  Pessoa p1 = Pessoa("VHSNWLF", "cl202247@g.unicamp.br", "abcd12345");
+  Pessoa p2 = Pessoa("Belatrix", "cl202228@g.unicamp.br", "abcd1234");
+  List<Pessoa> listaPessoa = [];
   GlobalKey<FormState> keyVal = GlobalKey();
   TextEditingController usernameEmailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -179,9 +183,28 @@ class _LoginState extends State<Login> {
           height: 50,
           child: ElevatedButton(onPressed: () {
           if(keyVal.currentState!.validate()){
-            ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text("Sucesso!"))
-              );
+            listaPessoa.add(p1);
+            listaPessoa.add(p2);
+            if(verificaUser(usernameEmailController.text, passwordController.text)){
+              Navigator.push(context, MaterialPageRoute(builder: (context) => Myinicial(),));
+            }else{
+              showDialog(context: context,
+               builder: (BuildContext context) {
+                 return AlertDialog(
+                          title: Text('Dados incorretos'),
+                          content: Text('Usuario/Email e/ou senha estão incorretos'),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text('Fechar'),
+                            ),
+                          ],
+                        );
+               },
+               );
+            }
             
             setState(() {
             });
@@ -200,7 +223,12 @@ class _LoginState extends State<Login> {
         Row(mainAxisAlignment: MainAxisAlignment.center,children: [
           noAccLabel,
           SizedBox(width: 5,),
-          noAccLabel2
+          GestureDetector(
+          child:noAccLabel2,
+          onTap: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => Cadastro(),));
+          },
+          )
         ],),
         SizedBox(height: 30,),
         
@@ -212,4 +240,13 @@ class _LoginState extends State<Login> {
       ],),),) )
     );
   }
+
+  bool verificaUser(String userEmail, String password) {
+  for (Pessoa p in listaPessoa) {
+    if (p.getUsername == userEmail && p.getPassword == password) {
+      return true;
+    }
+  }
+  return false;
+}
 }

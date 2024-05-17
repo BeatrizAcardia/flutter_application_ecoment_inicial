@@ -4,15 +4,30 @@
 import 'package:flutter/material.dart';
 
 class Pessoa{
-  final String username;
-  final String email;
-  final String password;
+  String username = "";
+  String email = "";
+  String password = "";
+
 
   Pessoa(
    this.username,
    this.email, 
    this.password,
-    );
+  );
+
+  Pessoa.n();
+
+ String get getUsername => this.username;
+
+ set setUsername(String username) => this.username = username;
+
+  get getEmail => this.email;
+
+ set setEmail( email) => this.email = email;
+
+  get getPassword => this.password;
+
+ set setPassword( password) => this.password = password;
   
 
 }
