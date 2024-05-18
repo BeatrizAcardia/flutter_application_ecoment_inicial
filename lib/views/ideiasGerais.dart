@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, camel_case_types, sized_box_for_whitespace, unnecessary_import
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, camel_case_types, sized_box_for_whitespace, unnecessary_import, prefer_final_fields
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -32,6 +32,23 @@ class _ideiasGeraisState extends State<ideiasGerais> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
+      appBar: AppBar(
+        title: Text(
+          "Ideias de reutilização",
+          style: TextStyle(
+            color: const Color.fromARGB(255, 46, 46, 46),
+            fontSize: 38,
+            shadows: [
+              Shadow(
+                color: const Color.fromARGB(255, 122, 193, 67),
+                offset: Offset(1, 1),
+              )
+            ],
+          ),
+        ),
+        centerTitle: true,
+        backgroundColor: const Color.fromARGB(255, 224, 224, 224),
+      ),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -68,7 +85,7 @@ class _ideiasGeraisState extends State<ideiasGerais> {
           ],
         ),
       ),
-
+backgroundColor: const Color.fromARGB(255, 224, 224, 224),
       body: Stack(
         fit: StackFit.expand,
         alignment: Alignment.center,
@@ -79,19 +96,6 @@ class _ideiasGeraisState extends State<ideiasGerais> {
               child: Center(
                 child: Column(
                   children: [
-                    Text(
-                      "Ideias de reutilização",
-                      style: TextStyle(
-                        color: const Color.fromARGB(255, 46, 46, 46),
-                        fontSize: 38,
-                        shadows: [
-                          Shadow(
-                            color: const Color.fromARGB(255, 122, 193, 67),
-                            offset: Offset(1, 1),
-                          ),
-                        ],
-                      ),
-                    ),
                     ...gerarRowCards(6),
                   ],
                 ),
