@@ -1,6 +1,9 @@
 // ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:flutter_application_ecoment_inicial/views/ideiasGerais.dart';
+import 'package:flutter_application_ecoment_inicial/views/inicial.dart';
+import 'package:flutter_application_ecoment_inicial/views/pontosColeta.dart';
 
 class MinhaConta extends StatefulWidget {
   const MinhaConta({super.key});
@@ -33,15 +36,14 @@ class _MinhaContaState extends State<MinhaConta> {
     width: 200,
     child: Image.asset("assets/imgs/03bd77be1744bc5876a3b6d0eaa03c22.jpg"),
   );
+  
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
-        leading: IconButton(onPressed: () {}, icon: Icon(Icons.menu)),
-        actions: [
-          IconButton(onPressed: () {}, icon: Icon(Icons.edit))
-        ],
         title: Text(
           "Sua conta",
           style: TextStyle(
@@ -58,6 +60,44 @@ class _MinhaContaState extends State<MinhaConta> {
         centerTitle: true,
         backgroundColor: const Color.fromARGB(255, 224, 224, 224),
       ),
+
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blue
+              ),
+              child: Text("Menu",textAlign: TextAlign.center, style: TextStyle(
+              fontSize: 24,
+              color: Colors.white
+            ),)),
+            ListTile(
+              leading: Icon(Icons.person_2_outlined, color: Colors.black,),
+              title: Text("Perfil"),
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => MinhaConta(),));
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.home_outlined, color: Colors.black,),
+              title: Text("Início"),
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => Myinicial(),));
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.pin_drop_outlined, color: Colors.black,),
+              title: Text("Pontos de coleta"),
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => PontosColeta(),));
+              },
+            ),
+          ],
+        ),
+      ),
+
       backgroundColor: const Color.fromARGB(255, 224, 224, 224),
       body: Stack(
         fit: StackFit.expand,
@@ -183,7 +223,7 @@ class _MinhaContaState extends State<MinhaConta> {
               ),
             ),
           ),
-          Positioned(
+        Positioned(
             bottom: 0,
             left: 0,
             right: 0,
@@ -203,19 +243,27 @@ class _MinhaContaState extends State<MinhaConta> {
                     children: [
                       IconButton(
                         icon: Icon(Icons.pin_drop_outlined, color: Colors.black),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => PontosColeta(),));
+                        },
                       ),
                       IconButton(
                         icon: Icon(Icons.lightbulb_circle_outlined, color: Colors.black),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => ideiasGerais(),));
+                        },
                       ),
                       IconButton(
                         icon: Icon(Icons.person_2_outlined, color: Colors.black),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => MinhaConta(),));
+                        },
                       ),
                       IconButton(
                         icon: Icon(Icons.menu, color: Colors.black),
-                        onPressed: () {},
+                        onPressed: () {
+                          _scaffoldKey.currentState?.openDrawer();
+                        },
                       ),
                     ],
                   ),

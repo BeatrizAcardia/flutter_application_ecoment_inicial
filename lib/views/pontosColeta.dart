@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:br_validators/br_validators.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_application_ecoment_inicial/models/Endereco.dart';
+import 'package:flutter_application_ecoment_inicial/views/ideiasGerais.dart';
+import 'package:flutter_application_ecoment_inicial/views/inicial.dart';
+import 'package:flutter_application_ecoment_inicial/views/minhaConta.dart';
 
 class PontosColeta extends StatefulWidget {
   const PontosColeta({super.key});
@@ -38,14 +41,15 @@ class _PontosColetaState extends State<PontosColeta> {
   );
   TextEditingController cepController = TextEditingController();
   GlobalKey<FormState> key = GlobalKey();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
-        leading: IconButton(onPressed: () {}, icon: Icon(Icons.menu)),
         title: Text(
-          "Sua conta",
+          "Pontos de coleta",
           style: TextStyle(
             color: const Color.fromARGB(255, 46, 46, 46),
             fontSize: 38,
@@ -59,6 +63,43 @@ class _PontosColetaState extends State<PontosColeta> {
         ),
         centerTitle: true,
         backgroundColor: const Color.fromARGB(255, 244, 244, 244),
+      ),
+
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blue
+              ),
+              child: Text("Menu",textAlign: TextAlign.center, style: TextStyle(
+              fontSize: 24,
+              color: Colors.white
+            ),)),
+            ListTile(
+              leading: Icon(Icons.person_2_outlined, color: Colors.black,),
+              title: Text("Perfil"),
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => MinhaConta(),));
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.home_outlined, color: Colors.black,),
+              title: Text("Início"),
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => Myinicial(),));
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.pin_drop_outlined, color: Colors.black,),
+              title: Text("Pontos de coleta"),
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => PontosColeta(),));
+              },
+            ),
+          ],
+        ),
       ),
 
       body: Stack(
@@ -142,19 +183,27 @@ class _PontosColetaState extends State<PontosColeta> {
                     children: [
                       IconButton(
                         icon: Icon(Icons.pin_drop_outlined, color: Colors.black),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => PontosColeta(),));
+                        },
                       ),
                       IconButton(
                         icon: Icon(Icons.lightbulb_circle_outlined, color: Colors.black),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => ideiasGerais(),));
+                        },
                       ),
                       IconButton(
                         icon: Icon(Icons.person_2_outlined, color: Colors.black),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => MinhaConta(),));
+                        },
                       ),
                       IconButton(
                         icon: Icon(Icons.menu, color: Colors.black),
-                        onPressed: () {},
+                        onPressed: () {
+                          _scaffoldKey.currentState?.openDrawer();
+                        },
                       ),
                     ],
                   ),
