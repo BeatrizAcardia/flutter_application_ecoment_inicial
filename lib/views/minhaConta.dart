@@ -60,6 +60,7 @@ class _MinhaContaState extends State<MinhaConta> {
       ),
       backgroundColor: const Color.fromARGB(255, 224, 224, 224),
       body: Stack(
+        fit: StackFit.expand,
         children: [
           SingleChildScrollView(
             child: Container(

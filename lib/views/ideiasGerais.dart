@@ -26,6 +26,7 @@ class _ideiasGeraisState extends State<ideiasGerais> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
+        fit: StackFit.expand,
         alignment: Alignment.center,
         children: [
           SingleChildScrollView(
@@ -47,7 +48,7 @@ class _ideiasGeraisState extends State<ideiasGerais> {
                         ],
                       ),
                     ),
-                    ...gerarRowCards(3),
+                    ...gerarRowCards(6),
                   ],
                 ),
               ),

@@ -6,6 +6,7 @@ import 'package:flutter_application_ecoment_inicial/views/ideiasGerais.dart';
 import 'package:flutter_application_ecoment_inicial/views/inicial.dart';
 import 'package:flutter_application_ecoment_inicial/views/login.dart';
 import 'package:flutter_application_ecoment_inicial/views/minhaConta.dart';
+import 'package:flutter_application_ecoment_inicial/views/pontosColeta.dart';
 import 'package:flutter_application_ecoment_inicial/views/teste.dart';
 
 void main() {
@@ -20,12 +21,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'EcoMoment',
       theme: ThemeData(
         //colorScheme: ColorScheme.fromSeed(seedColor: Color.fromARGB(0, 58, 118, 183)),
         useMaterial3: true,
       ),
-      home: ideiasGerais(),
+      home: PontosColeta(),
     );
   }
 }
