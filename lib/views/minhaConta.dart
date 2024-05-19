@@ -215,7 +215,7 @@ class _MinhaContaState extends State<MinhaConta> {
                 child: Column(children: [
                 SizedBox(
                 width: 200,
-                child: Image.asset("$imgUrl",height: 150, fit: BoxFit.cover,),
+                child: Image.asset("$imgUrl",height: 149, fit: BoxFit.cover,),
                 ),
               SizedBox(height: 5),
               Text(titulo, style: ideaTitle),
