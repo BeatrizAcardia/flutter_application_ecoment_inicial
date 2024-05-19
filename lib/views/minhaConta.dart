@@ -1,8 +1,10 @@
-// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, prefer_const_literals_to_create_immutables, unused_import
+// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, prefer_const_literals_to_create_immutables, unused_import, unnecessary_string_interpolations
 
 import 'package:flutter/material.dart';
+import 'package:flutter_application_ecoment_inicial/defaultWidgets/appBar.dart';
 import 'package:flutter_application_ecoment_inicial/defaultWidgets/bottomAppBar.dart';
 import 'package:flutter_application_ecoment_inicial/defaultWidgets/drawer.dart';
+import 'package:flutter_application_ecoment_inicial/models/ideia.dart';
 import 'package:flutter_application_ecoment_inicial/views/ideiasGerais.dart';
 import 'package:flutter_application_ecoment_inicial/views/inicial.dart';
 import 'package:flutter_application_ecoment_inicial/views/pontosColeta.dart';
@@ -34,10 +36,15 @@ class _MinhaContaState extends State<MinhaConta> {
   
   double tamanhoContainterCinza = 500;
   
-  SizedBox img = SizedBox(
-    width: 200,
-    child: Image.asset("assets/imgs/03bd77be1744bc5876a3b6d0eaa03c22.jpg"),
-  );
+
+
+  List<Ideia> listaIdeias = [
+    Ideia.ti("titulo1", "assets/imgs/ideia1.jpg", Colors.red),
+    Ideia.ti("titulo2", "assets/imgs/ideia2.jpg", Colors.green),
+    Ideia.ti("titulo3", "assets/imgs/ideia1.jpg", Colors.yellow),
+    Ideia.ti("titulo4", "assets/imgs/ideia2.jpg", Colors.green),
+    Ideia.ti("titulo5", "assets/imgs/ideia2.jpg", Colors.red),
+  ];
   
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
@@ -45,23 +52,7 @@ class _MinhaContaState extends State<MinhaConta> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      appBar: AppBar(
-        title: Text(
-          "Sua conta",
-          style: TextStyle(
-            color: const Color.fromARGB(255, 46, 46, 46),
-            fontSize: 38,
-            shadows: [
-              Shadow(
-                color: const Color.fromARGB(255, 255, 195, 15),
-                offset: Offset(1, 1),
-              )
-            ],
-          ),
-        ),
-        centerTitle: true,
-        backgroundColor: const Color.fromARGB(255, 224, 224, 224),
-      ),
+      appBar: WidgetAppBar("Sua conta", 255,195,15), 
 
       drawer: AppDrawer(),
 
@@ -184,7 +175,24 @@ class _MinhaContaState extends State<MinhaConta> {
                         ),
                       ),
                     ),
-                    ...gerarRowCards(3),
+                    listaIdeias.isNotEmpty ?
+                  Container(
+                    padding: EdgeInsets.all(20.0),
+                    height: MediaQuery.of(context).size.height,
+                    child:
+                    GridView.builder(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 22,
+                      mainAxisSpacing: 25
+                      
+                    ),
+                      itemCount: listaIdeias.length,
+                      itemBuilder: (context, index) {
+                        return gerarCard(listaIdeias[index].getTitulo, listaIdeias[index].getImg, listaIdeias[index].getDificuldade);
+                      },)
+                      )
+                      : Center(child: Text("Sem ideias no momento. Volte mais tarde", style: TextStyle(fontSize: 25),textAlign: TextAlign.center,),)
                   ],
                 ),
               ),
@@ -196,86 +204,49 @@ class _MinhaContaState extends State<MinhaConta> {
     );
   }
 
-  List<Widget> gerarRowCards(int n) {
-    List<Widget> cards = [];
-    for (int i = 0; i < n; i++) {
-      cards.add(
-        //COMEÇO DA ROW DE 2 CARDS
-        Container(
-          padding: EdgeInsets.fromLTRB(0, 10, 0, 30),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+  Container gerarCard (String titulo, String imgUrl, Color dificuldade){
+    return Container(
+          width: 200,
+          child: Column(
             children: [
-              // PRIMEIRO CARD
-              Container(
+              MouseRegion(
+              cursor: SystemMouseCursors.click,
+              child: GestureDetector(
+                child: Column(children: [
+                SizedBox(
                 width: 200,
-                child: Column(
-                  children: [
-                    img,
-                    SizedBox(height: 5),
-                    Text("Titulo da ideia", style: ideaTitle),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Icon(Icons.star, color: Colors.orange),
-                            Icon(Icons.star, color: Colors.orange),
-                            Icon(Icons.star, color: Colors.orange),
-                            Icon(Icons.star_outline),
-                            Icon(Icons.star_outline),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Icon(Icons.circle, color: Colors.green),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
+                child: Image.asset("$imgUrl",height: 150, fit: BoxFit.cover,),
                 ),
+              SizedBox(height: 5),
+              Text(titulo, style: ideaTitle),
+                ],),
+                onTap: () {
+                  
+                },
+              )
               ),
-              // ESPAÇAMENTO ENTRE O PRIMEIRO E O SEGUNDO CARD
-              SizedBox(width: 20),
-              // SEGUNDO CARD
-              Container(
-                width: 200,
-                child: Column(
-                  children: [
-                    img,
-                    SizedBox(height: 5),
-                    Text("Titulo da ideia", style: ideaTitle),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Icon(Icons.star, color: Colors.orange),
-                            Icon(Icons.star, color: Colors.orange),
-                            Icon(Icons.star, color: Colors.orange),
-                            Icon(Icons.star_outline),
-                            Icon(Icons.star_outline),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Icon(Icons.circle, color: Colors.yellow),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Icon(Icons.star, color: Colors.orange),
+                      Icon(Icons.star, color: Colors.orange),
+                      Icon(Icons.star, color: Colors.orange),
+                      Icon(Icons.star_outline),
+                      Icon(Icons.star_outline),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Icon(Icons.circle, color: dificuldade),
+                    ],
+                  ),
+                ],
               ),
             ],
           ),
-          // FIM DA ROW DE 2 CARDS
-        ),
-      );
-    }
-    return cards;
+        );
   }
 }
