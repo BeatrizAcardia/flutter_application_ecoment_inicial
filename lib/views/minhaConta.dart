@@ -192,7 +192,7 @@ class _MinhaContaState extends State<MinhaConta> {
                         return gerarCard(listaIdeias[index].getTitulo, listaIdeias[index].getImg, listaIdeias[index].getDificuldade);
                       },)
                       )
-                      : Center(child: Text("Sem ideias no momento. Volte mais tarde", style: TextStyle(fontSize: 25),textAlign: TextAlign.center,),)
+                      : Center(child: Text("Sem posts no momento. Que tal postar alguma coisa?", style: TextStyle(fontSize: 25),textAlign: TextAlign.center,),)
                   ],
                 ),
               ),

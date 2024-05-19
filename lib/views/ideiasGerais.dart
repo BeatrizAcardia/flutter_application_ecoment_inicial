@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, camel_case_types, sized_box_for_whitespace, unnecessary_import, prefer_final_fields, unused_import, unused_local_variable
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, camel_case_types, sized_box_for_whitespace, unnecessary_import, prefer_final_fields, unused_import, unused_local_variable, unnecessary_string_interpolations
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -98,7 +98,7 @@ backgroundColor: const Color.fromARGB(255, 224, 224, 224),
                 child: Column(children: [
                 SizedBox(
                 width: 200,
-                child: Image.asset("$imgUrl",height: 150, fit: BoxFit.cover,),
+                child: Image.asset("$imgUrl",height: 149, fit: BoxFit.cover,),
                 ),
               SizedBox(height: 5),
               Text(titulo, style: ideaTitle),
