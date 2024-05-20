@@ -1,8 +1,9 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, unused_import, file_names, avoid_unnecessary_containers, avoid_function_literals_in_foreach_calls, unnecessary_import
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, unused_import, file_names, avoid_unnecessary_containers, avoid_function_literals_in_foreach_calls, unnecessary_import, sized_box_for_whitespace
 
 import 'package:flutter/material.dart';
 import 'package:br_validators/br_validators.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_application_ecoment_inicial/defaultWidgets/appBar.dart';
 import 'package:flutter_application_ecoment_inicial/defaultWidgets/bottomAppBar.dart';
 import 'package:flutter_application_ecoment_inicial/defaultWidgets/drawer.dart';
 import 'package:flutter_application_ecoment_inicial/models/Endereco.dart';
@@ -30,8 +31,6 @@ class _PontosColetaState extends State<PontosColeta> {
     color: const Color.fromARGB(255, 46, 46, 46),
     fontSize: 30,
     ),);
-  String nome = "EcoPonto - Marginal Tatu";
-  String endereco = "R. Antônio Lucato, 1883-1931 - Vila Camargo, Limeira - SP";
   TextStyle title = TextStyle(
     color: const Color.fromARGB(255, 46, 46, 46),
     fontSize: 30,
@@ -49,26 +48,10 @@ class _PontosColetaState extends State<PontosColeta> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      appBar: AppBar(
-        title: Text(
-          "Pontos de coleta",
-          style: TextStyle(
-            color: const Color.fromARGB(255, 46, 46, 46),
-            fontSize: 38,
-            shadows: [
-              Shadow(
-                color: const Color.fromARGB(255, 114, 160, 193),
-                offset: Offset(2, 2),
-              )
-            ],
-          ),
-        ),
-        centerTitle: true,
-        backgroundColor: const Color.fromARGB(255, 244, 244, 244),
-      ),
+      appBar: WidgetAppBar("Pontos de coleta", 114,160,193), 
 
       drawer: AppDrawer(),
-
+backgroundColor: const Color.fromARGB(255, 224, 224, 224),
       body: Stack(
         alignment: Alignment.center,
         fit: StackFit.expand,
@@ -122,10 +105,14 @@ class _PontosColetaState extends State<PontosColeta> {
                   ],)
                 )
               ),
-              SizedBox(height: 20,),
-
-              ...gerarLocais(1)
-
+              SizedBox(height: 10,),
+              Container(
+                height: MediaQuery.of(context).size.height - 300,
+                child: listaEnd.isNotEmpty ? 
+                Column(children: [
+                  ...gerarLocais(1)
+                ],): Text("Sem pontos de coleta no momento. Volte mais tarde", style: TextStyle(fontSize: 25),textAlign: TextAlign.center,),
+              )
             ],),
             )
           ),
