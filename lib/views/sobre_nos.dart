@@ -90,7 +90,7 @@ class _SobreNosState extends State<SobreNos> {
                         SizedBox(height: 20,),
                         Container(
                           margin: const EdgeInsets.symmetric(vertical: 20),
-                          height: 816, //tamanho dos containers
+                          height: 750, //tamanho dos containers
                           child: PageView.builder(
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (context, index) {
@@ -131,9 +131,12 @@ class _SobreNosState extends State<SobreNos> {
     ]
   ),
   child: Column(
-    mainAxisAlignment: MainAxisAlignment.start,
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
-      SizedBox(height: 200, width: 200, child: ClipRRect(
+      Container(
+        child: Column(
+          children: [
+            SizedBox(height: 200, width: 200, child: ClipRRect(
         borderRadius: BorderRadius.circular(200),
         child: Image.asset(imgUrl, fit: BoxFit.cover,),
       ),),
@@ -144,14 +147,18 @@ class _SobreNosState extends State<SobreNos> {
         padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
         child: Text(textaoo, style: tx1, textAlign: TextAlign.justify,),
       ),
-      SizedBox(height: 10,),
-      Row(
+          ],
+        ),
+      ),
+      Container(
+        padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+        child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           MouseRegion(
           cursor: SystemMouseCursors.click,
           child: GestureDetector(
-            child: SizedBox(height: 30, child: Image.asset("assets/imgs/001-instagram.png", color: Colors.white,),),
+            child: SizedBox(height: 30, child: Image.asset("assets/imgs/001-instagram.png",),),
             onTap: () {
               
             },
@@ -161,7 +168,7 @@ class _SobreNosState extends State<SobreNos> {
         MouseRegion(
           cursor: SystemMouseCursors.click,
           child: GestureDetector(
-            child: SizedBox(height: 30, child: Image.asset("assets/imgs/logotipo-do-github.png", color: Colors.white,),),
+            child: SizedBox(height: 30, child: Image.asset("assets/imgs/logotipo-do-github.png",),),
             onTap: () {
               
             },
@@ -171,13 +178,14 @@ class _SobreNosState extends State<SobreNos> {
         MouseRegion(
           cursor: SystemMouseCursors.click,
           child: GestureDetector(
-            child: SizedBox(height: 30, child: Image.asset("assets/imgs/logotipo-do-linkedin.png", color: Colors.white,),),
+            child: SizedBox(height: 30, child: Image.asset("assets/imgs/logotipo-do-linkedin.png",),),
             onTap: () {
               
             },
           ),
         )
         ],
+      ),
       )
     ],
   ),
