@@ -70,7 +70,7 @@ flutter:
         - asset: assets\fonts\Nunito_Sans\NunitoSans-VariableFont_YTLC,opsz,wdth,wght.ttf
     - family: Poppins
       fonts:
-        - asset: assets\fonts\Poppins\Poppins-Black.ttf
+        - asset: assets\fonts\Poppins\Poppins-Regular.ttf
         - asset: assets\fonts\Poppins\Poppins-Bold.ttf
           weight: 800
   #         style: italic

@@ -2,8 +2,13 @@ class Team {
   String nome = "";
   String funcao = "";
   String textao = "";
+  String imgUrl = "";
 
-  Team(this.nome, this.funcao, this.textao);
+  Team(this.nome, this.funcao, this.textao, this.imgUrl);
+  
+  get getImgUrl => this.imgUrl;
+
+ set setImgUrl( imgUrl) => this.imgUrl = imgUrl;
 
  String get getNome => this.nome;
 
