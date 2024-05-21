@@ -68,6 +68,11 @@ flutter:
       fonts:
         - asset: assets\fonts\Nunito_Sans\static\NunitoSans_7pt_Condensed-ExtraBold.ttf
         - asset: assets\fonts\Nunito_Sans\NunitoSans-VariableFont_YTLC,opsz,wdth,wght.ttf
+    - family: Poppins
+      fonts:
+        - asset: assets\fonts\Poppins\Poppins-Black.ttf
+        - asset: assets\fonts\Poppins\Poppins-Bold.ttf
+          weight: 800
   #         style: italic
   #   - family: Trajan Pro
   #     fonts:
