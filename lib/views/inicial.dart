@@ -136,24 +136,16 @@ class _MyinicialState extends State<Myinicial> {
        Container(
         margin: const EdgeInsets.symmetric(vertical: 20),
         height: 200, //tamanho dos containers
-        child: ListView(
-          // This next line does the trick.
-          scrollDirection: Axis.horizontal,
-          children: <Widget>[
-            Container(
-              
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: Container(
-              child: Wrap(
-                spacing: 22.0, // Espaçamento horizontal entre os itens
-                children: listaIdeias.map((ideia) {
-                  return gerarCard(ideia.getTitulo, ideia.getImg, ideia.getDificuldade);
-                }).toList(),
-              ),
-            ),
+        child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (context, index) {
+              final ideia = listaIdeias[index % listaIdeias.length];
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: gerarCard(ideia.getTitulo, ideia.getImg, ideia.getDificuldade),
+              );
+            },
           ),
-          ],
-        ),
       ),
 
 
