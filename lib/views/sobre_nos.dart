@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_ecoment_inicial/defaultWidgets/appBar.dart';
 import 'package:flutter_application_ecoment_inicial/defaultWidgets/bottomAppBar.dart';
+import 'package:flutter_application_ecoment_inicial/models/team.dart';
 
 class SobreNos extends StatefulWidget {
   const SobreNos({super.key});
@@ -26,7 +27,7 @@ class _SobreNosState extends State<SobreNos> {
   );
   TextStyle nome = TextStyle(
     fontSize: 30,
-    color: Colors.white,
+    color: Colors.black,
     fontFamily: 'Poppins',
     fontWeight: FontWeight.bold
   );
@@ -35,9 +36,9 @@ class _SobreNosState extends State<SobreNos> {
     color: Colors.black,
     fontFamily: 'Poppins',
   );
-  TextStyle tx2 = TextStyle(
+  TextStyle func = TextStyle(
     fontSize: 20,
-    color: Colors.lightGreenAccent,
+    color: Colors.redAccent,
     fontFamily: 'Poppins',
     fontWeight: FontWeight.bold
   );
@@ -47,9 +48,17 @@ class _SobreNosState extends State<SobreNos> {
   String funcaoL = "Desenvolvedora Front-End e Designer";
   String textaoLorena = "      Lorena Silva, natural de Limeira, interior de São Paulo, é uma entusiasta da tecnologia e busca se tornar uma desenvolvedora full-stack para criar soluções inovadoras. Seu sonho não se limita à programação; ela também almeja viver no Canadá, atraída pela qualidade de vida e oportunidades. Determinada e apaixonada por experiências únicas, Lorena está pronta para enfrentar desafios e transformar seus sonhos em realidade.";
 
+  List<Team> listaNos = [
+    Team("Lorena Ferreira Silva", "Desenvolvedora Front-End e Designer", "Lorena Silva, natural de Limeira, interior de São Paulo, é uma entusiasta da tecnologia e busca se tornar uma desenvolvedora full-stack para criar soluções inovadoras. Seu sonho não se limita à programação; ela também almeja viver no Canadá, atraída pela qualidade de vida e oportunidades. Determinada e apaixonada por experiências únicas, Lorena está pronta para enfrentar desafios e transformar seus sonhos em realidade."),
+    Team("Enzo Olivato Pazian", "funcao", "textao"),
+    Team("Beatriz A. Cardia", "funcao", "textao"),
+    Team("Vitor H.S. Nascimento", "funcao", "textao"),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 224, 224, 224),
       body: Stack(
         alignment: Alignment.center,
         children: [
@@ -84,10 +93,10 @@ class _SobreNosState extends State<SobreNos> {
                         SizedBox(height: 20,),
                         GerarCardD(nomeL, imgL, funcaoL, textaoLorena),
                         SizedBox(height: 20,),
+                        GerarLayout()
                       ],
                     ),
                   ),
-                  GerarLayout()
                 ],
               ),
             ),
@@ -99,19 +108,31 @@ class _SobreNosState extends State<SobreNos> {
 
   Container GerarLayout(){
     return Container(
-  width: 500,
-  padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+  width: 450,
+  padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
   decoration: BoxDecoration(
-    color: Colors.black
+    color: Colors.white,
+    borderRadius: BorderRadius.circular(10),
+    boxShadow: [
+      BoxShadow(
+        color: const Color.fromARGB(255, 171, 170, 170)
+      )
+    ]
   ),
   child: Column(
     mainAxisAlignment: MainAxisAlignment.start,
     children: [
-      SizedBox(width: 500, child: Image.asset("assets/imgs/Enzo.jpg", fit: BoxFit.cover,),),
+      SizedBox(height: 500, child: ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: Image.asset("assets/imgs/Enzo.jpg", fit: BoxFit.cover,),
+      ),),
       Text("Lorena Ferreira Silva", style: nome,),
-      Text(funcaoL, style: tx2,),
+      Text(funcaoL, style: func,),
       SizedBox(height: 10,),
-      Text(textaoLorena, style: tx, textAlign: TextAlign.justify,),
+      Container(
+        padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+        child: Text(textaoLorena, style: tx1, textAlign: TextAlign.justify,),
+      ),
       SizedBox(height: 10,),
       Row(
         mainAxisAlignment: MainAxisAlignment.center,
