@@ -6,6 +6,7 @@ import 'package:flutter_application_ecoment_inicial/defaultWidgets/bottomAppBar.
 import 'package:flutter_application_ecoment_inicial/defaultWidgets/drawer.dart';
 import 'package:flutter_application_ecoment_inicial/models/ideia.dart';
 import 'package:flutter_application_ecoment_inicial/views/ideiasGerais.dart';
+import 'package:flutter_application_ecoment_inicial/views/materias.dart';
 import 'package:flutter_application_ecoment_inicial/views/minhaConta.dart';
 import 'package:flutter_application_ecoment_inicial/views/pontosColeta.dart';
 
@@ -17,8 +18,7 @@ class Myinicial extends StatefulWidget {
 }
 
 class _MyinicialState extends State<Myinicial> {
-
-    TextStyle ideaTitle = TextStyle(
+  TextStyle ideaTitle = TextStyle(
     color: Colors.black,
     fontSize: 15,
     fontWeight: FontWeight.w700,
@@ -30,8 +30,6 @@ class _MyinicialState extends State<Myinicial> {
     final onda = SizedBox(
       child: Image.asset('assets/imgs/ondaDebaixoLanding.png'),
     );
-
-    
 
     final metal = SizedBox(
         height: 100, width: 100, child: Image.asset('assets/imgs/metal.png'));
@@ -52,14 +50,14 @@ class _MyinicialState extends State<Myinicial> {
     final vidro = SizedBox(
         height: 100, width: 100, child: Image.asset('assets/imgs/vidro.png'));
 
-  List<Ideia> listaIdeias = [
-    Ideia.ti("titulo1", "assets/imgs/ideia1.jpg", Colors.red),
-    Ideia.ti("titulo2", "assets/imgs/ideia2.jpg", Colors.green),
-    Ideia.ti("titulo3", "assets/imgs/ideia1.jpg", Colors.yellow),
-    Ideia.ti("titulo4", "assets/imgs/ideia2.jpg", Colors.green),
-    Ideia.ti("titulo5", "assets/imgs/ideia2.jpg", Colors.red),
-    Ideia.ti("titulo6", "assets/imgs/ideia2.jpg", Colors.green),
-  ];
+    List<Ideia> listaIdeias = [
+      Ideia.ti("titulo1", "assets/imgs/ideia1.jpg", Colors.red),
+      Ideia.ti("titulo2", "assets/imgs/ideia2.jpg", Colors.green),
+      Ideia.ti("titulo3", "assets/imgs/ideia1.jpg", Colors.yellow),
+      Ideia.ti("titulo4", "assets/imgs/ideia2.jpg", Colors.green),
+      Ideia.ti("titulo5", "assets/imgs/ideia2.jpg", Colors.red),
+      Ideia.ti("titulo6", "assets/imgs/ideia2.jpg", Colors.green),
+    ];
 
     return Scaffold(
         key: _scaffoldKey,
@@ -124,78 +122,118 @@ class _MyinicialState extends State<Myinicial> {
                 onda,
 
                 Text(
-                 "PRINCIPAIS IDEIAS",
-                 style: TextStyle(
-                 fontFamily: 'Nunito',
-                fontSize: 30,
-                color: Colors.black,
-                fontWeight: FontWeight.bold),
-                ),
-
-                //carrossel aqui quando eu conseguir !!
-       Container(
-        margin: const EdgeInsets.symmetric(vertical: 20),
-        height: 200, //tamanho dos containers
-        child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemBuilder: (context, index) {
-              final ideia = listaIdeias[index % listaIdeias.length];
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                child: gerarCard(ideia.getTitulo, ideia.getImg, ideia.getDificuldade),
-              );
-            },
-          ),
-      ),
-
-
-        SizedBox(height: 30,),
-
-        Container(
-          height: 300,
-          child: Column(children: [
-            Text(
-                  "PRINCIPAIS MATERIAIS",
+                  "PRINCIPAIS IDEIAS",
                   style: TextStyle(
                       fontFamily: 'Nunito',
                       fontSize: 30,
                       color: Colors.black,
                       fontWeight: FontWeight.bold),
                 ),
-                SizedBox(height: 30),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Column(
-                     children: [
-                      plastico,
-                      Text("Plástico", style: TextStyle(fontFamily: 'Nunito', fontWeight: FontWeight.bold, color: Colors.black))
-                     ]  
-                    ),
 
-                    Column(children: [
-                      vidro,
-                      Text("Vidro", style: TextStyle(fontFamily: 'Nunito', fontWeight: FontWeight.bold, color: Colors.black))
-                    ],),
-                   
-                   Column(children: [
-                    metal,
-                    Text("Metal", style: TextStyle(fontFamily: 'Nunito', fontWeight: FontWeight.bold, color: Colors.black))
-                   ],),
+                //carrossel aqui quando eu conseguir !!
+                Container(
+                  margin: const EdgeInsets.symmetric(vertical: 20),
+                  height: 200, //tamanho dos containers
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) {
+                      final ideia = listaIdeias[index % listaIdeias.length];
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        child: gerarCard(ideia.getTitulo, ideia.getImg,
+                            ideia.getDificuldade),
+                      );
+                    },
+                  ),
+                ),
 
-                   Column(children: [
-                    papel,
-                    Text("Papel", style: TextStyle(fontFamily: 'Nunito', fontWeight: FontWeight.bold, color: Colors.black))
-                   ],),
+                SizedBox(
+                  height: 30,
+                ),
 
-                   Column(children: [
-                    organico,
-                    Text("Orgânicos", style: TextStyle(fontFamily: 'Nunito', fontWeight: FontWeight.bold, color: Colors.black))
-                   ],)
-                   ],
+                Container(
+                  height: 300,
+                  child: Column(
+                    children: [
+                      Text(
+                        "PRINCIPAIS MATERIAIS",
+                        style: TextStyle(
+                            fontFamily: 'Nunito',
+                            fontSize: 30,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(height: 30),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Column(children: [
+                            GestureDetector(
+                              child: plastico,
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => Tabbar(
+                                          "assets/imgs/iconePlastico.png",
+                                          "PLÁSTICO",
+                                          Colors.red,
+                                          "descricao"),
+                                    ));
+                                setState(() {});
+                              },
+                            ),
+                            Text("Plástico",
+                                style: TextStyle(
+                                    fontFamily: 'Nunito',
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black))
+                          ]),
+                          Column(
+                            children: [
+                              vidro,
+                              Text("Vidro",
+                                  style: TextStyle(
+                                      fontFamily: 'Nunito',
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black))
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              metal,
+                              Text("Metal",
+                                  style: TextStyle(
+                                      fontFamily: 'Nunito',
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black))
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              papel,
+                              Text("Papel",
+                                  style: TextStyle(
+                                      fontFamily: 'Nunito',
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black))
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              organico,
+                              Text("Orgânicos",
+                                  style: TextStyle(
+                                      fontFamily: 'Nunito',
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black))
+                            ],
+                          )
+                        ],
+                      )
+                    ],
+                  ),
                 )
-          ],),
-        )
               ],
             )),
             WidgetBottomAppBar(scaffoldKey: _scaffoldKey)
@@ -203,50 +241,52 @@ class _MyinicialState extends State<Myinicial> {
         ));
   }
 
-    Container gerarCard (String titulo, String imgUrl, Color dificuldade){
+  Container gerarCard(String titulo, String imgUrl, Color dificuldade) {
     return Container(
-          width: 200,
-          child: Column(
-            children: [
-              MouseRegion(
+      width: 200,
+      child: Column(
+        children: [
+          MouseRegion(
               cursor: SystemMouseCursors.click,
               child: GestureDetector(
-                child: Column(children: [
-                SizedBox(
-                width: 200,
-                child: Image.asset("$imgUrl",height: 149, fit: BoxFit.cover,),
+                child: Column(
+                  children: [
+                    SizedBox(
+                      width: 200,
+                      child: Image.asset(
+                        "$imgUrl",
+                        height: 149,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    SizedBox(height: 5),
+                    Text(titulo, style: ideaTitle),
+                  ],
                 ),
-              SizedBox(height: 5),
-              Text(titulo, style: ideaTitle),
-                ],),
-                onTap: () {
-                  
-                },
-              )
+                onTap: () {},
+              )),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Icon(Icons.star, color: Colors.orange),
+                  Icon(Icons.star, color: Colors.orange),
+                  Icon(Icons.star, color: Colors.orange),
+                  Icon(Icons.star, color: Colors.orange),
+                  Icon(Icons.star, color: Colors.orange),
+                ],
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Icon(Icons.star, color: Colors.orange),
-                      Icon(Icons.star, color: Colors.orange),
-                      Icon(Icons.star, color: Colors.orange),
-                      Icon(Icons.star, color: Colors.orange),
-                      Icon(Icons.star, color: Colors.orange),
-                      
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Icon(Icons.circle, color: dificuldade),
-                    ],
-                  ),
+                  Icon(Icons.circle, color: dificuldade),
                 ],
               ),
             ],
           ),
-        );
+        ],
+      ),
+    );
   }
 }
