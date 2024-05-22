@@ -20,11 +20,11 @@ class ideiasGerais extends StatefulWidget {
 class _ideiasGeraisState extends State<ideiasGerais> {
 
   List<Ideia> listaIdeias = [
-    Ideia.ti("titulo1", "assets/imgs/ideia1.jpg", Colors.red),
-    Ideia.ti("titulo2", "assets/imgs/ideia2.jpg", Colors.green),
-    Ideia.ti("titulo3", "assets/imgs/ideia1.jpg", Colors.yellow),
-    Ideia.ti("titulo4", "assets/imgs/ideia2.jpg", Colors.green),
-    Ideia.ti("titulo5", "assets/imgs/ideia2.jpg", Colors.red),
+    Ideia.ti("titulo1", "assets/imgs/ideia1.jpg", Colors.red, 3),
+    Ideia.ti("titulo2", "assets/imgs/ideia2.jpg", Colors.green, 3),
+    Ideia.ti("titulo3", "assets/imgs/ideia1.jpg", Colors.yellow, 3),
+    Ideia.ti("titulo4", "assets/imgs/ideia2.jpg", Colors.green, 3),
+    Ideia.ti("titulo5", "assets/imgs/ideia2.jpg", Colors.red, 3),
   ];
 
   SizedBox img = SizedBox(
@@ -72,7 +72,7 @@ backgroundColor: const Color.fromARGB(255, 224, 224, 224),
                     ),
                       itemCount: listaIdeias.length,
                       itemBuilder: (context, index) {
-                        return gerarCard(listaIdeias[index].getTitulo, listaIdeias[index].getImg, listaIdeias[index].getDificuldade);
+                        return gerarCard(listaIdeias[index].getTitulo, listaIdeias[index].getImg, listaIdeias[index].getDificuldade, listaIdeias[index].getAvaliacao);
                       },)
                       )
                       : Center(child: Text("Sem ideias no momento. Volte mais tarde", style: TextStyle(fontSize: 25),textAlign: TextAlign.center,),)
@@ -87,7 +87,7 @@ backgroundColor: const Color.fromARGB(255, 224, 224, 224),
     );
   }
 
-  Container gerarCard (String titulo, String imgUrl, Color dificuldade){
+  Container gerarCard (String titulo, String imgUrl, Color dificuldade, int avaliacao){
     return Container(
           width: 200,
           child: Column(
@@ -114,13 +114,11 @@ backgroundColor: const Color.fromARGB(255, 224, 224, 224),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Icon(Icons.star, color: Colors.orange),
-                      Icon(Icons.star, color: Colors.orange),
-                      Icon(Icons.star, color: Colors.orange),
-                      Icon(Icons.star_outline),
-                      Icon(Icons.star_outline),
+                      ...gerarEstrelaColorida(avaliacao),
+                      ...gerarEstrelaNColorida(5-avaliacao)
                     ],
                   ),
+                  
                   Row(
                     children: [
                       Icon(Icons.circle, color: dificuldade),
@@ -132,4 +130,20 @@ backgroundColor: const Color.fromARGB(255, 224, 224, 224),
           ),
         );
   }
+
+  List<Widget> gerarEstrelaColorida (int n){
+    List<Widget> avaliacao = [];
+    for(int i=0; i<n; i++){
+      avaliacao.add(Icon(Icons.star, color: Colors.orange));
+    }
+    return avaliacao;
+  }
+  List<Widget> gerarEstrelaNColorida (int n){
+    List<Widget> avaliacao = [];
+    for(int i=0; i<n; i++){
+      avaliacao.add(Icon(Icons.star_border, color: Colors.orange));
+    }
+    return avaliacao;
+  }
+
 }

@@ -1,20 +1,34 @@
+// ignore_for_file: unnecessary_this
+
 import 'package:flutter/material.dart';
 
 class Ideia{
   String titulo = "";
+  String autor = "";
   String desc = "";
   String passoPasso = "";
   String img = "";
-  String avaliacao = "";
+  List<String> materiais = [];
+  
+  int avaliacao = 0;
   Color dificuldade = Colors.transparent;
 
-  Ideia(this.titulo, this.desc, this.passoPasso, this.img, this.avaliacao, this.dificuldade);
+  Ideia(this.titulo, this.img, this.dificuldade, this.avaliacao, this.desc, this.passoPasso, this.autor, this.materiais);
   Ideia.n();
-  Ideia.ti(this.titulo, this.img, this.dificuldade);
+  Ideia.ti(this.titulo, this.img, this.dificuldade, this.avaliacao);
+ 
+ List<String> get getMateriais => this.materiais;
 
-  get getAvaliacao => this.avaliacao;
+ set setMateriais(List<String> materiais) => this.materiais = materiais;
+ 
+ String get getAutor => this.autor;
 
- set setAvaliacao( avaliacao) => this.avaliacao = avaliacao;
+ set setAutor(String autor) => this.autor = autor;
+
+ int get getAvaliacao => this.avaliacao;
+
+ set setAvaliacao(int avaliacao) => this.avaliacao = avaliacao;
+
 
   get getDificuldade => this.dificuldade;
 
