@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_application_ecoment_inicial/defaultWidgets/appBar.dart';
 import 'package:flutter_application_ecoment_inicial/defaultWidgets/bottomAppBar.dart';
+import 'package:flutter_application_ecoment_inicial/defaultWidgets/drawer.dart';
 import 'package:flutter_application_ecoment_inicial/models/team.dart';
 
 class SobreNos extends StatefulWidget {
@@ -55,19 +56,30 @@ class _SobreNosState extends State<SobreNos> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        toolbarHeight: 0,
+      ),
+
+      drawer: WidgetDrawer(),
+
+      key: _scaffoldKey,
       backgroundColor: const Color.fromARGB(255, 224, 224, 224),
       body: Stack(
         alignment: Alignment.center,
         children: [
           SingleChildScrollView(
-            child: Center(
+            child: Container(
+              padding: EdgeInsets.fromLTRB(0, 0, 0, 20),
               child: Column(
                 children: [
                   Container(
                     padding: EdgeInsets.all(20),
                     child: Column(
                       children: [
-                        Text("O PROJETO ECOMOMENT", style: sn,),
+                        Text("O PROJETO ECOMOMENT", style: sn, textAlign: TextAlign.center,),
                         SizedBox(height: 20,),
                         RichText(
                           textAlign: TextAlign.justify,
@@ -109,6 +121,7 @@ class _SobreNosState extends State<SobreNos> {
               ),
             ),
           ),
+          WidgetBottomAppBar(scaffoldKey: _scaffoldKey)
         ],
       ),
     );

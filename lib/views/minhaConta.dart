@@ -6,7 +6,6 @@ import 'package:flutter_application_ecoment_inicial/defaultWidgets/bottomAppBar.
 import 'package:flutter_application_ecoment_inicial/defaultWidgets/drawer.dart';
 import 'package:flutter_application_ecoment_inicial/models/ideia.dart';
 import 'package:flutter_application_ecoment_inicial/views/ideia.dart';
-import 'package:flutter_application_ecoment_inicial/views/ideiasGerais.dart';
 import 'package:flutter_application_ecoment_inicial/views/inicial.dart';
 import 'package:flutter_application_ecoment_inicial/views/pontosColeta.dart';
 
@@ -53,9 +52,13 @@ class _MinhaContaState extends State<MinhaConta> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      appBar: WidgetAppBar("Sua conta", 255,195,15), 
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        toolbarHeight: 0,
+      ),
 
-      drawer: AppDrawer(),
+      drawer: WidgetDrawer(),
 
       backgroundColor: const Color.fromARGB(255, 224, 224, 224),
       body: Stack(
@@ -67,6 +70,16 @@ class _MinhaContaState extends State<MinhaConta> {
               child: Center(
                 child: Column(
                   children: [
+                    Text("Sua Conta", textAlign: TextAlign.center, style: TextStyle(
+                      color: const Color.fromARGB(255, 46, 46, 46),
+                      fontSize: 38,
+                      shadows: [
+                        Shadow(
+                          color: Color.fromARGB(255, 255,195,15), 
+                          offset: Offset(1, 1),
+                        )
+                      ],
+                    ),),
                     SizedBox(
                       height: 200,
                       width: 200,
@@ -178,20 +191,22 @@ class _MinhaContaState extends State<MinhaConta> {
                     ),
                     listaIdeias.isNotEmpty ?
                   Container(
-                    padding: EdgeInsets.all(20.0),
                     height: MediaQuery.of(context).size.height,
                     child:
                     GridView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
-                      crossAxisSpacing: 22,
-                      mainAxisSpacing: 25
-                      
+                      crossAxisSpacing: 12,
+                      mainAxisSpacing: 12,
+                      mainAxisExtent: 250
                     ),
                       itemCount: listaIdeias.length,
                       itemBuilder: (context, index) {
                         return gerarCard(listaIdeias[index].getTitulo, listaIdeias[index].getImg, listaIdeias[index].getDificuldade, listaIdeias[index].getAvaliacao, listaIdeias[index].getDesc, listaIdeias[index].getPassoPasso, listaIdeias[index].getAutor, listaIdeias[index].getMateriais);
-                      },)
+                      },
+                      )
                       )
                       : Center(child: Text("Sem posts no momento. Que tal postar alguma coisa?", style: TextStyle(fontSize: 25),textAlign: TextAlign.center,),)
                   ],
@@ -205,29 +220,25 @@ class _MinhaContaState extends State<MinhaConta> {
     );
   }
 
-  Container gerarCard (String titulo, String imgUrl, Color dificuldade, int avaliacao, String desc, String passoPasso, String autor, List<String> listaMat){
-    return Container(
-          width: 200,
+  Widget gerarCard (String titulo, String imgUrl, Color dificuldade, int avaliacao, String desc, String passoPasso, String autor, List<String> listaMat){
+    return MouseRegion(
+      child: GestureDetector(
+        child: Container(
+      padding: EdgeInsets.all(5),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: const Color.fromARGB(255, 217, 217, 217)
+      ),
           child: Column(
-            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              MouseRegion(
-              cursor: SystemMouseCursors.click,
-              child: GestureDetector(
-                child: Column(children: [
-                SizedBox(
+              SizedBox(
                 width: 200,
-                child: Image.asset("$imgUrl",height: 128, fit: BoxFit.cover,),
+                child: ClipRRect(borderRadius: BorderRadius.circular(10) ,child: Image.asset("$imgUrl", height: 130, fit: BoxFit.cover,),),
                 ),
-              SizedBox(height: 5),
-              Text(titulo, style: ideaTitle, textAlign: TextAlign.center,),
-                ],),
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => PageIdeia(titulo, desc, imgUrl, dificuldade, passoPasso, avaliacao, autor, listaMat)));
-                },
-              )
-              ),
-              Row(
+                Text(titulo, style: ideaTitle, textAlign: TextAlign.center,),
+                SizedBox(height: 5,),
+                Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Row(
@@ -247,7 +258,12 @@ class _MinhaContaState extends State<MinhaConta> {
               ),
             ],
           ),
-        );
+        ),
+        onTap: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => PageIdeia(titulo, desc, imgUrl, dificuldade, passoPasso, avaliacao, autor, listaMat)));
+        },
+      )
+    );
   }
 
   List<Widget> gerarEstrelaColorida (int n){

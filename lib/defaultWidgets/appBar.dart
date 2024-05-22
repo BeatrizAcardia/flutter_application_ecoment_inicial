@@ -8,6 +8,7 @@ class WidgetAppBar extends StatefulWidget implements PreferredSizeWidget{
   int y = 0;
   int z = 0;
   WidgetAppBar(this.title, this.x, this.y, this.z,{super.key});
+  WidgetAppBar.n({super.key});
 
   @override
   State<WidgetAppBar> createState() => _WidgetAppBarState();
@@ -19,6 +20,7 @@ class _WidgetAppBarState extends State<WidgetAppBar> {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+        automaticallyImplyLeading: false,
         title: Text(
           widget.title,
           style: TextStyle(
@@ -34,6 +36,7 @@ class _WidgetAppBarState extends State<WidgetAppBar> {
         ),
         centerTitle: true,
         backgroundColor: const Color.fromARGB(255, 224, 224, 224),
+        
       );
   }
   

@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_application_ecoment_inicial/defaultWidgets/bottomAppBar.dart';
 import 'package:flutter_application_ecoment_inicial/defaultWidgets/drawer.dart';
-import 'package:flutter_application_ecoment_inicial/views/ideiasGerais.dart';
 import 'package:flutter_application_ecoment_inicial/views/minhaConta.dart';
 import 'package:flutter_application_ecoment_inicial/views/pontosColeta.dart';
 
@@ -36,7 +35,7 @@ class _MyinicialState extends State<Myinicial> {
           width: 350,
         ),
       ),
-      drawer: AppDrawer(),
+      drawer: WidgetDrawer(),
 
       body: Stack(
         alignment: Alignment.center,

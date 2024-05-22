@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, must_be_immutable, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, prefer_interpolation_to_compose_strings, prefer_final_fields, avoid_function_literals_in_foreach_calls
+// ignore_for_file: prefer_const_constructors, must_be_immutable, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, prefer_interpolation_to_compose_strings, prefer_final_fields, avoid_function_literals_in_foreach_calls, unused_import
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_ecoment_inicial/defaultWidgets/bottomAppBar.dart';
@@ -41,24 +41,28 @@ class _IdeiaState extends State<PageIdeia> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        toolbarHeight: 0,
+      ),
+      drawer: WidgetDrawer(),
       backgroundColor: const Color.fromARGB(255, 224, 224, 224),
-      drawer: AppDrawer(),
       body: Stack(
-        alignment: Alignment.center,
         fit: StackFit.expand,
         children: [
           SingleChildScrollView(
             child: Container(
-              padding: EdgeInsets.fromLTRB(20, 20, 20, 100),
+              padding: EdgeInsets.fromLTRB(20, 20, 20, 80),
               child: Center(child:Column(
                 children: [
                   Text(widget.titulo, style: titulo, textAlign: TextAlign.center,),
                   SizedBox(height: 10,),
                   Text("Feito por: @"+widget.autor, style: autor),
                   SizedBox(height: 10,),
-                  SizedBox(child:Image.asset(widget.img, fit: BoxFit.cover, width: 400, height: 400,)),
+                  SizedBox(child:ClipRRect(borderRadius: BorderRadius.circular(10) ,child: Image.asset(widget.img, fit: BoxFit.cover, width: 400, height: 400,),)),
                   Container(
-                    padding: EdgeInsets.fromLTRB(30, 10, 30, 0),
+                    padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
                     child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -73,18 +77,12 @@ class _IdeiaState extends State<PageIdeia> {
                       Row(
                         children: [
                           Icon(Icons.circle, color: widget.dificuldade,size: 30,),
-                          Text("Dificil")
                         ],
                       ),
                       MouseRegion(
                         cursor: SystemMouseCursors.click,
                         child: GestureDetector(
-                          child: Row(
-                        children: [
-                          Icon(Icons.favorite_border, color: Colors.redAccent, size: 30,),
-                          Text("Amei")
-                        ],
-                      ),
+                          child: Icon(Icons.favorite_border, color: Colors.redAccent, size: 30,),
                       onTap: () {
                         
                       },
@@ -107,7 +105,7 @@ class _IdeiaState extends State<PageIdeia> {
                   ),
                   ),
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 35),
+                    padding: EdgeInsets.symmetric(horizontal: 10),
                     child: Align(
                       alignment: Alignment.topLeft,
                       child: Text("Avaliações: 5"),

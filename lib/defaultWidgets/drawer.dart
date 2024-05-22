@@ -4,15 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_ecoment_inicial/views/inicial.dart';
 import 'package:flutter_application_ecoment_inicial/views/minhaConta.dart';
 import 'package:flutter_application_ecoment_inicial/views/pontosColeta.dart';
+import 'package:flutter_application_ecoment_inicial/views/sobre_nos.dart';
 
-class AppDrawer extends StatefulWidget {
-  const AppDrawer({super.key});
+class WidgetDrawer extends StatefulWidget {
+  const WidgetDrawer({super.key});
 
   @override
-  State<AppDrawer> createState() => _DrawerState();
+  State<WidgetDrawer> createState() => _DrawerState();
 }
 
-class _DrawerState extends State<AppDrawer> {
+class _DrawerState extends State<WidgetDrawer> {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
@@ -48,6 +49,13 @@ class _DrawerState extends State<AppDrawer> {
               title: Text("Pontos de coleta"),
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) => PontosColeta(),));
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.pin_drop_outlined, color: Colors.black,),
+              title: Text("Sobre nós"),
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => SobreNos(),));
               },
             ),
           ],

@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_final_fields, use_key_in_widget_constructors
 
 import 'package:flutter/material.dart';
-import 'package:flutter_application_ecoment_inicial/views/ideiasGerais.dart';
+import 'package:flutter_application_ecoment_inicial/views/ideiasReutilizacao.dart';
 import 'package:flutter_application_ecoment_inicial/views/minhaConta.dart';
 import 'package:flutter_application_ecoment_inicial/views/pontosColeta.dart';
 
@@ -22,7 +22,7 @@ class _WidgetBottomAppBarState extends State<WidgetBottomAppBar> {
             left: 0,
             right: 0,
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 80),
+              padding: EdgeInsets.symmetric(horizontal: 60),
               height: 75,
               child: BottomAppBar(
                 color: Colors.transparent,
@@ -44,7 +44,7 @@ class _WidgetBottomAppBarState extends State<WidgetBottomAppBar> {
                       IconButton(
                         icon: Icon(Icons.lightbulb_circle_outlined, color: Colors.black),
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => ideiasGerais(),));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => IdeiasReutilizacao(),));
                         },
                       ),
                       IconButton(

@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_ecoment_inicial/views/cadastro.dart';
-import 'package:flutter_application_ecoment_inicial/views/ideiasGerais.dart';
 import 'package:flutter_application_ecoment_inicial/views/inicial.dart';
 import 'package:flutter_application_ecoment_inicial/views/login.dart';
 import 'package:flutter_application_ecoment_inicial/views/minhaConta.dart';
@@ -27,7 +26,7 @@ class MyApp extends StatelessWidget {
         //colorScheme: ColorScheme.fromSeed(seedColor: Color.fromARGB(0, 58, 118, 183)),
         useMaterial3: true,
       ),
-      home: MinhaConta(),
+      home: SobreNos(),
     );
   }
 }
