@@ -7,7 +7,6 @@ import 'package:flutter_application_ecoment_inicial/defaultWidgets/appBar.dart';
 import 'package:flutter_application_ecoment_inicial/defaultWidgets/bottomAppBar.dart';
 import 'package:flutter_application_ecoment_inicial/defaultWidgets/drawer.dart';
 import 'package:flutter_application_ecoment_inicial/models/Endereco.dart';
-import 'package:flutter_application_ecoment_inicial/views/ideiasGerais.dart';
 import 'package:flutter_application_ecoment_inicial/views/inicial.dart';
 import 'package:flutter_application_ecoment_inicial/views/minhaConta.dart';
 
@@ -48,9 +47,13 @@ class _PontosColetaState extends State<PontosColeta> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      appBar: WidgetAppBar("Pontos de coleta", 114,160,193), 
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        toolbarHeight: 0,
+      ),
 
-      drawer: AppDrawer(),
+      drawer: WidgetDrawer(),
 backgroundColor: const Color.fromARGB(255, 224, 224, 224),
       body: Stack(
         alignment: Alignment.center,
@@ -60,6 +63,17 @@ backgroundColor: const Color.fromARGB(255, 224, 224, 224),
             padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
             child: Center(
               child: Column(children: [
+              Text("Pontos de coleta", textAlign: TextAlign.center, style: TextStyle(
+              color: const Color.fromARGB(255, 46, 46, 46),
+              fontSize: 38,
+              shadows: [
+                Shadow(
+                  color: Color.fromARGB(255,114,160,193), 
+                  offset: Offset(1, 1),
+                )
+              ],
+              ),),
+              SizedBox(height: 5,),
               imgMapa,
               SizedBox(height: 20,),
               cepLabel,
