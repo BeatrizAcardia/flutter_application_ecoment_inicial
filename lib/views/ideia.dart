@@ -35,6 +35,22 @@ class _IdeiaState extends State<PageIdeia> {
   );
 
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
+
+  bool estado = false;
+  bool scaleUp = false;
+
+    void muda(){
+    setState(() {
+      estado = !estado;
+      scaleUp = true;
+    });
+
+    Future.delayed(Duration(milliseconds: 300), (){
+      setState(() {
+        scaleUp = false;
+      });
+    });
+  }
   
 
   @override
@@ -82,10 +98,17 @@ class _IdeiaState extends State<PageIdeia> {
                       MouseRegion(
                         cursor: SystemMouseCursors.click,
                         child: GestureDetector(
-                          child: Icon(Icons.favorite_border, color: Colors.redAccent, size: 30,),
-                      onTap: () {
-                        
-                      },
+                          onTap: muda,
+                          child: AnimatedScale(
+                          scale: scaleUp ? 1.5 : 1.0,
+                          duration: Duration(milliseconds: 300),
+                          curve: Curves.easeInOut,
+                          child: Icon(
+                            estado ? Icons.favorite : Icons.favorite_border,
+                            color: Colors.redAccent,
+                            size: 30,
+                          ),
+                          )
                         ),
                       ),
                       MouseRegion(
@@ -97,7 +120,7 @@ class _IdeiaState extends State<PageIdeia> {
                         ],
                       ),
                       onTap: () {
-                        
+                         
                       },
                         ),
                       ),
@@ -220,4 +243,6 @@ class _IdeiaState extends State<PageIdeia> {
     });
     return lista;
   }
+
+
 }
