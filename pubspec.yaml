@@ -34,7 +34,7 @@ dependencies:
   email_validator: ^2.1.16
   flutter:
     sdk: flutter
-  http: ^1.2.1
+  http: 1.2.0
 
 dev_dependencies:
   flutter_lints: ^2.0.0
@@ -64,21 +64,27 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: Nunito
-      fonts:
-        - asset: assets\fonts\Nunito_Sans\static\NunitoSans_7pt_Condensed-ExtraBold.ttf
-        - asset: assets\fonts\Nunito_Sans\NunitoSans-VariableFont_YTLC,opsz,wdth,wght.ttf
+    # - family: Nunito
+    #   fonts:
+    #     - asset: assets\fonts\Nunito_Sans\static\NunitoSans_7pt_Condensed-ExtraBold.ttf
+    #     - asset: assets\fonts\Nunito_Sans\NunitoSans-VariableFont_YTLC,opsz,wdth,wght.ttf
     - family: Poppins
       fonts:
         - asset: assets\fonts\Poppins\Poppins-Regular.ttf
         - asset: assets\fonts\Poppins\Poppins-Bold.ttf
           weight: 800
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
+    - family: Nunito
+      fonts:
+        - asset: assets/fonts/Nunito_Sans/static/NunitoSans_7pt-Regular.ttf
+        - asset: assets/fonts/Nunito_Sans/static/NunitoSans_7pt-Bold.ttf
+          weight: 700
+    - family: Circe
+      fonts:
+        - asset: assets/fonts/Circe/CRC25.otf
+        - asset: assets/fonts/Circe/Circe-Bold.otf
+          weight: 700
+        - asset: assets/fonts/Circe/Circe-ExtraBold.otf
+          weight: 800
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

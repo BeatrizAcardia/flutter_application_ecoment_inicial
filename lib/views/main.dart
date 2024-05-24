@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_ecoment_inicial/views/cadastro.dart';
+import 'package:flutter_application_ecoment_inicial/views/form-ideia.dart';
 import 'package:flutter_application_ecoment_inicial/views/inicial.dart';
 import 'package:flutter_application_ecoment_inicial/views/login.dart';
 import 'package:flutter_application_ecoment_inicial/views/minhaConta.dart';
@@ -23,10 +24,10 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'EcoMoment',
       theme: ThemeData(
-        //colorScheme: ColorScheme.fromSeed(seedColor: Color.fromARGB(0, 58, 118, 183)),
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255,58,125,68)),
         useMaterial3: true,
       ),
-      home: MinhaConta(),
+      home: FormIdeia(),
     );
   }
 }
