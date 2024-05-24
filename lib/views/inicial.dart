@@ -7,7 +7,7 @@ import 'package:flutter_application_ecoment_inicial/defaultWidgets/bottomAppBar.
 import 'package:flutter_application_ecoment_inicial/defaultWidgets/drawer.dart';
 import 'package:flutter_application_ecoment_inicial/models/ideia.dart';
 import 'package:flutter_application_ecoment_inicial/views/ideia.dart';
-import 'package:flutter_application_ecoment_inicial/views/materias.dart';
+import 'package:flutter_application_ecoment_inicial/views/materiais.dart';
 import 'package:flutter_application_ecoment_inicial/views/minhaConta.dart';
 import 'package:flutter_application_ecoment_inicial/views/pontosColeta.dart';
 
@@ -169,7 +169,7 @@ class _MyinicialState extends State<Myinicial> {
                       ],
                     ),
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => Tabbar("icone", "Plástico", Colors.red, "descricao"),));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => Tabbar("assets/imgs/iconePlastico.png", "PLÁSTICO", Colors.red, "popaod", "ajfbvdh", "ncjvbdsdjsf", "bvdvufh nmsbfnd", "titulo1", "titulo2", "titulo3", "titulo4"),));
                     },
                       )
                     ),
@@ -182,7 +182,7 @@ class _MyinicialState extends State<Myinicial> {
                       Text("Vidro", style: TextStyle(fontFamily: 'Nunito', fontWeight: FontWeight.bold, color: Colors.black))
                     ],),
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => Tabbar("icone", "Vidro", Colors.red, "descricao"),));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => Tabbar("", "", Colors.green, "", "", "", "", "", "", "", ""),));
                     },
                       )
                     ),
@@ -194,7 +194,7 @@ class _MyinicialState extends State<Myinicial> {
                         Text("Metal", style: TextStyle(fontFamily: 'Nunito', fontWeight: FontWeight.bold, color: Colors.black))
                         ],),
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => Tabbar("icone", "Metal", Colors.red, "descricao"),));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => Tabbar("", "", Colors.transparent, "", "", "", "", "", "", "", ""),));
                         },
                       ),
                     ),
@@ -206,7 +206,7 @@ class _MyinicialState extends State<Myinicial> {
                         Text("Papel", style: TextStyle(fontFamily: 'Nunito', fontWeight: FontWeight.bold, color: Colors.black))
                     ],),
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => Tabbar("icone", "Papel", Colors.red, "descricao"),));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => Tabbar(icone, tituloPrincipal, cor, descricao, descricao2, descricao3, descricao4, titulo1, titulo2, titulo3, titulo4),));
                     },
                       )
                     ),
@@ -218,14 +218,10 @@ class _MyinicialState extends State<Myinicial> {
                         Text("Orgânicos", style: TextStyle(fontFamily: 'Nunito', fontWeight: FontWeight.bold, color: Colors.black))
                       ],),
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => Tabbar("assets/imgs/iconePlastico.png", "Orgânicos", Colors.red, "descricao"),));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => Tabbar(icone, tituloPrincipal, cor, descricao, descricao2, descricao3, descricao4, titulo1, titulo2, titulo3, titulo4),));
                       },
                       ),
                     )
-                    
-                   
-                   
-                   
                    
                   ],
                 )
