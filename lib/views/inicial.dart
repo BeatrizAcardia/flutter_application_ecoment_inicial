@@ -206,7 +206,7 @@ class _MyinicialState extends State<Myinicial> {
                         Text("Papel", style: TextStyle(fontFamily: 'Nunito', fontWeight: FontWeight.bold, color: Colors.black))
                     ],),
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => Tabbar(icone, tituloPrincipal, cor, descricao, descricao2, descricao3, descricao4, titulo1, titulo2, titulo3, titulo4),));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => Tabbar('', '', Colors.transparent, '', '', '', '', '', '', '', ''),));
                     },
                       )
                     ),
@@ -218,7 +218,7 @@ class _MyinicialState extends State<Myinicial> {
                         Text("Orgânicos", style: TextStyle(fontFamily: 'Nunito', fontWeight: FontWeight.bold, color: Colors.black))
                       ],),
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => Tabbar(icone, tituloPrincipal, cor, descricao, descricao2, descricao3, descricao4, titulo1, titulo2, titulo3, titulo4),));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => Tabbar('', '', Colors.transparent, '', '', '', '', '', '', '', ''),));
                       },
                       ),
                     )

@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_ecoment_inicial/views/ideiasReutilizacao.dart';
+import 'package:flutter_application_ecoment_inicial/views/inicial.dart';
 import 'package:flutter_application_ecoment_inicial/views/minhaConta.dart';
 import 'package:flutter_application_ecoment_inicial/views/pontosColeta.dart';
 
@@ -36,19 +37,25 @@ class _WidgetBottomAppBarState extends State<WidgetBottomAppBar> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       IconButton(
-                        icon: Icon(Icons.pin_drop_outlined, color: Colors.black),
+                        icon: Icon(Icons.home, color: Colors.black),
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => Myinicial(),));
+                        },
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.pin_drop, color: Colors.black),
                         onPressed: () {
                           Navigator.push(context, MaterialPageRoute(builder: (context) => PontosColeta(),));
                         },
                       ),
                       IconButton(
-                        icon: Icon(Icons.lightbulb_circle_outlined, color: Colors.black),
+                        icon: Icon(Icons.lightbulb, color: Colors.black),
                         onPressed: () {
                           Navigator.push(context, MaterialPageRoute(builder: (context) => IdeiasReutilizacao(),));
                         },
                       ),
                       IconButton(
-                        icon: Icon(Icons.person_2_outlined, color: Colors.black),
+                        icon: Icon(Icons.person_2, color: Colors.black),
                         onPressed: () {
                           Navigator.push(context, MaterialPageRoute(builder: (context) => MinhaConta(),));
                         },
