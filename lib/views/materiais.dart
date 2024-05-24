@@ -4,11 +4,12 @@ import 'package:flutter/material.dart';
 
 class Tabbar extends StatefulWidget {
   String icone = "";
-  String tituloPrincipal = "";
-  String titulo1 = "";
+  String titulo = "";
   String titulo2 = "";
-  String titulo3 = "";
-  String titulo4 = "";
+  String topico = "";
+  String topico2 = "";
+  String topico3 = "";
+  String topico4 = "";
   String descricao = "";
   String descricao2 = "";
   String descricao3 = "";
@@ -16,19 +17,7 @@ class Tabbar extends StatefulWidget {
 
   Color cor = Colors.transparent;
 
-  Tabbar(
-      this.icone,
-      this.tituloPrincipal,
-      this.cor,
-      this.descricao,
-      this.descricao2,
-      this.descricao3,
-      this.descricao4,
-      this.titulo1,
-      this.titulo2,
-      this.titulo3,
-      this.titulo4,
-      {Key? key});
+  Tabbar(this.icone, this.cor, this.descricao,  this.descricao2, this.descricao3, this.descricao4, this.titulo, this.titulo2, this.topico, this.topico2, this.topico3, this.topico4, {Key? key});
 
   @override
   State<Tabbar> createState() => _TabbarState();
@@ -61,7 +50,7 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
                     width: 30,
                     child: Image.asset('${widget.icone}')),
                 Text(
-                  widget.titulo1,
+                  widget.titulo,
                   style: TextStyle(color: widget.cor),
                 ),
               ],
@@ -69,7 +58,7 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
             elevation: 10,
             bottom: TabBar(
               controller: _tabController,
-              labelColor: Colors.redAccent,
+              labelColor: widget.cor,
               unselectedLabelColor: Colors.black,
               indicatorSize: TabBarIndicatorSize.label,
               indicator: BoxDecoration(
@@ -87,25 +76,25 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
                 Tab(
                   child: Align(
                     alignment: Alignment.center,
-                    child: Text(widget.titulo1),
+                    child: Text(widget.topico, style: TextStyle(fontFamily: 'Nunito', fontSize: 11.5), textAlign: TextAlign.center,)
                   ),
                 ),
                 Tab(
                   child: Align(
                     alignment: Alignment.center,
-                    child: Text(widget.titulo2),
+                    child: Text(widget.topico2, style: TextStyle(fontFamily: 'Nunito', fontSize: 11.5), textAlign: TextAlign.center,),
                   ),
                 ),
                 Tab(
                   child: Align(
                     alignment: Alignment.center,
-                    child: Text(widget.titulo3),
+                    child: Text(widget.topico3, style: TextStyle(fontFamily: 'Nunito', fontSize: 11.5), textAlign: TextAlign.center),
                   ),
                 ),
                 Tab(
                   child: Align(
                     alignment: Alignment.center,
-                    child: Text(widget.titulo4),
+                    child: Text(widget.topico4, style: TextStyle(fontFamily: 'Nunito', fontSize: 11.5), textAlign: TextAlign.center),
                   ),
                 ),
               ],
@@ -120,13 +109,15 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
               Text(widget.descricao3, textAlign: TextAlign.justify),
               Text(widget.descricao4, textAlign: TextAlign.justify),
             ],
-          ),
-        ));
+          ),  
+        ),
+
+        );
   }
 }
 
 void main() {
   runApp(MaterialApp(
-    home: Tabbar("", "", Colors.transparent, "", "", "", "", "", "", "", ""),
+    home: Tabbar( "", Colors.transparent, "",  "", "",  "",  "", "",  "",  "", "", ""),
   ));
 }
