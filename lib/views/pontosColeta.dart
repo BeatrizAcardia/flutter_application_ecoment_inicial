@@ -26,18 +26,21 @@ class _PontosColetaState extends State<PontosColeta> {
 
   final imgMapa = SizedBox(width: 450,child: Image.asset("assets/imgs/Mapa.png"),);
   final cepLabel = Text("Digite seu CEP", style: TextStyle(
-    fontWeight: FontWeight.bold,
+    fontFamily: 'Circe',
+    fontWeight: FontWeight.w800,
     color: const Color.fromARGB(255, 46, 46, 46),
     fontSize: 30,
     ),);
   TextStyle title = TextStyle(
     color: const Color.fromARGB(255, 46, 46, 46),
     fontSize: 30,
-    fontWeight: FontWeight.bold
+    fontFamily: 'Circe',
+    fontWeight: FontWeight.w800,
   );
   TextStyle enderecoLabel = TextStyle(
-    color: const Color.fromARGB(255, 46, 46, 46),
+    color: Colors.black,
     fontSize: 25,
+    fontFamily: 'Circe',
   );
   TextEditingController cepController = TextEditingController();
   GlobalKey<FormState> key = GlobalKey();
@@ -64,12 +67,14 @@ backgroundColor: const Color.fromARGB(255, 224, 224, 224),
             child: Center(
               child: Column(children: [
               Text("Pontos de coleta", textAlign: TextAlign.center, style: TextStyle(
+              fontFamily: 'Circe',
+              fontWeight: FontWeight.w800,
               color: const Color.fromARGB(255, 46, 46, 46),
               fontSize: 38,
               shadows: [
                 Shadow(
                   color: Color.fromARGB(255,114,160,193), 
-                  offset: Offset(1, 1),
+                  offset: Offset(3, 3),
                 )
               ],
               ),),

@@ -28,10 +28,12 @@ class _IdeiaState extends State<PageIdeia> {
     fontSize: 29,
     fontWeight: FontWeight.bold,
     color: Colors.black,
+    fontFamily: 'Circe',
   );
   TextStyle autor = TextStyle(
     fontSize: 17,
     color: Colors.black,
+    fontFamily: 'Nunito',
   );
 
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
@@ -131,7 +133,9 @@ class _IdeiaState extends State<PageIdeia> {
                     padding: EdgeInsets.symmetric(horizontal: 10),
                     child: Align(
                       alignment: Alignment.topLeft,
-                      child: Text("Avaliações: 5"),
+                      child: Text("Avaliações: 5", style: TextStyle(
+                        fontFamily: 'Nunito',
+                      ),),
                     ),
                   ),
                   SizedBox(height: 10,),
@@ -147,6 +151,7 @@ class _IdeiaState extends State<PageIdeia> {
                         SizedBox(width: 10,),
                         Text("Materiais", style: TextStyle(
                         fontSize: 24,
+                        fontFamily: 'Circe',
                         fontWeight: FontWeight.bold
                     ),),
                       ],
@@ -174,6 +179,7 @@ class _IdeiaState extends State<PageIdeia> {
                         Icon(Icons.temple_buddhist_sharp),
                         SizedBox(width: 10,),
                         Text("Passo a Passo", style: TextStyle(
+                        fontFamily: 'Circe',
                         fontSize: 24,
                         fontWeight: FontWeight.bold
                     ),),
@@ -186,7 +192,7 @@ class _IdeiaState extends State<PageIdeia> {
                     padding: EdgeInsets.symmetric(horizontal: 30),
                     child: Column(
                       children: [
-                        Text(widget.passoPasso),
+                        Text(widget.passoPasso, style: TextStyle(fontFamily: 'Nunito',),),
                       ],
                     ),
                   ),
@@ -202,6 +208,7 @@ class _IdeiaState extends State<PageIdeia> {
                         Icon(Icons.chat_bubble),
                         SizedBox(width: 10,),
                         Text("Comentários", style: TextStyle(
+                        fontFamily: 'Circe',
                         fontSize: 24,
                         fontWeight: FontWeight.bold
                     ),),
@@ -239,7 +246,7 @@ class _IdeiaState extends State<PageIdeia> {
   List<Widget> materiais(){
     List<Widget> lista = [];
     widget.listaMateriais.forEach((String m) {
-      lista.add(Text("- "+m));
+      lista.add(Text("- "+m, style: TextStyle(fontFamily: 'Nunito',),));
     });
     return lista;
   }

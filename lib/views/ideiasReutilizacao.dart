@@ -25,6 +25,7 @@ class _IdeiasReutilizacaoState extends State<IdeiasReutilizacao> {
   TextStyle ideaTitle = TextStyle(
     color: Colors.black,
     fontSize: 15,
+    fontFamily: 'Circe',
     fontWeight: FontWeight.w700,
   );
   
@@ -55,10 +56,12 @@ class _IdeiasReutilizacaoState extends State<IdeiasReutilizacao> {
                     Text("Ideias de reutilização", textAlign: TextAlign.center, style: TextStyle(
                       color: const Color.fromARGB(255, 46, 46, 46),
                       fontSize: 35,
+                      fontFamily: 'Circe',
+                      fontWeight: FontWeight.bold,
                       shadows: [
                         Shadow(
                           color: Color.fromARGB(255, 255,195,15), 
-                          offset: Offset(1, 1),
+                          offset: Offset(3, 3),
                         )
                       ],
                     ),),

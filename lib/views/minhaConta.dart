@@ -21,16 +21,19 @@ class _MinhaContaState extends State<MinhaConta> {
     fontWeight: FontWeight.bold,
     color: const Color.fromARGB(255, 46, 46, 46),
     fontSize: 20,
+    fontFamily: 'Circe'
   );
   
   TextStyle label2 = TextStyle(
     color: const Color.fromARGB(255, 46, 46, 46),
     fontSize: 20,
+    fontFamily: 'Nunito'
   );
   
   TextStyle ideaTitle = TextStyle(
     color: Colors.black,
     fontSize: 15,
+    fontFamily: 'Circe',
     fontWeight: FontWeight.w700,
   );
   
@@ -73,10 +76,12 @@ class _MinhaContaState extends State<MinhaConta> {
                     Text("Sua Conta", textAlign: TextAlign.center, style: TextStyle(
                       color: const Color.fromARGB(255, 46, 46, 46),
                       fontSize: 38,
+                      fontFamily: 'Circe',
+                      fontWeight: FontWeight.bold,
                       shadows: [
                         Shadow(
                           color: Color.fromARGB(255, 255,195,15), 
-                          offset: Offset(1, 1),
+                          offset: Offset(3, 3),
                         )
                       ],
                     ),),
@@ -184,6 +189,7 @@ class _MinhaContaState extends State<MinhaConta> {
                         "Seus posts",
                         style: TextStyle(
                           fontSize: 30,
+                          fontFamily: 'Circe',
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
                         ),
