@@ -124,8 +124,8 @@ class _IdeiaState extends State<PageIdeia> {
                         ],
                       ),
                       onTap: () async {
-                         final urlPreview = "https://i.ytimg.com/vi/UXgM0ee4G2A/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLDyvbs2Xi3mXjPCXpMSrHj8BmYJDQ";
-                          await Share.share("Olha essa ideia que foda!\n\n"+widget.titulo+"\n\n"+widget.desc+"\n$urlPreview");
+                        final urlPreview = "https://urldaideia.com";
+                        await Share.share("Olha essa ideia que encontrei no EcoMoment!\n\nTitulo: "+widget.titulo+"\n\n"+urlPreview+"");
                       },
                         ),
                       ),
