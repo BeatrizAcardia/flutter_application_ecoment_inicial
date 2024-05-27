@@ -1,8 +1,10 @@
-// ignore_for_file: prefer_const_constructors, must_be_immutable, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, prefer_interpolation_to_compose_strings, prefer_final_fields, avoid_function_literals_in_foreach_calls, unused_import
+// ignore_for_file: prefer_const_constructors, must_be_immutable, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, prefer_interpolation_to_compose_strings, prefer_final_fields, avoid_function_literals_in_foreach_calls, unused_import, prefer_const_declarations, unused_local_variable
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_ecoment_inicial/defaultWidgets/bottomAppBar.dart';
 import 'package:flutter_application_ecoment_inicial/defaultWidgets/drawer.dart';
+import 'package:share_plus/share_plus.dart';
+
 
 class PageIdeia extends StatefulWidget {
   String titulo = "";
@@ -119,8 +121,9 @@ class _IdeiaState extends State<PageIdeia> {
                           Icon(Icons.share, size: 30,),
                         ],
                       ),
-                      onTap: () {
-                         
+                      onTap: () async {
+                         final urlPreview = "https://i.ytimg.com/vi/UXgM0ee4G2A/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLDyvbs2Xi3mXjPCXpMSrHj8BmYJDQ";
+                          await Share.share("Olha essa ideia que foda!\n\n"+widget.titulo+"\n\n"+widget.desc+"\n$urlPreview");
                       },
                         ),
                       ),
