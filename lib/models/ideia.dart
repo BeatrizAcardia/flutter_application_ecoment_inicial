@@ -9,13 +9,18 @@ class Ideia{
   String passoPasso = "";
   String img = "";
   List<String> materiais = [];
+  String material = "";
   
   int avaliacao = 0;
   Color dificuldade = Colors.transparent;
 
   Ideia(this.titulo, this.img, this.dificuldade, this.avaliacao, this.desc, this.passoPasso, this.autor, this.materiais);
-  Ideia.n();
+  Ideia.n(this.titulo, this.img, this.dificuldade, this.avaliacao, this.desc, this.passoPasso, this.autor, this.materiais,this.material);
   Ideia.ti(this.titulo, this.img, this.dificuldade, this.avaliacao);
+ 
+ String get getMaterial => this.material;
+
+ set setMaterial(String material) => this.material = material;
  
  List<String> get getMateriais => this.materiais;
 
