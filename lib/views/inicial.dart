@@ -170,7 +170,7 @@ class _MyinicialState extends State<Myinicial> {
                       ],
                     ),
                     onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => Tabbar("assets/imgs/iconePlastico.png", Colors.red, "descrição uum aqui", "descrição 2 ", "descrição 3", "descrição4", "PLÁSTICO", "", "O que é plástico?", "De onde ele vem?", "Qual é o descarte correto?", "Alternativas ecológicas"),));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => Tabbar("assets/imgs/iconePlastico.png", Colors.red, "descrição uum aqui", "descrição 2 ", "descrição 3", "descrição4", "PLÁSTICO", "IDEIAS COM PLÁSTICO", "O que é plástico?", "De onde ele vem?", "Qual é o descarte correto?", "Alternativas ecológicas"),));
                     },
                       )
                     ),
@@ -183,7 +183,7 @@ class _MyinicialState extends State<Myinicial> {
                       Text("Vidro", style: TextStyle(fontFamily: 'Nunito', fontWeight: FontWeight.bold, color: Colors.black))
                     ],),
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => Tabbar("assets/imgs/iconeVidro.png", Colors.green, "descrição1", "descrição2", "descricao3", "descricao4", "VIDRO", "", "O que é vidro?", "De onde ele vem?", "Qual é o descarte correto?", "Alternativas ecológicas"),));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => Tabbar("assets/imgs/iconeVidro.png", Colors.green, "descrição1", "descrição2", "descricao3", "descricao4", "VIDRO", " IDEIAS COM VIDRO", "O que é vidro?", "De onde ele vem?", "Qual é o descarte correto?", "Alternativas ecológicas"),));
 
                     },
                       )
@@ -196,7 +196,7 @@ class _MyinicialState extends State<Myinicial> {
                         Text("Metal", style: TextStyle(fontFamily: 'Nunito', fontWeight: FontWeight.bold, color: Colors.black))
                         ],),
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => Tabbar("assets/imgs/iconeMetal.png", const Color.fromARGB(255, 222, 205, 52), "descricao", "descricao2", "descricao3", "descricao4", "METAL", "", "O que é o metal?", "De onde ele vem?", "Qual o descarte correto?", "Alternativas ecológicas"),));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => Tabbar("assets/imgs/iconeMetal.png", const Color.fromARGB(255, 222, 205, 52), "descricao", "descricao2", "descricao3", "descricao4", "METAL", "IDEIAS COM METAL", "O que é o metal?", "De onde ele vem?", "Qual o descarte correto?", "Alternativas ecológicas"),));
                         },
                       ),
                     ),
@@ -208,7 +208,7 @@ class _MyinicialState extends State<Myinicial> {
                         Text("Papel", style: TextStyle(fontFamily: 'Nunito', fontWeight: FontWeight.bold, color: Colors.black))
                     ],),
                     onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => Tabbar("assets/imgs/iconePapel.png", Color.fromARGB(255, 30, 133, 218), "descricao", "descricao2", "descricao3", "descricao4", "Metal", "", "O que é o papel?", "De onde ele vem?", "Qual é o descarte correto?", "Alternativas ecológicas"),));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => Tabbar("assets/imgs/iconePapel.png", Color.fromARGB(255, 30, 133, 218), "descricao", "descricao2", "descricao3", "descricao4", "Papel", "IDEIAS COM PAPEL", "O que é o papel?", "De onde ele vem?", "Qual é o descarte correto?", "Alternativas ecológicas"),));
                     },
                       )
                     ),
@@ -220,7 +220,7 @@ class _MyinicialState extends State<Myinicial> {
                         Text("Orgânicos", style: TextStyle(fontFamily: 'Nunito', fontWeight: FontWeight.bold, color: Colors.black))
                       ],),
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => Tabbar("assets/imgs/iconeOrga.png", Colors.brown, "descricao", "descricao2", "descricao3", "descricao4", "ORGÂNICOS", "", "O que são compostos orgânicos?", "De onde ele vem?", "Qual é o descarte correto?", "Alternativas ecológicas"),));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => Tabbar("assets/imgs/iconeOrga.png", Colors.brown, "descricao", "descricao2", "descricao3", "descricao4", "Orgânicos", "IDEIAS COM COMPOSTOS ORGÂNICOS", "O que são compostos orgânicos?", "De onde ele vem?", "Qual é o descarte correto?", "Alternativas ecológicas"),));
 
                       },
                       ),
