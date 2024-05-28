@@ -175,22 +175,30 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
               child: TabBarView(
                 controller: _tabController,
                 children: [
-                  Padding(
+                  SingleChildScrollView(
+                    child: Padding(
                     padding: EdgeInsets.all(20),
                     child: Text(widget.descricao, textAlign: TextAlign.justify),
                   ),
-                  Padding(
+                  ),
+                  SingleChildScrollView(
+                    child: Padding(
                     padding: EdgeInsets.all(20),
                     child: Text(widget.descricao2, textAlign: TextAlign.justify),
                   ),
-                  Padding(
+                  ),
+                  SingleChildScrollView(
+                    child: Padding(
                     padding: EdgeInsets.all(20),
                     child: Text(widget.descricao3, textAlign: TextAlign.justify),
                   ),
-                  Padding(
+                  ),
+                  SingleChildScrollView(
+                    child: Padding(
                     padding: EdgeInsets.all(20),
                     child: Text(widget.descricao4, textAlign: TextAlign.justify),
                   ),
+                  )
                 ],
               ),
             ),
