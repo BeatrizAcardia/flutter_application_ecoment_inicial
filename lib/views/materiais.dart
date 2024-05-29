@@ -1,4 +1,4 @@
-// ignore_for_file: unnecessary_string_interpolations, prefer_const_constructors, sized_box_for_whitespace, avoid_unnecessary_containers, must_be_immutable, avoid_web_libraries_in_flutter, unused_import
+// ignore_for_file: unnecessary_string_interpolations, prefer_const_constructors, sized_box_for_whitespace, avoid_unnecessary_containers, must_be_immutable, avoid_web_libraries_in_flutter, unused_import, prefer_const_literals_to_create_immutables
 
 import 'dart:js_util';
 
@@ -178,7 +178,45 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
                   SingleChildScrollView(
                     child: Padding(
                     padding: EdgeInsets.all(20),
-                    child: Text(widget.descricao, textAlign: TextAlign.justify),
+                    child: Column(children: [
+                      Text(widget.descricao, textAlign: TextAlign.justify),
+                      SizedBox(height: 10,),
+                      Table(
+                        border: TableBorder.all(color: Colors.white30),
+                        defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+                        children: [
+                          TableRow(
+                            decoration: BoxDecoration(
+                              color: Colors.redAccent
+                            ),
+                            children: [
+                              TableCell(child: Padding(padding: EdgeInsets.all(8.0),
+                              child: Text('Title1'),
+                              )
+                              ),
+                              TableCell(child: Padding(padding: EdgeInsets.all(8.0),
+                              child: Text('Title2'),
+                              )
+                              ),
+                              TableCell(child: Padding(padding: EdgeInsets.all(8.0),
+                              child: Text('Title3'),
+                              )
+                              ),
+                            ],
+                          ),
+                          ...List.generate(20, (index) => TableRow(
+                            children: [
+                              TableCell(child: Padding(padding: EdgeInsets.all(8.0),
+                              child: Text('cell1'),)),
+                              TableCell(child: Padding(padding: EdgeInsets.all(8.0),
+                              child: Text('cell2'),)),
+                              TableCell(child: Padding(padding: EdgeInsets.all(8.0),
+                              child: Text('cell3'),)),
+                            ]
+                          ))
+                        ],
+                      )
+                    ],)
                   ),
                   ),
                   SingleChildScrollView(
