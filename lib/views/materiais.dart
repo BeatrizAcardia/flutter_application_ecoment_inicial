@@ -69,8 +69,8 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
   List<Ideia> listaIdeias = [
     Ideia.n("Apanhador de frutas com cano PVC e garrada PET", "assets/imgs/ideia1.jpg", Colors.red, 5, "bagulho foda", "1 passo, 2 passo", "carlinhos1", ['material 1','material 2'],"Plástico"),
     Ideia.n("titulo2", "assets/imgs/ideia2.jpg", Colors.green, 4, "bagulho foda", "1 passo, 2 passo", "carlinhos2", ['material 1','material 2'], "Plástico"),
-    Ideia.n("titulo3", "assets/imgs/ideia1.jpg", Colors.yellow, 3, "bagulho foda", "1 passo, 2 passo", "carlinhos3", ['material 1','material 2'], "Metal"),
-    Ideia.n("titulo4", "assets/imgs/ideia2.jpg", Colors.green, 1, "bagulho foda", "1 passo, 2 passo", "carlinhos4", ['material 1','material 2'], "Papel"),
+    Ideia.n("teste3", "assets/imgs/ideia1.jpg", Colors.yellow, 3, "bagulho foda", "1 passo, 2 passo", "carlinhos3", ['material 1','material 2'], "Metal"),
+    Ideia.n("teste4", "assets/imgs/ideia2.jpg", Colors.green, 1, "bagulho foda", "1 passo, 2 passo", "carlinhos4", ['material 1','material 2'], "Papel"),
     Ideia.n("titulo5", "assets/imgs/ideia2.jpg", Colors.red, 2, "bagulho foda", "1 passo, 2 passo", "carlinhos5", ['material 1','material 2'],"Vidro"),
   ];
 
@@ -78,7 +78,10 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
 
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   
+ final dropValue = ValueNotifier('');
+ final opcoes = ['Dificuldade', 'Avaliações', 'Curtidas'];
 
+  final TextEditingController searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -240,6 +243,7 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
                 ],
               ),
             ),
+            SizedBox(height: 20),
             Center(
               child: Container(
               padding: EdgeInsets.all(20),
@@ -250,11 +254,72 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
                     style: TextStyle(
                       color: widget.cor,
                       fontFamily: 'Nunito',
-                      fontSize: 20,
+                      fontSize: 25,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: 20),
+                   Row(
+                    children: [
+                      Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0), // Adiciona o padding desejado
+                          child: ValueListenableBuilder(
+                            valueListenable: dropValue,
+                            builder: (BuildContext context, String value, _) {
+                              return Row(
+                                children: [
+                                  Icon(Icons.filter_alt, color: widget.cor), // Ícone desejado ao lado do hintText
+                                  SizedBox(width: 8), // Espaçamento entre o ícone e o DropdownButton
+                                  DropdownButton(
+                                    hint: Text("Ordenar"),
+                                    value: (value.isEmpty) ? null : value,
+                                    onChanged: (escolha) => dropValue.value = escolha.toString(),
+                                    items: opcoes.map((op) => DropdownMenuItem(
+                                      value: op,
+                                      child: Text(op),
+                                    ),).toList()
+                                  ),
+                                ],
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+
+                     SizedBox(width: 100),
+                      SizedBox(
+                        width: 200,
+                        height: 40, // Defina a largura desejada
+                        child: TextField(
+                          controller: searchController,
+                          decoration: InputDecoration(
+                            hintText: 'Buscar',
+                            contentPadding: EdgeInsets.only(left: 15, bottom: 20, top: 5),
+                            suffixIcon: Container(
+                              decoration: BoxDecoration(
+                                 color: widget.cor,
+                                 borderRadius: BorderRadius.only(
+                                  topRight: Radius.circular(10),
+                                  bottomRight: Radius.circular(10)
+                                 ),
+                              ),
+                               child: Icon(Icons.search, color: Colors.white),
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          onChanged: (text) {
+                            setState(() {
+                              listaFiltrada = listaIdeias.where((idea) => idea.getTitulo.toLowerCase().contains(text.toLowerCase())).toList();
+                            });
+                          },
+                        ),
+                      )
+                    ],
+                  ),
+                  SizedBox(height: 20),
                   listaIdeias.isNotEmpty ?
                   Container(
                     child:
@@ -278,7 +343,6 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
                       listaFiltrada.isEmpty?
                       Center(child: Text("Sem posts no momento. Que tal postar alguma coisa?", style: TextStyle(fontSize: 25),textAlign: TextAlign.center,),)
                       :SizedBox.shrink(),
-                      
                 ],
               ),
             ),
