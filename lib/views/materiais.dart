@@ -128,13 +128,60 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
   final TextEditingController searchController = TextEditingController();
 
   final List<Map<String, String>> data = [
-    {"simbolo" : "1" , "sigla": "PET" , "nome" : "Politereftalato de etila", "onde" : "Embalagens de refrigerante, água, sucos, cosméticos, cabides, entre outros."},
-    {"simbolo" : "2" , "sigla": "PEAD" , "nome" : "Polietileno de alta densidade", "onde" : "Baldes, sacolas, embalagens de xampu, amaciante, brinquedos, entre outros. Geralmente, o material é opaco ou translúcido."},
-    {"simbolo" : "3" , "sigla": "PVC" , "nome" : "Policloreto de vinila", "onde" : "Canos de tubulações, chinelos, couro sintético, mangueiras de jardim, cortinas de chuveiro, entre outros."},
-    {"simbolo" : "4" , "sigla": "PEBD" , "nome" : "Polietileno de baixa densidade", "onde" : "Embalagens de alimentos como açúcar, arroz, feijão, sal, entre outros. Normalmente seu aspecto é mais grosso e transparente."},
-    {"simbolo" : "5" , "sigla": "PP" , "nome" : "Polipropileno", "onde" : "Tampas de embalagens, copos plásticos, seringas de injeção, brinquedos, entre outros."},
-    {"simbolo" : "6" , "sigla": "PS" , "nome" : "	Poliestireno", "onde" : "	Copos descartáveis, isopor, pentes, embalagens para pastas, carcaças de eletrônicos, entre outros."},
-    {"simbolo" : "7" , "sigla": "--" , "nome" : "Outros", "onde" : "Embalagens mistas ou feitas de outros termoplásticos"},
+    {
+      "simbolo": "1",
+      "sigla": "PET",
+      "nome": "Politereftalato de etila",
+      "onde":
+          "Embalagens de refrigerante, água, sucos, cosméticos, cabides, entre outros."
+    },
+    {
+      "simbolo": "2",
+      "sigla": "PEAD",
+      "nome": "Polietileno de alta densidade",
+      "onde":
+          "Baldes, sacolas, embalagens de xampu, amaciante, brinquedos, entre outros. Geralmente, o material é opaco ou translúcido."
+    },
+    {
+      "simbolo": "3",
+      "sigla": "PVC",
+      "nome": "Policloreto de vinila",
+      "onde":
+          "Canos de tubulações, chinelos, couro sintético, mangueiras de jardim, cortinas de chuveiro, entre outros."
+    },
+    {
+      "simbolo": "4",
+      "sigla": "PEBD",
+      "nome": "Polietileno de baixa densidade",
+      "onde":
+          "Embalagens de alimentos como açúcar, arroz, feijão, sal, entre outros. Normalmente seu aspecto é mais grosso e transparente."
+    },
+    {
+      "simbolo": "5",
+      "sigla": "PP",
+      "nome": "Polipropileno",
+      "onde":
+          "Tampas de embalagens, copos plásticos, seringas de injeção, brinquedos, entre outros."
+    },
+    {
+      "simbolo": "6",
+      "sigla": "PS",
+      "nome": "	Poliestireno",
+      "onde":
+          "	Copos descartáveis, isopor, pentes, embalagens para pastas, carcaças de eletrônicos, entre outros."
+    },
+    {
+      "simbolo": "7",
+      "sigla": "--",
+      "nome": "Outros",
+      "onde": "Embalagens mistas ou feitas de outros termoplásticos"
+    },
+  ];
+
+  final List<Map<String, String>> table2 = [
+    {},
+    {},
+    {},
   ];
 
   @override
@@ -243,14 +290,18 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
                                   ),
                                   Table(
                                     border: TableBorder(
-                                    horizontalInside: BorderSide(color: Colors.grey),
-                                    bottom: BorderSide(color: Colors.grey)
-                                  ),
+                                        horizontalInside:
+                                            BorderSide(color: Colors.grey),
+                                        bottom: BorderSide(color: Colors.grey)),
                                     columnWidths: {
-                                      0: FixedColumnWidth(70.0), // Definindo a largura da primeira coluna
-                                      1: FixedColumnWidth(70.0), // Definindo a largura da segunda coluna
-                                      2: FixedColumnWidth(110.0), // Definindo a largura da terceira coluna
-                                      3: FixedColumnWidth(180.0), // Definindo a largura da quarta coluna
+                                      0: FixedColumnWidth(
+                                          70.0), // Definindo a largura da primeira coluna
+                                      1: FixedColumnWidth(
+                                          70.0), // Definindo a largura da segunda coluna
+                                      2: FixedColumnWidth(
+                                          110.0), // Definindo a largura da terceira coluna
+                                      3: FixedColumnWidth(
+                                          180.0), // Definindo a largura da quarta coluna
                                     },
                                     defaultVerticalAlignment:
                                         TableCellVerticalAlignment.middle,
@@ -261,67 +312,195 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
                                         children: [
                                           TableCell(
                                               child: Padding(
+                                                  padding: EdgeInsets.all(8.0),
+                                                  child: Text(
+                                                    'Símbolo',
+                                                    style: TextStyle(
+                                                        color: Colors.white),
+                                                    textAlign: TextAlign.center,
+                                                  ))),
+                                          TableCell(
+                                              child: Padding(
                                             padding: EdgeInsets.all(8.0),
-                                            child: Text('Símbolo', style: TextStyle(color: Colors.white), textAlign: TextAlign.center,)
+                                            child: Text('Sigla',
+                                                style: TextStyle(
+                                                    color: Colors.white),
+                                                textAlign: TextAlign.center),
                                           )),
                                           TableCell(
                                               child: Padding(
                                             padding: EdgeInsets.all(8.0),
-                                            child: Text('Sigla', style: TextStyle(color: Colors.white), textAlign: TextAlign.center),
+                                            child: Text('Nome',
+                                                style: TextStyle(
+                                                    color: Colors.white),
+                                                textAlign: TextAlign.center),
                                           )),
                                           TableCell(
                                               child: Padding(
                                             padding: EdgeInsets.all(8.0),
-                                            child: Text('Nome',  style: TextStyle(color: Colors.white), textAlign: TextAlign.center),
-                                          )),
-                                          TableCell(
-                                              child: Padding(
-                                            padding: EdgeInsets.all(8.0),
-                                            child: Text('Onde encontrar',  style: TextStyle(color: Colors.white), textAlign: TextAlign.center),
+                                            child: Text('Onde encontrar',
+                                                style: TextStyle(
+                                                    color: Colors.white),
+                                                textAlign: TextAlign.center),
                                           )),
                                         ],
                                       ),
-                                     ...data.map((item) => TableRow(
-                                        children: [
-                                          TableCell(
-                                            child: Padding(
-                                              padding: EdgeInsets.all(8.0),
-                                              child: Text(item['simbolo'] ?? '', textAlign: TextAlign.center,),
-                                            ),
-                                          ),
-                                          TableCell(
-                                            child: Padding(
-                                              padding: EdgeInsets.all(8.0),
-                                              child: Text(item['sigla'] ?? '', textAlign: TextAlign.center,),
-                                            ),
-                                          ),
-                                          TableCell(
-                                            child: Padding(
-                                              padding: EdgeInsets.all(8.0),
-                                              child: Text(item['nome'] ?? '', textAlign: TextAlign.center,),
-                                            ),
-                                          ),
-                                          TableCell(
-                                            child: Padding(
-                                              padding: EdgeInsets.all(8.0),
-                                              child: Text(item['onde'] ?? '', textAlign: TextAlign.center,),
-                                            ),
-                                          ),
-                                        ],
-                                      )).toList(),
+                                      ...data.map((item) => TableRow(
+                                                children: [
+                                                  TableCell(
+                                                    child: Padding(
+                                                      padding:
+                                                          EdgeInsets.all(8.0),
+                                                      child: Text(
+                                                        item['simbolo'] ?? '',
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  TableCell(
+                                                    child: Padding(
+                                                      padding:
+                                                          EdgeInsets.all(8.0),
+                                                      child: Text(
+                                                        item['sigla'] ?? '',
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  TableCell(
+                                                    child: Padding(
+                                                      padding:
+                                                          EdgeInsets.all(8.0),
+                                                      child: Text(
+                                                        item['nome'] ?? '',
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  TableCell(
+                                                    child: Padding(
+                                                      padding:
+                                                          EdgeInsets.all(8.0),
+                                                      child: Text(
+                                                        item['onde'] ?? '',
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ))
+                                          .toList(),
                                     ],
                                   )
                                 ],
                               )),
                         ),
+                        
                         SingleChildScrollView(
                           child: Padding(
-                            padding: EdgeInsets.all(20),
-                            child: Text(widget.descricao2,
-                                textAlign: TextAlign.justify),
-                                
-                                
-                          ),
+                              padding: EdgeInsets.all(20),
+                              child: Column(
+                                children: [
+                                  Text(widget.descricao2,
+                                      textAlign: TextAlign.justify),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  Table(
+                                    border: TableBorder(
+                                        horizontalInside:
+                                            BorderSide(color: Colors.grey),
+                                        bottom: BorderSide(color: Colors.grey)),
+                                    columnWidths: {
+                                      0: FixedColumnWidth(
+                                          70.0), // Definindo a largura da primeira coluna
+                                      1: FixedColumnWidth(
+                                          70.0), // Definindo a largura da segunda coluna
+                                      2: FixedColumnWidth(
+                                          110.0), // Definindo a largura da terceira coluna
+                                      3: FixedColumnWidth(
+                                          180.0), // Definindo a largura da quarta coluna
+                                    },
+                                    defaultVerticalAlignment:
+                                        TableCellVerticalAlignment.middle,
+                                    children: [
+                                      TableRow(
+                                        decoration:
+                                            BoxDecoration(color: Color.fromARGB(255, 222, 205, 52),),
+                                        children: [
+                                          TableCell(
+                                              child: Padding(
+                                                  padding: EdgeInsets.all(8.0),
+                                                  child: Text(
+                                                    'Ferrosos',
+                                                    style: TextStyle(
+                                                        color: Colors.white),
+                                                    textAlign: TextAlign.center,
+                                                  ))),
+                                          TableCell(
+                                              child: Padding(
+                                            padding: EdgeInsets.all(8.0),
+                                            child: Text(''),
+                                          )),
+                                          TableCell(
+                                              child: Padding(
+                                            padding: EdgeInsets.all(8.0),
+                                            child: Text('Não ferrosos',
+                                                style: TextStyle(
+                                                    color: Colors.white),
+                                                textAlign: TextAlign.center),
+                                          )),
+                                        ],
+                                      ),
+                                      ...table2
+                                          .map((item) => TableRow(
+                                                children: [
+                                                  TableCell(
+                                                    child: Padding(
+                                                      padding:
+                                                          EdgeInsets.all(8.0),
+                                                      child: Text(
+                                                        item[''] ?? '',
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  TableCell(
+                                                    child: Padding(
+                                                      padding:
+                                                          EdgeInsets.all(8.0),
+                                                      child: Text(
+                                                        item[''] ?? '',
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  TableCell(
+                                                    child: Padding(
+                                                      padding:
+                                                          EdgeInsets.all(8.0),
+                                                      child: Text(
+                                                        item[''] ?? '',
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                 
+                                                 
+                                                ],
+                                              ))
+                                          .toList(),
+                                    ],
+                                  )
+                                ],
+                              )),
                         ),
                         SingleChildScrollView(
                           child: Padding(
