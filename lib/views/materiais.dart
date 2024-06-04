@@ -58,382 +58,525 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
     super.dispose();
   }
 
-    TextStyle ideaTitle = TextStyle(
+  TextStyle ideaTitle = TextStyle(
     color: Colors.black,
     fontSize: 15,
     fontFamily: 'Circe',
     fontWeight: FontWeight.w700,
   );
 
-
   List<Ideia> listaIdeias = [
-    Ideia.n("Apanhador de frutas com cano PVC e garrada PET", "assets/imgs/ideia1.jpg", Colors.red, 5, "bagulho foda", "1 passo, 2 passo", "carlinhos1", ['material 1','material 2'],"Plástico"),
-    Ideia.n("titulo2", "assets/imgs/ideia2.jpg", Colors.green, 4, "bagulho foda", "1 passo, 2 passo", "carlinhos2", ['material 1','material 2'], "Plástico"),
-    Ideia.n("teste3", "assets/imgs/ideia1.jpg", Colors.yellow, 3, "bagulho foda", "1 passo, 2 passo", "carlinhos3", ['material 1','material 2'], "Metal"),
-    Ideia.n("teste4", "assets/imgs/ideia2.jpg", Colors.green, 1, "bagulho foda", "1 passo, 2 passo", "carlinhos4", ['material 1','material 2'], "Papel"),
-    Ideia.n("titulo5", "assets/imgs/ideia2.jpg", Colors.red, 2, "bagulho foda", "1 passo, 2 passo", "carlinhos5", ['material 1','material 2'],"Vidro"),
+    Ideia.n(
+        "Apanhador de frutas com cano PVC e garrada PET",
+        "assets/imgs/ideia1.jpg",
+        Colors.red,
+        5,
+        "bagulho foda",
+        "1 passo, 2 passo",
+        "carlinhos1",
+        ['material 1', 'material 2'],
+        "Plástico"),
+    Ideia.n(
+        "titulo2",
+        "assets/imgs/ideia2.jpg",
+        Colors.green,
+        4,
+        "bagulho foda",
+        "1 passo, 2 passo",
+        "carlinhos2",
+        ['material 1', 'material 2'],
+        "Plástico"),
+    Ideia.n(
+        "teste3",
+        "assets/imgs/ideia1.jpg",
+        Colors.yellow,
+        3,
+        "bagulho foda",
+        "1 passo, 2 passo",
+        "carlinhos3",
+        ['material 1', 'material 2'],
+        "Metal"),
+    Ideia.n(
+        "teste4",
+        "assets/imgs/ideia2.jpg",
+        Colors.green,
+        1,
+        "bagulho foda",
+        "1 passo, 2 passo",
+        "carlinhos4",
+        ['material 1', 'material 2'],
+        "Papel"),
+    Ideia.n(
+        "titulo5",
+        "assets/imgs/ideia2.jpg",
+        Colors.red,
+        2,
+        "bagulho foda",
+        "1 passo, 2 passo",
+        "carlinhos5",
+        ['material 1', 'material 2'],
+        "Vidro"),
   ];
 
   List<Ideia> listaFiltrada = [];
 
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
-  
- final dropValue = ValueNotifier('');
- final opcoes = ['Dificuldade', 'Avaliações', 'Curtidas'];
+
+  final dropValue = ValueNotifier('');
+  final opcoes = ['Dificuldade', 'Avaliações', 'Curtidas'];
 
   final TextEditingController searchController = TextEditingController();
+
+  final List<Map<String, String>> data = [
+    {"simbolo" : "1" , "sigla": "" , "nome" : "", "onde" : ""},
+    {"simbolo" : "2" , "sigla": "" , "nome" : "", "onde" : ""},
+    {"simbolo" : "3" , "sigla": "" , "nome" : "", "onde" : ""},
+    {"simbolo" : "4" , "sigla": "" , "nome" : "", "onde" : ""},
+    {"simbolo" : "5" , "sigla": "" , "nome" : "", "onde" : ""},
+    {"simbolo" : "6" , "sigla": "" , "nome" : "", "onde" : ""},
+    {"simbolo" : "7" , "sigla": "" , "nome" : "", "onde" : ""},
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: WidgetDrawer(),
-      key: _scaffoldKey,
-      appBar: AppBar(
-        centerTitle: true,
-        title: Row(
-          children: [
-            SizedBox(
-              height: 30,
-              width: 30,
-              child: Image.asset('${widget.icone}'),
-            ),
-            Text(
-              widget.titulo,
-              style: TextStyle(color: widget.cor),
-            ),
-          ],
-        ),
-        elevation: 10,
-        bottom: TabBar(
-          controller: _tabController,
-          labelColor: widget.cor,
-          unselectedLabelColor: Colors.black,
-          indicatorSize: TabBarIndicatorSize.label,
-          indicator: BoxDecoration(
-            border: Border(
-              top: BorderSide(color: Colors.black),
-              right: BorderSide(color: Colors.black),
-              left: BorderSide(color: Colors.black),
-            ),
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(10),
-              topRight: Radius.circular(10),
-            ),
-            color: Colors.white,
+        drawer: WidgetDrawer(),
+        key: _scaffoldKey,
+        appBar: AppBar(
+          centerTitle: true,
+          title: Row(
+            children: [
+              SizedBox(
+                height: 30,
+                width: 30,
+                child: Image.asset('${widget.icone}'),
+              ),
+              Text(
+                widget.titulo,
+                style: TextStyle(color: widget.cor),
+              ),
+            ],
           ),
-          tabs: [
-            Tab(
-              child: Align(
-                alignment: Alignment.center,
-                child: Text(
-                  widget.topico,
-                  style: TextStyle(fontFamily: 'Nunito', fontSize: 11.5),
-                  textAlign: TextAlign.center,
+          elevation: 10,
+          bottom: TabBar(
+            controller: _tabController,
+            labelColor: widget.cor,
+            unselectedLabelColor: Colors.black,
+            indicatorSize: TabBarIndicatorSize.label,
+            indicator: BoxDecoration(
+              border: Border(
+                top: BorderSide(color: Colors.black),
+                right: BorderSide(color: Colors.black),
+                left: BorderSide(color: Colors.black),
+              ),
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(10),
+                topRight: Radius.circular(10),
+              ),
+              color: Colors.white,
+            ),
+            tabs: [
+              Tab(
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    widget.topico,
+                    style: TextStyle(fontFamily: 'Nunito', fontSize: 11.5),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
               ),
-            ),
-            Tab(
-              child: Align(
-                alignment: Alignment.center,
-                child: Text(
-                  widget.topico2,
-                  style: TextStyle(fontFamily: 'Nunito', fontSize: 11.5),
-                  textAlign: TextAlign.center,
+              Tab(
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    widget.topico2,
+                    style: TextStyle(fontFamily: 'Nunito', fontSize: 11.5),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
               ),
-            ),
-            Tab(
-              child: Align(
-                alignment: Alignment.center,
-                child: Text(
-                  widget.topico3,
-                  style: TextStyle(fontFamily: 'Nunito', fontSize: 11.5),
-                  textAlign: TextAlign.center,
+              Tab(
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    widget.topico3,
+                    style: TextStyle(fontFamily: 'Nunito', fontSize: 11.5),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
               ),
-            ),
-            Tab(
-              child: Align(
-                alignment: Alignment.center,
-                child: Text(
-                  widget.topico4,
-                  style: TextStyle(fontFamily: 'Nunito', fontSize: 11.5),
-                  textAlign: TextAlign.center,
+              Tab(
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    widget.topico4,
+                    style: TextStyle(fontFamily: 'Nunito', fontSize: 11.5),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
-
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          SingleChildScrollView(
-        child: Container(
-          child: Column(
+        body: Stack(
+          fit: StackFit.expand,
           children: [
-            Container(
-              height: 400, // Ajuste conforme necessário
-              child: TabBarView(
-                controller: _tabController,
+            SingleChildScrollView(
+                child: Container(
+              child: Column(
                 children: [
-                  SingleChildScrollView(
-                    child: Padding(
-                    padding: EdgeInsets.all(20),
-                    child: Column(children: [
-                      Text(widget.descricao, textAlign: TextAlign.justify),
-                      SizedBox(height: 10,),
-                      Table(
-                        border: TableBorder.all(color: Colors.white30),
-                        defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+                  Container(
+                    height: 400, // Ajuste conforme necessário
+                    child: TabBarView(
+                      controller: _tabController,
+                      children: [
+                        SingleChildScrollView(
+                          child: Padding(
+                              padding: EdgeInsets.all(20),
+                              child: Column(
+                                children: [
+                                  Text(widget.descricao,
+                                      textAlign: TextAlign.justify),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Table(
+                                    border:
+                                        TableBorder.all(color: Colors.white30),
+                                    defaultVerticalAlignment:
+                                        TableCellVerticalAlignment.middle,
+                                    children: [
+                                      TableRow(
+                                        decoration: BoxDecoration(
+                                            color: Colors.redAccent),
+                                        children: [
+                                          TableCell(
+                                              child: Padding(
+                                            padding: EdgeInsets.all(8.0),
+                                            child: Text('Símbolo'),
+                                          )),
+                                          TableCell(
+                                              child: Padding(
+                                            padding: EdgeInsets.all(8.0),
+                                            child: Text('Sigla'),
+                                          )),
+                                          TableCell(
+                                              child: Padding(
+                                            padding: EdgeInsets.all(8.0),
+                                            child: Text('Nome'),
+                                          )),
+                                          TableCell(
+                                              child: Padding(
+                                            padding: EdgeInsets.all(8.0),
+                                            child: Text('Onde encontrar'),
+                                          )),
+                                        ],
+                                      ),
+                                     ...data.map((item) => TableRow(
+                                        children: [
+                                          TableCell(
+                                            child: Padding(
+                                              padding: EdgeInsets.all(8.0),
+                                              child: Text(item['simbolo'] ?? ''),
+                                            ),
+                                          ),
+                                          TableCell(
+                                            child: Padding(
+                                              padding: EdgeInsets.all(8.0),
+                                              child: Text(item['sigla'] ?? ''),
+                                            ),
+                                          ),
+                                          TableCell(
+                                            child: Padding(
+                                              padding: EdgeInsets.all(8.0),
+                                              child: Text(item['nome'] ?? ''),
+                                            ),
+                                          ),
+                                          TableCell(
+                                            child: Padding(
+                                              padding: EdgeInsets.all(8.0),
+                                              child: Text(item['onde'] ?? ''),
+                                            ),
+                                          ),
+                                        ],
+                                      )).toList(),
+                                    ],
+                                  )
+                                ],
+                              )),
+                        ),
+                        SingleChildScrollView(
+                          child: Padding(
+                            padding: EdgeInsets.all(20),
+                            child: Text(widget.descricao2,
+                                textAlign: TextAlign.justify),
+                          ),
+                        ),
+                        SingleChildScrollView(
+                          child: Padding(
+                            padding: EdgeInsets.all(20),
+                            child: Text(widget.descricao3,
+                                textAlign: TextAlign.justify),
+                          ),
+                        ),
+                        SingleChildScrollView(
+                          child: Padding(
+                            padding: EdgeInsets.all(20),
+                            child: Text(widget.descricao4,
+                                textAlign: TextAlign.justify),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  Center(
+                    child: Container(
+                      padding: EdgeInsets.all(20),
+                      child: Column(
                         children: [
-                          TableRow(
-                            decoration: BoxDecoration(
-                              color: Colors.redAccent
+                          Text(
+                            widget.titulo2,
+                            style: TextStyle(
+                              color: widget.cor,
+                              fontFamily: 'Nunito',
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold,
                             ),
+                          ),
+                          SizedBox(height: 20),
+                          Row(
                             children: [
-                              TableCell(child: Padding(padding: EdgeInsets.all(8.0),
-                              child: Text('Title1'),
-                              )
+                              Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(
+                                      8.0), // Adiciona o padding desejado
+                                  child: ValueListenableBuilder(
+                                    valueListenable: dropValue,
+                                    builder: (BuildContext context,
+                                        String value, _) {
+                                      return Row(
+                                        children: [
+                                          Icon(Icons.filter_alt,
+                                              color: widget
+                                                  .cor), // Ícone desejado ao lado do hintText
+                                          SizedBox(
+                                              width:
+                                                  8), // Espaçamento entre o ícone e o DropdownButton
+                                          DropdownButton(
+                                              hint: Text("Ordenar"),
+                                              value: (value.isEmpty)
+                                                  ? null
+                                                  : value,
+                                              onChanged: (escolha) => dropValue
+                                                  .value = escolha.toString(),
+                                              items: opcoes
+                                                  .map(
+                                                    (op) => DropdownMenuItem(
+                                                      value: op,
+                                                      child: Text(op),
+                                                    ),
+                                                  )
+                                                  .toList()),
+                                        ],
+                                      );
+                                    },
+                                  ),
+                                ),
                               ),
-                              TableCell(child: Padding(padding: EdgeInsets.all(8.0),
-                              child: Text('Title2'),
+                              SizedBox(width: 100),
+                              SizedBox(
+                                width: 200,
+                                height: 40, // Defina a largura desejada
+                                child: TextField(
+                                  controller: searchController,
+                                  decoration: InputDecoration(
+                                    hintText: 'Buscar',
+                                    contentPadding: EdgeInsets.only(
+                                        left: 15, bottom: 20, top: 5),
+                                    suffixIcon: Container(
+                                      decoration: BoxDecoration(
+                                        color: widget.cor,
+                                        borderRadius: BorderRadius.only(
+                                            topRight: Radius.circular(10),
+                                            bottomRight: Radius.circular(10)),
+                                      ),
+                                      child: Icon(Icons.search,
+                                          color: Colors.white),
+                                    ),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
+                                  onChanged: (text) {
+                                    setState(() {
+                                      listaFiltrada = listaIdeias
+                                          .where((idea) => idea.getTitulo
+                                              .toLowerCase()
+                                              .contains(text.toLowerCase()))
+                                          .toList();
+                                    });
+                                  },
+                                ),
                               )
-                              ),
-                              TableCell(child: Padding(padding: EdgeInsets.all(8.0),
-                              child: Text('Title3'),
-                              )
-                              ),
                             ],
                           ),
-                          ...List.generate(20, (index) => TableRow(
-                            children: [
-                              TableCell(child: Padding(padding: EdgeInsets.all(8.0),
-                              child: Text('cell1'),)),
-                              TableCell(child: Padding(padding: EdgeInsets.all(8.0),
-                              child: Text('cell2'),)),
-                              TableCell(child: Padding(padding: EdgeInsets.all(8.0),
-                              child: Text('cell3'),)),
-                            ]
-                          ))
+                          SizedBox(height: 20),
+                          listaIdeias.isNotEmpty
+                              ? Container(
+                                  child: GridView.builder(
+                                  shrinkWrap: true,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  gridDelegate:
+                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount: 2,
+                                          crossAxisSpacing: 12,
+                                          mainAxisSpacing: 12,
+                                          mainAxisExtent: 250),
+                                  itemCount: numeroAndlistaFiltrado(),
+                                  itemBuilder: (context, index) {
+                                    return gerarCard(
+                                        listaFiltrada[index].getTitulo,
+                                        listaFiltrada[index].getImg,
+                                        listaFiltrada[index].getDificuldade,
+                                        listaFiltrada[index].getAvaliacao,
+                                        listaFiltrada[index].getDesc,
+                                        listaFiltrada[index].getPassoPasso,
+                                        listaFiltrada[index].getAutor,
+                                        listaFiltrada[index].getMateriais,
+                                        listaFiltrada[index].getMaterial);
+                                  },
+                                ))
+                              : Center(
+                                  child: Text(
+                                    "Sem posts no momento. Que tal postar alguma coisa?",
+                                    style: TextStyle(fontSize: 25),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                          listaFiltrada.isEmpty
+                              ? Center(
+                                  child: Text(
+                                    "Sem posts no momento. Que tal postar alguma coisa?",
+                                    style: TextStyle(fontSize: 25),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                )
+                              : SizedBox.shrink(),
                         ],
-                      )
-                    ],)
-                  ),
-                  ),
-                  SingleChildScrollView(
-                    child: Padding(
-                    padding: EdgeInsets.all(20),
-                    child: Text(widget.descricao2, textAlign: TextAlign.justify),
-                  ),
-                  ),
-                  SingleChildScrollView(
-                    child: Padding(
-                    padding: EdgeInsets.all(20),
-                    child: Text(widget.descricao3, textAlign: TextAlign.justify),
-                  ),
-                  ),
-                  SingleChildScrollView(
-                    child: Padding(
-                    padding: EdgeInsets.all(20),
-                    child: Text(widget.descricao4, textAlign: TextAlign.justify),
-                  ),
+                      ),
+                    ),
                   )
                 ],
               ),
-            ),
-            SizedBox(height: 20),
-            Center(
-              child: Container(
-              padding: EdgeInsets.all(20),
-              child: Column(
-                children: [
-                  Text(
-                    widget.titulo2,
-                    style: TextStyle(
-                      color: widget.cor,
-                      fontFamily: 'Nunito',
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                   Row(
-                    children: [
-                      Center(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0), // Adiciona o padding desejado
-                          child: ValueListenableBuilder(
-                            valueListenable: dropValue,
-                            builder: (BuildContext context, String value, _) {
-                              return Row(
-                                children: [
-                                  Icon(Icons.filter_alt, color: widget.cor), // Ícone desejado ao lado do hintText
-                                  SizedBox(width: 8), // Espaçamento entre o ícone e o DropdownButton
-                                  DropdownButton(
-                                    hint: Text("Ordenar"),
-                                    value: (value.isEmpty) ? null : value,
-                                    onChanged: (escolha) => dropValue.value = escolha.toString(),
-                                    items: opcoes.map((op) => DropdownMenuItem(
-                                      value: op,
-                                      child: Text(op),
-                                    ),).toList()
-                                  ),
-                                ],
-                              );
-                            },
-                          ),
-                        ),
-                      ),
-
-                     SizedBox(width: 100),
-                      SizedBox(
-                        width: 200,
-                        height: 40, // Defina a largura desejada
-                        child: TextField(
-                          controller: searchController,
-                          decoration: InputDecoration(
-                            hintText: 'Buscar',
-                            contentPadding: EdgeInsets.only(left: 15, bottom: 20, top: 5),
-                            suffixIcon: Container(
-                              decoration: BoxDecoration(
-                                 color: widget.cor,
-                                 borderRadius: BorderRadius.only(
-                                  topRight: Radius.circular(10),
-                                  bottomRight: Radius.circular(10)
-                                 ),
-                              ),
-                               child: Icon(Icons.search, color: Colors.white),
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                          onChanged: (text) {
-                            setState(() {
-                              listaFiltrada = listaIdeias.where((idea) => idea.getTitulo.toLowerCase().contains(text.toLowerCase())).toList();
-                            });
-                          },
-                        ),
-                      )
-                    ],
-                  ),
-                  SizedBox(height: 20),
-                  listaIdeias.isNotEmpty ?
-                  Container(
-                    child:
-                    GridView.builder(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 12,
-                      mainAxisSpacing: 12,
-                      mainAxisExtent: 250
-                    ),
-                      itemCount: numeroAndlistaFiltrado(),
-                      itemBuilder: (context, index) {
-                          return gerarCard(listaFiltrada[index].getTitulo, listaFiltrada[index].getImg, listaFiltrada[index].getDificuldade, listaFiltrada[index].getAvaliacao, listaFiltrada[index].getDesc, listaFiltrada[index].getPassoPasso, listaFiltrada[index].getAutor, listaFiltrada[index].getMateriais, listaFiltrada[index].getMaterial);
-                      },
-                      )
-                      )
-                      : Center(child: Text("Sem posts no momento. Que tal postar alguma coisa?", style: TextStyle(fontSize: 25),textAlign: TextAlign.center,),),
-
-                      listaFiltrada.isEmpty?
-                      Center(child: Text("Sem posts no momento. Que tal postar alguma coisa?", style: TextStyle(fontSize: 25),textAlign: TextAlign.center,),)
-                      :SizedBox.shrink(),
-                ],
-              ),
-            ),
-            )
+            )),
+            WidgetBottomAppBar(scaffoldKey: _scaffoldKey)
           ],
-        ),
-        )
-      ),
-      WidgetBottomAppBar(scaffoldKey: _scaffoldKey)
-        ],
-      )
-    );
+        ));
   }
 
-  int numeroAndlistaFiltrado(){
+  int numeroAndlistaFiltrado() {
     int numero = 0;
-    for(int i = 0; i<listaIdeias.length; i++){
-      if(listaIdeias[i].getMaterial.toLowerCase() == widget.titulo.toLowerCase()){
-        numero ++;
+    for (int i = 0; i < listaIdeias.length; i++) {
+      if (listaIdeias[i].getMaterial.toLowerCase() ==
+          widget.titulo.toLowerCase()) {
+        numero++;
         listaFiltrada.add(listaIdeias[i]);
       }
     }
     return numero;
   }
 
-
-    Widget gerarCard (String titulo, String imgUrl, Color dificuldade, int avaliacao, String desc, String passoPasso, String autor, List<String> listaMat, String material){
+  Widget gerarCard(
+      String titulo,
+      String imgUrl,
+      Color dificuldade,
+      int avaliacao,
+      String desc,
+      String passoPasso,
+      String autor,
+      List<String> listaMat,
+      String material) {
     return MouseRegion(
-      child: GestureDetector(
-        child: Container(
-      padding: EdgeInsets.all(5),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: const Color.fromARGB(255, 217, 217, 217)
-      ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              SizedBox(
-                width: 200,
-                child: ClipRRect(borderRadius: BorderRadius.circular(10) ,child: Image.asset("$imgUrl", height: 130, fit: BoxFit.cover,),),
+        child: GestureDetector(
+      child: Container(
+        padding: EdgeInsets.all(5),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: const Color.fromARGB(255, 217, 217, 217)),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            SizedBox(
+              width: 200,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image.asset(
+                  "$imgUrl",
+                  height: 130,
+                  fit: BoxFit.cover,
                 ),
-                Text(titulo, style: ideaTitle, textAlign: TextAlign.center,),
-                SizedBox(height: 5,),
-                Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      ...gerarEstrelaColorida(avaliacao),
-                      ...gerarEstrelaNColorida(5-avaliacao)
-                    ],
-                  ),
-                  
-                  Row(
-                    children: [
-                      Icon(Icons.circle, color: dificuldade),
-                    ],
-                  ),
-                ],
               ),
-            ],
-          ),
+            ),
+            Text(
+              titulo,
+              style: ideaTitle,
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(
+              height: 5,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    ...gerarEstrelaColorida(avaliacao),
+                    ...gerarEstrelaNColorida(5 - avaliacao)
+                  ],
+                ),
+                Row(
+                  children: [
+                    Icon(Icons.circle, color: dificuldade),
+                  ],
+                ),
+              ],
+            ),
+          ],
         ),
-        onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => PageIdeia(titulo, desc, imgUrl, dificuldade, passoPasso, avaliacao, autor, listaMat)));
-        },
-      )
-    );
+      ),
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => PageIdeia(titulo, desc, imgUrl,
+                    dificuldade, passoPasso, avaliacao, autor, listaMat)));
+      },
+    ));
   }
 
-  List<Widget> gerarEstrelaColorida (int n){
+  List<Widget> gerarEstrelaColorida(int n) {
     List<Widget> avaliacao = [];
-    for(int i=0; i<n; i++){
+    for (int i = 0; i < n; i++) {
       avaliacao.add(Icon(Icons.star, color: Colors.orange));
     }
     return avaliacao;
   }
-  List<Widget> gerarEstrelaNColorida (int n){
+
+  List<Widget> gerarEstrelaNColorida(int n) {
     List<Widget> avaliacao = [];
-    for(int i=0; i<n; i++){
+    for (int i = 0; i < n; i++) {
       avaliacao.add(Icon(Icons.star_border, color: Colors.orange));
     }
     return avaliacao;
   }
-
 }
 
 void main() {
   runApp(MaterialApp(
-    home: Tabbar("", Colors.transparent, "", "", "", "", "", "", "", "", "", ""),
+    home:
+        Tabbar("", Colors.transparent, "", "", "", "", "", "", "", "", "", ""),
   ));
 }
