@@ -288,7 +288,8 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
                                   SizedBox(
                                     height: 20,
                                   ),
-                                  Table(
+                                  if(widget.titulo.toLowerCase() == "plástico")
+                                    Table(
                                     border: TableBorder(
                                         horizontalInside:
                                             BorderSide(color: Colors.grey),
@@ -395,9 +396,10 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
                                               ))
                                           .toList(),
                                     ],
-                                  )
+                                  ),
                                 ],
-                              )),
+                              )
+                              ),
                         ),
                         
                         SingleChildScrollView(
@@ -410,95 +412,112 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
                                   SizedBox(
                                     height: 20,
                                   ),
-                                  Table(
-                                    border: TableBorder(
-                                        horizontalInside:
-                                            BorderSide(color: Colors.grey),
-                                        bottom: BorderSide(color: Colors.grey)),
-                                    columnWidths: {
-                                      0: FixedColumnWidth(
-                                          70.0), // Definindo a largura da primeira coluna
-                                      1: FixedColumnWidth(
-                                          70.0), // Definindo a largura da segunda coluna
-                                      2: FixedColumnWidth(
-                                          110.0), // Definindo a largura da terceira coluna
-                                      3: FixedColumnWidth(
-                                          180.0), // Definindo a largura da quarta coluna
-                                    },
-                                    defaultVerticalAlignment:
-                                        TableCellVerticalAlignment.middle,
-                                    children: [
-                                      TableRow(
-                                        decoration:
-                                            BoxDecoration(color: Color.fromARGB(255, 222, 205, 52),),
-                                        children: [
-                                          TableCell(
-                                              child: Padding(
-                                                  padding: EdgeInsets.all(8.0),
-                                                  child: Text(
-                                                    'Ferrosos',
-                                                    style: TextStyle(
-                                                        color: Colors.white),
-                                                    textAlign: TextAlign.center,
-                                                  ))),
-                                          TableCell(
-                                              child: Padding(
-                                            padding: EdgeInsets.all(8.0),
-                                            child: Text(''),
-                                          )),
-                                          TableCell(
-                                              child: Padding(
-                                            padding: EdgeInsets.all(8.0),
-                                            child: Text('Não ferrosos',
-                                                style: TextStyle(
-                                                    color: Colors.white),
-                                                textAlign: TextAlign.center),
-                                          )),
-                                        ],
-                                      ),
-                                      ...table2
-                                          .map((item) => TableRow(
-                                                children: [
-                                                  TableCell(
-                                                    child: Padding(
-                                                      padding:
-                                                          EdgeInsets.all(8.0),
-                                                      child: Text(
-                                                        item[''] ?? '',
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  TableCell(
-                                                    child: Padding(
-                                                      padding:
-                                                          EdgeInsets.all(8.0),
-                                                      child: Text(
-                                                        item[''] ?? '',
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  TableCell(
-                                                    child: Padding(
-                                                      padding:
-                                                          EdgeInsets.all(8.0),
-                                                      child: Text(
-                                                        item[''] ?? '',
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                 
-                                                 
-                                                ],
-                                              ))
-                                          .toList(),
-                                    ],
-                                  )
+                                  if(widget.titulo.toLowerCase() == "metal")
+                                  Container(
+          padding: EdgeInsets.all(20),
+          child: Column(
+            children: [
+              Align(
+                alignment: Alignment.center,
+                child: Text("Ferrosos", style: TextStyle(
+                  color: Colors.amber,
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold
+                ),),
+              ),
+              SizedBox(height: 10,),
+              Table(
+          border: TableBorder.all(color: Colors.black),
+          defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+          children: [
+            TableRow(
+              children: [
+                TableCell(child: Padding(padding: EdgeInsets.all(8.0),
+                child: Text("Aço", textAlign: TextAlign.center, style: TextStyle(
+                  fontWeight: FontWeight.bold,fontSize: 16
+                ),),
+                )),
+                TableCell(child: Padding(padding: EdgeInsets.all(8.0),
+                child: Text("Ferro Fundido", textAlign: TextAlign.center, style: TextStyle(
+                  fontWeight: FontWeight.bold,fontSize: 16
+                ),),
+                )),
+                TableCell(child: Padding(padding: EdgeInsets.all(8.0),
+                child: Text("Aluminio", textAlign: TextAlign.center, style: TextStyle(
+                  fontWeight: FontWeight.bold,fontSize: 16
+                ),),
+                )),
+              ]
+            ),
+            TableRow(
+              children: [
+                TableCell(child: Padding(padding: EdgeInsets.all(8.0),
+                child: Text("O processo de fabricação do aço envolve a fusão do minério de ferro e aditivos em altas temperaturas, seguido por processos de laminação, forjamento ou fundição para dar forma ao metal.", textAlign: TextAlign.center, style: TextStyle(),),
+                )),
+                TableCell(child: Padding( padding: EdgeInsets.all(8.0), child: Text("O ferro fundido é produzido através da fundição do minério de ferro em moldes, seguido por processos de resfriamento e solidificação para formar as peças desejadas.", textAlign: TextAlign.center,))),
+                TableCell(child: Padding( padding: EdgeInsets.all(8.0), child: Text("O aluno é valorizado por sua resistência à corrosão, condutividade elétrica e facilidade de reciclagem, o que o torna uma escolha popular em muitas indústrias.", textAlign: TextAlign.center,))),
+              ]
+            ),
+            TableRow(
+              children: [
+                TableCell(child: Padding(padding: EdgeInsets.all(8.0),
+                child: Text("Encontrado em: Estruturas de edifícios, automóveis, utensílios de cozinha, ferramentas, etc.", textAlign: TextAlign.center, style: TextStyle(),),
+                )),
+                TableCell(child: Padding( padding: EdgeInsets.all(8.0), child: Text("Encontrado em: Peças de máquinas, tubulações, gradeamento e grelhas, componentes de caldeiras, etc.", textAlign: TextAlign.center,))),
+                TableCell(child: Padding( padding: EdgeInsets.all(8.0), child: Text("Encontrado em: Embalagens, transporte, construção civil, eletrônicos, etc.", textAlign: TextAlign.center,))),
+              ]
+            ),
+          ],
+        ),
+        SizedBox(height: 20,),
+              Align(
+                alignment: Alignment.center,
+                child: Text("Não Ferrosos", style: TextStyle(
+                  color: Colors.amber,
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold
+                ),),
+              ),
+              SizedBox(height: 10,),
+              Table(
+          border: TableBorder.all(color: Colors.black),
+          defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+          children: [
+            TableRow(
+              children: [
+                TableCell(child: Padding(padding: EdgeInsets.all(8.0),
+                child: Text("Cobre", textAlign: TextAlign.center, style: TextStyle(
+                  fontWeight: FontWeight.bold,fontSize: 16
+                ),),
+                )),
+                TableCell(child: Padding(padding: EdgeInsets.all(8.0),
+                child: Text("Metais Pesados", textAlign: TextAlign.center, style: TextStyle(
+                  fontWeight: FontWeight.bold,fontSize: 16
+                ),),
+                )),
+              ]
+            ),
+            TableRow(
+              children: [
+                TableCell(child: Padding(padding: EdgeInsets.all(8.0),
+                child: Text("Além de suas propriedades elétricas e térmicas, o cobre é valorizado por sua resistência à corrosão e sua capacidade de ser moldado em diversas formas.", textAlign: TextAlign.justify, style: TextStyle(),),
+                )),
+                TableCell(child: Padding( padding: EdgeInsets.all(8.0), child: Text("Embora alguns metais pesados sejam essenciais para processos biológicos em pequenas quantidades, a exposição excessiva a esses metais pode ser tóxica para os seres humanos e o meio ambiente, causando uma série de problemas de saúde, incluindo danos ao sistema nervoso, problemas renais e câncer.", textAlign: TextAlign.justify,))),
+              ]
+            ),
+            TableRow(
+              children: [
+                TableCell(child: Padding(padding: EdgeInsets.all(8.0),
+                child: Text("Encontrado em: Fiação elétrica, tubulações, eletrônicos, moedas, jóias, etc.", textAlign: TextAlign.center, style: TextStyle(),),
+                )),
+                TableCell(child: Padding( padding: EdgeInsets.all(8.0), child: Text("Encontrado em: Alguns exemplos comuns de metais pesados incluem chumbo, mercúrio, cádmio e arsênio, etc.", textAlign: TextAlign.center,))),
+              ]
+            ),
+          ],
+        ),
+            ],
+          ),
+        )
                                 ],
                               )),
                         ),
