@@ -32,12 +32,11 @@ dependencies:
   carousel_slider: ^4.2.1
   cupertino_icons: ^1.0.2
   email_validator: ^2.1.16
-  share_plus: ^9.0.0
   flutter:
     sdk: flutter
 
 dev_dependencies:
-  flutter_lints: ^2.0.0
+  flutter_lints: ^4.0.0
   flutter_test:
     sdk: flutter
 

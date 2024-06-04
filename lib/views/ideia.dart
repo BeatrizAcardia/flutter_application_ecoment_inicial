@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_ecoment_inicial/defaultWidgets/bottomAppBar.dart';
 import 'package:flutter_application_ecoment_inicial/defaultWidgets/drawer.dart';
-import 'package:share_plus/share_plus.dart';
 
 
 class PageIdeia extends StatefulWidget {
@@ -124,8 +123,7 @@ class _IdeiaState extends State<PageIdeia> {
                         ],
                       ),
                       onTap: () async {
-                        final urlPreview = "https://urldaideia.com";
-                        await Share.share("Olha essa ideia que encontrei no EcoMoment!\n\nTitulo: "+widget.titulo+"\n\n"+urlPreview+"");
+                        
                       },
                         ),
                       ),
