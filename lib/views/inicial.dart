@@ -42,19 +42,19 @@ class _MyinicialState extends State<Myinicial> {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
   final metal = SizedBox(
-        height: 100, width: 100, child: Image.asset('assets/imgs/metal.png'));
+        height: 82, width: 82, child: Image.asset('assets/imgs/metal.png'));
     final organico = SizedBox(
-        height: 100,
-        width: 100,
+        height: 82,
+        width: 82,
         child: Image.asset('assets/imgs/organico.png'));
     final papel = SizedBox(
-        height: 100, width: 100, child: Image.asset('assets/imgs/papel.png'));
+        height: 82, width: 82, child: Image.asset('assets/imgs/papel.png'));
     final plastico = SizedBox(
-        height: 100,
-        width: 100,
+        height: 82,
+        width: 82,
         child: Image.asset('assets/imgs/plastico.png'));
     final vidro = SizedBox(
-        height: 100, width: 100, child: Image.asset('assets/imgs/vidro.png'));
+        height: 82, width: 82, child: Image.asset('assets/imgs/vidro.png'));
 
 
   Widget build(BuildContext context) {
@@ -121,9 +121,9 @@ class _MyinicialState extends State<Myinicial> {
           onda,
           
           Text(
-            "Principais Ideias",
+            "PRINCIPAIS MATERIAIS",
             style: TextStyle(
-                fontFamily: 'Nunito',
+                fontFamily: 'Circe',
                 fontSize: 30,
                 color: Colors.black,
                 fontWeight: FontWeight.bold),
@@ -151,12 +151,15 @@ class _MyinicialState extends State<Myinicial> {
                 Text(
                   "PRINCIPAIS MATERIAIS",
                   style: TextStyle(
-                      fontFamily: 'Nunito',
+                      fontFamily: 'Circe',
                       fontSize: 30,
                       color: Colors.black,
                       fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 30),
+                Padding(
+                  padding:EdgeInsets.fromLTRB(0,0,0,0),
+                  child:  
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -226,9 +229,8 @@ class _MyinicialState extends State<Myinicial> {
                       },
                       ),
                     )
-                   
                   ],
-                )
+                ))
               ],
             ),
           )

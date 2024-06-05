@@ -294,13 +294,13 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
                                         bottom: BorderSide(color: Colors.grey)),
                                     columnWidths: {
                                       0: FixedColumnWidth(
-                                          70.0), // Definindo a largura da primeira coluna
+                                          69.0), // Definindo a largura da primeira coluna
                                       1: FixedColumnWidth(
-                                          70.0), // Definindo a largura da segunda coluna
+                                          50.0), // Definindo a largura da segunda coluna
                                       2: FixedColumnWidth(
                                           110.0), // Definindo a largura da terceira coluna
                                       3: FixedColumnWidth(
-                                          180.0), // Definindo a largura da quarta coluna
+                                          150.0), // Definindo a largura da quarta coluna
                                     },
                                     defaultVerticalAlignment:
                                         TableCellVerticalAlignment.middle,
@@ -425,7 +425,13 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
               ),
               SizedBox(height: 10,),
               Table(
-          border: TableBorder.all(color: Colors.black),
+          border: TableBorder(
+            horizontalInside: BorderSide(
+              color: Colors.grey),
+            top: BorderSide(color: Colors.grey),
+            bottom: BorderSide(color: Colors.grey)
+          ),
+
           defaultVerticalAlignment: TableCellVerticalAlignment.middle,
           children: [
             TableRow(
@@ -478,7 +484,12 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
               ),
               SizedBox(height: 10,),
               Table(
-          border: TableBorder.all(color: Colors.black),
+          border: TableBorder(
+               horizontalInside: BorderSide(
+              color: Colors.grey),
+            top: BorderSide(color: Colors.grey),
+            bottom: BorderSide(color: Colors.grey)
+          ),
           defaultVerticalAlignment: TableCellVerticalAlignment.middle,
           children: [
             TableRow(
@@ -498,9 +509,9 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
             TableRow(
               children: [
                 TableCell(child: Padding(padding: EdgeInsets.all(8.0),
-                child: Text("Além de suas propriedades elétricas e térmicas, o cobre é valorizado por sua resistência à corrosão e sua capacidade de ser moldado em diversas formas.", textAlign: TextAlign.justify, style: TextStyle(),),
+                child: Text("Além de suas propriedades elétricas e térmicas, o cobre é valorizado por sua resistência à corrosão e sua capacidade de ser moldado em diversas formas.", textAlign: TextAlign.center, style: TextStyle(),),
                 )),
-                TableCell(child: Padding( padding: EdgeInsets.all(8.0), child: Text("Embora alguns metais pesados sejam essenciais para processos biológicos em pequenas quantidades, a exposição excessiva a esses metais pode ser tóxica para os seres humanos e o meio ambiente, causando uma série de problemas de saúde, incluindo danos ao sistema nervoso, problemas renais e câncer.", textAlign: TextAlign.justify,))),
+                TableCell(child: Padding( padding: EdgeInsets.all(8.0), child: Text("Embora alguns metais pesados sejam essenciais para processos biológicos em pequenas quantidades, a exposição excessiva a esses metais pode ser tóxica para os seres humanos e o meio ambiente, causando uma série de problemas de saúde, incluindo danos ao sistema nervoso, problemas renais e câncer.", textAlign: TextAlign.center,))),
               ]
             ),
             TableRow(
@@ -551,48 +562,12 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          SizedBox(height: 20),
-                          Row(
-                            children: [
-                              Center(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(
-                                      8.0), // Adiciona o padding desejado
-                                  child: ValueListenableBuilder(
-                                    valueListenable: dropValue,
-                                    builder: (BuildContext context,
-                                        String value, _) {
-                                      return Row(
-                                        children: [
-                                          Icon(Icons.filter_alt,
-                                              color: widget
-                                                  .cor), // Ícone desejado ao lado do hintText
-                                          SizedBox(
-                                              width:
-                                                  8), // Espaçamento entre o ícone e o DropdownButton
-                                          DropdownButton(
-                                              hint: Text("Ordenar"),
-                                              value: (value.isEmpty)
-                                                  ? null
-                                                  : value,
-                                              onChanged: (escolha) => dropValue
-                                                  .value = escolha.toString(),
-                                              items: opcoes
-                                                  .map(
-                                                    (op) => DropdownMenuItem(
-                                                      value: op,
-                                                      child: Text(op),
-                                                    ),
-                                                  )
-                                                  .toList()),
-                                        ],
-                                      );
-                                    },
-                                  ),
-                                ),
-                              ),
-                              SizedBox(width: 100),
-                              SizedBox(
+                          SizedBox(height: 30),
+                             Center(
+  child: Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [// Adiciona o padding desejado
+                                      SizedBox(
                                 width: 200,
                                 height: 40, // Defina a largura desejada
                                 child: TextField(
@@ -625,10 +600,40 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
                                     });
                                   },
                                 ),
-                              )
-                            ],
-                          ),
-                          SizedBox(height: 20),
+                              ),
+                              SizedBox(height: 20),
+      Padding(
+        padding: const EdgeInsets.all(8.0), // Adiciona o padding desejado
+        child: ValueListenableBuilder(
+          valueListenable: dropValue,
+          builder: (BuildContext context, String value, _) {
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.center, // Centraliza o conteúdo horizontalmente
+              children: [
+                Icon(Icons.filter_alt, color: widget.cor), // Ícone desejado ao lado do hintText
+                SizedBox(width: 8), // Espaçamento entre o ícone e o DropdownButton
+                DropdownButton(
+                  hint: Text("Ordenar"),
+                  value: (value.isEmpty) ? null : value,
+                  onChanged: (escolha) => dropValue.value = escolha.toString(),
+                  items: opcoes.map(
+                    (op) => DropdownMenuItem(
+                      value: op,
+                      child: Text(op),
+                    ),
+                  ).toList(),
+                ),
+              ],
+            );
+          },
+        ),
+      ),
+    ],
+  ),
+),
+
+
+                          SizedBox(height: 30),
                           listaIdeias.isNotEmpty
                               ? Container(
                                   child: GridView.builder(
