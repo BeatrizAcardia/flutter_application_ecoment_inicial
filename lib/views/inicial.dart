@@ -7,6 +7,7 @@ import 'package:flutter_application_ecoment_inicial/defaultWidgets/bottomAppBar.
 import 'package:flutter_application_ecoment_inicial/defaultWidgets/drawer.dart';
 import 'package:flutter_application_ecoment_inicial/models/ideia.dart';
 import 'package:flutter_application_ecoment_inicial/views/ideia.dart';
+import 'package:flutter_application_ecoment_inicial/views/ideiasReutilizacao.dart';
 import 'package:flutter_application_ecoment_inicial/views/materiais.dart';
 import 'package:flutter_application_ecoment_inicial/views/minhaConta.dart';
 import 'package:flutter_application_ecoment_inicial/views/pontosColeta.dart';
@@ -104,7 +105,7 @@ class _MyinicialState extends State<Myinicial> {
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        // Add your action here
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => IdeiasReutilizacao(),));
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Color.fromARGB(255, 0, 72, 82),
