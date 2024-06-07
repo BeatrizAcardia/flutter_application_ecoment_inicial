@@ -96,6 +96,7 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return Scaffold(
       body:SingleChildScrollView(child: Form(key: keyVal,child: Container(
+        width: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
         child: Column(children: [
         Padding(padding: EdgeInsets.fromLTRB(50, 0, 50, 0)),
@@ -110,7 +111,6 @@ class _LoginState extends State<Login> {
         SizedBox(height: 20,),
 
         Container(
-          width: 350,
           height: 50,
           child: ElevatedButton.icon(onPressed: () {
             

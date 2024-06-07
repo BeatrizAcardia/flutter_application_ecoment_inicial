@@ -206,7 +206,6 @@ class _CadastroState extends State<Cadastro> {
         SizedBox(height: 10,),
 
         Container(
-          width: 350,
           height: 50,
           child: ElevatedButton.icon(onPressed: () {
             
