@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_ecoment_inicial/models/ideia.dart';
+import 'package:flutter_application_ecoment_inicial/models/pessoaProvider.dart';
 import 'package:flutter_application_ecoment_inicial/views/cadastro.dart';
 import 'package:flutter_application_ecoment_inicial/views/form-ideia.dart';
 import 'package:flutter_application_ecoment_inicial/views/inicial.dart';
@@ -11,9 +12,15 @@ import 'package:flutter_application_ecoment_inicial/views/minhaConta.dart';
 import 'package:flutter_application_ecoment_inicial/views/pontosColeta.dart';
 import 'package:flutter_application_ecoment_inicial/views/sobre_nos.dart';
 import 'package:flutter_application_ecoment_inicial/views/teste.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => GlobalState(),
+      child: MyApp(),
+    )
+  );
 }
 
 class MyApp extends StatelessWidget {

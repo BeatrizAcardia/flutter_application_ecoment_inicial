@@ -2,8 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_ecoment_inicial/models/pessoa.dart';
+import 'package:flutter_application_ecoment_inicial/models/pessoaProvider.dart';
 import 'package:flutter_application_ecoment_inicial/views/cadastro.dart';
 import 'package:flutter_application_ecoment_inicial/views/inicial.dart';
+import 'package:provider/provider.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -14,8 +16,7 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
 
-  Pessoa p1 = Pessoa("VHSNWLF", "cl202247@g.unicamp.br", "abcd12345");
-  Pessoa p2 = Pessoa("Belatrix", "cl202228@g.unicamp.br", "abcd1234");
+  Pessoa p1 = Pessoa.full("Vitor H.", "VHSNWLF", "cl202247@g.unicamp.br", "abcd12345");
   List<Pessoa> listaPessoa = [];
   GlobalKey<FormState> keyVal = GlobalKey();
   TextEditingController usernameEmailController = TextEditingController();
@@ -84,7 +85,7 @@ class _LoginState extends State<Login> {
   ),)
   );
   final googleLabel = SizedBox(child: Text("CONTINUAR COM O GOOGLE", style: TextStyle(
-    fontSize: 20,
+    fontSize: 17,
     fontFamily: 'Circe',
     fontWeight: FontWeight.bold,
     color: Colors.black,
@@ -94,6 +95,7 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<GlobalState>(context);
     return Scaffold(
       body:SingleChildScrollView(child: Form(key: keyVal,child: Container(
         width: MediaQuery.of(context).size.width,
@@ -112,6 +114,7 @@ class _LoginState extends State<Login> {
 
         Container(
           height: 50,
+          width: 400,
           child: ElevatedButton.icon(onPressed: () {
             
           }, 
@@ -184,8 +187,12 @@ class _LoginState extends State<Login> {
           child: ElevatedButton(onPressed: () {
           if(keyVal.currentState!.validate()){
             listaPessoa.add(p1);
-            listaPessoa.add(p2);
             if(verificaUser(usernameEmailController.text, passwordController.text)){
+              Pessoa dadosUser = dadosUsuario(usernameEmailController.text, passwordController.text);
+              user.setName(dadosUser.getName);
+              user.setUsername(dadosUser.getUsername);
+              user.setEmail(dadosUser.getEmail);
+              user.setPassword(dadosUser.getPassword);
               Navigator.push(context, MaterialPageRoute(builder: (context) => Myinicial(),));
             }else{
               showDialog(context: context,
@@ -249,4 +256,17 @@ class _LoginState extends State<Login> {
   }
   return false;
 }
+
+  Pessoa dadosUsuario(String username, String password){
+    Pessoa pe = Pessoa.n();
+    listaPessoa.forEach((Pessoa p) {
+      if(p.getUsername == username && p.getPassword == password){
+        pe.setName = p.getName;
+        pe.setUsername = p.getUsername;
+        pe.setEmail = p.getEmail;
+        pe.setPassword = p.getPassword;
+      }
+    },);
+    return pe;
+  }
 }

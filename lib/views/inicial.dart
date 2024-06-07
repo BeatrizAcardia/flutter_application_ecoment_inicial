@@ -6,6 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_application_ecoment_inicial/defaultWidgets/bottomAppBar.dart';
 import 'package:flutter_application_ecoment_inicial/defaultWidgets/drawer.dart';
 import 'package:flutter_application_ecoment_inicial/models/ideia.dart';
+import 'package:flutter_application_ecoment_inicial/models/pessoa.dart';
 import 'package:flutter_application_ecoment_inicial/views/ideia.dart';
 import 'package:flutter_application_ecoment_inicial/views/ideiasReutilizacao.dart';
 import 'package:flutter_application_ecoment_inicial/views/materiais.dart';
@@ -13,7 +14,11 @@ import 'package:flutter_application_ecoment_inicial/views/minhaConta.dart';
 import 'package:flutter_application_ecoment_inicial/views/pontosColeta.dart';
 
 class Myinicial extends StatefulWidget {
-  const Myinicial({super.key});
+  
+  Pessoa user = Pessoa.n();
+
+  Myinicial({super.key});
+  Myinicial.full(this.user, {super.key});
 
   @override
   State<Myinicial> createState() => _MyinicialState();

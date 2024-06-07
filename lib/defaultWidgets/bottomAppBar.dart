@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_final_fields, use_key_in_widget_constructors
 
 import 'package:flutter/material.dart';
+import 'package:flutter_application_ecoment_inicial/models/pessoa.dart';
 import 'package:flutter_application_ecoment_inicial/views/ideiasReutilizacao.dart';
 import 'package:flutter_application_ecoment_inicial/views/inicial.dart';
 import 'package:flutter_application_ecoment_inicial/views/minhaConta.dart';
@@ -8,7 +9,8 @@ import 'package:flutter_application_ecoment_inicial/views/pontosColeta.dart';
 
 class WidgetBottomAppBar extends StatefulWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
-  const WidgetBottomAppBar({required this.scaffoldKey});
+  Pessoa user = Pessoa.n();
+  WidgetBottomAppBar({required this.scaffoldKey});
 
   @override
   State<WidgetBottomAppBar> createState() => _WidgetBottomAppBarState();

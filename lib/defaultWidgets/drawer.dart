@@ -1,6 +1,7 @@
-// ignore_for_file: prefer_const_constructors, prefer_final_fields, unused_field, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_final_fields, unused_field, prefer_const_literals_to_create_immutables, sort_child_properties_last
 
 import 'package:flutter/material.dart';
+import 'package:flutter_application_ecoment_inicial/models/pessoaProvider.dart';
 import 'package:flutter_application_ecoment_inicial/views/cadastro.dart';
 import 'package:flutter_application_ecoment_inicial/views/form-ideia.dart';
 import 'package:flutter_application_ecoment_inicial/views/inicial.dart';
@@ -8,8 +9,10 @@ import 'package:flutter_application_ecoment_inicial/views/login.dart';
 import 'package:flutter_application_ecoment_inicial/views/minhaConta.dart';
 import 'package:flutter_application_ecoment_inicial/views/pontosColeta.dart';
 import 'package:flutter_application_ecoment_inicial/views/sobre_nos.dart';
+import 'package:provider/provider.dart';
 
 class WidgetDrawer extends StatefulWidget {
+  
   const WidgetDrawer({super.key});
 
   @override
@@ -20,6 +23,7 @@ class _DrawerState extends State<WidgetDrawer> {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<GlobalState>(context);
     return 
 Drawer(
   child: ListView(
@@ -91,8 +95,11 @@ Drawer(
                 Navigator.push(context, MaterialPageRoute(builder: (context) => FormIdeia(),));
               },
             ),
-            SizedBox(height: MediaQuery.of(context).size.height-570,),
-            ElevatedButton(
+            SizedBox(height: 100,),
+             user.name == "" ? Container(
+              child: Column(
+                children: [
+                  ElevatedButton(
               onPressed: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) => Cadastro(),));
               },
@@ -121,7 +128,26 @@ Drawer(
                 backgroundColor: Color.fromARGB(255, 58, 125, 68),
               ),
             ),
-          ],
+                ],
+              ),
+             ): ElevatedButton(
+              onPressed: () {
+                user.setName("");
+                user.setUsername("");
+                user.setEmail("");
+                user.setPassword("");
+              },
+              child: Text("Sair", style: TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+              ),),
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.all(20),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                backgroundColor: Colors.red,
+              ),
+            ),
+          ]
         ),
       ),
     ],

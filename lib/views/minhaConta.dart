@@ -1,16 +1,21 @@
 // ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, prefer_const_literals_to_create_immutables, unused_import, unnecessary_string_interpolations
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_ecoment_inicial/defaultWidgets/appBar.dart';
 import 'package:flutter_application_ecoment_inicial/defaultWidgets/bottomAppBar.dart';
 import 'package:flutter_application_ecoment_inicial/defaultWidgets/drawer.dart';
 import 'package:flutter_application_ecoment_inicial/models/ideia.dart';
+import 'package:flutter_application_ecoment_inicial/models/pessoa.dart';
+import 'package:flutter_application_ecoment_inicial/models/pessoaProvider.dart';
 import 'package:flutter_application_ecoment_inicial/views/ideia.dart';
 import 'package:flutter_application_ecoment_inicial/views/inicial.dart';
 import 'package:flutter_application_ecoment_inicial/views/pontosColeta.dart';
+import 'package:provider/provider.dart';
 
 class MinhaConta extends StatefulWidget {
-  const MinhaConta({super.key});
+  Pessoa user = Pessoa.n();
+  MinhaConta({super.key});
 
   @override
   State<MinhaConta> createState() => _MinhaContaState();
@@ -51,8 +56,38 @@ class _MinhaContaState extends State<MinhaConta> {
   
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
+  TextStyle nunito = TextStyle(fontFamily: 'Nunito');
+  
+void _showErrorDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (context) => CupertinoAlertDialog(
+      title: Text('Cadastre ou faça o Login', style: nunito,),
+      content: Text('essa página é inacessivel para convidados. Faça o Login ou cadastre-se para ter acesso a essa página', style: nunito,),
+      actions: [
+        CupertinoDialogAction(
+          child: Text('OK', style: nunito),
+          onPressed: () {
+            Navigator.pop(context); // Fecha o diálogo
+            Navigator.pop(context); // Volta para a página anterior
+          },
+        )
+      ],
+    ),
+  );
+}
+
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<GlobalState>(context);
+
+    if(user.name == "" || user.name == null){
+      WidgetsBinding.instance.addPostFrameCallback((_){
+        _showErrorDialog(context);
+      });
+      return Scaffold();
+    }
+
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -108,7 +143,7 @@ class _MinhaContaState extends State<MinhaConta> {
                       child: SizedBox(
                         width: 500,
                         child: Text(
-                          "VHSNWLF",
+                          user.name,
                           style: label2,
                         ),
                       ),
@@ -131,7 +166,7 @@ class _MinhaContaState extends State<MinhaConta> {
                       child: SizedBox(
                         width: 500,
                         child: Text(
-                          "Vitor H.",
+                          user.username,
                           style: label2,
                         ),
                       ),
@@ -154,7 +189,7 @@ class _MinhaContaState extends State<MinhaConta> {
                       child: SizedBox(
                         width: 500,
                         child: Text(
-                          "cl202247@g.unicamp.br",
+                          user.email,
                           style: label2,
                         ),
                       ),
@@ -177,7 +212,7 @@ class _MinhaContaState extends State<MinhaConta> {
                       child: SizedBox(
                         width: 500,
                         child: Text(
-                          "******",
+                          user.password,
                           style: label2,
                         ),
                       ),
@@ -222,7 +257,7 @@ class _MinhaContaState extends State<MinhaConta> {
           ),
           WidgetBottomAppBar(scaffoldKey: _scaffoldKey)
         ],
-      ),
+      )
     );
   }
 

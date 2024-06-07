@@ -2,8 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:flutter_application_ecoment_inicial/Controller/ControllerPessoa.dart';
 import 'package:flutter_application_ecoment_inicial/models/pessoa.dart';
+import 'package:flutter_application_ecoment_inicial/models/pessoaProvider.dart';
 import 'package:flutter_application_ecoment_inicial/views/inicial.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Cadastro extends StatefulWidget {
   const Cadastro({super.key});
@@ -13,12 +17,26 @@ class Cadastro extends StatefulWidget {
 }
 
 class _CadastroState extends State<Cadastro> {
-
+  Pessoa? _pessoa;
   List<Pessoa> listaP = [];
   GlobalKey<FormState> keyVal = GlobalKey();
   TextEditingController usernameController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
+  Future<void> _loadPessoa() async {
+    Pessoa? pessoa = await SharedPreferencesHelper.getPessoa();
+    setState(() {
+      _pessoa = pessoa;
+    });
+  }
+
+  Future<void> savePessoa(String _name, String _username, String _email, String _password) async {
+    Pessoa pessoa = Pessoa.json(name: _name, username: _username, email: _email, password: _password);
+    await SharedPreferencesHelper.savePessoa(pessoa);
+    _loadPessoa();
+  }
 
   final ecoMomentIcon = SizedBox(width: 200, child: Image.asset("assets/imgs/EcoMomenticon.ico"));
 
@@ -45,6 +63,11 @@ class _CadastroState extends State<Cadastro> {
 
 
   final usernameLabel = SizedBox(width: 400, child: Text("Nome de usuário:", style: TextStyle(
+    fontSize: 20,
+    fontFamily: 'Circe',
+    fontWeight: FontWeight.bold,
+  ),));
+  final nameLabel = SizedBox(width: 400, child: Text("Nome Completo:", style: TextStyle(
     fontSize: 20,
     fontFamily: 'Circe',
     fontWeight: FontWeight.bold,
@@ -78,7 +101,7 @@ class _CadastroState extends State<Cadastro> {
   ),)
   );
   final googleLabel = SizedBox(child: Text("CONTINUAR COM O GOOGLE", style: TextStyle(
-    fontSize: 20,
+    fontSize: 18,
     fontFamily: 'Circe',
     fontWeight: FontWeight.bold,
     color: Colors.black,
@@ -88,6 +111,7 @@ class _CadastroState extends State<Cadastro> {
 
   @override
   Widget build(BuildContext context) {
+    final globalState = Provider.of<GlobalState>(context);
     return Scaffold(
       body:SingleChildScrollView(child:  Form(key:keyVal ,child: Container(
         padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
@@ -101,6 +125,31 @@ class _CadastroState extends State<Cadastro> {
 
         Align(alignment: Alignment.center,
           child:title,
+        ),
+        SizedBox(height: 20,),
+
+        nameLabel,
+        SizedBox(height: 10,),
+        
+        Container(
+          width: 400,
+          child: TextFormField(
+          controller: nameController,
+          decoration: InputDecoration(
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            prefixIcon: Icon(Icons.person),
+            labelText: "Nome"),
+            validator: (value){
+              if (value!.trim().isEmpty){
+                return "Este campo não pode estar vazio. Preencha o campo corretamente";
+              }else if (value.trim().length < 10){
+                return "O Nome Completo deve ter mais que 10 caracteres";
+              }
+              return null;
+            },
+          ),
         ),
         SizedBox(height: 20,),
 
@@ -182,8 +231,13 @@ class _CadastroState extends State<Cadastro> {
           height: 70,
           child: ElevatedButton(onPressed: () {
           if(keyVal.currentState!.validate()){
+              // savePessoa(usernameController.text, usernameController.text, emailController.text, passwordController.text);
               cadastrarP(usernameController.text, emailController.text, passwordController.text);
-              mostrar();
+              globalState.setName(nameController.text);
+              globalState.setUsername(usernameController.text);
+              globalState.setEmail(emailController.text);
+              globalState.setPassword(passwordController.text);
+              // mostrar();
               Navigator.push(context, MaterialPageRoute(builder: (context) => Myinicial(),));
               setState(() {
 
@@ -207,6 +261,7 @@ class _CadastroState extends State<Cadastro> {
 
         Container(
           height: 50,
+          width: 400,
           child: ElevatedButton.icon(onPressed: () {
             
           }, 
