@@ -294,13 +294,13 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
                                         bottom: BorderSide(color: Colors.grey)),
                                     columnWidths: {
                                       0: FixedColumnWidth(
-                                          69.0), // Definindo a largura da primeira coluna
+                                          72.0), // Definindo a largura da primeira coluna
                                       1: FixedColumnWidth(
-                                          50.0), // Definindo a largura da segunda coluna
+                                          54.0), // Definindo a largura da segunda coluna
                                       2: FixedColumnWidth(
                                           110.0), // Definindo a largura da terceira coluna
                                       3: FixedColumnWidth(
-                                          150.0), // Definindo a largura da quarta coluna
+                                          134.0), // Definindo a largura da quarta coluna
                                     },
                                     defaultVerticalAlignment:
                                         TableCellVerticalAlignment.middle,
