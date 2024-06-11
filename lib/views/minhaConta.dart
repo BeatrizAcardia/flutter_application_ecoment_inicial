@@ -62,8 +62,8 @@ void _showErrorDialog(BuildContext context) {
   showDialog(
     context: context,
     builder: (context) => CupertinoAlertDialog(
-      title: Text('Cadastre ou faça o Login', style: nunito,),
-      content: Text('essa página é inacessivel para convidados. Faça o Login ou cadastre-se para ter acesso a essa página', style: nunito,),
+      title: Text('Cadastre-se ou faça o Login', style: nunito,),
+      content: Text('Essa página é inacessivel para convidados. Faça o Login ou cadastre-se para ter acesso a essa página', style: nunito,),
       actions: [
         CupertinoDialogAction(
           child: Text('OK', style: nunito),

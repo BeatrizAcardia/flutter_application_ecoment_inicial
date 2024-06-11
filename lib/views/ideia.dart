@@ -1,8 +1,11 @@
 // ignore_for_file: prefer_const_constructors, must_be_immutable, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, prefer_interpolation_to_compose_strings, prefer_final_fields, avoid_function_literals_in_foreach_calls, unused_import, prefer_const_declarations, unused_local_variable
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_ecoment_inicial/defaultWidgets/bottomAppBar.dart';
 import 'package:flutter_application_ecoment_inicial/defaultWidgets/drawer.dart';
+import 'package:flutter_application_ecoment_inicial/models/pessoaProvider.dart';
+import 'package:provider/provider.dart';
 
 
 class PageIdeia extends StatefulWidget {
@@ -54,10 +57,32 @@ class _IdeiaState extends State<PageIdeia> {
       });
     });
   }
+  TextStyle nunito = TextStyle(fontFamily: 'Nunito');
+
+void _showErrorDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (context) => CupertinoAlertDialog(
+      title: Text('Cadastre ou faça o Login', style: nunito,),
+      content: Text('Essa funcionalidade é inacessivel para convidados. Faça o Login ou cadastre-se para ter acesso a essa funcionalidade', style: nunito,),
+      actions: [
+        CupertinoDialogAction(
+          child: Text('OK', style: nunito),
+          onPressed: () {
+            Navigator.pop(context); // Fecha o diálogo
+            Navigator.pop(context); // Volta para a página anterior
+          },
+        )
+      ],
+    ),
+  );
+}
+
   
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<GlobalState>(context);
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -101,7 +126,23 @@ class _IdeiaState extends State<PageIdeia> {
                       MouseRegion(
                         cursor: SystemMouseCursors.click,
                         child: GestureDetector(
-                          onTap: muda,
+                          onTap: user.name == "" ? () {
+                              showDialog(
+                                context: context,
+                                builder: (context) => CupertinoAlertDialog(
+                                  title: Text('Cadastre-se ou faça o Login', style: nunito,),
+                                  content: Text('Essa funcionalidade é inacessivel para convidados. Faça o Login ou cadastre-se para ter acesso a essa funcionalidade', style: nunito,),
+                                  actions: [
+                                    CupertinoDialogAction(
+                                      child: Text('OK', style: nunito),
+                                      onPressed: () {
+                                        Navigator.pop(context); // Fecha o diálogo
+                                      },
+                                    )
+                                  ],
+                                ),
+                              );
+                          }: muda,
                           child: AnimatedScale(
                           scale: scaleUp ? 1.5 : 1.0,
                           duration: Duration(milliseconds: 300),
