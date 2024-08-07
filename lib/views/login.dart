@@ -31,7 +31,7 @@ class _LoginState extends State<Login> {
     AssetImage("assets/imgs/google.png")
   );
 
-  Text title = Text("Login", style: TextStyle(
+  Text title = Text("LOGIN", style: TextStyle(
     fontSize: 50,
     fontFamily: 'Circe',
     fontWeight: FontWeight.bold,
