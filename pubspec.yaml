@@ -76,11 +76,6 @@ flutter:
         - asset: assets\fonts\Poppins\Poppins-Regular.ttf
         - asset: assets\fonts\Poppins\Poppins-Bold.ttf
           weight: 800
-    - family: Nunito
-      fonts:
-        - asset: assets/fonts/Nunito_Sans/static/NunitoSans_7pt-Regular.ttf
-        - asset: assets/fonts/Nunito_Sans/static/NunitoSans_7pt-Bold.ttf
-          weight: 700
     - family: Circe
       fonts:
         - asset: assets/fonts/Circe/CRC25.otf
