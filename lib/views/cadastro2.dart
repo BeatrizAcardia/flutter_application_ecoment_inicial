@@ -1,7 +1,7 @@
-// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, sort_child_properties_last, prefer_const_literals_to_create_immutables, avoid_function_literals_in_foreach_calls
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_application_ecoment_inicial/Controller/ControllerPessoa.dart';
 import 'package:flutter_application_ecoment_inicial/models/pessoa.dart';
 import 'package:flutter_application_ecoment_inicial/models/pessoaProvider.dart';
@@ -9,14 +9,14 @@ import 'package:flutter_application_ecoment_inicial/views/inicial.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class Cadastro extends StatefulWidget {
-  const Cadastro({super.key});
+class CadastroPage extends StatefulWidget {
+  const CadastroPage({super.key});
 
   @override
-  State<Cadastro> createState() => _CadastroState();
+  State<CadastroPage> createState() => _CadastroPageState();
 }
 
-class _CadastroState extends State<Cadastro> {
+class _CadastroPageState extends State<CadastroPage> {
   Pessoa? _pessoa;
   List<Pessoa> listaP = [];
   GlobalKey<FormState> keyVal = GlobalKey();
@@ -24,7 +24,18 @@ class _CadastroState extends State<Cadastro> {
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-    TextEditingController passwordController2 = TextEditingController();
+  TextEditingController passwordController2 = TextEditingController();
+
+  final buttonLabel = SizedBox(
+      child: Text(
+    "Cadastrar",
+    style: TextStyle(
+      fontSize: 20,
+      fontFamily: 'Poppins',
+      fontWeight: FontWeight.bold,
+      color: Colors.white,
+    ),
+  ));
 
   Future<void> _loadPessoa() async {
     Pessoa? pessoa = await SharedPreferencesHelper.getPessoa();
@@ -33,20 +44,13 @@ class _CadastroState extends State<Cadastro> {
     });
   }
 
-  Future<void> savePessoa(String _name, String _username, String _email, String _password) async {
-    Pessoa pessoa = Pessoa.json(name: _name, username: _username, email: _email, password: _password);
+  Future<void> savePessoa(
+      String _name, String _username, String _email, String _password) async {
+    Pessoa pessoa = Pessoa.json(
+        name: _name, username: _username, email: _email, password: _password);
     await SharedPreferencesHelper.savePessoa(pessoa);
     _loadPessoa();
   }
-
-  final buttonLabel = SizedBox(child: Text("CADASTRAR", style: TextStyle(
-    fontSize: 20,
-    fontFamily: 'Poppins',
-    fontWeight: FontWeight.bold,
-    color: Colors.white,
-    
-  ),)
-  );
 
   @override
   Widget build(BuildContext context) {
@@ -307,18 +311,8 @@ class _CadastroState extends State<Cadastro> {
     );
   }
 
-  void cadastrarP(String username, String email, String password){
+  void cadastrarP(String username, String email, String password) {
     Pessoa p = Pessoa(username, email, password);
     listaP.add(p);
-  }
-
-  void mostrar(){
-    listaP.forEach((Pessoa p) {
-      print("DADOS");
-      print(p.getUsername);
-      print(p.getEmail);
-      print(p.getPassword);
-      print("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
-    });
   }
 }
