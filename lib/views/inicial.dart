@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, unused_import, override_on_non_overriding_member, annotate_overrides, prefer_final_fields, unnecessary_import, sized_box_for_whitespace, unnecessary_string_interpolations
 
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -45,16 +46,17 @@ class _MyinicialState extends State<Myinicial> {
     child: Image.asset('assets/imgs/ondaDebaixoLanding.png'),
   );
 
+  final urlImages = [
+    'assets/imgs/img1.png',
+    'assets/imgs/img2.png',
+    'assets/imgs/img3.png',
+  ];
+
+  int activeIndex = 0;
+
   List<Ideia> listaIdeias = [
-    Ideia(
-        "Apanhador de frutas com cano PVC e garrada PET",
-        "assets/imgs/ideia1.jpg",
-        Colors.red,
-        5,
-        "bagulho foda",
-        "1 passo, 2 passo",
-        "carlinhos1",
-        ['material 1', 'material 2']),
+    Ideia("Apanhador de frutas com cano PVC e garrada PET", "assets/imgs/ideia1.jpg", Colors.red, 5, "bagulho foda", 
+        "1 passo, 2 passo", "carlinhos1", ['material 1', 'material 2']),
     Ideia("titulo2", "assets/imgs/ideia2.jpg", Colors.green, 4, "bagulho foda",
         "1 passo, 2 passo", "carlinhos2", ['material 1', 'material 2']),
     Ideia("titulo3", "assets/imgs/ideia1.jpg", Colors.yellow, 3, "bagulho foda",
@@ -85,11 +87,13 @@ class _MyinicialState extends State<Myinicial> {
         body: Stack(
           alignment: Alignment.center,
           fit: StackFit.expand,
-          children: [
-            SingleChildScrollView(
+          children: [ SingleChildScrollView(
               child: Column(
-                children: [
-                  logo,
+                children: [ 
+                  Container(
+                    height: 100,
+                    child: logo,
+                  ),
                   ondaVerde,
                   DecoratedBox(
                     decoration: BoxDecoration(
@@ -105,43 +109,50 @@ class _MyinicialState extends State<Myinicial> {
                                     fontFamily: 'Nunito',
                                     fontWeight: FontWeight.bold),
                                 textAlign: TextAlign.center),
-                            SizedBox(height: 20),
+                                
+                            SizedBox(height: 40),
+
                             CarouselSlider.builder(
                               options: CarouselOptions(
-                                height: 400,
-                                viewportFraction: 1,
-                                autoPlay: true,
-                                reverse: true,
-                                autoPlayInterval: Duration(seconds: 2),
-                                enlargeCenterPage:
-                                    true, //opção que deixa a imagem do meio destacada
+                                onPageChanged:(index, reason) => setState(() => activeIndex = index),
+                                height: 300,
+                                //viewportFraction: 0.55,
+                                // autoPlay: true,
+                                //autoPlayInterval: Duration(seconds: 4),
+                                pageSnapping: false,
+                                enlargeCenterPage: true,
                                 enlargeStrategy:
                                     CenterPageEnlargeStrategy.height,
                               ),
                               itemCount: listaIdeias.length,
-                              itemBuilder: ((context, index, realIndex) {
-                                final listaIdeia = listaIdeias[index];
-                                return buildImages(listaIdeia.toString(), index);
-                              }),
+                              itemBuilder: (context, index, realIndex) {
+                              final ideia = listaIdeias[index];
+                              return buildIdeia(ideia, index);
+                              },
                             ),
-                            SizedBox(
-                              height: 50,
-                            ),
+
+                            const SizedBox(height: 32),
+                            
+                            buildIndicator(),
+                            
+                            SizedBox( height: 50),
                           ],
-                        )),
+                        )
+                      ),
                   ),
+
                   onda2,
-                  SizedBox(
-                    height: 30,
-                  ),
+                  
+                  SizedBox( height: 30),
+
                   Container(
-                      height: 300,
+                      height: 600,
                       child: Column(children: [
                         Text(
                           "PRINCIPAIS MATERIAIS",
                           style: TextStyle(
                               fontFamily: 'Circe',
-                              fontSize: 30,
+                              fontSize: 35,
                               color: Colors.black,
                               fontWeight: FontWeight.bold),
                         ),
@@ -332,10 +343,13 @@ class _MyinicialState extends State<Myinicial> {
                                     },
                                   ),
                                 ),
-                                WidgetBottomAppBar(scaffoldKey: _scaffoldKey)
+                                
                               ],
-                            ))
-                      ]))
+                            ), 
+                            )
+                      ]
+                    ), 
+                  ), WidgetBottomAppBar(scaffoldKey: _scaffoldKey)
                 ],
               ),
             )
@@ -343,14 +357,52 @@ class _MyinicialState extends State<Myinicial> {
         ));
   }
 
-  Widget buildImages(String listaIdeia, int index) => Container(
-        margin: EdgeInsets.symmetric(horizontal: 24),
-        color: Colors.grey,
-        child: Image.network(
-          listaIdeia,
-          fit: BoxFit.cover,
-        ),
-      );
+//---- CARROSSEL ----
+ Widget buildIdeia(Ideia ideia, int index) => Container(
+    margin: EdgeInsets.symmetric(horizontal: 30),
+    width: 400,
+    child: ClipRRect(
+      borderRadius: BorderRadius.circular(15.0),
+      child: Column(
+        children: [
+          Image.asset(
+            ideia.img,
+            fit: BoxFit.cover,
+            height: 250,
+            width: 250,
+          ),
+          Text(
+            ideia.titulo,
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+          ),
+          Text(
+            'Autor: ${ideia.autor}',
+            style: TextStyle(fontStyle: FontStyle.italic),
+          ),
+          Text(
+            ideia.desc,
+            style: TextStyle(fontSize: 14),
+          ),
+          Container(
+            color: ideia.dificuldade,
+            height: 10,
+            width: 3, // Ajuste a altura conforme necessário
+          ),
+          // Adicione mais informações da ideia aqui
+        ],
+      ),
+    ));
+//----- FIM CARROSSEL ----
+
+//---- PONTO DE CONTAGEM CARROSSEL ----
+Widget buildIndicator() => AnimatedSmoothIndicator(
+  activeIndex: activeIndex, 
+  count: urlImages.length,
+  effect: JumpingDotEffect(
+    dotWidth: 15,
+    dotHeight: 15,
+  ),
+  );
 
   Widget gerarCard(
       String titulo,
