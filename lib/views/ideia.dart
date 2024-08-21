@@ -17,6 +17,7 @@ class PageIdeia extends StatefulWidget {
   String passoPasso = "";
   int avaliacao = 0;
   Color dificuldade = Colors.transparent;
+  int curtidas = 0;
 
 
   PageIdeia(this.titulo, this.desc, this.img, this.dificuldade, this.passoPasso,
