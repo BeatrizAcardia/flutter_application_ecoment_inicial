@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, unused_import, override_on_non_overriding_member, annotate_overrides, prefer_final_fields, unnecessary_import, sized_box_for_whitespace, unnecessary_string_interpolations
 
+import 'dart:ffi';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -79,6 +81,8 @@ class _MyinicialState extends State<Myinicial> {
       height: 150, width: 150, child: Image.asset('assets/imgs/plastico.png'));
   final vidro = SizedBox(
       height: 150, width: 150, child: Image.asset('assets/imgs/vidro.png'));
+  final madeira = SizedBox(
+      height: 90, width: 90, child: Image.asset('assets/imgs/lixeira (3).png'));
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -309,6 +313,7 @@ class _MyinicialState extends State<Myinicial> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
+
                                 MouseRegion(
                                   cursor: SystemMouseCursors.click,
                                   child: GestureDetector(
@@ -343,24 +348,70 @@ class _MyinicialState extends State<Myinicial> {
                                     },
                                   ),
                                 ),
-                                
+                                SizedBox(width: 45),
+                                //SizedBox(height: 50),
+                                MouseRegion(
+                                  cursor: SystemMouseCursors.click,
+                                  child: GestureDetector(
+                                    child: Column(
+                                      children: [
+                                        madeira,
+                                        SizedBox(height: 25),
+                                        Text("Madeira",
+                                            style: TextStyle(
+                                                fontFamily: 'Nunito',
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.black))
+                                      ],
+                                    ),
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => Tabbar(
+                                                "assets/imgs/madeira.png",
+                                                Colors.black,
+                                                '',
+                                                '',
+                                                '',
+                                                '',
+                                                "Madeira",
+                                                "IDEIAS COM MADEIRA",
+                                                "O que é a madeira",
+                                                "De onde vem a madeira?",
+                                                "Qual é o descarte correto?",
+                                                "Alternativas ecológicas"),
+                                          ));
+                                    },
+                                  ),
+                                ),
+                                 SizedBox(width: 45),
                               ],
                             ), 
+                            
                             )
                       ]
                     ), 
-                  ), WidgetBottomAppBar(scaffoldKey: _scaffoldKey)
+                    
+                  ), 
+                  Container(
+                    height: 200,
+                   
+                  )
                 ],
               ),
-            )
+            ),
+            WidgetBottomAppBar(scaffoldKey: _scaffoldKey)
           ],
-        ));
+        )
+        
+        );
   }
 
 //---- CARROSSEL ----
  Widget buildIdeia(Ideia ideia, int index) => Container(
     margin: EdgeInsets.symmetric(horizontal: 30),
-    width: 400,
+    width: 450,
     child: ClipRRect(
       borderRadius: BorderRadius.circular(15.0),
       child: Column(
@@ -368,7 +419,7 @@ class _MyinicialState extends State<Myinicial> {
           Image.asset(
             ideia.img,
             fit: BoxFit.cover,
-            height: 250,
+            height: 200,
             width: 250,
           ),
           Text(
