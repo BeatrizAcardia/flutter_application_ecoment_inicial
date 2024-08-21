@@ -146,7 +146,7 @@ class _MyinicialState extends State<Myinicial> {
                   onda2,
                   SizedBox(height: 30),
                   Container(
-                    height: 700,
+                    height: 600,
                     child: Column(children: [
                       Text(
                         "PRINCIPAIS MATERIAIS",
@@ -423,7 +423,7 @@ class _MyinicialState extends State<Myinicial> {
                   ),
                   Container(
                     
-                    height: 500, // Ajuste a altura total conforme necessário
+                    height: 555, // Ajuste a altura total conforme necessário
                     child: Column( mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                           Text(
@@ -464,7 +464,7 @@ class _MyinicialState extends State<Myinicial> {
 
 //---- CARROSSEL ----
   Widget buildIdeia(Ideia ideia, int index) => Container(
-      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 15),
       width: 400, // Espaçamento fora do card
       decoration: BoxDecoration(
         color: Colors.white, // Cor de fundo do card
