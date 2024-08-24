@@ -16,7 +16,7 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   Pessoa p1 =
-      Pessoa.full("Vitor H.", "Vitinho do grau 007 19😎", "cl202247@g.unicamp.br", "abcd12345");
+      Pessoa.full("Vitor Henrique", "VitorH", "cl202247@g.unicamp.br", "abcd12345");
   List<Pessoa> listaPessoa = [];
   GlobalKey<FormState> keyVal = GlobalKey();
   TextEditingController usernameEmailController = TextEditingController();
