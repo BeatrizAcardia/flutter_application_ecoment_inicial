@@ -41,25 +41,25 @@ class _WidgetBottomAppBarState extends State<WidgetBottomAppBar> {
                       IconButton(
                         icon: Icon(Icons.home, color: Colors.black),
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => Myinicial(),));
+                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Myinicial(),));
                         },
                       ),
                       IconButton(
                         icon: Icon(Icons.pin_drop, color: Colors.black),
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => PontosColeta(),));
+                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => PontosColeta(),));
                         },
                       ),
                       IconButton(
                         icon: Icon(Icons.lightbulb, color: Colors.black),
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => IdeiasReutilizacao(),));
+                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => IdeiasReutilizacao(),));
                         },
                       ),
                       IconButton(
                         icon: Icon(Icons.person_2, color: Colors.black),
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => MinhaConta(),));
+                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MinhaConta(),));
                         },
                       ),
                       IconButton(

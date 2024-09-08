@@ -90,6 +90,11 @@ class _MyinicialState extends State<Myinicial> {
   Widget build(BuildContext context) {
     return Scaffold(
         key: _scaffoldKey,
+        appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        toolbarHeight: 0,
+      ),
         drawer: WidgetDrawer(),
         body: Stack(
           alignment: Alignment.center,
@@ -452,7 +457,6 @@ class _MyinicialState extends State<Myinicial> {
                       ],
                     ),
                   ),
-                  
                 ],
               ),
             ),
