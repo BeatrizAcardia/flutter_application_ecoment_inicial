@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_ecoment_inicial/models/pessoa.dart';
+import 'package:flutter_application_ecoment_inicial/views/form-ideia.dart';
 import 'package:flutter_application_ecoment_inicial/views/ideiasReutilizacao.dart';
 import 'package:flutter_application_ecoment_inicial/views/inicial.dart';
 import 'package:flutter_application_ecoment_inicial/views/minhaConta.dart';
@@ -25,47 +26,47 @@ class _WidgetBottomAppBarState extends State<WidgetBottomAppBar> {
             left: 0,
             right: 0,
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 60),
+              padding: EdgeInsets.symmetric(horizontal: 40),
               height: 75,
               child: BottomAppBar(
                 color: Colors.transparent,
                 elevation: 0,
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 143, 142, 142),
+                    color: Color(0xffD9D9D9),
                     borderRadius: BorderRadius.circular(30.0),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       IconButton(
-                        icon: Icon(Icons.home, color: Colors.black),
+                        icon: Icon(Icons.home_outlined, color: Colors.black),
                         onPressed: () {
                           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Myinicial(),));
                         },
                       ),
                       IconButton(
-                        icon: Icon(Icons.pin_drop, color: Colors.black),
+                        icon: Icon(Icons.pin_drop_outlined, color: Colors.black),
                         onPressed: () {
                           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => PontosColeta(),));
                         },
                       ),
                       IconButton(
-                        icon: Icon(Icons.lightbulb, color: Colors.black),
+                        icon: Icon(Icons.add, color: Colors.black),
+                        onPressed: () {
+                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => FormIdeia(),));
+                        },
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.lightbulb_outlined, color: Colors.black),
                         onPressed: () {
                           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => IdeiasReutilizacao(),));
                         },
                       ),
                       IconButton(
-                        icon: Icon(Icons.person_2, color: Colors.black),
+                        icon: Icon(Icons.person_2_outlined, color: Colors.black),
                         onPressed: () {
                           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MinhaConta(),));
-                        },
-                      ),
-                      IconButton(
-                        icon: Icon(Icons.menu, color: Colors.black),
-                        onPressed: () {
-                          widget.scaffoldKey.currentState?.openDrawer();
                         },
                       ),
                     ],

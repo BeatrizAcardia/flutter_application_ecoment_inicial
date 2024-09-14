@@ -6,6 +6,7 @@ import 'package:flutter_application_ecoment_inicial/models/pessoaProvider.dart';
 import 'package:flutter_application_ecoment_inicial/views/cadastro.dart';
 import 'package:flutter_application_ecoment_inicial/views/cadastro2.dart';
 import 'package:flutter_application_ecoment_inicial/views/form-ideia.dart';
+import 'package:flutter_application_ecoment_inicial/views/ideiasReutilizacao.dart';
 import 'package:flutter_application_ecoment_inicial/views/inicial.dart';
 import 'package:flutter_application_ecoment_inicial/views/login.dart';
 import 'package:flutter_application_ecoment_inicial/views/materiais.dart';
@@ -37,7 +38,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255,58,125,68)),
         useMaterial3: true,
       ),
-      home: SobreNos(),
+      home: IdeiasReutilizacao(),
     );
   }
 }

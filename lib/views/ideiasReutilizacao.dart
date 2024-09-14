@@ -75,13 +75,14 @@ class _IdeiasReutilizacaoState extends State<IdeiasReutilizacao> {
                       physics: NeverScrollableScrollPhysics(),
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
-                      crossAxisSpacing: 12,
-                      mainAxisSpacing: 12,
-                      mainAxisExtent: 250
+                      crossAxisSpacing: 17,
+                      mainAxisSpacing: 15,
+                      childAspectRatio: 0.60,
                     ),
                       itemCount: listaIdeias.length,
                       itemBuilder: (context, index) {
-                        return gerarCard(listaIdeias[index].getTitulo, listaIdeias[index].getImg, listaIdeias[index].getDificuldade, listaIdeias[index].getAvaliacao, listaIdeias[index].getDesc, listaIdeias[index].getPassoPasso, listaIdeias[index].getAutor, listaIdeias[index].getMateriais);
+                        final ideia = listaIdeias[index];
+                        return gerarCard(ideia);
                       },
                       )
                       )
@@ -97,49 +98,83 @@ class _IdeiasReutilizacaoState extends State<IdeiasReutilizacao> {
     );
   }
 
-    Widget gerarCard (String titulo, String imgUrl, Color dificuldade, int avaliacao, String desc, String passoPasso, String autor, List<String> listaMat){
-    return MouseRegion(
-      child: GestureDetector(
-        child: Container(
-      padding: EdgeInsets.all(5),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: const Color.fromARGB(255, 217, 217, 217)
-      ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              SizedBox(
-                width: 200,
-                child: ClipRRect(borderRadius: BorderRadius.circular(10) ,child: Image.asset("$imgUrl", height: 130, fit: BoxFit.cover,),),
+    Widget gerarCard (Ideia ideia){
+    return IntrinsicHeight(
+      child: MouseRegion(
+        child: GestureDetector(
+          child: Container(
+          padding: EdgeInsets.all(5),
+          width: 500, // Espaçamento fora do card
+          decoration: BoxDecoration(
+            color: Colors.white, // Cor de fundo do card
+            borderRadius: BorderRadius.circular(15.0),
+            border: Border.all(color: Colors.grey[700]!),
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(15.0),
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 10,
                 ),
-                Text(titulo, style: ideaTitle, textAlign: TextAlign.center,),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(
+                      15.0), // Define o border radius na imagem
+                  child: Image.asset(
+                    ideia.img,
+                    fit: BoxFit.cover,
+                    height: 170,
+                    width: 220,
+                  ),
+                ),
                 SizedBox(height: 5,),
                 Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      ...gerarEstrelaColorida(avaliacao),
-                      ...gerarEstrelaNColorida(5-avaliacao)
-                    ],
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Spacer(),
+                    Text(
+                      '@${ideia.autor}',
+                      style: TextStyle(fontStyle: FontStyle.italic),
+                      
+                    ),
+                    Spacer(),
+                    Container(
+                      child: Icon(
+                        Icons.circle,
+                        color: ideia.dificuldade,
+                        size: 20,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 15,
+                    )
+                  ],
+                ),
+                Expanded(
+                  child: Text(
+                    ideia.titulo,
+                    maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18), textAlign: TextAlign.center,
                   ),
-                  
-                  Row(
-                    children: [
-                      Icon(Icons.circle, color: dificuldade),
-                    ],
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-        onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => PageIdeia(titulo, desc, imgUrl, dificuldade, passoPasso, avaliacao, autor, listaMat)));
-        },
-      )
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("200", style: TextStyle( fontSize: 15),),
+                    Icon(Icons.favorite, color: Colors.redAccent,)
+                  ],
+                )
+      
+                // Adicione mais informações da ideia aqui
+              ],
+            ),
+          ),),
+          onTap: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => PageIdeia(ideia.titulo, ideia.desc, ideia.img, ideia.dificuldade, ideia.passoPasso, ideia.avaliacao, ideia.autor, ideia.materiais)));
+          },
+        )
+      ),
     );
   }
 

@@ -410,10 +410,12 @@ class _MyinicialState extends State<Myinicial> {
                         SizedBox(
                             height: 10), // Espaço entre o texto e o carrossel
                         CarouselSlider.builder(
+
                           options: CarouselOptions(
                             onPageChanged: (index, reason) =>
                                 setState(() => activeIndex = index),
                             height: 300, // Altura do carrossel
+
                           ),
                           itemCount: listaIdeias.length,
                           itemBuilder: (context, index, realIndex) {
@@ -467,61 +469,71 @@ class _MyinicialState extends State<Myinicial> {
 
 
 //---- CARROSSEL ----
-  Widget buildIdeia(Ideia ideia, int index) => Container(
-      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 15),
-      width: 400, // Espaçamento fora do card
-      decoration: BoxDecoration(
-        color: Colors.white, // Cor de fundo do card
-        borderRadius: BorderRadius.circular(15.0),
-        border: Border.all(color: Colors.grey[700]!),
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(15.0),
-        child: Column(
-          children: [
-            SizedBox(
-              height: 10,
-            ),
-            ClipRRect(
-              borderRadius: BorderRadius.circular(
-                  15.0), // Define o border radius na imagem
-              child: Image.asset(
-                ideia.img,
-                fit: BoxFit.cover,
-                height: 170,
-                width: 220,
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Spacer(),
-                Text(
-                  '@${ideia.autor}',
-                  style: TextStyle(fontStyle: FontStyle.italic),
-                ),
-                Spacer(),
-                Container(
-                  child: Icon(
-                    Icons.circle,
-                    color: ideia.dificuldade,
-                    size: 20,
-                  ),
-                ),
-                SizedBox(
-                  width: 15,
-                )
-              ],
-            ),
-            Text(
-              ideia.titulo,
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-            ),
-
-            // Adicione mais informações da ideia aqui
-          ],
+  Widget buildIdeia(Ideia ideia, int index) => GestureDetector(
+    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => PageIdeia(ideia.titulo, ideia.desc, ideia.img, ideia.dificuldade, ideia.passoPasso, ideia.avaliacao, ideia.autor, ideia.materiais),),),
+    child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 16, vertical: 15),
+        width: 400, // Espaçamento fora do card
+        decoration: BoxDecoration(
+          color: Colors.white, // Cor de fundo do card
+          borderRadius: BorderRadius.circular(15.0),
+          border: Border.all(color: Colors.grey[700]!),
         ),
-      ));
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(15.0),
+          child: Column(
+            children: [
+              SizedBox(
+                height: 10,
+              ),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(
+                    15.0), // Define o border radius na imagem
+                child: Image.asset(
+                  ideia.img,
+                  fit: BoxFit.cover,
+                  height: 170,
+                  width: 220,
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Spacer(),
+                  Text(
+                    '@${ideia.autor}',
+                    style: TextStyle(fontStyle: FontStyle.italic),
+                  ),
+                  Spacer(),
+                  Container(
+                    child: Icon(
+                      Icons.circle,
+                      color: ideia.dificuldade,
+                      size: 20,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 15,
+                  )
+                ],
+              ),
+              Text(
+                ideia.titulo,
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("200", style: TextStyle( fontSize: 15),),
+                  Icon(Icons.favorite, color: Colors.redAccent,)
+                ],
+              )
+    
+              // Adicione mais informações da ideia aqui
+            ],
+          ),
+        ),),
+  );
 //----- FIM CARROSSEL ----
 
 //---- PONTO DE CONTAGEM CARROSSEL ----
