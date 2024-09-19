@@ -188,20 +188,26 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
         drawer: WidgetDrawer(),
         key: _scaffoldKey,
         appBar: AppBar(
+          
+          backgroundColor: Colors.white,
           centerTitle: true,
           title: Row(
-            children: [
-              SizedBox(
-                height: 30,
-                width: 30,
-                child: Image.asset('${widget.icone}'),
+            children: [   
+              SizedBox(width: 60),
+                  Text(
+                    widget.titulo,
+                    style: TextStyle(color: widget.cor, fontWeight: FontWeight.w600, fontSize: 30),
+                  ),
+                SizedBox(width: 10),
+                  SizedBox(
+                    height: 30,
+                    width: 30,
+                    child: Image.asset('${widget.icone}'),
+                  ),
+              
+                ],
               ),
-              Text(
-                widget.titulo,
-                style: TextStyle(color: widget.cor),
-              ),
-            ],
-          ),
+
           elevation: 10,
           bottom: TabBar(
             controller: _tabController,
@@ -272,7 +278,7 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
               child: Column(
                 children: [
                   Container(
-                    height: 400, // Ajuste conforme necessário
+                    height: 500, // Ajuste conforme necessário
                     child: TabBarView(
                       controller: _tabController,
                       children: [
@@ -553,84 +559,119 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
                       padding: EdgeInsets.all(20),
                       child: Column(
                         children: [
-                          Text(
-                            widget.titulo2,
-                            style: TextStyle(
-                              color: widget.cor,
-                              fontFamily: 'Nunito',
-                              fontSize: 25,
-                              fontWeight: FontWeight.bold,
+                          Padding(padding: EdgeInsets.fromLTRB(20, 0, 20, 20),
+                          child: Column(children: [
+                            RichText(
+                            textAlign: TextAlign.center,
+                            text: TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: 'Veja as ideias feitas com ', // Texto fixo com estilo preto
+                                  style: TextStyle(
+                                    color: Colors.black, // Cor preta para o texto fixo
+                                    fontFamily: 'Nunito',
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: widget.titulo2, // Texto recebido com o estilo desejado
+                                  style: TextStyle(
+                                    color: widget.cor,
+                                    fontFamily: 'Nunito',
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.bold, // Negrito para o texto recebido
+                                  ),
+                                ),
+                              ],
                             ),
+                          )
+
+                          ],),
                           ),
-                          SizedBox(height: 30),
-                             Center(
-  child: Column(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [// Adiciona o padding desejado
-                                      SizedBox(
-                                width: 200,
-                                height: 40, // Defina a largura desejada
-                                child: TextField(
-                                  controller: searchController,
-                                  decoration: InputDecoration(
-                                    hintText: 'Buscar',
-                                    contentPadding: EdgeInsets.only(
-                                        left: 15, bottom: 20, top: 5),
-                                    suffixIcon: Container(
+
+                      Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                // DropdownButton de filtro (à esquerda agora)
+                                ValueListenableBuilder(
+                                  valueListenable: dropValue,
+                                  builder: (BuildContext context, String value, _) {
+                                    return Container(
+                                      padding: EdgeInsets.symmetric(horizontal: 10), // Adiciona um padding ao redor do DropdownButton
                                       decoration: BoxDecoration(
                                         color: widget.cor,
-                                        borderRadius: BorderRadius.only(
-                                            topRight: Radius.circular(10),
-                                            bottomRight: Radius.circular(10)),
+                                        borderRadius: BorderRadius.circular(10),
                                       ),
-                                      child: Icon(Icons.search,
-                                          color: Colors.white),
-                                    ),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                  ),
-                                  onChanged: (text) {
-                                    setState(() {
-                                      listaFiltrada = listaIdeias
-                                          .where((idea) => idea.getTitulo
-                                              .toLowerCase()
-                                              .contains(text.toLowerCase()))
-                                          .toList();
-                                    });
+                                      child: Row(
+                                        children: [
+                                          Icon(Icons.filter_alt, color: Colors.white), // Ícone de filtro
+                                          SizedBox(width: 8), // Espaçamento entre o ícone e o DropdownButton
+                                          DropdownButton<String>(
+                                            hint: Text("Ordenar", style: TextStyle(color: Colors.white),),
+                                            value: (value.isEmpty) ? null : value,
+                                            onChanged: (escolha) => dropValue.value = escolha.toString(),
+                                            items: opcoes.map(
+                                              (op) => DropdownMenuItem<String>(
+                                                value: op,
+                                                child: Text(op),
+                                              ),
+                                            ).toList(),
+                                          ),
+                                        ],
+                                      ),
+                                    );
                                   },
                                 ),
-                              ),
-                              SizedBox(height: 20),
-      Padding(
-        padding: const EdgeInsets.all(8.0), // Adiciona o padding desejado
-        child: ValueListenableBuilder(
-          valueListenable: dropValue,
-          builder: (BuildContext context, String value, _) {
-            return Row(
-              mainAxisAlignment: MainAxisAlignment.center, // Centraliza o conteúdo horizontalmente
-              children: [
-                Icon(Icons.filter_alt, color: widget.cor), // Ícone desejado ao lado do hintText
-                SizedBox(width: 8), // Espaçamento entre o ícone e o DropdownButton
-                DropdownButton(
-                  hint: Text("Ordenar"),
-                  value: (value.isEmpty) ? null : value,
-                  onChanged: (escolha) => dropValue.value = escolha.toString(),
-                  items: opcoes.map(
-                    (op) => DropdownMenuItem(
-                      value: op,
-                      child: Text(op),
-                    ),
-                  ).toList(),
-                ),
-              ],
-            );
-          },
-        ),
-      ),
-    ],
-  ),
-),
+                                
+                                SizedBox(width: 30), // Espaçamento entre o filtro e a pesquisa
+
+                                SizedBox(
+                                  width: 170,
+                                  height: 35, 
+                                  child: TextField(
+                                    controller: searchController,
+                                    decoration: InputDecoration(
+                                      fillColor: Colors.grey[500],
+                                      hintText: 'Buscar',
+                                      contentPadding: EdgeInsets.only(left: 15, bottom: 20, top: 5),
+                                      suffixIcon: Container(
+                                        decoration: BoxDecoration(
+                                          color: widget.cor,
+                                          borderRadius: BorderRadius.only(
+                                            topRight: Radius.circular(10),
+                                            bottomRight: Radius.circular(10),
+                                          ),
+                                        ),
+                                        child: Icon(Icons.search, color: Colors.white),
+                                      ),
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                    ),
+                                    onChanged: (text) {
+                                      setState(() {
+                                        listaFiltrada = listaIdeias
+                                            .where((idea) => idea.getTitulo
+                                                .toLowerCase()
+                                                .contains(text.toLowerCase()))
+                                            .toList();
+                                      });
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 20), // Espaçamento abaixo da linha de pesquisa e filtro
+                          ],
+                        ),
+                      ),
+
+
 
 
                           SizedBox(height: 30),
