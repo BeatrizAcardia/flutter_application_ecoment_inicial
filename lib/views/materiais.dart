@@ -570,8 +570,8 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
                                   style: TextStyle(
                                     color: Colors.black, // Cor preta para o texto fixo
                                     fontFamily: 'Nunito',
-                                    fontSize: 25,
-                                    fontWeight: FontWeight.normal,
+                                    fontSize: 30,
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
                                 TextSpan(
@@ -579,7 +579,7 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
                                   style: TextStyle(
                                     color: widget.cor,
                                     fontFamily: 'Nunito',
-                                    fontSize: 25,
+                                    fontSize: 30,
                                     fontWeight: FontWeight.bold, // Negrito para o texto recebido
                                   ),
                                 ),
@@ -597,12 +597,11 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                // DropdownButton de filtro (à esquerda agora)
                                 ValueListenableBuilder(
                                   valueListenable: dropValue,
                                   builder: (BuildContext context, String value, _) {
                                     return Container(
-                                      padding: EdgeInsets.symmetric(horizontal: 10), // Adiciona um padding ao redor do DropdownButton
+                                      padding: EdgeInsets.symmetric(horizontal: 10),
                                       decoration: BoxDecoration(
                                         color: widget.cor,
                                         borderRadius: BorderRadius.circular(10),
@@ -610,7 +609,7 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
                                       child: Row(
                                         children: [
                                           Icon(Icons.filter_alt, color: Colors.white), // Ícone de filtro
-                                          SizedBox(width: 8), // Espaçamento entre o ícone e o DropdownButton
+                                          SizedBox(width: 8),
                                           DropdownButton<String>(
                                             hint: Text("Ordenar", style: TextStyle(color: Colors.white),),
                                             value: (value.isEmpty) ? null : value,
@@ -636,6 +635,7 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
                                   child: TextField(
                                     controller: searchController,
                                     decoration: InputDecoration(
+                                      filled: true,
                                       fillColor: Colors.grey[500],
                                       hintText: 'Buscar',
                                       contentPadding: EdgeInsets.only(left: 15, bottom: 20, top: 5),
@@ -677,6 +677,7 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
                           SizedBox(height: 30),
                           listaIdeias.isNotEmpty
                               ? Container(
+                                height: 300,
                                   child: GridView.builder(
                                   shrinkWrap: true,
                                   physics: NeverScrollableScrollPhysics(),
@@ -755,8 +756,9 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
       child: Container(
         padding: EdgeInsets.all(5),
         decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey[700]!),
             borderRadius: BorderRadius.circular(10),
-            color: const Color.fromARGB(255, 217, 217, 217)),
+            color: Color.fromARGB(255, 255, 255, 255)),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
@@ -771,6 +773,17 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
                 ),
               ),
             ),
+            Row(mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+            Spacer(),
+            Text(
+              '@'+autor,
+              style: TextStyle(fontStyle: FontStyle.italic,),
+              textAlign: TextAlign.center,
+            ),
+            Spacer(),      
+              Icon(Icons.circle, color: dificuldade),
+            ],),
             Text(
               titulo,
               style: ideaTitle,
@@ -779,23 +792,13 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
             SizedBox(
               height: 5,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    ...gerarEstrelaColorida(avaliacao),
-                    ...gerarEstrelaNColorida(5 - avaliacao)
-                  ],
-                ),
-                Row(
-                  children: [
-                    Icon(Icons.circle, color: dificuldade),
-                  ],
-                ),
-              ],
-            ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("200", style: TextStyle( fontSize: 15),),
+                  Icon(Icons.favorite, color: Colors.redAccent,)
+                ],
+              )
           ],
         ),
       ),
