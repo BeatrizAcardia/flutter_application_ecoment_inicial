@@ -1,14 +1,19 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, unused_import, file_names, avoid_unnecessary_containers, avoid_function_literals_in_foreach_calls, unnecessary_import, sized_box_for_whitespace
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:br_validators/br_validators.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_application_ecoment_inicial/Controller/MapaController.dart';
 import 'package:flutter_application_ecoment_inicial/defaultWidgets/appBar.dart';
 import 'package:flutter_application_ecoment_inicial/defaultWidgets/bottomAppBar.dart';
 import 'package:flutter_application_ecoment_inicial/defaultWidgets/drawer.dart';
 import 'package:flutter_application_ecoment_inicial/models/Endereco.dart';
 import 'package:flutter_application_ecoment_inicial/views/inicial.dart';
 import 'package:flutter_application_ecoment_inicial/views/minhaConta.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:get/get.dart';
 
 class PontosColeta extends StatefulWidget {
   const PontosColeta({super.key});
@@ -18,30 +23,18 @@ class PontosColeta extends StatefulWidget {
 }
 
 class _PontosColetaState extends State<PontosColeta> {
-  List<Endereco> listaEnd = [
-    Endereco("Ecoponto - Marginal Tatu", "R. Antônio Lucato, 1883-1931 - Vila Camargo, Limeira - SP"),
-    Endereco("Nossa Senhora das Dores", "Rua: Elisa W. Henrique, Nª Sª das Dores"),
-    Endereco("Lagoa Nova", "Av. Dr. Antônio de Luna, Jd. Lagoa Nova"),
-  ];
+  final TextEditingController searchController2 = TextEditingController();
 
-  final imgMapa = SizedBox(width: 450,child: Image.asset("assets/imgs/Mapa.png"),);
-  final cepLabel = Text("Digite seu CEP", style: TextStyle(
-    fontFamily: 'Circe',
-    fontWeight: FontWeight.w800,
-    color: const Color.fromARGB(255, 46, 46, 46),
-    fontSize: 30,
-    ),);
-  TextStyle title = TextStyle(
-    color: const Color.fromARGB(255, 46, 46, 46),
-    fontSize: 30,
-    fontFamily: 'Circe',
-    fontWeight: FontWeight.w800,
+  //final controllerMapa = Get.put(MapaController());
+
+  final ondacima = SizedBox(
+    child: Image.asset('assets/imgs/ondamapa.png'),
   );
-  TextStyle enderecoLabel = TextStyle(
-    color: Colors.black,
-    fontSize: 25,
-    fontFamily: 'Circe',
+
+  final mapa = SizedBox(
+    child: Image.asset('assets/imgs/mapa.png'),
   );
+
   TextEditingController cepController = TextEditingController();
   GlobalKey<FormState> key = GlobalKey();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -50,113 +43,129 @@ class _PontosColetaState extends State<PontosColeta> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        toolbarHeight: 0,
-      ),
-
-      drawer: WidgetDrawer(),
-backgroundColor: const Color.fromARGB(255, 224, 224, 224),
-      body: Stack(
-        alignment: Alignment.center,
-        fit: StackFit.expand,
-        children: [SingleChildScrollView(
-          child: Container(
-            padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-            child: Center(
-              child: Column(children: [
-              Text("Pontos de coleta", textAlign: TextAlign.center, style: TextStyle(
-              fontFamily: 'Circe',
-              fontWeight: FontWeight.w800,
-              color: const Color.fromARGB(255, 46, 46, 46),
-              fontSize: 38,
-              shadows: [
-                Shadow(
-                  color: Color.fromARGB(255,114,160,193), 
-                  offset: Offset(3, 3),
-                )
-              ],
-              ),),
-              SizedBox(height: 5,),
-              imgMapa,
-              SizedBox(height: 20,),
-              cepLabel,
-              SizedBox(height: 20,),
-              Form(
-                key: key,
-                child: Container(
-                  height: 80,
-                  padding: EdgeInsets.symmetric(horizontal: 50),
-                  child: Column(children: [
-                    TextFormField(
-                    controller: cepController,
-                    decoration: InputDecoration(
-                      suffixIcon: MouseRegion(
-                        cursor: SystemMouseCursors.click,
-                        child: GestureDetector(
-                        child: Icon(Icons.search, color: const Color.fromARGB(255, 85, 85, 85),),
-                        onTap: () {
-                          if(key.currentState!.validate()){
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text("Sucesso!"))
-                            );
-                            setState(() {
-                              
-                            });
-                          }
-                        },
+      body: Center(
+        child: Column(
+          children: [
+            ondacima,
+            SizedBox(
+              width: 350,
+              height: 40,
+              child: TextField(
+                controller: searchController2,
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Colors.grey[800],
+                  hintText: 'CEP, endereço ou coordenadas',
+                  hintStyle: TextStyle(color: Colors.grey),
+                  contentPadding: EdgeInsets.only(left: 15, bottom: 20, top: 0),
+                  suffixIcon: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(10),
+                        bottomRight: Radius.circular(10),
                       ),
-                      ),
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
-                      fillColor: const Color.fromARGB(255, 217, 217, 217),
-                      filled: true
                     ),
-                    validator: (value) {
-                      if(cepController.text.trim() == ""){
-                        return "Preencha o CEP";
-                      }else if(BRValidators.validateCEP(cepController.text) == false){
-                        return "Digite um CEP válido";
-                      }
-                      return null;
-                    },
+                    child: Icon(Icons.search, color: Colors.grey),
                   ),
-                  ],)
-                )
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                onChanged: (text) {},
               ),
-              SizedBox(height: 10,),
-              Container(
-                height: MediaQuery.of(context).size.height - 300,
-                child: listaEnd.isNotEmpty ? 
-                Column(children: [
-                  ...gerarLocais(1)
-                ],): Text("Sem pontos de coleta no momento. Volte mais tarde", style: TextStyle(fontSize: 25),textAlign: TextAlign.center,),
-              )
-            ],),
-            )
-          ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(20, 0, 20, 5),
+              child: Column(
+                children: [
+                  mapa,
+                ],
+              ),
+            ),
+            Row(
+              children: [
+                SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  "EcoPonto - Marginal Tatu",
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Poppins'),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                SizedBox(
+                  width: 20,
+                ),
+                Text(
+                  "Centro de reciclagem",
+                  style: TextStyle(fontSize: 15, fontFamily: 'Poppins'),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                SizedBox(
+                  width: 20,
+                ),
+                Text(
+                  "R. Antônio Lucato, 1883-1931 - Vila Camargo, Limeira - SP",
+                  style: TextStyle(fontSize: 13, fontFamily: 'Poppins'),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                SizedBox(
+                  width: 20,
+                ),
+                Text(
+                  "Seg. a Sex.      07h30 - 17h00",
+                  style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w400,
+                      fontFamily: 'Poppins'),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                SizedBox(
+                  width: 20,
+                ),
+                Text(
+                  "Sábado           07h30 - 12h00",
+                  style: TextStyle(fontSize: 13, fontFamily: 'Poppins'),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Container(child: Column(children: [
+                SizedBox(
+                  width: 20,
+                ),
+                Text(
+                  "Domingo         Fechado",
+                  style: TextStyle(fontSize: 13, fontFamily: 'Poppins'),
+                ),
+                ],
+                ),
+                height: 100,)
+
+              ],
+            ),
+          ],
         ),
-        WidgetBottomAppBar(scaffoldKey: _scaffoldKey)
-        ],
       ),
+      bottomNavigationBar: WidgetBottomAppBar(scaffoldKey: _scaffoldKey),
     );
   }
-
-  List<Widget> gerarLocais(int n){
-    List<Widget> locais = [];
-    for(int i = 0; i < n; i++){
-      listaEnd.forEach((Endereco e) { 
-        locais.add(Align(
-              alignment: Alignment.centerLeft,
-              child: Container(
-                padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
-                child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  Text(e.getTitulo, style: title,),
-                  Text(e.getEndereco, style: enderecoLabel,)
-                ],)
-              )),);
-      });
-    }return locais;
-  }
-
 }

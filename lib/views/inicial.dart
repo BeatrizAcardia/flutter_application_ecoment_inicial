@@ -112,7 +112,7 @@ class _MyinicialState extends State<Myinicial> {
                     decoration: BoxDecoration(
                         color: const Color.fromARGB(255, 122, 193, 67)),
                     child: Padding(
-                        padding: EdgeInsets.all(30),
+                        padding: EdgeInsets.all(40),
                         child: Column(
                           children: <Widget>[
                             Text("Veja aqui as ideias mais curtidas!",
@@ -127,7 +127,7 @@ class _MyinicialState extends State<Myinicial> {
                               options: CarouselOptions(
                                 onPageChanged: (index, reason) =>
                                     setState(() => activeIndex = index),
-                                height: 327,
+                                height: 315,
                                 //viewportFraction: 0.55,
                                 // autoPlay: true,
                                 //autoPlayInterval: Duration(seconds: 4),
