@@ -12,6 +12,7 @@ import 'package:flutter_application_ecoment_inicial/views/ideia.dart';
 import 'package:flutter_application_ecoment_inicial/views/inicial.dart';
 import 'package:flutter_application_ecoment_inicial/views/pontosColeta.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter_application_ecoment_inicial/views/preferencias.dart';
 import 'package:provider/provider.dart';
 
 class MinhaConta extends StatefulWidget {
@@ -23,7 +24,7 @@ class MinhaConta extends StatefulWidget {
 }
 
 class _MinhaContaState extends State<MinhaConta> {
-    int activeIndex = 0;
+  int activeIndex = 0;
 
   TextStyle label1 = TextStyle(
       fontWeight: FontWeight.bold,
@@ -36,9 +37,10 @@ class _MinhaContaState extends State<MinhaConta> {
       fontSize: 20,
       fontFamily: 'Nunito');
 
-  final ideiaVerde = SizedBox( width: 40, height: 40,
-    child: Image.asset('assets/imgs/ideiaIconVerde.png')
-  );
+  final ideiaVerde = SizedBox(
+      width: 40,
+      height: 40,
+      child: Image.asset('assets/imgs/ideiaIconVerde.png'));
 
   TextStyle ideaTitle = TextStyle(
     color: Colors.black,
@@ -90,7 +92,11 @@ class _MinhaContaState extends State<MinhaConta> {
             child: Text('OK', style: nunito),
             onPressed: () {
               Navigator.pop(context); // Fecha o diálogo
-              Navigator.pop(context); // Volta para a página anterior
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Myinicial(),
+                  )); // Volta para a página anterior
             },
           )
         ],
@@ -102,12 +108,12 @@ class _MinhaContaState extends State<MinhaConta> {
   Widget build(BuildContext context) {
     final user = Provider.of<GlobalState>(context);
 
-    //if(user.name == "" || user.name == null){
-    //WidgetsBinding.instance.addPostFrameCallback((_){
-    //_showErrorDialog(context);
-    //});
-    //return Scaffold();
-    //}
+    if (user.name == "" || user.name == null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _showErrorDialog(context);
+      });
+      return Scaffold();
+    }
 
     return Scaffold(
         key: _scaffoldKey,
@@ -121,9 +127,14 @@ class _MinhaContaState extends State<MinhaConta> {
             ),
           ),
           actions: [
-            Icon(
-              Icons.brightness_low_rounded,
+            IconButton(
+              icon: Icon(Icons.brightness_low_rounded),
               color: Colors.white,
+              onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => TelaPreferencias(),
+                  )),
             )
           ],
         ),
@@ -137,56 +148,82 @@ class _MinhaContaState extends State<MinhaConta> {
               child: Container(
                 padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                 child: Center(
-                  child: Column(
-                    children: [
-                      DecoratedBox(
-                        decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 59, 113, 39),
-                        ),
-                        child: Column(
-                          children: [
-                            SizedBox(
-                              height: 30,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SizedBox(
-                                  width: 90,
-                                  height: 90,
-                                  child: Image.asset(
-                                      "assets/imgs/do-utilizador.png"),
-                                ),
-                                SizedBox(
-                                  width: 20,
-                                ),
-                                Text(
-                                    "Lorena Silva\nloreninhafsilva\nloreninha@gmail.com",style: TextStyle(color: Colors.white, fontFamily: 'Poppins', fontSize: 15)),
-                                SizedBox(
-                                  width: 15,
-                                ),
-                                Icon(
-                                  Icons.output_sharp,
-                                  color: Colors.white,
-                                )
-                              ],
-                            ),
-                          ],
-                        ),
+                  child: Column(children: [
+                    DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 59, 113, 39),
                       ),
-                      SizedBox(
-                        width: 510,
-                        child: Image.asset("assets/imgs/ondaVerdeconta.png"),
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: 30,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SizedBox(
+                                width: 90,
+                                height: 90,
+                                child: Image.asset(
+                                    "assets/imgs/do-utilizador.png"),
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Column(
+                                children: [
+                                  Text(
+                                    user.name,
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: 'Poppins',
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18),
+                                  ),
+                                  Text(
+                                    "@${user.username}",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: 'Poppins',
+                                        fontSize: 15),
+                                  ),
+                                  Text(
+                                    "${user.email}",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: 'Poppins',
+                                        fontSize: 15),
+                                  ),
+                                ],
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                    user.setName("");
+                                    user.setUsername("");
+                                    user.setEmail("");
+                                    user.setPassword("");
+                                },
+                                icon: Icon(Icons.output_sharp),
+                                color: Colors.white,
+                              )
+                            ],
+                          ),
+                        ],
                       ),
-                      SizedBox(height: 20),
-                      Text(
-                        "Minhas ideias",
-                        style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      CarouselSlider.builder(
+                    ),
+                    SizedBox(
+                      width: 510,
+                      child: Image.asset("assets/imgs/ondaVerdeconta.png"),
+                    ),
+                    SizedBox(height: 20),
+                    Text(
+                      "Minhas ideias",
+                      style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    CarouselSlider.builder(
                       options: CarouselOptions(
                         onPageChanged: (index, reason) =>
                             setState(() => activeIndex = index),
@@ -199,22 +236,21 @@ class _MinhaContaState extends State<MinhaConta> {
                       },
                     ),
                     SizedBox(height: 60),
-                    Row(mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
                         Text(
-                            "Favoritos",
-                            style: TextStyle(
-                              color: Color.fromARGB(255, 58, 125, 68),
-                              fontSize: 36,
-                              fontWeight: FontWeight.bold,
-                            ),
+                          "Favoritos",
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 58, 125, 68),
+                            fontSize: 36,
+                            fontWeight: FontWeight.bold,
                           ),
-                          ideiaVerde,
-                    ],
+                        ),
+                        ideiaVerde,
+                      ],
                     ),
-                    
-                        
-                      CarouselSlider.builder(
+                    CarouselSlider.builder(
                       options: CarouselOptions(
                         onPageChanged: (index, reason) =>
                             setState(() => activeIndex = index),
@@ -226,7 +262,7 @@ class _MinhaContaState extends State<MinhaConta> {
                         return buildIdeia(ideia, index);
                       },
                     ),
-          ]),
+                  ]),
                 ),
                 height: 1190,
               ),
@@ -238,68 +274,88 @@ class _MinhaContaState extends State<MinhaConta> {
 
   //---- CARROSSEL ----
   Widget buildIdeia(Ideia ideia, int index) => GestureDetector(
-    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => PageIdeia(ideia.titulo, ideia.desc, ideia.img, ideia.dificuldade, ideia.passoPasso, ideia.avaliacao, ideia.autor, ideia.materiais),),),
-    child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 16, vertical: 15),
-        width: 400, // Espaçamento fora do card
-        decoration: BoxDecoration(
-          color: Colors.white, // Cor de fundo do card
-          borderRadius: BorderRadius.circular(15.0),
-          border: Border.all(color: Colors.grey[700]!),
-        ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(15.0),
-          child: Column(
-            children: [
-              SizedBox(
-                height: 10,
-              ),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(
-                    15.0), // Define o border radius na imagem
-                child: Image.asset(
-                  ideia.img,
-                  fit: BoxFit.cover,
-                  height: 170,
-                  width: 220,
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Spacer(),
-                  Text(
-                    '@${ideia.autor}',
-                    style: TextStyle(fontStyle: FontStyle.italic),
-                  ),
-                  Spacer(),
-                  Container(
-                    child: Icon(
-                      Icons.circle,
-                      color: ideia.dificuldade,
-                      size: 20,
-                    ),
-                  ),
-                  SizedBox(
-                    width: 15,
-                  )
-                ],
-              ),
-              Text(
+        onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => PageIdeia(
                 ideia.titulo,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text("200", style: TextStyle( fontSize: 15),),
-                  Icon(Icons.favorite, color: Colors.redAccent,)
-                ],
-              )
-            ],
+                ideia.desc,
+                ideia.img,
+                ideia.dificuldade,
+                ideia.passoPasso,
+                ideia.avaliacao,
+                ideia.autor,
+                ideia.materiais),
           ),
-        ),),
-  );
+        ),
+        child: Container(
+          margin: EdgeInsets.symmetric(horizontal: 16, vertical: 15),
+          width: 400, // Espaçamento fora do card
+          decoration: BoxDecoration(
+            color: Colors.white, // Cor de fundo do card
+            borderRadius: BorderRadius.circular(15.0),
+            border: Border.all(color: Colors.grey[700]!),
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(15.0),
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 10,
+                ),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(
+                      15.0), // Define o border radius na imagem
+                  child: Image.asset(
+                    ideia.img,
+                    fit: BoxFit.cover,
+                    height: 170,
+                    width: 220,
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Spacer(),
+                    Text(
+                      '@${ideia.autor}',
+                      style: TextStyle(fontStyle: FontStyle.italic),
+                    ),
+                    Spacer(),
+                    Container(
+                      child: Icon(
+                        Icons.circle,
+                        color: ideia.dificuldade,
+                        size: 20,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 15,
+                    )
+                  ],
+                ),
+                Text(
+                  ideia.titulo,
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "200",
+                      style: TextStyle(fontSize: 15),
+                    ),
+                    Icon(
+                      Icons.favorite,
+                      color: Colors.redAccent,
+                    )
+                  ],
+                )
+              ],
+            ),
+          ),
+        ),
+      );
 //----- FIM CARROSSEL ----
 
   Widget gerarCard(

@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, unused_import, override_on_non_overriding_member, annotate_overrides, prefer_final_fields, unnecessary_import, sized_box_for_whitespace, unnecessary_string_interpolations
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, unused_import, override_on_non_overriding_member, annotate_overrides, prefer_final_fields, unnecessary_import, sized_box_for_whitespace, unnecessary_string_interpolations, avoid_unnecessary_containers
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
@@ -46,9 +46,10 @@ class _MyinicialState extends State<Myinicial> {
     child: Image.asset('assets/imgs/ondaDebaixoLanding.png'),
   );
 
-  final ideiaVerde = SizedBox( width: 40, height: 40,
-    child: Image.asset('assets/imgs/ideiaIconVerde.png')
-  );
+  final ideiaVerde = SizedBox(
+      width: 40,
+      height: 40,
+      child: Image.asset('assets/imgs/ideiaIconVerde.png'));
 
   int activeIndex = 0;
 
@@ -91,10 +92,10 @@ class _MyinicialState extends State<Myinicial> {
     return Scaffold(
         key: _scaffoldKey,
         appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        toolbarHeight: 0,
-      ),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          toolbarHeight: 0,
+        ),
         drawer: WidgetDrawer(),
         body: Stack(
           alignment: Alignment.center,
@@ -112,41 +113,46 @@ class _MyinicialState extends State<Myinicial> {
                     decoration: BoxDecoration(
                         color: const Color.fromARGB(255, 122, 193, 67)),
                     child: Padding(
-                        padding: EdgeInsets.all(40),
-                        child: Column(
-                          children: <Widget>[
-                            Text("Veja aqui as ideias mais curtidas!",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 35,
-                                    fontFamily: 'Nunito',
-                                    fontWeight: FontWeight.bold),
-                                textAlign: TextAlign.center),
-                            SizedBox(height: 40),
-                            CarouselSlider.builder(
-                              options: CarouselOptions(
-                                onPageChanged: (index, reason) =>
-                                    setState(() => activeIndex = index),
-                                height: 315,
-                                //viewportFraction: 0.55,
-                                // autoPlay: true,
-                                //autoPlayInterval: Duration(seconds: 4),
-                                pageSnapping: false,
-                                enlargeCenterPage: true,
-                                enlargeStrategy:
-                                    CenterPageEnlargeStrategy.height,
-                              ),
-                              itemCount: listaIdeias.length,
-                              itemBuilder: (context, index, realIndex) {
-                                final ideia = listaIdeias[index];
-                                return buildIdeia(ideia, index);
-                              },
+                      padding: EdgeInsets.all(40),
+                      child: Column(
+                        children: <Widget>[
+                          Text("Veja aqui as ideias mais curtidas!",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 35,
+                                  fontFamily: 'Nunito',
+                                  fontWeight: FontWeight.bold),
+                              textAlign: TextAlign.center),
+                          SizedBox(height: 40),
+
+                          //começo Carrossel
+
+                          CarouselSlider.builder(
+                            options: CarouselOptions(
+                              onPageChanged: (index, reason) =>
+                                  setState(() => activeIndex = index),
+                              height: 315,
+                              //viewportFraction: 0.55,
+                              // autoPlay: true,
+                              //autoPlayInterval: Duration(seconds: 4),
+                              pageSnapping: false,
+                              enlargeCenterPage: true,
+                              enlargeStrategy: CenterPageEnlargeStrategy.height,
                             ),
-                            const SizedBox(height: 32),
-                            buildIndicator(),
-                            SizedBox(height: 50),
-                          ],
-                        )),
+                            itemCount: listaIdeias.length,
+                            itemBuilder: (context, index, realIndex) {
+                              final ideia = listaIdeias[index];
+                              return buildIdeia(ideia, index);
+                            },
+                          ),
+                          //fim Carrossel
+
+                          const SizedBox(height: 32),
+                          buildIndicator(),
+                          SizedBox(height: 50),
+                        ],
+                      ),
+                    ),
                   ),
                   onda2,
                   SizedBox(height: 30),
@@ -180,22 +186,23 @@ class _MyinicialState extends State<Myinicial> {
                                   ),
                                   onTap: () {
                                     Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => Tabbar(
-                                              "assets/imgs/iconePlastico.png",
-                                              Colors.red,
-                                              'O plástico, do grego "plastikos" (Piatti T.M., 2005), é um material formado por polímeros (macromoléculas) de carbono, cuja fonte mais comum de matéria-prima é o petróleo (Cardoso M.M., 2013). Por ser uma fonte não renovável, a degradação do objeto na natureza é extremamente complexa, demorada e muito prejudicial, uma vez que ao passar do tempo se prolifera em microplásticos (Parlamento Europeu, 2018). \n Entretanto, o plástico é infelizmente muito presente em nossas vidas por ser a base de quase todos os utensílios cotidianos, como sacolas, garrafas, canudos, entre outros, prejudiciais tanto para a vida humana quanto para a natureza e a vida marinha.\n Diversos tipos desses polímeros são encontrados em todo lugar atualmente, cada um com características próprias e diferentes áreas de uso. No entanto, a forma mais comum de setorizarmos esse material é em dois grupos distintos: os termoplásticos, que amolecem quando aquecidos e podem ser moldados, e os termofixos, que representam um desafio significativo para a reciclagem, pois não derretem nem mesmo em altas temperaturas, apenas queimam. No primeiro grupo, incluem-se plásticos como PET (politereftalato de etila), PEAD (polietileno de alta densidade), PVC (policloreto de vinila), PEBD (polietileno de baixa densidade), PP (polipropileno) e PS (poliestireno). Enquanto isso, no segundo grupo, são abrangidos os plásticos do tipo 7, designados como "outros" (Cardoso M.M., 2013).',
-                                              'Os plásticos são feitos de materiais como petróleo e gás natural. Eles passam por processos químicos para se transformarem em longas cadeias que podem ser moldadas em diferentes formas e tamanhos, o que nos permite fazer muitos produtos diferentes, como sacolas, garrafas e brinquedos (Medeiros, 2023). \n Pensando no surgimento do plástico, este se deu em 1862 com o químico e inventor Alexander Parkes, que buscava um material capaz de substituir a borracha, muito usada no século XIX. Inicialmente, o material que Parkes apresentou era chamado de "parkesiana" - em referência ao nome de Parkes - e era diferente do que temos hoje em dia, uma vez que advinha da celulose, embora já apresentasse as características de impermeabilização e estrutura moldável. \n Em 1869, a "parkesiana" foi aprimorada por John Wesley Hyatt, que deu origem ao celuloide, o primeiro polímero sintético que visava substituir o marfim natural que ameaçava os elefantes. A partir daí, o material foi evoluindo cada vez mais, passando pela criação do celofane, em 1905, até chegar na era de ouro do plástico, entre 1930 e 1950, quando surgiram novos tipos de polímeros muito conhecidos hoje em dia, entre eles o neoprene, EPS, PVC (vinil), poliuretano, PA (poliamida - náilon), PET, PTFE (teflon), silicone, PP (polipropileno) e PE (polietileno) (ALVARO, 2022).',
-                                              'Apesar de sabermos que o plástico pode ser reciclado e transformado em novos produtos, é comum surgirem dúvidas sobre como descartá-los corretamente. Aqui estão algumas dicas úteis: \n\n 1. Coloque os resíduos recicláveis em sacos: É recomendável manter os plásticos usados em uma sacola separada. Isso facilita a coleta pelos catadores e evita a contaminação por outros resíduos. Certifique-se de que os resíduos estejam em um único recipiente, pronto para ser recolhido pela coleta seletiva (Lisboa M, 2022). \n 2. Descarte as sacolas de supermercado no cesto de reciclagem: As sacolas de supermercado e os sacos usados para embalar frutas e legumes são feitos de PEAD (Polietileno de Alta Densidade), um material reciclável. Se descartados corretamente, podem retornar à indústria e ser transformados em novos produtos recicláveis (Lisboa M, 2022). \n 3. Limpe as embalagens de molho e produtos de limpeza: A limpeza dessas embalagens facilita o processo de triagem nas cooperativas de reciclagem. Elas podem ser lavadas com água corrente ou com a água liberada pela máquina de lavar, evitando o desperdício (Lisboa M, 2022). \n 4. Descarte até mesmo os pequenos pedaços de plástico corretamente: Mesmo os menores resíduos plásticos podem ser reciclados. Ao enviá-los para a reciclagem, eles se unirão a outros materiais para serem transformados em novos produtos (Lisboa M, 2022). \n 5. Descarte as cestas de plástico macio usadas para embalar frutas no recipiente de reciclagem: Ao fazer isso, elas também podem retornar à cadeia produtiva (Lisboa M, 2022).',
-                                              'Você pode estar se questionando: "E então, quais materiais podem substituir o plástico?". Dependendo da finalidade do produto, há várias alternativas disponíveis no mercado. Vejamos alguns exemplos: \n\n1. Vidro: O vidro é uma alternativa ao plástico devido à sua capacidade de reutilização. É comumente usado para armazenar e transportar alimentos e bebidas. \n2. Tecidos e borracha: Uma ampla gama de tecidos e borrachas é usada no lugar do plástico na fabricação de vários produtos. Exemplos comuns incluem bolsas de tecido para embalagens e recipientes de neoprene para armazenar alimentos. \n3. Bambu: O bambu é frequentemente utilizado como substituto do plástico na produção de escovas, canudos, recipientes de armazenamento, talheres, copos, garrafas e muito mais. \n4. Potes de vidro: Substitua o plástico filme por potes de vidro com tampa para armazenar alimentos na geladeira. Além de serem laváveis, podem ser usados para compras a granel. \n5. Ecobags: Substitua as sacolas plásticas por ecobags ou sacolas de lona ao fazer compras. Além de serem ecológicas, são mais práticas e fáceis de transportar, já que uma única ecobag pode substituir várias sacolas. Use sacos reutilizáveis de pano para armazenar frutas e legumes. \n6. Depilador de metal: Substitua o aparelho de barbear de plástico por um de metal, que é mais durável e ecológico. \n7. Produtos em barra: Opte por versões em barra de cosméticos, como xampu, condicionador e sabonete, embalados em papel biodegradável.',
-                                              "PLÁSTICO",
-                                              "PLÁSTICO",
-                                              "O que é plástico?",
-                                              "De onde ele vem?",
-                                              "Qual é o descarte correto?",
-                                              "Alternativas ecológicas"),
-                                        ));
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => Tabbar(
+                                            "assets/imgs/iconePlastico.png",
+                                            Colors.red,
+                                            'O plástico, do grego "plastikos" (Piatti T.M., 2005), é um material formado por polímeros (macromoléculas) de carbono, cuja fonte mais comum de matéria-prima é o petróleo (Cardoso M.M., 2013). Por ser uma fonte não renovável, a degradação do objeto na natureza é extremamente complexa, demorada e muito prejudicial, uma vez que ao passar do tempo se prolifera em microplásticos (Parlamento Europeu, 2018). \n Entretanto, o plástico é infelizmente muito presente em nossas vidas por ser a base de quase todos os utensílios cotidianos, como sacolas, garrafas, canudos, entre outros, prejudiciais tanto para a vida humana quanto para a natureza e a vida marinha.\n Diversos tipos desses polímeros são encontrados em todo lugar atualmente, cada um com características próprias e diferentes áreas de uso. No entanto, a forma mais comum de setorizarmos esse material é em dois grupos distintos: os termoplásticos, que amolecem quando aquecidos e podem ser moldados, e os termofixos, que representam um desafio significativo para a reciclagem, pois não derretem nem mesmo em altas temperaturas, apenas queimam. No primeiro grupo, incluem-se plásticos como PET (politereftalato de etila), PEAD (polietileno de alta densidade), PVC (policloreto de vinila), PEBD (polietileno de baixa densidade), PP (polipropileno) e PS (poliestireno). Enquanto isso, no segundo grupo, são abrangidos os plásticos do tipo 7, designados como "outros" (Cardoso M.M., 2013).',
+                                            'Os plásticos são feitos de materiais como petróleo e gás natural. Eles passam por processos químicos para se transformarem em longas cadeias que podem ser moldadas em diferentes formas e tamanhos, o que nos permite fazer muitos produtos diferentes, como sacolas, garrafas e brinquedos (Medeiros, 2023). \n Pensando no surgimento do plástico, este se deu em 1862 com o químico e inventor Alexander Parkes, que buscava um material capaz de substituir a borracha, muito usada no século XIX. Inicialmente, o material que Parkes apresentou era chamado de "parkesiana" - em referência ao nome de Parkes - e era diferente do que temos hoje em dia, uma vez que advinha da celulose, embora já apresentasse as características de impermeabilização e estrutura moldável. \n Em 1869, a "parkesiana" foi aprimorada por John Wesley Hyatt, que deu origem ao celuloide, o primeiro polímero sintético que visava substituir o marfim natural que ameaçava os elefantes. A partir daí, o material foi evoluindo cada vez mais, passando pela criação do celofane, em 1905, até chegar na era de ouro do plástico, entre 1930 e 1950, quando surgiram novos tipos de polímeros muito conhecidos hoje em dia, entre eles o neoprene, EPS, PVC (vinil), poliuretano, PA (poliamida - náilon), PET, PTFE (teflon), silicone, PP (polipropileno) e PE (polietileno) (ALVARO, 2022).',
+                                            'Apesar de sabermos que o plástico pode ser reciclado e transformado em novos produtos, é comum surgirem dúvidas sobre como descartá-los corretamente. Aqui estão algumas dicas úteis: \n\n 1. Coloque os resíduos recicláveis em sacos: É recomendável manter os plásticos usados em uma sacola separada. Isso facilita a coleta pelos catadores e evita a contaminação por outros resíduos. Certifique-se de que os resíduos estejam em um único recipiente, pronto para ser recolhido pela coleta seletiva (Lisboa M, 2022). \n 2. Descarte as sacolas de supermercado no cesto de reciclagem: As sacolas de supermercado e os sacos usados para embalar frutas e legumes são feitos de PEAD (Polietileno de Alta Densidade), um material reciclável. Se descartados corretamente, podem retornar à indústria e ser transformados em novos produtos recicláveis (Lisboa M, 2022). \n 3. Limpe as embalagens de molho e produtos de limpeza: A limpeza dessas embalagens facilita o processo de triagem nas cooperativas de reciclagem. Elas podem ser lavadas com água corrente ou com a água liberada pela máquina de lavar, evitando o desperdício (Lisboa M, 2022). \n 4. Descarte até mesmo os pequenos pedaços de plástico corretamente: Mesmo os menores resíduos plásticos podem ser reciclados. Ao enviá-los para a reciclagem, eles se unirão a outros materiais para serem transformados em novos produtos (Lisboa M, 2022). \n 5. Descarte as cestas de plástico macio usadas para embalar frutas no recipiente de reciclagem: Ao fazer isso, elas também podem retornar à cadeia produtiva (Lisboa M, 2022).',
+                                            'Você pode estar se questionando: "E então, quais materiais podem substituir o plástico?". Dependendo da finalidade do produto, há várias alternativas disponíveis no mercado. Vejamos alguns exemplos: \n\n1. Vidro: O vidro é uma alternativa ao plástico devido à sua capacidade de reutilização. É comumente usado para armazenar e transportar alimentos e bebidas. \n2. Tecidos e borracha: Uma ampla gama de tecidos e borrachas é usada no lugar do plástico na fabricação de vários produtos. Exemplos comuns incluem bolsas de tecido para embalagens e recipientes de neoprene para armazenar alimentos. \n3. Bambu: O bambu é frequentemente utilizado como substituto do plástico na produção de escovas, canudos, recipientes de armazenamento, talheres, copos, garrafas e muito mais. \n4. Potes de vidro: Substitua o plástico filme por potes de vidro com tampa para armazenar alimentos na geladeira. Além de serem laváveis, podem ser usados para compras a granel. \n5. Ecobags: Substitua as sacolas plásticas por ecobags ou sacolas de lona ao fazer compras. Além de serem ecológicas, são mais práticas e fáceis de transportar, já que uma única ecobag pode substituir várias sacolas. Use sacos reutilizáveis de pano para armazenar frutas e legumes. \n6. Depilador de metal: Substitua o aparelho de barbear de plástico por um de metal, que é mais durável e ecológico. \n7. Produtos em barra: Opte por versões em barra de cosméticos, como xampu, condicionador e sabonete, embalados em papel biodegradável.',
+                                            "PLÁSTICO",
+                                            "PLÁSTICO",
+                                            "O que é plástico?",
+                                            "De onde ele vem?",
+                                            "Qual é o descarte correto?",
+                                            "Alternativas ecológicas"),
+                                      ),
+                                    );
                                   },
                                 )),
                             MouseRegion(
@@ -234,11 +241,9 @@ class _MyinicialState extends State<Myinicial> {
                               ),
                             ),
                           ]),
-
                       Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                      
                             MouseRegion(
                                 cursor: SystemMouseCursors.click,
                                 child: GestureDetector(
@@ -264,7 +269,7 @@ class _MyinicialState extends State<Myinicial> {
                                               'Não é seguro simplesmente colocar vidro em sacolas plásticas, pois ele pode ser pontiagudo e cortante, rasgando as sacolas e machucando quem as manuseia. Por isso, o ideal é envolvê-lo em jornais e depois guardá-lo em caixas de leite ou papelão. Isso reduz praticamente a zero o risco de o vidro se soltar da embalagem e causar ferimentos (Vidramaq, 2022).\nMas o descarte correto não para por aí. Após esse processo, é importante depositar o material no local apropriado. Se for deixá-lo na rua junto com o resto do lixo reciclável para ser recolhido pela coleta seletiva, é crucial que o vidro seja separado dos outros itens e, se possível, identificado (Vidramaq, 2022).\nUma alternativa é procurar pontos de coleta específicos para vidro. Se a sua cidade tiver um desses, é a melhor opção, pois elimina qualquer risco (Vidramaq, 2022).\nAlém disso, existem empresas especializadas na coleta de sobras de vidro. Elas fornecem contêineres específicos feitos de chapa de aço e levam o material diretamente para usinas de vidro (Vidramaq, 2022).\n!IMPORTANTE!: Enquanto o vidro comum não apresenta esse problema, vidros especiais como o vidro temperado não são recicláveis e devem ser descartados no lixo comum, seguindo as orientações de segurança fornecidas (Vidramaq, 2022).',
                                               'Embora o vidro seja altamente reciclável e uma ótima opção para substituir outros materiais, confira algumas alternativas sustentáveis para trocar o vidro no seu dia a dia:\nAço inoxidável: Utilizado para recipientes de alimentos, garrafas de água, canecas e outros utensílios domésticos. O aço inoxidável é durável, resistente e pode ser reciclado infinitamente.\nBambu: Pode ser usado para fazer copos, pratos, tigelas e utensílios de cozinha. O bambu é uma alternativa sustentável ao plástico e ao vidro, pois é biodegradável e cultivado de forma renovável.\nCerâmica: Ideal para pratos, tigelas, canecas e outros utensílios domésticos. A cerâmica é durável, resistente a arranhões e pode ser feita com argila local, reduzindo a pegada de carbono.',
                                               "VIDRO",
-                                              "COM VIDRO",
+                                              "VIDRO",
                                               "O que é vidro?",
                                               "De onde ele vem?",
                                               "Qual é o descarte correto?",
@@ -291,8 +296,7 @@ class _MyinicialState extends State<Myinicial> {
                                         MaterialPageRoute(
                                           builder: (context) => Tabbar(
                                               "assets/imgs/iconePapel.png",
-                                              Color.fromARGB(
-                                                  255, 30, 133, 218),
+                                              Color.fromARGB(255, 30, 133, 218),
                                               'O papel possui uma ampla gama de aplicações, incluindo caixas de transporte de mercadorias, embalagens de alimentos, folhas para impressão e diversos produtos de higiene e limpeza, como papel higiênico e lenços umedecidos (Cardoso M.M, 2013).\nAlém de variar em uso, o papel também varia em tipo, sendo eles:\nPapel Escritório: abrange uma ampla gama de produtos, tais como papéis de carta, blocos de anotações, papéis para copiadoras e impressoras, além de revistas e folhetos.\nPapel Ondulado: também conhecido como corrugado e popularmente referido como papelão, é amplamente utilizado na fabricação de caixas para transporte de produtos. Este material é composto por uma camada intermediária de papel entre suas partes exteriores, dispostas em ondulações. As fibras de celulose no papelão tendem a ser maiores do que as encontradas no papel convencional.\nPapel Longa Vida: conhecida como cartonada ou multicamadas, o papel Longa Vida é utilizado para preservar alimentos e é composto por diversas camadas de papel, polietileno de baixa densidade (plástico) e alumínio (Cardoso M.M, 2013).',
                                               'O papel é produzido principalmente a partir da celulose, que é extraída de árvores. Após a obtenção da madeira, ela é combinada com água para formar uma polpa à qual diversos aditivos são adicionados. Essa polpa passa por dois estágios: úmido e seco. No primeiro estágio, a folha de papel é formada, separando as fibras de celulose da água sobre uma tela. No segundo estágio, a folha é submetida a cilindros aquecidos a vapor, onde ocorre a secagem final (Cardoso M.M, 2013).',
                                               'Aqui está um guia passo a passo sobre como descartar papel para reciclagem de maneira correta:\nSepare o papel limpo e seco: Antes de separar o papel para reciclagem, certifique-se de que está completamente limpo e seco. Remova qualquer resíduo, como restos de comida ou produtos químicos, se possível. Essas substâncias contaminantes podem impedir a reciclagem. Também é útil separar os diferentes tipos de papel, como papelão, papel de escritório e jornais.\nArmazene em um recipiente protegido: Após separar o papel para reciclagem, é importante armazená-lo em recipientes secos e protegidos do tempo, ou em latas de descarte específicas para papéis recicláveis. Lembre-se de que as lixeiras para papel reciclável geralmente são azuis.\nSiga as diretrizes locais de coleta seletiva: No Brasil, a reciclagem ainda enfrenta desafios, e as diretrizes sobre coleta seletiva e reciclagem podem variar de região para região. É importante conhecer as regras locais, incluindo os dias e horários designados para a coleta de papel. Seguir essas instruções locais ajudará a enviar seus papéis e outros materiais recicláveis para a reciclagem.\nComo preparar caixas de papelão para reciclagem? Para preparar caixas de papelão para reciclagem, basta simplesmente achatá-las, remover fitas adesivas e, se possível, desdobrar suas abas. Essa preparação economiza espaço, facilita o armazenamento e transporte, simplificando o processo de reciclagem.',
@@ -307,12 +311,10 @@ class _MyinicialState extends State<Myinicial> {
                                   },
                                 )),
                           ]),
-
                       Row(
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                      
                           MouseRegion(
                             cursor: SystemMouseCursors.click,
                             child: GestureDetector(
@@ -347,7 +349,6 @@ class _MyinicialState extends State<Myinicial> {
                               },
                             ),
                           ),
-                      
                           MouseRegion(
                             cursor: SystemMouseCursors.click,
                             child: GestureDetector(
@@ -394,28 +395,27 @@ class _MyinicialState extends State<Myinicial> {
                     height: 500, // Ajuste a altura total conforme necessário
                     child: Column(
                       children: [
-                        Row(mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                          Text(
-                            "Favoritos",
-                            style: TextStyle(
-                              color: Color.fromARGB(255, 58, 125, 68),
-                              fontSize: 36,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          ideiaVerde
-                        ]),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Favoritos",
+                                style: TextStyle(
+                                  color: Color.fromARGB(255, 58, 125, 68),
+                                  fontSize: 36,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              ideiaVerde
+                            ]),
 
                         SizedBox(
                             height: 10), // Espaço entre o texto e o carrossel
                         CarouselSlider.builder(
-
                           options: CarouselOptions(
                             onPageChanged: (index, reason) =>
                                 setState(() => activeIndex = index),
                             height: 300, // Altura do carrossel
-
                           ),
                           itemCount: listaIdeias.length,
                           itemBuilder: (context, index, realIndex) {
@@ -429,17 +429,17 @@ class _MyinicialState extends State<Myinicial> {
                     ),
                   ),
                   Container(
-                    
                     height: 555, // Ajuste a altura total conforme necessário
-                    child: Column( mainAxisAlignment: MainAxisAlignment.center,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                          Text(
-                            "Seguindo",
-                            style: TextStyle(
-                              fontSize: 36,
-                              fontWeight: FontWeight.bold,
-                            ),
+                        Text(
+                          "Seguindo",
+                          style: TextStyle(
+                            fontSize: 36,
+                            fontWeight: FontWeight.bold,
                           ),
+                        ),
                         SizedBox(
                             height: 10), // Espaço entre o texto e o carrossel
                         CarouselSlider.builder(
@@ -467,71 +467,91 @@ class _MyinicialState extends State<Myinicial> {
         ));
   }
 
-
 //---- CARROSSEL ----
   Widget buildIdeia(Ideia ideia, int index) => GestureDetector(
-    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => PageIdeia(ideia.titulo, ideia.desc, ideia.img, ideia.dificuldade, ideia.passoPasso, ideia.avaliacao, ideia.autor, ideia.materiais),),),
-    child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 16, vertical: 15),
-        width: 400, // Espaçamento fora do card
-        decoration: BoxDecoration(
-          color: Colors.white, // Cor de fundo do card
-          borderRadius: BorderRadius.circular(15.0),
-          border: Border.all(color: Colors.grey[700]!),
-        ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(15.0),
-          child: Column(
-            children: [
-              SizedBox(
-                height: 10,
-              ),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(
-                    15.0), // Define o border radius na imagem
-                child: Image.asset(
-                  ideia.img,
-                  fit: BoxFit.cover,
-                  height: 170,
-                  width: 220,
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Spacer(),
-                  Text(
-                    '@${ideia.autor}',
-                    style: TextStyle(fontStyle: FontStyle.italic),
-                  ),
-                  Spacer(),
-                  Container(
-                    child: Icon(
-                      Icons.circle,
-                      color: ideia.dificuldade,
-                      size: 20,
-                    ),
-                  ),
-                  SizedBox(
-                    width: 15,
-                  )
-                ],
-              ),
-              Text(
+        onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => PageIdeia(
                 ideia.titulo,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text("200", style: TextStyle( fontSize: 15),),
-                  Icon(Icons.favorite, color: Colors.redAccent,)
-                ],
-              )
-            ],
+                ideia.desc,
+                ideia.img,
+                ideia.dificuldade,
+                ideia.passoPasso,
+                ideia.avaliacao,
+                ideia.autor,
+                ideia.materiais),
           ),
-        ),),
-  );
+        ),
+        child: Container(
+          margin: EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+          width: 390, // Espaçamento fora do card
+          decoration: BoxDecoration(
+            color: Colors.white, // Cor de fundo do card
+            borderRadius: BorderRadius.circular(15.0),
+            border: Border.all(color: Colors.grey[700]!),
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(15.0),
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 10,
+                ),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(
+                      15.0), // Define o border radius na imagem
+                  child: Image.asset(
+                    ideia.img,
+                    fit: BoxFit.cover,
+                    height: 170,
+                    width: 200,
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Spacer(),
+                    Text(
+                      '@${ideia.autor}',
+                      style: TextStyle(fontStyle: FontStyle.italic),
+                    ),
+                    Spacer(),
+                    Container(
+                      child: Icon(
+                        Icons.circle,
+                        color: ideia.dificuldade,
+                        size: 20,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 15,
+                    )
+                  ],
+                ),
+                Text(
+                  ideia.titulo,
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  textAlign: TextAlign.center,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "200",
+                      style: TextStyle(fontSize: 15),
+                    ),
+                    Icon(
+                      Icons.favorite,
+                      color: Colors.redAccent,
+                    )
+                  ],
+                )
+              ],
+            ),
+          ),
+        ),
+      );
 //----- FIM CARROSSEL ----
 
 //---- PONTO DE CONTAGEM CARROSSEL ----

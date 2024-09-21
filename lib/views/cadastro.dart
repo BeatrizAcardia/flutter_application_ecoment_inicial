@@ -223,9 +223,7 @@ class _CadastroState extends State<Cadastro> {
                             return "Este campo não pode estar vazio. Preencha o campo corretamente";
                           } else if (value.trim().length < 5) {
                             return "No minimo 5 caracteres";
-                          } else if (value.trim().length >= 8) {
-                            return "No máximo 8 caracteres";
-                          }
+                          } 
                           return null;
                         },
                       ),
