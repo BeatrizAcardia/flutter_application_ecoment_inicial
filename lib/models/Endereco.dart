@@ -1,17 +1,45 @@
 // ignore_for_file: unnecessary_this
 
 class Endereco{
-  String titulo = "";
-  String endereco = "";
 
-  Endereco(this.titulo, this.endereco);
-  Endereco.n();
+  String title = "";
+  String adress = "";
+  String type = "";
+  String time = "";
+  double lat = 0, long = 0;
 
- String get getTitulo => this.titulo;
+  Endereco(this.lat, this.long, this.title, this.type, this.adress, this.time);
+  Endereco.vazio();
 
- set setTitulo(String titulo) => this.titulo = titulo;
+ String get getTitle => this.title;
 
-  get getEndereco => this.endereco;
+ set setTitle(String title) => this.title = title;
 
- set setEndereco( endereco) => this.endereco = endereco;
+  get getAdress => this.adress;
+
+ set setAdress( adress) => this.adress = adress;
+
+  get getType => this.type;
+
+ set setType( type) => this.type = type;
+
+  get getTime => this.time;
+
+ set setTime( time) => this.time = time;
+
+  get getLong => this.long;
+
+ set setLong( long) => this.long = long;
+
+
+  
+ 
+  
+  
+
+ 
+
+  
+
+ 
 }
