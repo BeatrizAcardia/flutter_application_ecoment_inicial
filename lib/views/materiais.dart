@@ -65,7 +65,7 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
 
   List<Ideia> listaIdeias = [
     Ideia.n(
-        "Apanhador de frutas com cano PVC e garrada PET",
+        "Apanhador de frutas",
         "assets/imgs/ideia1.jpg",
         Colors.red,
         5,

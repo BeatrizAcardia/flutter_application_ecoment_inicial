@@ -249,7 +249,7 @@ class _FormIdeiaState extends State<FormIdeia> {
                               'INFORMAÇÕES IMPORTANTES',
                               style: TextStyle(
                                   color: Color.fromARGB(255, 58, 125, 68),
-                                  fontSize: 22,
+                                  fontSize: 19,
                                   fontWeight: FontWeight.w700,
                                   fontFamily: 'Circe'),
                             )
