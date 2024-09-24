@@ -52,6 +52,8 @@ class _MyinicialState extends State<Myinicial> {
       child: Image.asset('assets/imgs/ideiaIconVerde.png'));
 
   int activeIndex = 0;
+  int activeIndex2 = 0;
+  int activeIndex3 = 0;
 
   List<Ideia> listaIdeias = [
     Ideia(
@@ -148,7 +150,7 @@ class _MyinicialState extends State<Myinicial> {
                           //fim Carrossel
 
                           const SizedBox(height: 32),
-                          buildIndicator(),
+                          buildIndicator(activeIndex),
                           SizedBox(height: 50),
                         ],
                       ),
@@ -414,7 +416,7 @@ class _MyinicialState extends State<Myinicial> {
                         CarouselSlider.builder(
                           options: CarouselOptions(
                             onPageChanged: (index, reason) =>
-                                setState(() => activeIndex = index),
+                                setState(() => activeIndex2 = index),
                             height: 300, // Altura do carrossel
                           ),
                           itemCount: listaIdeias.length,
@@ -424,7 +426,7 @@ class _MyinicialState extends State<Myinicial> {
                           },
                         ),
                         const SizedBox(height: 32),
-                        buildIndicator(),
+                        buildIndicator(activeIndex2),
                       ],
                     ),
                   ),
@@ -445,7 +447,7 @@ class _MyinicialState extends State<Myinicial> {
                         CarouselSlider.builder(
                           options: CarouselOptions(
                             onPageChanged: (index, reason) =>
-                                setState(() => activeIndex = index),
+                                setState(() => activeIndex3 = index),
                             height: 300, // Altura do carrossel
                           ),
                           itemCount: listaIdeias.length,
@@ -455,7 +457,7 @@ class _MyinicialState extends State<Myinicial> {
                           },
                         ),
                         const SizedBox(height: 32),
-                        buildIndicator(),
+                        buildIndicator(activeIndex3),
                       ],
                     ),
                   ),
@@ -555,8 +557,8 @@ class _MyinicialState extends State<Myinicial> {
 //----- FIM CARROSSEL ----
 
 //---- PONTO DE CONTAGEM CARROSSEL ----
-  Widget buildIndicator() => AnimatedSmoothIndicator(
-        activeIndex: activeIndex,
+  Widget buildIndicator(int x) => AnimatedSmoothIndicator(
+        activeIndex: x,
         count: listaIdeias.length,
         effect: ScrollingDotsEffect(
           dotWidth: 12,
