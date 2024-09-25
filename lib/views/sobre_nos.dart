@@ -55,7 +55,7 @@ class _SobreNosState extends State<SobreNos> {
     Team(
         "Beatriz A. Cardia",
         "Desenvolvedora Front-End e Designer",
-        "Oi eu sou a Bia, nascida em Americana, São Paulo. Desde a infância, me encantei pelo universo da tecnologia, mas sempre nutri um grande sonho: tornar-me professora na educação infantil. Além da minha paixão pela educação, tenho uma afinidade especial com as artes. Estou determinada a seguir meu sonho de ser professora na educação infantil, enquanto nutro minha criatividade através do desenho e realizo meu desejo de explorar o mundo. Estou ansiosa para ver onde essa jornada me levará.",
+        "Oi eu sou a Bia, nascida em Americana, São Paulo. Desde a infância, me encantei pelo universo da tecnologia, mas sempre nutri um grande sonho: tornar-me professora na educação infantil. Além da minha paixão pela educação, tenho uma afinidade especial com as artes. Estou determinada a seguir meu sonho de ser professora na educação infantil.",
         "assets/imgs/bea.jpg"),
     Team(
         "Vitor H.S. Nascimento",

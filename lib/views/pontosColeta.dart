@@ -912,7 +912,9 @@ class _PontosColetaState extends State<PontosColeta> {
                   children: [
                     TextField(
                       controller: cepController,
+                      style: TextStyle(color: Colors.white),
                       decoration: InputDecoration(
+                        
                         filled: true,
                         fillColor: Colors.grey[800],
                         hintText: 'CEP, endereço ou coordenadas',
