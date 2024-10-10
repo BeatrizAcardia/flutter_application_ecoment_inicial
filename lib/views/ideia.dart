@@ -86,7 +86,7 @@ class _IdeiaState extends State<PageIdeia> {
 
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<GlobalState>(context);
+    final user = Provider.of<UsuarioProvider>(context);
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -190,7 +190,7 @@ class _IdeiaState extends State<PageIdeia> {
                                     MouseRegion(
                                       cursor: SystemMouseCursors.click,
                                       child: GestureDetector(
-                                          onTap: user.name == ""
+                                          onTap: /* user.name */ user.email == ""
                                               ? () {
                                                   showDialog(
                                                     context: context,

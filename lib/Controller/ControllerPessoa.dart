@@ -5,11 +5,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferencesHelper {
   
-  static Future<void> savePessoa(Pessoa pessoa) async {
+  /* static Future<void> savePessoa(Pessoa pessoa) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String pessoaJson = jsonEncode(pessoa.toJson());
     prefs.setString('pessoa', pessoaJson);
-  }
+  } */
 
   static Future<Pessoa?> getPessoa() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

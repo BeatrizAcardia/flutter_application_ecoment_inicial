@@ -1,13 +1,20 @@
-// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, sort_child_properties_last, prefer_const_literals_to_create_immutables, avoid_function_literals_in_foreach_calls
+// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, sort_child_properties_last, prefer_const_literals_to_create_immutables, avoid_function_literals_in_foreach_calls, unnecessary_brace_in_string_interps
+
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter_application_ecoment_inicial/Controller/ControllerPessoa.dart';
+import 'package:flutter_application_ecoment_inicial/Data/Get.dart';
+import 'package:flutter_application_ecoment_inicial/Data/Post.dart';
 import 'package:flutter_application_ecoment_inicial/models/pessoa.dart';
 import 'package:flutter_application_ecoment_inicial/models/pessoaProvider.dart';
+import 'package:flutter_application_ecoment_inicial/repository/pessoaRepository.dart';
 import 'package:flutter_application_ecoment_inicial/views/inicial.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class Cadastro extends StatefulWidget {
   const Cadastro({super.key});
@@ -17,40 +24,27 @@ class Cadastro extends StatefulWidget {
 }
 
 class _CadastroState extends State<Cadastro> {
-  Pessoa? _pessoa;
-  List<Pessoa> listaP = [];
   GlobalKey<FormState> keyVal = GlobalKey();
   TextEditingController usernameController = TextEditingController();
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-    TextEditingController passwordController2 = TextEditingController();
+  TextEditingController passwordController2 = TextEditingController();
 
-  Future<void> _loadPessoa() async {
-    Pessoa? pessoa = await SharedPreferencesHelper.getPessoa();
-    setState(() {
-      _pessoa = pessoa;
-    });
-  }
-
-  Future<void> savePessoa(String _name, String _username, String _email, String _password) async {
-    Pessoa pessoa = Pessoa.json(name: _name, username: _username, email: _email, password: _password);
-    await SharedPreferencesHelper.savePessoa(pessoa);
-    _loadPessoa();
-  }
-
-  final buttonLabel = SizedBox(child: Text("CADASTRAR", style: TextStyle(
-    fontSize: 20,
-    fontFamily: 'Poppins',
-    fontWeight: FontWeight.bold,
-    color: Colors.white,
-    
-  ),)
-  );
+  final buttonLabel = SizedBox(
+      child: Text(
+    "CADASTRAR",
+    style: TextStyle(
+      fontSize: 20,
+      fontFamily: 'Poppins',
+      fontWeight: FontWeight.bold,
+      color: Colors.white,
+    ),
+  ));
 
   @override
   Widget build(BuildContext context) {
-    final globalState = Provider.of<GlobalState>(context);
+    final globalState = Provider.of<UsuarioProvider>(context);
     return Scaffold(
       body: SingleChildScrollView(
         child: Stack(
@@ -223,7 +217,7 @@ class _CadastroState extends State<Cadastro> {
                             return "Este campo não pode estar vazio. Preencha o campo corretamente";
                           } else if (value.trim().length < 5) {
                             return "No minimo 5 caracteres";
-                          } 
+                          }
                           return null;
                         },
                       ),
@@ -257,8 +251,7 @@ class _CadastroState extends State<Cadastro> {
                         validator: (value) {
                           if (value!.trim().isEmpty) {
                             return "Este campo não pode estar vazio. Preencha o campo corretamente";
-                          }
-                          else if(value != passwordController.text){
+                          } else if (value != passwordController.text) {
                             return "As senhas devem ser iguais";
                           }
                           return null;
@@ -269,30 +262,70 @@ class _CadastroState extends State<Cadastro> {
                     Container(
                       height: 50,
                       child: ElevatedButton(
-                        onPressed: () {
+                        onPressed: () async {
                           if (keyVal.currentState!.validate()) {
-                            // savePessoa(usernameController.text, usernameController.text, emailController.text, passwordController.text);
-                            cadastrarP(usernameController.text,
-                            emailController.text, passwordController.text);
-                            globalState.setName(nameController.text);
-                            globalState.setUsername(usernameController.text);
-                            globalState.setEmail(emailController.text);
-                            globalState.setPassword(passwordController.text);
-                            // mostrar();
-                            Navigator.push(
+                            // Esperar o retorno da função assíncrona
+                            bool exist = await bancoGet.verificaUsuarioExistente(
+                                usernameController.text, emailController.text);
+
+                            // Verificação simples após a resposta da função assíncrona
+                            if (exist) {
+                              // Mostrar o diálogo
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text('Usuário Já Cadastrado'),
+                                    content: Text(
+                                        'Usuário e/ou Email já estão cadastrados. Tente outro Usuário e/ou Email'),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context)
+                                              .pop(); // Fechar o diálogo
+                                        },
+                                        child: Text('Fechar'),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                              print("Já existe usuário com esses dados");
+                            } else {
+                              // Se o usuário não existe, cadastrar a pessoa
+                              await bancoPost.cadastrarPessoaEmailSenha(
+                                  usernameController.text,
+                                  emailController.text,
+                                  passwordController.text
+                              );
+
+                              await bancoGet.buscarPessoaByEmailAndSet(emailController.text, context);
+
+                              // Atualizar o estado global
+                              /* globalState.setUsername(usernameController.text);
+                              globalState.setEmail(emailController.text);
+                              globalState.setSenha(passwordController.text); */
+
+
+
+                              // Navegar para a próxima página
+                              Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => Myinicial(),
-                                ));
-                            setState(() {});
+                                ),
+                              );
+                            }
+
+                            setState(
+                                () {}); // Atualizar o estado, se necessário
                           }
                         },
                         child: buttonLabel,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Color(0xff3B5364),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                                50), // Ajuste o valor conforme necessário para tornar o botão mais quadrado
+                            borderRadius: BorderRadius.circular(50),
                           ),
                         ),
                       ),
@@ -306,19 +339,8 @@ class _CadastroState extends State<Cadastro> {
       ),
     );
   }
+  
+  Get bancoGet = Get();
+  Post bancoPost = Post();
 
-  void cadastrarP(String username, String email, String password){
-    Pessoa p = Pessoa(username, email, password);
-    listaP.add(p);
-  }
-
-  void mostrar(){
-    listaP.forEach((Pessoa p) {
-      print("DADOS");
-      print(p.getUsername);
-      print(p.getEmail);
-      print(p.getPassword);
-      print("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
-    });
-  }
 }

@@ -4,66 +4,91 @@
 import 'package:flutter/material.dart';
 
 class Pessoa{
-  String name = "";
+  int idUsuarioWeb = 0;
   String username = "";
   String email = "";
-  String password = "";
+  String senha = "";
+  String fotoPerfil = "";
+  int qtdeSeguidores = 0;
+  int qtdeSeguindo = 0;
+  int qtdeCurtidas = 0;
+  int qtdePostagens = 0;
+  int ativo = 0;
+  double reputacao = 0;
 
 
   Pessoa(
    this.username,
    this.email, 
-   this.password,
+   this.senha,
   );
 
   Pessoa.full(
-   this.name,
    this.username,
    this.email, 
-   this.password,
+   this.senha,
 );
 
-  Pessoa.json({
-   required this.name,
-   required this.username,
-   required this.email, 
-   required this.password,
-});
+  Pessoa.fromJson(Map<String, dynamic> json)
+  :
+  idUsuarioWeb = json['idUsuarioWeb'] ?? "",
+  username = json['nomeWeb'] ?? "",
+  email = json['emailWeb'] ?? "",
+  senha = json['senhaWeb'] ?? "",
+  qtdeSeguidores = json['qtdeSeguidores'] ?? "",
+  qtdeSeguindo = json['qtdeSeguindo'] ?? "",
+  qtdeCurtidas = json['qtdeCurtidas'] ?? "",
+  qtdePostagens = json['qtdePostagens'] ?? "",
+  reputacao = json['reputacao'] ?? "",
+  ativo = json['ativo'] ?? "",
+  fotoPerfil = json['fotoPerfil'] ?? ""
+  ;
 
   Pessoa.n();
 
-  Map<String, dynamic> toJson() =>{
-    'name': name,
-    'username': username,
-    'email': email,
-    'password': password,
-  };
 
-  factory Pessoa.fromJson(Map<String, dynamic> json) => Pessoa.json(
-    name: json['name'],
-    username: json['username'],
-    email: json['email'],
-    password: json['password'],
-  );
+get getIdUsuarioWeb => this.idUsuarioWeb;
 
+ set setIdUsuarioWeb( idUsuarioWeb) => this.idUsuarioWeb = idUsuarioWeb;
 
+  get getUsername => this.username;
 
- 
- String get getName => this.name;
-
- set setName(String name) => this.name = name;
-
- String get getUsername => this.username;
-
- set setUsername(String username) => this.username = username;
+ set setUsername( username) => this.username = username;
 
   get getEmail => this.email;
 
  set setEmail( email) => this.email = email;
 
-  get getPassword => this.password;
+  get getSenha => this.senha;
 
- set setPassword( password) => this.password = password;
+ set setSenha( senha) => this.senha = senha;
+
+  get getFotoPerfil => this.fotoPerfil;
+
+ set setFotoPerfil( fotoPerfil) => this.fotoPerfil = fotoPerfil;
+
+  get getQtdeSeguidores => this.qtdeSeguidores;
+
+ set setQtdeSeguidores( qtdeSeguidores) => this.qtdeSeguidores = qtdeSeguidores;
+
+  get getQtdeSeguindo => this.qtdeSeguindo;
+
+ set setQtdeSeguindo( qtdeSeguindo) => this.qtdeSeguindo = qtdeSeguindo;
+
+  get getQtdeCurtidas => this.qtdeCurtidas;
+
+ set setQtdeCurtidas( qtdeCurtidas) => this.qtdeCurtidas = qtdeCurtidas;
+
+  get getQtdePostagens => this.qtdePostagens;
+
+ set setQtdePostagens( qtdePostagens) => this.qtdePostagens = qtdePostagens;
+
+  get getAtivo => this.ativo;
+
+ set setAtivo( ativo) => this.ativo = ativo;
+
+  get getReputacao => this.reputacao;
+
+ set setReputacao( reputacao) => this.reputacao = reputacao;
   
-
 }

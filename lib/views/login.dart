@@ -1,11 +1,14 @@
 // ignore_for_file: prefer_const_constructors, sized_box_for_whitespace
 
 import 'package:flutter/material.dart';
+import 'package:flutter_application_ecoment_inicial/Data/Get.dart';
 import 'package:flutter_application_ecoment_inicial/models/pessoa.dart';
 import 'package:flutter_application_ecoment_inicial/models/pessoaProvider.dart';
 import 'package:flutter_application_ecoment_inicial/views/cadastro.dart';
 import 'package:flutter_application_ecoment_inicial/views/inicial.dart';
 import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -15,16 +18,14 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  Pessoa p1 =
-      Pessoa.full("Vitor Henrique", "VitorH", "cl202247@g.unicamp.br", "abcd12345");
-  List<Pessoa> listaPessoa = [];
+
   GlobalKey<FormState> keyVal = GlobalKey();
   TextEditingController usernameEmailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<GlobalState>(context);
+    final user = Provider.of<UsuarioProvider>(context);
     return Scaffold(
       body: SingleChildScrollView(
         child: Stack(
@@ -142,23 +143,17 @@ class _LoginState extends State<Login> {
                             width: 130,
                             height: 50,
                             child: ElevatedButton(
-                              onPressed: () {
+                              onPressed: () async {
                                 if (keyVal.currentState!.validate()) {
-                                  listaPessoa.add(p1);
-                                  if (verificaUser(usernameEmailController.text,
-                                      passwordController.text)) {
-                                    Pessoa dadosUser = dadosUsuario(
-                                        usernameEmailController.text,
-                                        passwordController.text);
-                                    user.setName(dadosUser.getName);
-                                    user.setUsername(dadosUser.getUsername);
-                                    user.setEmail(dadosUser.getEmail);
-                                    user.setPassword(dadosUser.getPassword);
+                                  bool exist = await bancoGet.verificaUsuarioByEmailOrUsernameAndSenha(usernameEmailController.text, passwordController.text);
+                                  if (exist == true) {
+                                    bancoGet.verificaUsuarioByEmailOrUsernameAndSenhaAndSet(usernameEmailController.text, passwordController.text, context);
                                     Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => Myinicial(),
-                                        ));
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => Myinicial(),
+                                      ),
+                                    );
                                   } else {
                                     showDialog(
                                       context: context,
@@ -179,19 +174,21 @@ class _LoginState extends State<Login> {
                                       },
                                     );
                                   }
-        
                                   setState(() {});
                                 }
                               },
-                              child: Text(
-                                "Entrar",
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontFamily: 'Poppins',
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                ),
-                              ),
+                              child: isLoading
+                                  ? CircularProgressIndicator(
+                                      color: Colors.white)
+                                  : Text(
+                                      "Entrar",
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        fontFamily: 'Poppins',
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                    ),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Color(0xff3a7d44),
                                 shape: RoundedRectangleBorder(
@@ -243,27 +240,7 @@ class _LoginState extends State<Login> {
     );
   }
 
-  bool verificaUser(String userEmail, String password) {
-    for (Pessoa p in listaPessoa) {
-      if ((p.getUsername == userEmail || p.getEmail == userEmail) && p.getPassword == password) {
-        return true;
-      }
-    }
-    return false;
-  }
+  Get bancoGet = Get();
 
-  Pessoa dadosUsuario(String username, String password) {
-    Pessoa pe = Pessoa.n();
-    listaPessoa.forEach(
-      (Pessoa p) {
-        if ((p.getUsername == username || p.getEmail == username) && p.getPassword == password) {
-          pe.setName = p.getName;
-          pe.setUsername = p.getUsername;
-          pe.setEmail = p.getEmail;
-          pe.setPassword = p.getPassword;
-        }
-      },
-    );
-    return pe;
-  }
+  bool isLoading = false;
 }

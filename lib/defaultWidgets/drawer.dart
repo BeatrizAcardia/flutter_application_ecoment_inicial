@@ -23,7 +23,7 @@ class _DrawerState extends State<WidgetDrawer> {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<GlobalState>(context);
+    final user = Provider.of<UsuarioProvider>(context);
     return 
 Drawer(
   child: ListView(
@@ -96,7 +96,7 @@ Drawer(
               },
             ),
             SizedBox(height: 100,),
-             user.name == "" ? Container(
+             /* user.name */ user.email == "" ? Container(
               child: Column(
                 children: [
                   ElevatedButton(
@@ -132,10 +132,10 @@ Drawer(
               ),
              ): ElevatedButton(
               onPressed: () {
-                user.setName("");
+                /* user.setName(""); */
                 user.setUsername("");
                 user.setEmail("");
-                user.setPassword("");
+                user.setSenha("");
               },
               child: Text("Sair", style: TextStyle(
                 color: Colors.white,

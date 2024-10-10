@@ -106,9 +106,10 @@ class _MinhaContaState extends State<MinhaConta> {
 
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<GlobalState>(context);
+    final user = Provider.of<UsuarioProvider>(context);
 
-    if (user.name == "" || user.name == null) {
+    if (/* user.name */ user.email == "" || /* user.name */
+        user.email == null) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         _showErrorDialog(context);
       });
@@ -173,19 +174,12 @@ class _MinhaContaState extends State<MinhaConta> {
                               Column(
                                 children: [
                                   Text(
-                                    user.name,
+                                    "${user.username}",
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontFamily: 'Poppins',
                                         fontWeight: FontWeight.bold,
                                         fontSize: 18),
-                                  ),
-                                  Text(
-                                    "@${user.username}",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontFamily: 'Poppins',
-                                        fontSize: 15),
                                   ),
                                   Text(
                                     "${user.email}",
@@ -194,14 +188,57 @@ class _MinhaContaState extends State<MinhaConta> {
                                         fontFamily: 'Poppins',
                                         fontSize: 15),
                                   ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      RichText(
+                                        text: TextSpan(children: [
+                                          TextSpan(
+                                            text: "Seguidores: ", style: TextStyle(
+                                            color: Colors.white,
+                                            fontFamily: 'Poppins',
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15),
+                                          ),
+                                          TextSpan(
+                                            text: user.qtdeSeguidores.toString(), style: TextStyle(
+                                            color: Colors.white,
+                                            fontFamily: 'Poppins',
+                                            fontSize: 15),
+                                          ),
+                                        ]),
+                                      ),
+                                      SizedBox(
+                                        width: 20,
+                                      ),
+                                      RichText(
+                                        text: TextSpan(children: [
+                                          TextSpan(
+                                            text: "Seguindo: ", style: TextStyle(
+                                            color: Colors.white,
+                                            fontFamily: 'Poppins',
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15),
+                                          ),
+                                          TextSpan(
+                                            text: user.qtdeSeguindo.toString(), style: TextStyle(
+                                            color: Colors.white,
+                                            fontFamily: 'Poppins',
+                                            fontSize: 15),
+                                          ),
+                                        ]),
+                                      ),
+                                    ],
+                                  ),
                                 ],
                               ),
                               IconButton(
                                 onPressed: () {
-                                    user.setName("");
-                                    user.setUsername("");
-                                    user.setEmail("");
-                                    user.setPassword("");
+                                  /* user.setName(""); */
+                                  user.setUsername("");
+                                  user.setEmail("");
+                                  user.setSenha("");
                                 },
                                 icon: Icon(Icons.output_sharp),
                                 color: Colors.white,
@@ -318,7 +355,7 @@ class _MinhaContaState extends State<MinhaConta> {
                   children: [
                     Spacer(),
                     Text(
-                      '@${ideia.autor}',
+                      '${ideia.autor}',
                       style: TextStyle(fontStyle: FontStyle.italic),
                     ),
                     Spacer(),
