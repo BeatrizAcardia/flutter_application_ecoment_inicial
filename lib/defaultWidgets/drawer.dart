@@ -64,35 +64,35 @@ Drawer(
               leading: Icon(Icons.person_2_outlined, color: Colors.black),
               title: Text("Perfil", style: TextStyle(fontFamily: 'Nunito')),
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => MinhaConta(),));
+                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => MinhaConta(),),(route) => false);
               },
             ),
             ListTile(
               leading: Icon(Icons.home_outlined, color: Colors.black),
               title: Text("Início", style: TextStyle(fontFamily: 'Nunito')),
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => Myinicial(),));
+                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Myinicial(),),(route) => false);
               },
             ),
             ListTile(
               leading: Icon(Icons.pin_drop_outlined, color: Colors.black),
               title: Text("Pontos de coleta", style: TextStyle(fontFamily: 'Nunito')),
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => PontosColeta(),));
+                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => PontosColeta(),),(route) => false);
               },
             ),
             ListTile(
               leading: Icon(Icons.groups, color: Colors.black),
               title: Text("Sobre nós", style: TextStyle(fontFamily: 'Nunito')),
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => SobreNos(),));
+                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => SobreNos(),),(route) => false);
               },
             ),
             ListTile(
               leading: Icon(Icons.lightbulb, color: Colors.black),
               title: Text("Publicar ideia", style: TextStyle(fontFamily: 'Nunito')),
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => FormIdeia(),));
+                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => FormIdeia(),),(route) => false);
               },
             ),
             SizedBox(height: 100,),
@@ -101,7 +101,7 @@ Drawer(
                 children: [
                   ElevatedButton(
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => Cadastro(),));
+                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Cadastro(),),(route) => false);
               },
               child: Text("Cadastre-se", style: TextStyle(
                 color: Colors.white,
@@ -116,7 +116,7 @@ Drawer(
             SizedBox(height: 20,),
             ElevatedButton(
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => Login(),));
+                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Login(),),(route) => false);
               },
               child: Text("Entrar", style: TextStyle(
                 color: Colors.white,

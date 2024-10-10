@@ -589,7 +589,6 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
 
                           ],),
                           ),
-
                       Center(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -629,9 +628,7 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
                                 
                                 SizedBox(width: 30), // Espaçamento entre o filtro e a pesquisa
 
-                                SizedBox(
-                                  width: 170,
-                                  height: 35, 
+                                Expanded(
                                   child: TextField(
                                     controller: searchController,
                                     decoration: InputDecoration(
@@ -674,11 +671,11 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
 
 
 
-                          SizedBox(height: 30),
-                          listaIdeias.isNotEmpty
-                              ? Container(
+                          SizedBox(height: 10),
+                           Container(
                                 height: 300,
-                                  child: GridView.builder(
+                                  child: listaIdeias.isNotEmpty
+                              ? GridView.builder(
                                   shrinkWrap: true,
                                   physics: NeverScrollableScrollPhysics(),
                                   gridDelegate:
@@ -700,14 +697,14 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
                                         listaFiltrada[index].getMateriais,
                                         listaFiltrada[index].getMaterial);
                                   },
-                                ))
-                              : Center(
+                                ): Center(
                                   child: Text(
                                     "Sem posts no momento. Que tal postar alguma coisa?",
                                     style: TextStyle(fontSize: 25),
                                     textAlign: TextAlign.center,
                                   ),
-                                ),
+                                ),),
+                              
                           listaFiltrada.isEmpty
                               ? Center(
                                   child: Text(

@@ -226,7 +226,38 @@ class _LoginState extends State<Login> {
                               );
                             },
                           ),
-                          SizedBox(height: 30),
+                          SizedBox(height: 5),
+                          Text("Ou", style: TextStyle(
+                              fontSize: 20,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text("Entre como ", style: TextStyle(
+                              fontSize: 20,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),),
+                              GestureDetector(
+                                onTap: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Myinicial(),
+                                ),
+                              ),
+                                child: Text("Convidado", style: TextStyle(
+                                  fontSize: 20,
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xff94b64b),
+                                ),),
+                              ),
+                            ],
+                          )
                         ],
                       ),
                     ),

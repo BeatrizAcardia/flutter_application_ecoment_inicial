@@ -8,8 +8,10 @@ import 'package:flutter_application_ecoment_inicial/defaultWidgets/drawer.dart';
 import 'package:flutter_application_ecoment_inicial/models/ideia.dart';
 import 'package:flutter_application_ecoment_inicial/models/pessoa.dart';
 import 'package:flutter_application_ecoment_inicial/models/pessoaProvider.dart';
+import 'package:flutter_application_ecoment_inicial/views/cadastro.dart';
 import 'package:flutter_application_ecoment_inicial/views/ideia.dart';
 import 'package:flutter_application_ecoment_inicial/views/inicial.dart';
+import 'package:flutter_application_ecoment_inicial/views/login.dart';
 import 'package:flutter_application_ecoment_inicial/views/pontosColeta.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_application_ecoment_inicial/views/preferencias.dart';
@@ -84,24 +86,43 @@ class _MinhaContaState extends State<MinhaConta> {
           style: nunito,
         ),
         content: Text(
-          'Essa página é inacessivel para convidados. Faça o Login ou cadastre-se para ter acesso a essa página',
+          'Essa funcionalidade é inacessivel para convidados. Faça o Login ou cadastre-se para ter acesso a essa funcionalidade',
           style: nunito,
         ),
         actions: [
           CupertinoDialogAction(
-            child: Text('OK', style: nunito),
+            child: Text('Entrar', style: nunito),
             onPressed: () {
-              Navigator.pop(context); // Fecha o diálogo
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => Myinicial(),
-                  )); // Volta para a página anterior
+                    builder: (context) => Login(),
+                  )); // Fecha o diálogo
             },
-          )
+          ),
+          CupertinoDialogAction(
+            child: Text('Cadastro', style: nunito),
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Cadastro(),
+                  )); // Fecha o diálogo
+            },
+          ),
         ],
       ),
-    );
+    ).then((_) {
+      // Quando o diálogo é fechado (incluindo ao clicar fora)
+      // Redireciona para a página de Login ou inicial se necessário
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                Myinicial()), // Pode ser a página inicial ou login
+        (route) => false, // Remove todas as rotas anteriores
+      );
+    });
   }
 
   @override
@@ -195,17 +216,20 @@ class _MinhaContaState extends State<MinhaConta> {
                                       RichText(
                                         text: TextSpan(children: [
                                           TextSpan(
-                                            text: "Seguidores: ", style: TextStyle(
-                                            color: Colors.white,
-                                            fontFamily: 'Poppins',
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 15),
+                                            text: "Seguidores: ",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontFamily: 'Poppins',
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 15),
                                           ),
                                           TextSpan(
-                                            text: user.qtdeSeguidores.toString(), style: TextStyle(
-                                            color: Colors.white,
-                                            fontFamily: 'Poppins',
-                                            fontSize: 15),
+                                            text:
+                                                user.qtdeSeguidores.toString(),
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontFamily: 'Poppins',
+                                                fontSize: 15),
                                           ),
                                         ]),
                                       ),
@@ -215,17 +239,19 @@ class _MinhaContaState extends State<MinhaConta> {
                                       RichText(
                                         text: TextSpan(children: [
                                           TextSpan(
-                                            text: "Seguindo: ", style: TextStyle(
-                                            color: Colors.white,
-                                            fontFamily: 'Poppins',
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 15),
+                                            text: "Seguindo: ",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontFamily: 'Poppins',
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 15),
                                           ),
                                           TextSpan(
-                                            text: user.qtdeSeguindo.toString(), style: TextStyle(
-                                            color: Colors.white,
-                                            fontFamily: 'Poppins',
-                                            fontSize: 15),
+                                            text: user.qtdeSeguindo.toString(),
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontFamily: 'Poppins',
+                                                fontSize: 15),
                                           ),
                                         ]),
                                       ),

@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_ecoment_inicial/defaultWidgets/bottomAppBar.dart';
 import 'package:flutter_application_ecoment_inicial/defaultWidgets/drawer.dart';
 import 'package:flutter_application_ecoment_inicial/models/pessoaProvider.dart';
+import 'package:flutter_application_ecoment_inicial/views/cadastro.dart';
+import 'package:flutter_application_ecoment_inicial/views/login.dart';
 import 'package:provider/provider.dart';
 
 class PageIdeia extends StatefulWidget {
@@ -206,13 +208,21 @@ class _IdeiaState extends State<PageIdeia> {
                                                       ),
                                                       actions: [
                                                         CupertinoDialogAction(
-                                                          child: Text('OK',
+                                                          child: Text('Entrar',
                                                               style: nunito),
                                                           onPressed: () {
-                                                            Navigator.pop(
-                                                                context); // Fecha o diálogo
+                                                            Navigator.push(
+                                                                context, MaterialPageRoute(builder: (context) => Login(),)); // Fecha o diálogo
                                                           },
-                                                        )
+                                                        ),
+                                                        CupertinoDialogAction(
+                                                          child: Text('Cadastro',
+                                                              style: nunito),
+                                                          onPressed: () {
+                                                            Navigator.push(
+                                                                context, MaterialPageRoute(builder: (context) => Cadastro(),)); // Fecha o diálogo
+                                                          },
+                                                        ),
                                                       ],
                                                     ),
                                                   );
