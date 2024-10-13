@@ -23,52 +23,52 @@ class _IdeiasReutilizacaoState extends State<IdeiasReutilizacao> {
     Ideia.n(
         "Apanhador de frutas com cano PVC e garrada PET",
         "assets/imgs/ideia1.jpg",
-        Colors.red,
+        "dificil",
         5,
         "bagulho foda",
         "1 passo, 2 passo",
         "carlinhos1",
-        ['material 1', 'material 2'],
+        'material 1',
         "Plástico"),
     Ideia.n(
         "titulo2",
         "assets/imgs/ideia2.jpg",
-        Colors.green,
+        "facil",
         4,
         "bagulho foda",
         "1 passo, 2 passo",
         "carlinhos2",
-        ['material 1', 'material 2'],
+        'material 1',
         "Orgânico"),
     Ideia.n(
         "titulo3",
         "assets/imgs/ideia1.jpg",
-        Colors.yellow,
+        "media",
         3,
         "bagulho foda",
         "1 passo, 2 passo",
         "carlinhos3",
-        ['material 1', 'material 2'],
+        'material 1',
         "Metal"),
     Ideia.n(
         "titulo4",
         "assets/imgs/ideia2.jpg",
-        Colors.green,
+        "facil",
         1,
         "bagulho foda",
         "1 passo, 2 passo",
         "carlinhos4",
-        ['material 1', 'material 2'],
+        'material 1',
         "Vidro"),
     Ideia.n(
         "titulo5",
         "assets/imgs/ideia2.jpg",
-        Colors.red,
+        "dificil",
         2,
         "bagulho foda",
         "1 passo, 2 passo",
         "carlinhos5",
-        ['material 1', 'material 2'],
+        'material 1',
         "Papel"),
   ];
 
@@ -127,7 +127,7 @@ class _IdeiasReutilizacaoState extends State<IdeiasReutilizacao> {
                       onChanged: (text) {
                         setState(() {
                           listaFiltrada = listaIdeias
-                              .where((idea) => idea.getTitulo
+                              .where((idea) => idea.getNomePostagem
                                   .toLowerCase()
                                   .contains(text.toLowerCase()))
                               .toList();
@@ -655,13 +655,13 @@ class _IdeiasReutilizacaoState extends State<IdeiasReutilizacao> {
           context,
           MaterialPageRoute(
             builder: (context) => PageIdeia(
-                ideia.titulo,
+                ideia.nomePostagem,
                 ideia.desc,
-                ideia.img,
+                ideia.img1,
                 ideia.dificuldade,
                 ideia.passoPasso,
                 ideia.avaliacao,
-                ideia.autor,
+                ideia.nomeUsuario,
                 ideia.materiais),
           ),
         ),
@@ -684,7 +684,7 @@ class _IdeiasReutilizacaoState extends State<IdeiasReutilizacao> {
                   borderRadius: BorderRadius.circular(
                       15.0), // Define o border radius na imagem
                   child: Image.asset(
-                    ideia.img,
+                    ideia.img1,
                     fit: BoxFit.cover,
                     height: 170,
                   ),
@@ -694,14 +694,14 @@ class _IdeiasReutilizacaoState extends State<IdeiasReutilizacao> {
                   children: [
                     Spacer(),
                     Text(
-                      '@${ideia.autor}',
+                      '@${ideia.nomeUsuario}',
                       style: TextStyle(fontStyle: FontStyle.italic),
                     ),
                     Spacer(),
                     Container(
                       child: Icon(
                         Icons.circle,
-                        color: ideia.dificuldade,
+                        color: definirCor(ideia.dificuldade),
                         size: 20,
                       ),
                     ),
@@ -711,7 +711,7 @@ class _IdeiasReutilizacaoState extends State<IdeiasReutilizacao> {
                   ],
                 ),
                 Text(
-                  ideia.titulo,
+                  ideia.nomePostagem,
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                   textAlign: TextAlign.center,
                 ),
@@ -757,7 +757,7 @@ class _IdeiasReutilizacaoState extends State<IdeiasReutilizacao> {
                 borderRadius: BorderRadius.circular(
                     15.0), // Define o border radius na imagem
                 child: Image.asset(
-                  ideia.img,
+                  ideia.img1,
                   fit: BoxFit.cover,
                   height: 170,
                   width: 220,
@@ -771,14 +771,14 @@ class _IdeiasReutilizacaoState extends State<IdeiasReutilizacao> {
                 children: [
                   Spacer(),
                   Text(
-                    '@${ideia.autor}',
+                    '@${ideia.nomeUsuario}',
                     style: TextStyle(fontStyle: FontStyle.italic),
                   ),
                   Spacer(),
                   Container(
                     child: Icon(
                       Icons.circle,
-                      color: ideia.dificuldade,
+                      color: definirCor(ideia.dificuldade),
                       size: 20,
                     ),
                   ),
@@ -789,7 +789,7 @@ class _IdeiasReutilizacaoState extends State<IdeiasReutilizacao> {
               ),
               Expanded(
                 child: Text(
-                  ideia.titulo,
+                  ideia.nomePostagem,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
@@ -820,13 +820,13 @@ class _IdeiasReutilizacaoState extends State<IdeiasReutilizacao> {
             context,
             MaterialPageRoute(
                 builder: (context) => PageIdeia(
-                    ideia.titulo,
+                    ideia.nomePostagem,
                     ideia.desc,
-                    ideia.img,
+                    ideia.img1,
                     ideia.dificuldade,
                     ideia.passoPasso,
                     ideia.avaliacao,
-                    ideia.autor,
+                    ideia.nomeUsuario,
                     ideia.materiais)));
       },
     ));
@@ -915,5 +915,12 @@ class _IdeiasReutilizacaoState extends State<IdeiasReutilizacao> {
     } else {
       return false;
     }
+  }
+
+    Color definirCor(String dificuldade){
+    if(dificuldade == "facil"){return  Colors.green;}
+    else if(dificuldade == "media"){return Colors.yellow;}
+    else if (dificuldade == "dificil"){return Colors.red;}
+    return Colors.black;
   }
 }

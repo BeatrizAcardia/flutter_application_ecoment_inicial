@@ -14,10 +14,11 @@ class PageIdeia extends StatefulWidget {
   String autor = "";
   String desc = "";
   String img = "";
-  List<String> listaMateriais = [];
+  String listaMateriais = "";
   String passoPasso = "";
-  int avaliacao = 0;
-  Color dificuldade = Colors.transparent;
+  double avaliacao = 0;
+  double qtdeAvaliacoesPostagem= 0;
+  String dificuldade = "";
   int curtidas = 0;
 
   PageIdeia(this.titulo, this.desc, this.img, this.dificuldade, this.passoPasso,
@@ -45,6 +46,13 @@ class _IdeiaState extends State<PageIdeia> {
 
   bool estado = false;
   bool scaleUp = false;
+
+    Color definirCor(String dificuldade){
+    if(dificuldade == "facil"){return  Colors.green;}
+    else if(dificuldade == "media"){return Colors.yellow;}
+    else if (dificuldade == "dificil"){return Colors.red;}
+    return Colors.black;
+  }
 
   void muda() {
     setState(() {
@@ -163,7 +171,7 @@ class _IdeiaState extends State<PageIdeia> {
                                               TextStyle(fontFamily: 'Poppins'),
                                         ),
                                         Text(
-                                          "8",
+                                          widget.qtdeAvaliacoesPostagem.toString(),
                                           style: TextStyle(
                                               fontFamily: 'Poppins',
                                               fontWeight: FontWeight.bold),
@@ -179,7 +187,7 @@ class _IdeiaState extends State<PageIdeia> {
                                 Text("Dificuldade "),
                                 Icon(
                                   Icons.circle,
-                                  color: widget.dificuldade,
+                                  color: definirCor(widget.dificuldade),
                                   size: 30,
                                 ),
                               ],
@@ -298,7 +306,7 @@ class _IdeiaState extends State<PageIdeia> {
                         padding: EdgeInsets.symmetric(horizontal: 30),
                         alignment: Alignment.topLeft,
                         child: Column(
-                          children: [...materiais()],
+                          children: [Text(widget.listaMateriais)],
                         ),
                       ),
                       SizedBox(
@@ -402,7 +410,7 @@ class _IdeiaState extends State<PageIdeia> {
     );
   }
 
-  List<Widget> gerarEstrelaColorida(int n) {
+  List<Widget> gerarEstrelaColorida(double n) {
     List<Widget> avaliacao = [];
     for (int i = 0; i < n; i++) {
       avaliacao.add(Icon(
@@ -414,7 +422,9 @@ class _IdeiaState extends State<PageIdeia> {
     return avaliacao;
   }
 
-  List<Widget> gerarEstrelaNColorida(int n) {
+  
+
+  List<Widget> gerarEstrelaNColorida(double n) {
     List<Widget> avaliacao = [];
     for (int i = 0; i < n; i++) {
       avaliacao.add(Icon(
@@ -426,7 +436,7 @@ class _IdeiaState extends State<PageIdeia> {
     return avaliacao;
   }
 
-  List<Widget> materiais() {
+  /* List<Widget> materiais() {
     List<Widget> lista = [];
     widget.listaMateriais.forEach((String m) {
       lista.add(Text(
@@ -437,5 +447,5 @@ class _IdeiaState extends State<PageIdeia> {
       ));
     });
     return lista;
-  }
+  } */
 }

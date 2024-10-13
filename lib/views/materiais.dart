@@ -67,52 +67,52 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
     Ideia.n(
         "Apanhador de frutas",
         "assets/imgs/ideia1.jpg",
-        Colors.red,
+        "dificil",
         5,
         "bagulho foda",
         "1 passo, 2 passo",
         "carlinhos1",
-        ['material 1', 'material 2'],
+        'material 1',
         "Plástico"),
     Ideia.n(
         "titulo2",
         "assets/imgs/ideia2.jpg",
-        Colors.green,
+        "facil",
         4,
         "bagulho foda",
         "1 passo, 2 passo",
         "carlinhos2",
-        ['material 1', 'material 2'],
+        'material 1',
         "Plástico"),
     Ideia.n(
         "teste3",
         "assets/imgs/ideia1.jpg",
-        Colors.yellow,
+        "media",
         3,
         "bagulho foda",
         "1 passo, 2 passo",
         "carlinhos3",
-        ['material 1', 'material 2'],
+        'material 1',
         "Metal"),
     Ideia.n(
         "teste4",
         "assets/imgs/ideia2.jpg",
-        Colors.green,
+        "facil",
         1,
         "bagulho foda",
         "1 passo, 2 passo",
         "carlinhos4",
-        ['material 1', 'material 2'],
+        'material 1',
         "Papel"),
     Ideia.n(
         "titulo5",
         "assets/imgs/ideia2.jpg",
-        Colors.red,
+        "dificil",
         2,
         "bagulho foda",
         "1 passo, 2 passo",
         "carlinhos5",
-        ['material 1', 'material 2'],
+        'material 1',
         "Vidro"),
   ];
 
@@ -653,7 +653,7 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
                                     onChanged: (text) {
                                       setState(() {
                                         listaFiltrada = listaIdeias
-                                            .where((idea) => idea.getTitulo
+                                            .where((idea) => idea.getNomePostagem
                                                 .toLowerCase()
                                                 .contains(text.toLowerCase()))
                                             .toList();
@@ -687,13 +687,13 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
                                   itemCount: numeroAndlistaFiltrado(),
                                   itemBuilder: (context, index) {
                                     return gerarCard(
-                                        listaFiltrada[index].getTitulo,
-                                        listaFiltrada[index].getImg,
+                                        listaFiltrada[index].getNomePostagem,
+                                        listaFiltrada[index].getImg1,
                                         listaFiltrada[index].getDificuldade,
                                         listaFiltrada[index].getAvaliacao,
                                         listaFiltrada[index].getDesc,
                                         listaFiltrada[index].getPassoPasso,
-                                        listaFiltrada[index].getAutor,
+                                        listaFiltrada[index].getNomeUsuario,
                                         listaFiltrada[index].getMateriais,
                                         listaFiltrada[index].getMaterial);
                                   },
@@ -741,12 +741,12 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
   Widget gerarCard(
       String titulo,
       String imgUrl,
-      Color dificuldade,
-      int avaliacao,
+      String dificuldade,
+      double avaliacao,
       String desc,
       String passoPasso,
       String autor,
-      List<String> listaMat,
+      String listaMat,
       String material) {
     return MouseRegion(
         child: GestureDetector(
@@ -779,7 +779,7 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
               textAlign: TextAlign.center,
             ),
             Spacer(),      
-              Icon(Icons.circle, color: dificuldade),
+              Icon(Icons.circle, color: definirCor(dificuldade)),
             ],),
             Text(
               titulo,
@@ -823,6 +823,13 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
       avaliacao.add(Icon(Icons.star_border, color: Colors.orange));
     }
     return avaliacao;
+  }
+
+    Color definirCor(String dificuldade){
+    if(dificuldade == "facil"){return  Colors.green;}
+    else if(dificuldade == "media"){return Colors.yellow;}
+    else if (dificuldade == "dificil"){return Colors.red;}
+    return Colors.black;
   }
 }
 

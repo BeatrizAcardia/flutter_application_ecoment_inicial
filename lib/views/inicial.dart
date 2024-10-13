@@ -2,6 +2,7 @@
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_application_ecoment_inicial/Data/Get.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -59,20 +60,20 @@ class _MyinicialState extends State<Myinicial> {
     Ideia(
         "Apanhador de frutas",
         "assets/imgs/ideia1.jpg",
-        Colors.red,
+        "dificil",
         5,
         "Exemplo",
         "1 passo, 2 passo",
         "Usuario1",
-        ['material 1', 'material 2']),
-    Ideia("titulo2", "assets/imgs/ideia2.jpg", Colors.green, 4, "Exemplo1",
-        "1 passo, 2 passo", "Usuario2", ['material 1', 'material 2']),
-    Ideia("titulo3", "assets/imgs/ideia1.jpg", Colors.yellow, 3, "Exemplo2",
-        "1 passo, 2 passo", "Usuario3", ['material 1', 'material 2']),
-    Ideia("titulo4", "assets/imgs/ideia2.jpg", Colors.green, 1, "Exemplo3",
-        "1 passo, 2 passo", "Usuario4", ['material 1', 'material 2']),
-    Ideia("titulo5", "assets/imgs/ideia2.jpg", Colors.red, 2, "Exemplo4",
-        "1 passo, 2 passo", "Usuario5", ['material 1', 'material 2']),
+        'material 1'),
+    Ideia("titulo2", "assets/imgs/ideia2.jpg", "facil", 4, "Exemplo1",
+        "1 passo, 2 passo", "Usuario2", 'material 1',),
+    Ideia("titulo3", "assets/imgs/ideia1.jpg", "media", 3, "Exemplo2",
+        "1 passo, 2 passo", "Usuario3", 'material 1',),
+    Ideia("titulo4", "assets/imgs/ideia2.jpg", "facil", 1, "Exemplo3",
+        "1 passo, 2 passo", "Usuario4", 'material 1',),
+    Ideia("titulo5", "assets/imgs/ideia2.jpg", "dificil", 2, "Exemplo4",
+        "1 passo, 2 passo", "Usuario5", 'material 1',),
   ];
 
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
@@ -89,6 +90,7 @@ class _MyinicialState extends State<Myinicial> {
       height: 150, width: 150, child: Image.asset('assets/imgs/vidro.png'));
   final madeira = SizedBox(
       height: 155, width: 155, child: Image.asset('assets/imgs/lixeira.png'));
+
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -475,13 +477,13 @@ class _MyinicialState extends State<Myinicial> {
           context,
           MaterialPageRoute(
             builder: (context) => PageIdeia(
-                ideia.titulo,
+                ideia.nomePostagem,
                 ideia.desc,
-                ideia.img,
+                ideia.img1,
                 ideia.dificuldade,
                 ideia.passoPasso,
                 ideia.avaliacao,
-                ideia.autor,
+                ideia.nomeUsuario,
                 ideia.materiais),
           ),
         ),
@@ -504,7 +506,7 @@ class _MyinicialState extends State<Myinicial> {
                   borderRadius: BorderRadius.circular(
                       15.0), // Define o border radius na imagem
                   child: Image.asset(
-                    ideia.img,
+                    ideia.img1,
                     fit: BoxFit.cover,
                     height: 170,
                     width: 200,
@@ -515,14 +517,14 @@ class _MyinicialState extends State<Myinicial> {
                   children: [
                     Spacer(),
                     Text(
-                      '@${ideia.autor}',
+                      '@${ideia.nomeUsuario}',
                       style: TextStyle(fontStyle: FontStyle.italic),
                     ),
                     Spacer(),
                     Container(
                       child: Icon(
                         Icons.circle,
-                        color: ideia.dificuldade,
+                        color: definirCor(ideia.dificuldade),
                         size: 20,
                       ),
                     ),
@@ -532,7 +534,7 @@ class _MyinicialState extends State<Myinicial> {
                   ],
                 ),
                 Text(
-                  ideia.titulo,
+                  ideia.nomePostagem,
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                   textAlign: TextAlign.center,
                 ),
@@ -572,12 +574,12 @@ class _MyinicialState extends State<Myinicial> {
   Widget gerarCard(
       String titulo,
       String imgUrl,
-      Color dificuldade,
-      int avaliacao,
+      String dificuldade,
+      double avaliacao,
       String desc,
       String passoPasso,
       String autor,
-      List<String> listaMat) {
+      String listaMat) {
     return MouseRegion(
         child: GestureDetector(
       child: Container(
@@ -617,7 +619,7 @@ class _MyinicialState extends State<Myinicial> {
                 ),
                 Row(
                   children: [
-                    Icon(Icons.circle, color: dificuldade),
+                    Icon(Icons.circle, color: definirCor(dificuldade)),
                   ],
                 ),
               ],
@@ -635,7 +637,7 @@ class _MyinicialState extends State<Myinicial> {
     ));
   }
 
-  List<Widget> gerarEstrelaColorida(int n) {
+  List<Widget> gerarEstrelaColorida(double n) {
     List<Widget> avaliacao = [];
     for (int i = 0; i < n; i++) {
       avaliacao.add(Icon(Icons.star, color: Colors.orange));
@@ -643,11 +645,18 @@ class _MyinicialState extends State<Myinicial> {
     return avaliacao;
   }
 
-  List<Widget> gerarEstrelaNColorida(int n) {
+  List<Widget> gerarEstrelaNColorida(double n) {
     List<Widget> avaliacao = [];
     for (int i = 0; i < n; i++) {
       avaliacao.add(Icon(Icons.star_border, color: Colors.orange));
     }
     return avaliacao;
+  }
+
+    Color definirCor(String dificuldade){
+    if(dificuldade == "facil"){return  Colors.green;}
+    else if(dificuldade == "media"){return Colors.yellow;}
+    else if (dificuldade == "dificil"){return Colors.red;}
+    return Colors.black;
   }
 }
