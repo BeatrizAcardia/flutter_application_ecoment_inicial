@@ -20,7 +20,7 @@ class Ideia {
   String img9 = "";
   String img10 = "";
   String materiais = "";
-  String material = "";
+  int materialPostagem = 0;
   int qtdeComentarios = 0;
   int qtdeAvaliacoesPostagem = 0;
   double avaliacao = 0;
@@ -48,7 +48,7 @@ class Ideia {
       this.img9,
       this.img10,
       this.materiais,
-      this.material,
+      this.materialPostagem,
       this.qtdeComentarios,
       this.qtdeAvaliacoesPostagem,
       this.avaliacao,
@@ -65,7 +65,7 @@ class Ideia {
       this.passoPasso,
       this.nomeUsuario,
       this.materiais,
-      this.material);
+      this.materialPostagem);
   Ideia.ti(this.nomePostagem, this.img1, this.dificuldade, this.avaliacao);
   Ideia.fromJson(Map<String, dynamic> json)
       : idPostagem = json['idPostagem'],
@@ -73,6 +73,7 @@ class Ideia {
         nomeUsuario = json['nomeUsuario'],
         desc = json['descricaoPostagem'],
         materiais = json['materiaisNecessariosPostagem'],
+        materialPostagem = json['materialPostagem'],
         passoPasso = json['instrucoesPostagem'],
         img1 = json['midia1'] ?? "assets/imgs/padraoIMG1.jpg",
         img2 = json['midia2'] ?? "assets/imgs/padraoIMG1.jpg",
@@ -90,23 +91,9 @@ class Ideia {
         qtdeComentarios = json['qtdeComentarios'],
         avaliacao = json['avaliacaoPostagem'];
 
-  String get getMaterial => this.material;
+  int get getMaterialPostagem => this.materialPostagem;
 
-  set setMaterial(int material) {
-    if (material == 1) {
-      this.material = "Plástico";
-    } else if (material == 2) {
-      this.material = "Metal";
-    } else if (material == 3) {
-      this.material = "Papel";
-    } else if (material == 4) {
-      this.material = "Vidro";
-    } else if (material == 5) {
-      this.material = "Madeira";
-    } else if (material == 6) {
-      this.material = "Residuo Orgânico";
-    }
-  }
+  set setMaterial(int materialPostagem) => this.materialPostagem = materialPostagem;
 
   int get getIdPostagem => this.idPostagem;
 

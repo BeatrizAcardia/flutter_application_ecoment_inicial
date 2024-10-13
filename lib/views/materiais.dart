@@ -73,15 +73,15 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
         "1 passo, 2 passo",
         "carlinhos1",
         'material 1',
-        "Plástico"),
+        1),
     Ideia.n("titulo2", "assets/imgs/ideia2.jpg", "facil", 4, "bagulho foda",
-        "1 passo, 2 passo", "carlinhos2", 'material 1', "Plástico"),
+        "1 passo, 2 passo", "carlinhos2", 'material 1', 1),
     Ideia.n("teste3", "assets/imgs/ideia1.jpg", "media", 3, "bagulho foda",
-        "1 passo, 2 passo", "carlinhos3", 'material 1', "Metal"),
+        "1 passo, 2 passo", "carlinhos3", 'material 1', 2),
     Ideia.n("teste4", "assets/imgs/ideia2.jpg", "facil", 1, "bagulho foda",
-        "1 passo, 2 passo", "carlinhos4", 'material 1', "Papel"),
+        "1 passo, 2 passo", "carlinhos4", 'material 1', 3),
     Ideia.n("titulo5", "assets/imgs/ideia2.jpg", "dificil", 2, "bagulho foda",
-        "1 passo, 2 passo", "carlinhos5", 'material 1', "Vidro"),
+        "1 passo, 2 passo", "carlinhos5", 'material 1', 4),
   ];
 
   List<Ideia> listaFiltrada = [];
@@ -831,7 +831,7 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
   int numeroAndlistaFiltrado() {
     int numero = 0;
     for (int i = 0; i < listaIdeias.length; i++) {
-      if (listaIdeias[i].getMaterial.toLowerCase() ==
+      if (listaIdeias[i].getMaterialPostagem ==
           widget.titulo.toLowerCase()) {
         numero++;
         listaFiltrada.add(listaIdeias[i]);

@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:flutter_application_ecoment_inicial/Data/Get/Postagem/GetPostagem.dart';
 import 'package:flutter_application_ecoment_inicial/defaultWidgets/bottomAppBar.dart';
 import 'package:flutter_application_ecoment_inicial/defaultWidgets/drawer.dart';
 import 'package:flutter_application_ecoment_inicial/models/ideia.dart';
@@ -18,59 +19,9 @@ class IdeiasReutilizacao extends StatefulWidget {
 
 class _IdeiasReutilizacaoState extends State<IdeiasReutilizacao> {
   int activeIndex = 0;
+  bool isLoading = true;
 
-  List<Ideia> listaIdeias = [
-    Ideia.n(
-        "Apanhador de frutas com cano PVC e garrada PET",
-        "assets/imgs/ideia1.jpg",
-        "dificil",
-        5,
-        "bagulho foda",
-        "1 passo, 2 passo",
-        "carlinhos1",
-        'material 1',
-        "Plástico"),
-    Ideia.n(
-        "titulo2",
-        "assets/imgs/ideia2.jpg",
-        "facil",
-        4,
-        "bagulho foda",
-        "1 passo, 2 passo",
-        "carlinhos2",
-        'material 1',
-        "Orgânico"),
-    Ideia.n(
-        "titulo3",
-        "assets/imgs/ideia1.jpg",
-        "media",
-        3,
-        "bagulho foda",
-        "1 passo, 2 passo",
-        "carlinhos3",
-        'material 1',
-        "Metal"),
-    Ideia.n(
-        "titulo4",
-        "assets/imgs/ideia2.jpg",
-        "facil",
-        1,
-        "bagulho foda",
-        "1 passo, 2 passo",
-        "carlinhos4",
-        'material 1',
-        "Vidro"),
-    Ideia.n(
-        "titulo5",
-        "assets/imgs/ideia2.jpg",
-        "dificil",
-        2,
-        "bagulho foda",
-        "1 passo, 2 passo",
-        "carlinhos5",
-        'material 1',
-        "Papel"),
-  ];
+  List<Ideia> listaIdeias2 = [];
 
   TextStyle ideaTitle = TextStyle(
     color: Colors.black,
@@ -90,6 +41,50 @@ class _IdeiasReutilizacaoState extends State<IdeiasReutilizacao> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
   final TextEditingController searchController2 = TextEditingController();
+
+  GetPostagem getPostagem = GetPostagem();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    loadData();
+  }
+
+  Future<void> loadData() async{
+    try{
+      setState(() {
+      isLoading = true;
+    });
+      listaFiltradaPlastico = await getPostagem.listaIdeiasByMaterialPostagem(1);
+      int itemCountPlastico = listaFiltradaPlastico.length;
+
+      listaFiltradaMetal = await getPostagem.listaIdeiasByMaterialPostagem(2);
+      int itemCountMetal = listaFiltradaMetal.length;
+
+      listaFiltradaPapel = await getPostagem.listaIdeiasByMaterialPostagem(3);
+      int itemCountPapel = listaFiltradaPapel.length;
+
+      listaFiltradaVidro = await getPostagem.listaIdeiasByMaterialPostagem(4);
+      int itemCountVidro = listaFiltradaVidro.length;
+
+      listaFiltradaMadeira = await getPostagem.listaIdeiasByMaterialPostagem(5);
+      int itemCountMadeira = listaFiltradaMadeira.length;
+
+      listaFiltradaOrganico = await getPostagem.listaIdeiasByMaterialPostagem(6);
+      int itemCountOrganico = listaFiltradaOrganico.length;
+
+      setState(() {
+      isLoading = false;
+    });
+    } catch(e){
+      print("Erro em loadData[Materiais]: ${e}");
+      setState(() {
+        isLoading = false; // Termina o carregamento em caso de erro
+      });
+    }
+    
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -126,7 +121,7 @@ class _IdeiasReutilizacaoState extends State<IdeiasReutilizacao> {
                     child: TextField(
                       onChanged: (text) {
                         setState(() {
-                          listaFiltrada = listaIdeias
+                          listaFiltrada = listaIdeias2
                               .where((idea) => idea.getNomePostagem
                                   .toLowerCase()
                                   .contains(text.toLowerCase()))
@@ -183,27 +178,29 @@ class _IdeiasReutilizacaoState extends State<IdeiasReutilizacao> {
                   Container(
                     child: Column(
                       children: [
-                        existeIdeia("Plástico")
-                            ? CarouselSlider.builder(
-                                options: CarouselOptions(
-                                  onPageChanged: (index, reason) =>
-                                      setState(() => activeIndex = index),
-                                  height: 320, // Altura do carrossel
-                                ),
-                                itemCount: numeroAndlistaFiltrado("Plástico"),
-                                itemBuilder: (context, index, realIndex) {
-                                  final ideia = listaFiltradaPlastico[index];
-                                  return buildIdeia(ideia, index);
-                                },
-                              )
-                            : Center(
-                                child: Center(
-                                  child: Text(
-                                    "Sem posts por enquanto. Que tal postar uma ideia com esse material?",
-                                    textAlign: TextAlign.center,
-                                  ),
+                        isLoading ?
+                        Center(child: CircularProgressIndicator(),):
+                        listaFiltradaPlastico.isNotEmpty
+                          ? CarouselSlider.builder(
+                              options: CarouselOptions(
+                                onPageChanged: (index, reason) =>
+                                    setState(() => activeIndex = index),
+                                height: 320, // Altura do carrossel
+                              ),
+                              itemCount: listaFiltradaPlastico.length,
+                              itemBuilder: (context, index, realIndex) {
+                                final ideia = listaFiltradaPlastico[index];
+                                return buildIdeia(ideia, index);
+                              },
+                            )
+                          : Center(
+                              child: Center(
+                                child: Text(
+                                  "Sem posts por enquanto. Que tal postar uma ideia com esse material?",
+                                  textAlign: TextAlign.center,
                                 ),
                               ),
+                            ),
                         const SizedBox(height: 32),
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
@@ -262,15 +259,16 @@ class _IdeiasReutilizacaoState extends State<IdeiasReutilizacao> {
                   ),
                   Container(
                       child: Column(
-                    children: [
-                      existeIdeia("Metal")
+                    children: [isLoading ?
+                        Center(child: CircularProgressIndicator(),):
+                      listaFiltradaMetal.isNotEmpty
                           ? CarouselSlider.builder(
                               options: CarouselOptions(
                                 onPageChanged: (index, reason) =>
                                     setState(() => activeIndex = index),
                                 height: 320, // Altura do carrossel
                               ),
-                              itemCount: numeroAndlistaFiltrado("Metal"),
+                              itemCount: listaFiltradaMetal.length,
                               itemBuilder: (context, index, realIndex) {
                                 final ideia = listaFiltradaMetal[index];
                                 return buildIdeia(ideia, index);
@@ -340,28 +338,29 @@ class _IdeiasReutilizacaoState extends State<IdeiasReutilizacao> {
                   ),
                   Container(
                     child: Column(
-                      children: [
-                        existeIdeia("Vidro")
-                            ? CarouselSlider.builder(
-                                options: CarouselOptions(
-                                  onPageChanged: (index, reason) =>
-                                      setState(() => activeIndex = index),
-                                  height: 320, // Altura do carrossel
-                                ),
-                                itemCount: numeroAndlistaFiltrado("Vidro"),
-                                itemBuilder: (context, index, realIndex) {
-                                  final ideia = listaFiltradaVidro[index];
-                                  return buildIdeia(ideia, index);
-                                },
-                              )
-                            : Center(
-                                child: Center(
-                                  child: Text(
-                                    "Sem posts por enquanto. Que tal postar uma ideia com esse material?",
-                                    textAlign: TextAlign.center,
-                                  ),
+                      children: [isLoading ?
+                        Center(child: CircularProgressIndicator(),):
+                        listaFiltradaVidro.isNotEmpty
+                          ? CarouselSlider.builder(
+                              options: CarouselOptions(
+                                onPageChanged: (index, reason) =>
+                                    setState(() => activeIndex = index),
+                                height: 320, // Altura do carrossel
+                              ),
+                              itemCount: listaFiltradaVidro.length,
+                              itemBuilder: (context, index, realIndex) {
+                                final ideia = listaFiltradaVidro[index];
+                                return buildIdeia(ideia, index);
+                              },
+                            )
+                          : Center(
+                              child: Center(
+                                child: Text(
+                                  "Sem posts por enquanto. Que tal postar uma ideia com esse material?",
+                                  textAlign: TextAlign.center,
                                 ),
                               ),
+                            ),
                         const SizedBox(height: 32),
                         ElevatedButton(
                             style: ElevatedButton.styleFrom(
@@ -419,28 +418,29 @@ class _IdeiasReutilizacaoState extends State<IdeiasReutilizacao> {
                   ),
                   Container(
                     child: Column(
-                      children: [
-                        existeIdeia("Papel")
-                            ? CarouselSlider.builder(
-                                options: CarouselOptions(
-                                  onPageChanged: (index, reason) =>
-                                      setState(() => activeIndex = index),
-                                  height: 320, // Altura do carrossel
-                                ),
-                                itemCount: numeroAndlistaFiltrado("Papel"),
-                                itemBuilder: (context, index, realIndex) {
-                                  final ideia = listaFiltradaPapel[index];
-                                  return buildIdeia(ideia, index);
-                                },
-                              )
-                            : Center(
-                                child: Center(
-                                  child: Text(
-                                    "Sem posts por enquanto. Que tal postar uma ideia com esse material?",
-                                    textAlign: TextAlign.center,
-                                  ),
+                      children: [isLoading ?
+                        Center(child: CircularProgressIndicator(),):
+                        listaFiltradaPapel.isNotEmpty
+                          ? CarouselSlider.builder(
+                              options: CarouselOptions(
+                                onPageChanged: (index, reason) =>
+                                    setState(() => activeIndex = index),
+                                height: 320, // Altura do carrossel
+                              ),
+                              itemCount: listaFiltradaPapel.length,
+                              itemBuilder: (context, index, realIndex) {
+                                final ideia = listaFiltradaPapel[index];
+                                return buildIdeia(ideia, index);
+                              },
+                            )
+                          : Center(
+                              child: Center(
+                                child: Text(
+                                  "Sem posts por enquanto. Que tal postar uma ideia com esse material?",
+                                  textAlign: TextAlign.center,
                                 ),
                               ),
+                            ),
                         const SizedBox(height: 32),
                         ElevatedButton(
                             style: ElevatedButton.styleFrom(
@@ -499,15 +499,16 @@ class _IdeiasReutilizacaoState extends State<IdeiasReutilizacao> {
                   ),
                   Container(
                       child: Column(
-                    children: [
-                      existeIdeia("Orgnânico")
+                    children: [isLoading ?
+                        Center(child: CircularProgressIndicator(),):
+                      listaFiltradaOrganico.isNotEmpty
                           ? CarouselSlider.builder(
                               options: CarouselOptions(
                                 onPageChanged: (index, reason) =>
                                     setState(() => activeIndex = index),
                                 height: 320, // Altura do carrossel
                               ),
-                              itemCount: numeroAndlistaFiltrado("Orgânico"),
+                              itemCount: listaFiltradaOrganico.length,
                               itemBuilder: (context, index, realIndex) {
                                 final ideia = listaFiltradaOrganico[index];
                                 return buildIdeia(ideia, index);
@@ -579,27 +580,29 @@ class _IdeiasReutilizacaoState extends State<IdeiasReutilizacao> {
                   ),
                   Container(
                     child: Column(
-                      children: [
-                        existeIdeia("Madeira")
-                            ? CarouselSlider.builder(
-                                options: CarouselOptions(
-                                  onPageChanged: (index, reason) =>
-                                      setState(() => activeIndex = index),
-                                  height: 320, // Altura do carrossel
-                                ),
-                                itemCount: numeroAndlistaFiltrado("Madeira"),
-                                itemBuilder: (context, index, realIndex) {
-                                  final ideia = listaFiltradaMadeira[index];
-                                  return buildIdeia(ideia, index);
-                                })
-                            : Center(
-                                child: Center(
-                                  child: Text(
-                                    "Sem posts por enquanto. Que tal postar uma ideia com esse material?",
-                                    textAlign: TextAlign.center,
-                                  ),
+                      children: [isLoading ?
+                        Center(child: CircularProgressIndicator(),):
+                        listaFiltradaMadeira.isNotEmpty
+                          ? CarouselSlider.builder(
+                              options: CarouselOptions(
+                                onPageChanged: (index, reason) =>
+                                    setState(() => activeIndex = index),
+                                height: 320, // Altura do carrossel
+                              ),
+                              itemCount: listaFiltradaMadeira.length,
+                              itemBuilder: (context, index, realIndex) {
+                                final ideia = listaFiltradaMadeira[index];
+                                return buildIdeia(ideia, index);
+                              },
+                            )
+                          : Center(
+                              child: Center(
+                                child: Text(
+                                  "Sem posts por enquanto. Que tal postar uma ideia com esse material?",
+                                  textAlign: TextAlign.center,
                                 ),
                               ),
+                            ),
                         const SizedBox(height: 32),
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
@@ -654,8 +657,7 @@ class _IdeiasReutilizacaoState extends State<IdeiasReutilizacao> {
         onTap: () => Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => PageIdeia.ideia(
-                ideia),
+            builder: (context) => PageIdeia.ideia(ideia),
           ),
         ),
         child: Container(
@@ -687,7 +689,7 @@ class _IdeiasReutilizacaoState extends State<IdeiasReutilizacao> {
                   children: [
                     Spacer(),
                     Text(
-                      '@${ideia.nomeUsuario}',
+                      '${ideia.nomeUsuario}',
                       style: TextStyle(fontStyle: FontStyle.italic),
                     ),
                     Spacer(),
@@ -764,7 +766,7 @@ class _IdeiasReutilizacaoState extends State<IdeiasReutilizacao> {
                 children: [
                   Spacer(),
                   Text(
-                    '@${ideia.nomeUsuario}',
+                    '${ideia.nomeUsuario}',
                     style: TextStyle(fontStyle: FontStyle.italic),
                   ),
                   Spacer(),
@@ -809,11 +811,8 @@ class _IdeiasReutilizacaoState extends State<IdeiasReutilizacao> {
         ),
       ),
       onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => PageIdeia.ideia(
-                    ideia)));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => PageIdeia.ideia(ideia)));
       },
     ));
   }
@@ -834,79 +833,14 @@ class _IdeiasReutilizacaoState extends State<IdeiasReutilizacao> {
     return avaliacao;
   }
 
-  int numeroAndlistaFiltrado(String x) {
-    int numero = 0;
-
-    if (x == "Plástico") {
-      for (int i = 0; i < listaIdeias.length; i++) {
-        if (listaIdeias[i].getMaterial.toLowerCase() == x.toLowerCase()) {
-          numero++;
-          listaFiltradaPlastico.add(listaIdeias[i]);
-        }
-      }
-      return numero;
-    } else if (x == "Metal") {
-      for (int i = 0; i < listaIdeias.length; i++) {
-        if (listaIdeias[i].getMaterial.toLowerCase() == x.toLowerCase()) {
-          numero++;
-          listaFiltradaMetal.add(listaIdeias[i]);
-        }
-      }
-      return numero;
-    } else if (x == "Vidro") {
-      for (int i = 0; i < listaIdeias.length; i++) {
-        if (listaIdeias[i].getMaterial.toLowerCase() == x.toLowerCase()) {
-          numero++;
-          listaFiltradaVidro.add(listaIdeias[i]);
-        }
-      }
-      return numero;
-    } else if (x == "Papel") {
-      for (int i = 0; i < listaIdeias.length; i++) {
-        if (listaIdeias[i].getMaterial.toLowerCase() == x.toLowerCase()) {
-          numero++;
-          listaFiltradaPapel.add(listaIdeias[i]);
-        }
-      }
-      return numero;
-    } else if (x == "Orgnânico") {
-      for (int i = 0; i < listaIdeias.length; i++) {
-        if (listaIdeias[i].getMaterial.toLowerCase() == x.toLowerCase()) {
-          numero++;
-          listaFiltradaOrganico.add(listaIdeias[i]);
-        }
-      }
-      return numero;
-    } else if (x == "Madeira") {
-      for (int i = 0; i < listaIdeias.length; i++) {
-        if (listaIdeias[i].getMaterial.toLowerCase() == x.toLowerCase()) {
-          numero++;
-          listaFiltradaMadeira.add(listaIdeias[i]);
-        }
-      }
-      return numero;
+  Color definirCor(String dificuldade) {
+    if (dificuldade == "facil") {
+      return Colors.green;
+    } else if (dificuldade == "media") {
+      return Colors.yellow;
+    } else if (dificuldade == "dificil") {
+      return Colors.red;
     }
-    return numero;
-  }
-
-  bool existeIdeia(String x) {
-    int numero = 0;
-    for (int i = 0; i < listaIdeias.length; i++) {
-      if (listaIdeias[i].getMaterial.toLowerCase() == x.toLowerCase()) {
-        numero++;
-      }
-    }
-    if (numero >= 1) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-    Color definirCor(String dificuldade){
-    if(dificuldade == "facil"){return  Colors.green;}
-    else if(dificuldade == "media"){return Colors.yellow;}
-    else if (dificuldade == "dificil"){return Colors.red;}
     return Colors.black;
   }
 }
