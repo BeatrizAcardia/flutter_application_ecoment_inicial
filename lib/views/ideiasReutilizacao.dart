@@ -714,7 +714,7 @@ class _IdeiasReutilizacaoState extends State<IdeiasReutilizacao> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "200",
+                      ideia.numeroCurtidas.toString(),
                       style: TextStyle(fontSize: 15),
                     ),
                     Icon(
@@ -795,7 +795,7 @@ class _IdeiasReutilizacaoState extends State<IdeiasReutilizacao> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "200",
+                    ideia.numeroCurtidas.toString(),
                     style: TextStyle(fontSize: 15),
                   ),
                   Icon(
