@@ -4,26 +4,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_ecoment_inicial/defaultWidgets/bottomAppBar.dart';
 import 'package:flutter_application_ecoment_inicial/defaultWidgets/drawer.dart';
+import 'package:flutter_application_ecoment_inicial/models/ideia.dart';
 import 'package:flutter_application_ecoment_inicial/models/pessoaProvider.dart';
 import 'package:flutter_application_ecoment_inicial/views/cadastro.dart';
 import 'package:flutter_application_ecoment_inicial/views/login.dart';
 import 'package:provider/provider.dart';
 
 class PageIdeia extends StatefulWidget {
-  String titulo = "";
-  String autor = "";
-  String desc = "";
-  String img = "";
-  String listaMateriais = "";
-  String passoPasso = "";
-  double avaliacao = 0;
-  double qtdeAvaliacoesPostagem= 0;
-  String dificuldade = "";
-  int curtidas = 0;
+  
 
-  PageIdeia(this.titulo, this.desc, this.img, this.dificuldade, this.passoPasso,
-      this.avaliacao, this.autor, this.listaMateriais,
-      {super.key});
+  Ideia ideia = Ideia.vazia();
+
+  PageIdeia.ideia(this.ideia, {super.key});
 
   @override
   State<PageIdeia> createState() => _IdeiaState();
@@ -124,14 +116,14 @@ class _IdeiaState extends State<PageIdeia> {
                         ),
                       ),
                       Text(
-                        widget.titulo,
+                        widget.ideia.nomePostagem,
                         style: titulo,
                         textAlign: TextAlign.center,
                       ),
                       SizedBox(
                         height: 10,
                       ),
-                      Text("@" + widget.autor, style: autor),
+                      Text("@" + widget.ideia.nomeUsuario, style: autor),
                       SizedBox(
                         height: 10,
                       ),
@@ -139,7 +131,7 @@ class _IdeiaState extends State<PageIdeia> {
                           child: ClipRRect(
                         borderRadius: BorderRadius.circular(10),
                         child: Image.asset(
-                          widget.img,
+                          widget.ideia.img1,
                           fit: BoxFit.contain,
                         ),
                       )),
@@ -153,9 +145,9 @@ class _IdeiaState extends State<PageIdeia> {
                                 Container(
                                   child: Row(
                                     children: [
-                                      ...gerarEstrelaColorida(widget.avaliacao),
+                                      ...gerarEstrelaColorida(widget.ideia.avaliacao),
                                       ...gerarEstrelaNColorida(
-                                          5 - widget.avaliacao)
+                                          5 - widget.ideia.avaliacao)
                                     ],
                                   ),
                                 ),
@@ -171,7 +163,7 @@ class _IdeiaState extends State<PageIdeia> {
                                               TextStyle(fontFamily: 'Poppins'),
                                         ),
                                         Text(
-                                          widget.qtdeAvaliacoesPostagem.toString(),
+                                          widget.ideia.qtdeAvaliacoesPostagem.toString(),
                                           style: TextStyle(
                                               fontFamily: 'Poppins',
                                               fontWeight: FontWeight.bold),
@@ -187,7 +179,7 @@ class _IdeiaState extends State<PageIdeia> {
                                 Text("Dificuldade "),
                                 Icon(
                                   Icons.circle,
-                                  color: definirCor(widget.dificuldade),
+                                  color: definirCor(widget.ideia.dificuldade),
                                   size: 30,
                                 ),
                               ],
@@ -306,7 +298,7 @@ class _IdeiaState extends State<PageIdeia> {
                         padding: EdgeInsets.symmetric(horizontal: 30),
                         alignment: Alignment.topLeft,
                         child: Column(
-                          children: [Text(widget.listaMateriais)],
+                          children: [Text(widget.ideia.materiais)],
                         ),
                       ),
                       SizedBox(
@@ -341,7 +333,7 @@ class _IdeiaState extends State<PageIdeia> {
                         child: Column(
                           children: [
                             Text(
-                              widget.passoPasso,
+                              widget.ideia.passoPasso,
                               style: TextStyle(
                                 fontFamily: 'Nunito',
                               ),
@@ -410,31 +402,30 @@ class _IdeiaState extends State<PageIdeia> {
     );
   }
 
-  List<Widget> gerarEstrelaColorida(double n) {
-    List<Widget> avaliacao = [];
-    for (int i = 0; i < n; i++) {
-      avaliacao.add(Icon(
-        Icons.star,
-        color: Colors.orange,
-        size: 25,
-      ));
-    }
-    return avaliacao;
+List<Widget> gerarEstrelaColorida(double n) {
+  List<Widget> avaliacao = [];
+  int numeroEstrelas = n.floor(); // Arredonda para baixo
+  for (int i = 0; i < numeroEstrelas; i++) {
+    avaliacao.add(Icon(
+      Icons.star,
+      color: Colors.orange,
+      size: 25,
+    ));
   }
+  return avaliacao;
+}
 
-  
-
-  List<Widget> gerarEstrelaNColorida(double n) {
-    List<Widget> avaliacao = [];
-    for (int i = 0; i < n; i++) {
-      avaliacao.add(Icon(
-        Icons.star_border,
-        color: Colors.orange,
-        size: 25,
-      ));
-    }
-    return avaliacao;
+List<Widget> gerarEstrelaNColorida(double n) {
+  List<Widget> avaliacao = [];
+  for (int i = 0; i < n; i++) {
+    avaliacao.add(Icon(
+      Icons.star_border,
+      color: Colors.orange,
+      size: 25,
+    ));
   }
+  return avaliacao;
+}
 
   /* List<Widget> materiais() {
     List<Widget> lista = [];

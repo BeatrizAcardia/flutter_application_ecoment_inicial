@@ -59,8 +59,6 @@ class _MinhaContaState extends State<MinhaConta> {
 
   List<Ideia> listaIdeias2 = [];
 
-  
-
   List<Ideia> listaIdeias = [
     Ideia(
         "Apanhador de frutas com cano PVC e garrada PET",
@@ -132,6 +130,7 @@ class _MinhaContaState extends State<MinhaConta> {
       );
     });
   }
+
   bool isLoading = true;
   bool hasError = false;
 
@@ -151,7 +150,7 @@ class _MinhaContaState extends State<MinhaConta> {
       });
       return;
     }
-    
+
     try {
       print("Antes da atribuição");
       listaIdeias2 = await getBanco.findIdeiaByNomeUsuario(user.username);
@@ -300,24 +299,24 @@ class _MinhaContaState extends State<MinhaConta> {
                                     ],
                                   ),
                                   RichText(
-                                        text: TextSpan(children: [
-                                          TextSpan(
-                                            text: "Curtidas: ",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontFamily: 'Poppins',
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 15),
-                                          ),
-                                          TextSpan(
-                                            text: user.qtdeCurtidas.toString(),
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontFamily: 'Poppins',
-                                                fontSize: 15),
-                                          ),
-                                        ]),
+                                    text: TextSpan(children: [
+                                      TextSpan(
+                                        text: "Curtidas: ",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontFamily: 'Poppins',
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15),
                                       ),
+                                      TextSpan(
+                                        text: user.qtdeCurtidas.toString(),
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontFamily: 'Poppins',
+                                            fontSize: 15),
+                                      ),
+                                    ]),
+                                  ),
                                 ],
                               ),
                               IconButton(
@@ -347,21 +346,22 @@ class _MinhaContaState extends State<MinhaConta> {
                           fontSize: 30,
                           fontWeight: FontWeight.bold),
                     ),
-                    listaIdeias2.isNotEmpty ?
-                    CarouselSlider.builder(
-                      options: CarouselOptions(
-                        onPageChanged: (index, reason) =>
-                            setState(() => activeIndex = index),
-                        height: 320, // Altura do carrossel
-                      ),
-                      itemCount: listaIdeias2.length,
-                      itemBuilder: (context, index, realIndex) {
-                        final ideia = listaIdeias2[index];
-                        return buildIdeia(ideia, index);
-                      },
-                    ) : Center(
-                      child: Text("Nenhuma ideia encontrada"),
-                    ),
+                    listaIdeias2.isNotEmpty
+                        ? CarouselSlider.builder(
+                            options: CarouselOptions(
+                              onPageChanged: (index, reason) =>
+                                  setState(() => activeIndex = index),
+                              height: 320, // Altura do carrossel
+                            ),
+                            itemCount: listaIdeias2.length,
+                            itemBuilder: (context, index, realIndex) {
+                              final ideia = listaIdeias2[index];
+                              return buildIdeia(ideia, index);
+                            },
+                          )
+                        : Center(
+                            child: Text("Nenhuma ideia encontrada"),
+                          ),
                     SizedBox(height: 60),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -377,21 +377,22 @@ class _MinhaContaState extends State<MinhaConta> {
                         ideiaVerde,
                       ],
                     ),
-                    listaIdeias.isNotEmpty ?
-                    CarouselSlider.builder(
-                      options: CarouselOptions(
-                        onPageChanged: (index, reason) =>
-                            setState(() => activeIndex = index),
-                        height: 320, // Altura do carrossel
-                      ),
-                      itemCount: listaIdeias.length,
-                      itemBuilder: (context, index, realIndex) {
-                        final ideia = listaIdeias[index];
-                        return buildIdeia(ideia, index);
-                      },
-                    ): Center(
-                      child: Text("Nenhuma ideia encontrada"),
-                    ),
+                    listaIdeias.isNotEmpty
+                        ? CarouselSlider.builder(
+                            options: CarouselOptions(
+                              onPageChanged: (index, reason) =>
+                                  setState(() => activeIndex = index),
+                              height: 320, // Altura do carrossel
+                            ),
+                            itemCount: listaIdeias.length,
+                            itemBuilder: (context, index, realIndex) {
+                              final ideia = listaIdeias[index];
+                              return buildIdeia(ideia, index);
+                            },
+                          )
+                        : Center(
+                            child: Text("Nenhuma ideia encontrada"),
+                          ),
                   ]),
                 ),
                 height: 1190,
@@ -407,15 +408,7 @@ class _MinhaContaState extends State<MinhaConta> {
         onTap: () => Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => PageIdeia(
-                ideia.nomePostagem,
-                ideia.desc,
-                ideia.img1,
-                ideia.dificuldade,
-                ideia.passoPasso,
-                ideia.avaliacao,
-                ideia.nomeUsuario,
-                ideia.materiais),
+            builder: (context) => PageIdeia.ideia(ideia),
           ),
         ),
         child: Container(
@@ -488,7 +481,7 @@ class _MinhaContaState extends State<MinhaConta> {
       );
 //----- FIM CARROSSEL ----
 
-  Widget gerarCard(
+  Widget gerarCard(Ideia ideia,
       String titulo,
       String imgUrl,
       String dificuldade,
@@ -496,64 +489,64 @@ class _MinhaContaState extends State<MinhaConta> {
       String desc,
       String passoPasso,
       String autor,
-    String listaMat) {
+      String listaMat) {
     return MouseRegion(
-        child: GestureDetector(
-      child: Container(
-        padding: EdgeInsets.all(5),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: const Color.fromARGB(255, 217, 217, 217)),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            SizedBox(
-              width: 200,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: Image.asset(
-                  "$imgUrl",
-                  height: 130,
-                  fit: BoxFit.cover,
+      child: GestureDetector(
+        child: Container(
+          padding: EdgeInsets.all(5),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: const Color.fromARGB(255, 217, 217, 217)),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              SizedBox(
+                width: 200,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Image.asset(
+                    "$imgUrl",
+                    height: 130,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
-            ),
-            Text(
-              titulo,
-              style: ideaTitle,
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    ...gerarEstrelaColorida(avaliacao),
-                    ...gerarEstrelaNColorida(5 - avaliacao)
-                  ],
-                ),
-                Row(
-                  children: [
-                    Icon(Icons.circle, color: definirCor(dificuldade)),
-                  ],
-                ),
-              ],
-            ),
-          ],
+              Text(
+                titulo,
+                style: ideaTitle,
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      ...gerarEstrelaColorida(avaliacao),
+                      ...gerarEstrelaNColorida(5 - avaliacao)
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Icon(Icons.circle, color: definirCor(dificuldade)),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => PageIdeia.ideia(ideia)));
+        },
       ),
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => PageIdeia(titulo, desc, imgUrl,
-                    dificuldade, passoPasso, avaliacao, autor, listaMat)));
-      },
-    ));
+    );
   }
 
   List<Widget> gerarEstrelaColorida(double n) {
@@ -572,10 +565,14 @@ class _MinhaContaState extends State<MinhaConta> {
     return avaliacao;
   }
 
-  Color definirCor(String dificuldade){
-    if(dificuldade == "facil"){return  Colors.green;}
-    else if(dificuldade == "media"){return Colors.yellow;}
-    else if (dificuldade == "dificil"){return Colors.red;}
+  Color definirCor(String dificuldade) {
+    if (dificuldade == "facil") {
+      return Colors.green;
+    } else if (dificuldade == "media") {
+      return Colors.yellow;
+    } else if (dificuldade == "dificil") {
+      return Colors.red;
+    }
     return Colors.black;
   }
 }

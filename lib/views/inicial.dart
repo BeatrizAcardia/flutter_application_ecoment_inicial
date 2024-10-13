@@ -57,23 +57,48 @@ class _MyinicialState extends State<Myinicial> {
   int activeIndex3 = 0;
 
   List<Ideia> listaIdeias = [
+    Ideia("Apanhador de frutas", "assets/imgs/ideia1.jpg", "dificil", 5,
+        "Exemplo", "1 passo, 2 passo", "Usuario1", 'material 1'),
     Ideia(
-        "Apanhador de frutas",
-        "assets/imgs/ideia1.jpg",
-        "dificil",
-        5,
-        "Exemplo",
-        "1 passo, 2 passo",
-        "Usuario1",
-        'material 1'),
-    Ideia("titulo2", "assets/imgs/ideia2.jpg", "facil", 4, "Exemplo1",
-        "1 passo, 2 passo", "Usuario2", 'material 1',),
-    Ideia("titulo3", "assets/imgs/ideia1.jpg", "media", 3, "Exemplo2",
-        "1 passo, 2 passo", "Usuario3", 'material 1',),
-    Ideia("titulo4", "assets/imgs/ideia2.jpg", "facil", 1, "Exemplo3",
-        "1 passo, 2 passo", "Usuario4", 'material 1',),
-    Ideia("titulo5", "assets/imgs/ideia2.jpg", "dificil", 2, "Exemplo4",
-        "1 passo, 2 passo", "Usuario5", 'material 1',),
+      "titulo2",
+      "assets/imgs/ideia2.jpg",
+      "facil",
+      4,
+      "Exemplo1",
+      "1 passo, 2 passo",
+      "Usuario2",
+      'material 1',
+    ),
+    Ideia(
+      "titulo3",
+      "assets/imgs/ideia1.jpg",
+      "media",
+      3,
+      "Exemplo2",
+      "1 passo, 2 passo",
+      "Usuario3",
+      'material 1',
+    ),
+    Ideia(
+      "titulo4",
+      "assets/imgs/ideia2.jpg",
+      "facil",
+      1,
+      "Exemplo3",
+      "1 passo, 2 passo",
+      "Usuario4",
+      'material 1',
+    ),
+    Ideia(
+      "titulo5",
+      "assets/imgs/ideia2.jpg",
+      "dificil",
+      2,
+      "Exemplo4",
+      "1 passo, 2 passo",
+      "Usuario5",
+      'material 1',
+    ),
   ];
 
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
@@ -90,7 +115,6 @@ class _MyinicialState extends State<Myinicial> {
       height: 150, width: 150, child: Image.asset('assets/imgs/vidro.png'));
   final madeira = SizedBox(
       height: 155, width: 155, child: Image.asset('assets/imgs/lixeira.png'));
-
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -476,15 +500,7 @@ class _MyinicialState extends State<Myinicial> {
         onTap: () => Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => PageIdeia(
-                ideia.nomePostagem,
-                ideia.desc,
-                ideia.img1,
-                ideia.dificuldade,
-                ideia.passoPasso,
-                ideia.avaliacao,
-                ideia.nomeUsuario,
-                ideia.materiais),
+            builder: (context) => PageIdeia.ideia(ideia),
           ),
         ),
         child: Container(
@@ -571,7 +587,7 @@ class _MyinicialState extends State<Myinicial> {
         ),
       );
 
-  Widget gerarCard(
+  Widget gerarCard(Ideia ideia,
       String titulo,
       String imgUrl,
       String dificuldade,
@@ -581,60 +597,60 @@ class _MyinicialState extends State<Myinicial> {
       String autor,
       String listaMat) {
     return MouseRegion(
-        child: GestureDetector(
-      child: Container(
-        width: 200,
-        padding: EdgeInsets.all(5),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            SizedBox(
-              width: 200,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: Image.asset(
-                  "$imgUrl",
-                  height: 130,
-                  fit: BoxFit.cover,
+      child: GestureDetector(
+        child: Container(
+          width: 200,
+          padding: EdgeInsets.all(5),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              SizedBox(
+                width: 200,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Image.asset(
+                    ideia.img1,
+                    height: 130,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
-            ),
-            Text(
-              titulo,
-              style: ideaTitle,
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    ...gerarEstrelaColorida(avaliacao),
-                    ...gerarEstrelaNColorida(5 - avaliacao)
-                  ],
-                ),
-                Row(
-                  children: [
-                    Icon(Icons.circle, color: definirCor(dificuldade)),
-                  ],
-                ),
-              ],
-            ),
-          ],
+              Text(
+                ideia.nomePostagem,
+                style: ideaTitle,
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      ...gerarEstrelaColorida(avaliacao),
+                      ...gerarEstrelaNColorida(5 - avaliacao)
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Icon(Icons.circle, color: definirCor(dificuldade)),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => PageIdeia.ideia(ideia)));
+        },
       ),
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => PageIdeia(titulo, desc, imgUrl,
-                    dificuldade, passoPasso, avaliacao, autor, listaMat)));
-      },
-    ));
+    );
   }
 
   List<Widget> gerarEstrelaColorida(double n) {
@@ -653,10 +669,14 @@ class _MyinicialState extends State<Myinicial> {
     return avaliacao;
   }
 
-    Color definirCor(String dificuldade){
-    if(dificuldade == "facil"){return  Colors.green;}
-    else if(dificuldade == "media"){return Colors.yellow;}
-    else if (dificuldade == "dificil"){return Colors.red;}
+  Color definirCor(String dificuldade) {
+    if (dificuldade == "facil") {
+      return Colors.green;
+    } else if (dificuldade == "media") {
+      return Colors.yellow;
+    } else if (dificuldade == "dificil") {
+      return Colors.red;
+    }
     return Colors.black;
   }
 }

@@ -74,46 +74,14 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
         "carlinhos1",
         'material 1',
         "Plástico"),
-    Ideia.n(
-        "titulo2",
-        "assets/imgs/ideia2.jpg",
-        "facil",
-        4,
-        "bagulho foda",
-        "1 passo, 2 passo",
-        "carlinhos2",
-        'material 1',
-        "Plástico"),
-    Ideia.n(
-        "teste3",
-        "assets/imgs/ideia1.jpg",
-        "media",
-        3,
-        "bagulho foda",
-        "1 passo, 2 passo",
-        "carlinhos3",
-        'material 1',
-        "Metal"),
-    Ideia.n(
-        "teste4",
-        "assets/imgs/ideia2.jpg",
-        "facil",
-        1,
-        "bagulho foda",
-        "1 passo, 2 passo",
-        "carlinhos4",
-        'material 1',
-        "Papel"),
-    Ideia.n(
-        "titulo5",
-        "assets/imgs/ideia2.jpg",
-        "dificil",
-        2,
-        "bagulho foda",
-        "1 passo, 2 passo",
-        "carlinhos5",
-        'material 1',
-        "Vidro"),
+    Ideia.n("titulo2", "assets/imgs/ideia2.jpg", "facil", 4, "bagulho foda",
+        "1 passo, 2 passo", "carlinhos2", 'material 1', "Plástico"),
+    Ideia.n("teste3", "assets/imgs/ideia1.jpg", "media", 3, "bagulho foda",
+        "1 passo, 2 passo", "carlinhos3", 'material 1', "Metal"),
+    Ideia.n("teste4", "assets/imgs/ideia2.jpg", "facil", 1, "bagulho foda",
+        "1 passo, 2 passo", "carlinhos4", 'material 1', "Papel"),
+    Ideia.n("titulo5", "assets/imgs/ideia2.jpg", "dificil", 2, "bagulho foda",
+        "1 passo, 2 passo", "carlinhos5", 'material 1', "Vidro"),
   ];
 
   List<Ideia> listaFiltrada = [];
@@ -188,26 +156,26 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
         drawer: WidgetDrawer(),
         key: _scaffoldKey,
         appBar: AppBar(
-          
           backgroundColor: Colors.white,
           centerTitle: true,
           title: Row(
-            children: [   
+            children: [
               SizedBox(width: 60),
-                  Text(
-                    widget.titulo,
-                    style: TextStyle(color: widget.cor, fontWeight: FontWeight.w600, fontSize: 30),
-                  ),
-                SizedBox(width: 10),
-                  SizedBox(
-                    height: 30,
-                    width: 30,
-                    child: Image.asset('${widget.icone}'),
-                  ),
-              
-                ],
+              Text(
+                widget.titulo,
+                style: TextStyle(
+                    color: widget.cor,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 30),
               ),
-
+              SizedBox(width: 10),
+              SizedBox(
+                height: 30,
+                width: 30,
+                child: Image.asset('${widget.icone}'),
+              ),
+            ],
+          ),
           elevation: 10,
           bottom: TabBar(
             controller: _tabController,
@@ -292,120 +260,122 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
                                   SizedBox(
                                     height: 20,
                                   ),
-                                  if(widget.titulo.toLowerCase() == "plástico")
+                                  if (widget.titulo.toLowerCase() == "plástico")
                                     Table(
-                                    border: TableBorder(
-                                        horizontalInside:
-                                            BorderSide(color: Colors.grey),
-                                        bottom: BorderSide(color: Colors.grey)),
-                                    columnWidths: {
-                                      0: FixedColumnWidth(
-                                          72.0), // Definindo a largura da primeira coluna
-                                      1: FixedColumnWidth(
-                                          54.0), // Definindo a largura da segunda coluna
-                                      2: FixedColumnWidth(
-                                          110.0), // Definindo a largura da terceira coluna
-                                      3: FixedColumnWidth(
-                                          134.0), // Definindo a largura da quarta coluna
-                                    },
-                                    defaultVerticalAlignment:
-                                        TableCellVerticalAlignment.middle,
-                                    children: [
-                                      TableRow(
-                                        decoration: BoxDecoration(
-                                            color: Colors.redAccent),
-                                        children: [
-                                          TableCell(
-                                              child: Padding(
-                                                  padding: EdgeInsets.all(8.0),
-                                                  child: Text(
-                                                    'Símbolo',
-                                                    style: TextStyle(
-                                                        color: Colors.white),
-                                                    textAlign: TextAlign.center,
-                                                  ))),
-                                          TableCell(
-                                              child: Padding(
-                                            padding: EdgeInsets.all(8.0),
-                                            child: Text('Sigla',
-                                                style: TextStyle(
-                                                    color: Colors.white),
-                                                textAlign: TextAlign.center),
-                                          )),
-                                          TableCell(
-                                              child: Padding(
-                                            padding: EdgeInsets.all(8.0),
-                                            child: Text('Nome',
-                                                style: TextStyle(
-                                                    color: Colors.white),
-                                                textAlign: TextAlign.center),
-                                          )),
-                                          TableCell(
-                                              child: Padding(
-                                            padding: EdgeInsets.all(8.0),
-                                            child: Text('Onde encontrar',
-                                                style: TextStyle(
-                                                    color: Colors.white),
-                                                textAlign: TextAlign.center),
-                                          )),
-                                        ],
-                                      ),
-                                      ...data.map((item) => TableRow(
-                                                children: [
-                                                  TableCell(
-                                                    child: Padding(
-                                                      padding:
-                                                          EdgeInsets.all(8.0),
-                                                      child: Text(
-                                                        item['simbolo'] ?? '',
-                                                        textAlign:
-                                                            TextAlign.center,
+                                      border: TableBorder(
+                                          horizontalInside:
+                                              BorderSide(color: Colors.grey),
+                                          bottom:
+                                              BorderSide(color: Colors.grey)),
+                                      columnWidths: {
+                                        0: FixedColumnWidth(
+                                            72.0), // Definindo a largura da primeira coluna
+                                        1: FixedColumnWidth(
+                                            54.0), // Definindo a largura da segunda coluna
+                                        2: FixedColumnWidth(
+                                            110.0), // Definindo a largura da terceira coluna
+                                        3: FixedColumnWidth(
+                                            134.0), // Definindo a largura da quarta coluna
+                                      },
+                                      defaultVerticalAlignment:
+                                          TableCellVerticalAlignment.middle,
+                                      children: [
+                                        TableRow(
+                                          decoration: BoxDecoration(
+                                              color: Colors.redAccent),
+                                          children: [
+                                            TableCell(
+                                                child: Padding(
+                                                    padding:
+                                                        EdgeInsets.all(8.0),
+                                                    child: Text(
+                                                      'Símbolo',
+                                                      style: TextStyle(
+                                                          color: Colors.white),
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                    ))),
+                                            TableCell(
+                                                child: Padding(
+                                              padding: EdgeInsets.all(8.0),
+                                              child: Text('Sigla',
+                                                  style: TextStyle(
+                                                      color: Colors.white),
+                                                  textAlign: TextAlign.center),
+                                            )),
+                                            TableCell(
+                                                child: Padding(
+                                              padding: EdgeInsets.all(8.0),
+                                              child: Text('Nome',
+                                                  style: TextStyle(
+                                                      color: Colors.white),
+                                                  textAlign: TextAlign.center),
+                                            )),
+                                            TableCell(
+                                                child: Padding(
+                                              padding: EdgeInsets.all(8.0),
+                                              child: Text('Onde encontrar',
+                                                  style: TextStyle(
+                                                      color: Colors.white),
+                                                  textAlign: TextAlign.center),
+                                            )),
+                                          ],
+                                        ),
+                                        ...data
+                                            .map((item) => TableRow(
+                                                  children: [
+                                                    TableCell(
+                                                      child: Padding(
+                                                        padding:
+                                                            EdgeInsets.all(8.0),
+                                                        child: Text(
+                                                          item['simbolo'] ?? '',
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                                  TableCell(
-                                                    child: Padding(
-                                                      padding:
-                                                          EdgeInsets.all(8.0),
-                                                      child: Text(
-                                                        item['sigla'] ?? '',
-                                                        textAlign:
-                                                            TextAlign.center,
+                                                    TableCell(
+                                                      child: Padding(
+                                                        padding:
+                                                            EdgeInsets.all(8.0),
+                                                        child: Text(
+                                                          item['sigla'] ?? '',
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                                  TableCell(
-                                                    child: Padding(
-                                                      padding:
-                                                          EdgeInsets.all(8.0),
-                                                      child: Text(
-                                                        item['nome'] ?? '',
-                                                        textAlign:
-                                                            TextAlign.center,
+                                                    TableCell(
+                                                      child: Padding(
+                                                        padding:
+                                                            EdgeInsets.all(8.0),
+                                                        child: Text(
+                                                          item['nome'] ?? '',
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                                  TableCell(
-                                                    child: Padding(
-                                                      padding:
-                                                          EdgeInsets.all(8.0),
-                                                      child: Text(
-                                                        item['onde'] ?? '',
-                                                        textAlign:
-                                                            TextAlign.center,
+                                                    TableCell(
+                                                      child: Padding(
+                                                        padding:
+                                                            EdgeInsets.all(8.0),
+                                                        child: Text(
+                                                          item['onde'] ?? '',
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                                ],
-                                              ))
-                                          .toList(),
-                                    ],
-                                  ),
+                                                  ],
+                                                ))
+                                            .toList(),
+                                      ],
+                                    ),
                                 ],
-                              )
-                              ),
+                              )),
                         ),
-                        
                         SingleChildScrollView(
                           child: Padding(
                               padding: EdgeInsets.all(20),
@@ -416,123 +386,233 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
                                   SizedBox(
                                     height: 20,
                                   ),
-                                  if(widget.titulo.toLowerCase() == "metal")
-                                  Container(
-          padding: EdgeInsets.all(20),
-          child: Column(
-            children: [
-              Align(
-                alignment: Alignment.center,
-                child: Text("Ferrosos", style: TextStyle(
-                  color: Colors.amber,
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold
-                ),),
-              ),
-              SizedBox(height: 10,),
-              Table(
-          border: TableBorder(
-            horizontalInside: BorderSide(
-              color: Colors.grey),
-            top: BorderSide(color: Colors.grey),
-            bottom: BorderSide(color: Colors.grey)
-          ),
-
-          defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-          children: [
-            TableRow(
-              children: [
-                TableCell(child: Padding(padding: EdgeInsets.all(8.0),
-                child: Text("Aço", textAlign: TextAlign.center, style: TextStyle(
-                  fontWeight: FontWeight.bold,fontSize: 16
-                ),),
-                )),
-                TableCell(child: Padding(padding: EdgeInsets.all(8.0),
-                child: Text("Ferro Fundido", textAlign: TextAlign.center, style: TextStyle(
-                  fontWeight: FontWeight.bold,fontSize: 16
-                ),),
-                )),
-                TableCell(child: Padding(padding: EdgeInsets.all(8.0),
-                child: Text("Aluminio", textAlign: TextAlign.center, style: TextStyle(
-                  fontWeight: FontWeight.bold,fontSize: 16
-                ),),
-                )),
-              ]
-            ),
-            TableRow(
-              children: [
-                TableCell(child: Padding(padding: EdgeInsets.all(8.0),
-                child: Text("O processo de fabricação do aço envolve a fusão do minério de ferro e aditivos em altas temperaturas, seguido por processos de laminação, forjamento ou fundição para dar forma ao metal.", textAlign: TextAlign.center, style: TextStyle(),),
-                )),
-                TableCell(child: Padding( padding: EdgeInsets.all(8.0), child: Text("O ferro fundido é produzido através da fundição do minério de ferro em moldes, seguido por processos de resfriamento e solidificação para formar as peças desejadas.", textAlign: TextAlign.center,))),
-                TableCell(child: Padding( padding: EdgeInsets.all(8.0), child: Text("O aluno é valorizado por sua resistência à corrosão, condutividade elétrica e facilidade de reciclagem, o que o torna uma escolha popular em muitas indústrias.", textAlign: TextAlign.center,))),
-              ]
-            ),
-            TableRow(
-              children: [
-                TableCell(child: Padding(padding: EdgeInsets.all(8.0),
-                child: Text("Encontrado em: Estruturas de edifícios, automóveis, utensílios de cozinha, ferramentas, etc.", textAlign: TextAlign.center, style: TextStyle(),),
-                )),
-                TableCell(child: Padding( padding: EdgeInsets.all(8.0), child: Text("Encontrado em: Peças de máquinas, tubulações, gradeamento e grelhas, componentes de caldeiras, etc.", textAlign: TextAlign.center,))),
-                TableCell(child: Padding( padding: EdgeInsets.all(8.0), child: Text("Encontrado em: Embalagens, transporte, construção civil, eletrônicos, etc.", textAlign: TextAlign.center,))),
-              ]
-            ),
-          ],
-        ),
-        SizedBox(height: 20,),
-              Align(
-                alignment: Alignment.center,
-                child: Text("Não Ferrosos", style: TextStyle(
-                  color: Colors.amber,
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold
-                ),),
-              ),
-              SizedBox(height: 10,),
-              Table(
-          border: TableBorder(
-               horizontalInside: BorderSide(
-              color: Colors.grey),
-            top: BorderSide(color: Colors.grey),
-            bottom: BorderSide(color: Colors.grey)
-          ),
-          defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-          children: [
-            TableRow(
-              children: [
-                TableCell(child: Padding(padding: EdgeInsets.all(8.0),
-                child: Text("Cobre", textAlign: TextAlign.center, style: TextStyle(
-                  fontWeight: FontWeight.bold,fontSize: 16
-                ),),
-                )),
-                TableCell(child: Padding(padding: EdgeInsets.all(8.0),
-                child: Text("Metais Pesados", textAlign: TextAlign.center, style: TextStyle(
-                  fontWeight: FontWeight.bold,fontSize: 16
-                ),),
-                )),
-              ]
-            ),
-            TableRow(
-              children: [
-                TableCell(child: Padding(padding: EdgeInsets.all(8.0),
-                child: Text("Além de suas propriedades elétricas e térmicas, o cobre é valorizado por sua resistência à corrosão e sua capacidade de ser moldado em diversas formas.", textAlign: TextAlign.center, style: TextStyle(),),
-                )),
-                TableCell(child: Padding( padding: EdgeInsets.all(8.0), child: Text("Embora alguns metais pesados sejam essenciais para processos biológicos em pequenas quantidades, a exposição excessiva a esses metais pode ser tóxica para os seres humanos e o meio ambiente, causando uma série de problemas de saúde, incluindo danos ao sistema nervoso, problemas renais e câncer.", textAlign: TextAlign.center,))),
-              ]
-            ),
-            TableRow(
-              children: [
-                TableCell(child: Padding(padding: EdgeInsets.all(8.0),
-                child: Text("Encontrado em: Fiação elétrica, tubulações, eletrônicos, moedas, jóias, etc.", textAlign: TextAlign.center, style: TextStyle(),),
-                )),
-                TableCell(child: Padding( padding: EdgeInsets.all(8.0), child: Text("Encontrado em: Alguns exemplos comuns de metais pesados incluem chumbo, mercúrio, cádmio e arsênio, etc.", textAlign: TextAlign.center,))),
-              ]
-            ),
-          ],
-        ),
-            ],
-          ),
-        )
+                                  if (widget.titulo.toLowerCase() == "metal")
+                                    Container(
+                                      padding: EdgeInsets.all(20),
+                                      child: Column(
+                                        children: [
+                                          Align(
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              "Ferrosos",
+                                              style: TextStyle(
+                                                  color: Colors.amber,
+                                                  fontSize: 25,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          Table(
+                                            border: TableBorder(
+                                                horizontalInside: BorderSide(
+                                                    color: Colors.grey),
+                                                top: BorderSide(
+                                                    color: Colors.grey),
+                                                bottom: BorderSide(
+                                                    color: Colors.grey)),
+                                            defaultVerticalAlignment:
+                                                TableCellVerticalAlignment
+                                                    .middle,
+                                            children: [
+                                              TableRow(children: [
+                                                TableCell(
+                                                    child: Padding(
+                                                  padding: EdgeInsets.all(8.0),
+                                                  child: Text(
+                                                    "Aço",
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 16),
+                                                  ),
+                                                )),
+                                                TableCell(
+                                                    child: Padding(
+                                                  padding: EdgeInsets.all(8.0),
+                                                  child: Text(
+                                                    "Ferro Fundido",
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 16),
+                                                  ),
+                                                )),
+                                                TableCell(
+                                                    child: Padding(
+                                                  padding: EdgeInsets.all(8.0),
+                                                  child: Text(
+                                                    "Aluminio",
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 16),
+                                                  ),
+                                                )),
+                                              ]),
+                                              TableRow(children: [
+                                                TableCell(
+                                                    child: Padding(
+                                                  padding: EdgeInsets.all(8.0),
+                                                  child: Text(
+                                                    "O processo de fabricação do aço envolve a fusão do minério de ferro e aditivos em altas temperaturas, seguido por processos de laminação, forjamento ou fundição para dar forma ao metal.",
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(),
+                                                  ),
+                                                )),
+                                                TableCell(
+                                                    child: Padding(
+                                                        padding:
+                                                            EdgeInsets.all(8.0),
+                                                        child: Text(
+                                                          "O ferro fundido é produzido através da fundição do minério de ferro em moldes, seguido por processos de resfriamento e solidificação para formar as peças desejadas.",
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                        ))),
+                                                TableCell(
+                                                    child: Padding(
+                                                        padding:
+                                                            EdgeInsets.all(8.0),
+                                                        child: Text(
+                                                          "O aluno é valorizado por sua resistência à corrosão, condutividade elétrica e facilidade de reciclagem, o que o torna uma escolha popular em muitas indústrias.",
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                        ))),
+                                              ]),
+                                              TableRow(children: [
+                                                TableCell(
+                                                    child: Padding(
+                                                  padding: EdgeInsets.all(8.0),
+                                                  child: Text(
+                                                    "Encontrado em: Estruturas de edifícios, automóveis, utensílios de cozinha, ferramentas, etc.",
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(),
+                                                  ),
+                                                )),
+                                                TableCell(
+                                                    child: Padding(
+                                                        padding:
+                                                            EdgeInsets.all(8.0),
+                                                        child: Text(
+                                                          "Encontrado em: Peças de máquinas, tubulações, gradeamento e grelhas, componentes de caldeiras, etc.",
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                        ))),
+                                                TableCell(
+                                                    child: Padding(
+                                                        padding:
+                                                            EdgeInsets.all(8.0),
+                                                        child: Text(
+                                                          "Encontrado em: Embalagens, transporte, construção civil, eletrônicos, etc.",
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                        ))),
+                                              ]),
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: 20,
+                                          ),
+                                          Align(
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              "Não Ferrosos",
+                                              style: TextStyle(
+                                                  color: Colors.amber,
+                                                  fontSize: 25,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          Table(
+                                            border: TableBorder(
+                                                horizontalInside: BorderSide(
+                                                    color: Colors.grey),
+                                                top: BorderSide(
+                                                    color: Colors.grey),
+                                                bottom: BorderSide(
+                                                    color: Colors.grey)),
+                                            defaultVerticalAlignment:
+                                                TableCellVerticalAlignment
+                                                    .middle,
+                                            children: [
+                                              TableRow(children: [
+                                                TableCell(
+                                                    child: Padding(
+                                                  padding: EdgeInsets.all(8.0),
+                                                  child: Text(
+                                                    "Cobre",
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 16),
+                                                  ),
+                                                )),
+                                                TableCell(
+                                                    child: Padding(
+                                                  padding: EdgeInsets.all(8.0),
+                                                  child: Text(
+                                                    "Metais Pesados",
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 16),
+                                                  ),
+                                                )),
+                                              ]),
+                                              TableRow(children: [
+                                                TableCell(
+                                                    child: Padding(
+                                                  padding: EdgeInsets.all(8.0),
+                                                  child: Text(
+                                                    "Além de suas propriedades elétricas e térmicas, o cobre é valorizado por sua resistência à corrosão e sua capacidade de ser moldado em diversas formas.",
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(),
+                                                  ),
+                                                )),
+                                                TableCell(
+                                                    child: Padding(
+                                                        padding:
+                                                            EdgeInsets.all(8.0),
+                                                        child: Text(
+                                                          "Embora alguns metais pesados sejam essenciais para processos biológicos em pequenas quantidades, a exposição excessiva a esses metais pode ser tóxica para os seres humanos e o meio ambiente, causando uma série de problemas de saúde, incluindo danos ao sistema nervoso, problemas renais e câncer.",
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                        ))),
+                                              ]),
+                                              TableRow(children: [
+                                                TableCell(
+                                                    child: Padding(
+                                                  padding: EdgeInsets.all(8.0),
+                                                  child: Text(
+                                                    "Encontrado em: Fiação elétrica, tubulações, eletrônicos, moedas, jóias, etc.",
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(),
+                                                  ),
+                                                )),
+                                                TableCell(
+                                                    child: Padding(
+                                                        padding:
+                                                            EdgeInsets.all(8.0),
+                                                        child: Text(
+                                                          "Encontrado em: Alguns exemplos comuns de metais pesados incluem chumbo, mercúrio, cádmio e arsênio, etc.",
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                        ))),
+                                              ]),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    )
                                 ],
                               )),
                         ),
@@ -559,152 +639,174 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
                       padding: EdgeInsets.all(20),
                       child: Column(
                         children: [
-                          Padding(padding: EdgeInsets.fromLTRB(20, 0, 20, 20),
-                          child: Column(children: [
-                            RichText(
-                            textAlign: TextAlign.center,
-                            text: TextSpan(
+                          Padding(
+                            padding: EdgeInsets.fromLTRB(20, 0, 20, 20),
+                            child: Column(
                               children: [
-                                TextSpan(
-                                  text: 'Veja as ideias feitas com ', // Texto fixo com estilo preto
-                                  style: TextStyle(
-                                    color: Colors.black, // Cor preta para o texto fixo
-                                    fontFamily: 'Nunito',
-                                    fontSize: 30,
-                                    fontWeight: FontWeight.bold,
+                                RichText(
+                                  textAlign: TextAlign.center,
+                                  text: TextSpan(
+                                    children: [
+                                      TextSpan(
+                                        text:
+                                            'Veja as ideias feitas com ', // Texto fixo com estilo preto
+                                        style: TextStyle(
+                                          color: Colors
+                                              .black, // Cor preta para o texto fixo
+                                          fontFamily: 'Nunito',
+                                          fontSize: 30,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      TextSpan(
+                                        text: widget
+                                            .titulo2, // Texto recebido com o estilo desejado
+                                        style: TextStyle(
+                                          color: widget.cor,
+                                          fontFamily: 'Nunito',
+                                          fontSize: 30,
+                                          fontWeight: FontWeight
+                                              .bold, // Negrito para o texto recebido
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ),
-                                TextSpan(
-                                  text: widget.titulo2, // Texto recebido com o estilo desejado
-                                  style: TextStyle(
-                                    color: widget.cor,
-                                    fontFamily: 'Nunito',
-                                    fontSize: 30,
-                                    fontWeight: FontWeight.bold, // Negrito para o texto recebido
-                                  ),
-                                ),
+                                )
                               ],
                             ),
-                          )
-
-                          ],),
                           ),
-                      Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Row(
+                          Center(
+                            child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                ValueListenableBuilder(
-                                  valueListenable: dropValue,
-                                  builder: (BuildContext context, String value, _) {
-                                    return Container(
-                                      padding: EdgeInsets.symmetric(horizontal: 10),
-                                      decoration: BoxDecoration(
-                                        color: widget.cor,
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child: Row(
-                                        children: [
-                                          Icon(Icons.filter_alt, color: Colors.white), // Ícone de filtro
-                                          SizedBox(width: 8),
-                                          DropdownButton<String>(
-                                            hint: Text("Ordenar", style: TextStyle(color: Colors.white),),
-                                            value: (value.isEmpty) ? null : value,
-                                            onChanged: (escolha) => dropValue.value = escolha.toString(),
-                                            items: opcoes.map(
-                                              (op) => DropdownMenuItem<String>(
-                                                value: op,
-                                                child: Text(op),
-                                              ),
-                                            ).toList(),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    ValueListenableBuilder(
+                                      valueListenable: dropValue,
+                                      builder: (BuildContext context,
+                                          String value, _) {
+                                        return Container(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 10),
+                                          decoration: BoxDecoration(
+                                            color: widget.cor,
+                                            borderRadius:
+                                                BorderRadius.circular(10),
                                           ),
-                                        ],
-                                      ),
-                                    );
-                                  },
-                                ),
-                                
-                                SizedBox(width: 30), // Espaçamento entre o filtro e a pesquisa
+                                          child: Row(
+                                            children: [
+                                              Icon(Icons.filter_alt,
+                                                  color: Colors
+                                                      .white), // Ícone de filtro
+                                              SizedBox(width: 8),
+                                              DropdownButton<String>(
+                                                hint: Text(
+                                                  "Ordenar",
+                                                  style: TextStyle(
+                                                      color: Colors.white),
+                                                ),
+                                                value: (value.isEmpty)
+                                                    ? null
+                                                    : value,
+                                                onChanged: (escolha) =>
+                                                    dropValue.value =
+                                                        escolha.toString(),
+                                                items: opcoes
+                                                    .map(
+                                                      (op) => DropdownMenuItem<
+                                                          String>(
+                                                        value: op,
+                                                        child: Text(op),
+                                                      ),
+                                                    )
+                                                    .toList(),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      },
+                                    ),
 
-                                Expanded(
-                                  child: TextField(
-                                    controller: searchController,
-                                    decoration: InputDecoration(
-                                      filled: true,
-                                      fillColor: Colors.grey[500],
-                                      hintText: 'Buscar',
-                                      contentPadding: EdgeInsets.only(left: 15, bottom: 20, top: 5),
-                                      suffixIcon: Container(
-                                        decoration: BoxDecoration(
-                                          color: widget.cor,
-                                          borderRadius: BorderRadius.only(
-                                            topRight: Radius.circular(10),
-                                            bottomRight: Radius.circular(10),
+                                    SizedBox(
+                                        width:
+                                            30), // Espaçamento entre o filtro e a pesquisa
+
+                                    Expanded(
+                                      child: TextField(
+                                        controller: searchController,
+                                        decoration: InputDecoration(
+                                          filled: true,
+                                          fillColor: Colors.grey[500],
+                                          hintText: 'Buscar',
+                                          contentPadding: EdgeInsets.only(
+                                              left: 15, bottom: 20, top: 5),
+                                          suffixIcon: Container(
+                                            decoration: BoxDecoration(
+                                              color: widget.cor,
+                                              borderRadius: BorderRadius.only(
+                                                topRight: Radius.circular(10),
+                                                bottomRight:
+                                                    Radius.circular(10),
+                                              ),
+                                            ),
+                                            child: Icon(Icons.search,
+                                                color: Colors.white),
+                                          ),
+                                          border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
                                           ),
                                         ),
-                                        child: Icon(Icons.search, color: Colors.white),
-                                      ),
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10),
+                                        onChanged: (text) {
+                                          setState(() {
+                                            listaFiltrada = listaIdeias
+                                                .where((idea) => idea
+                                                    .getNomePostagem
+                                                    .toLowerCase()
+                                                    .contains(
+                                                        text.toLowerCase()))
+                                                .toList();
+                                          });
+                                        },
                                       ),
                                     ),
-                                    onChanged: (text) {
-                                      setState(() {
-                                        listaFiltrada = listaIdeias
-                                            .where((idea) => idea.getNomePostagem
-                                                .toLowerCase()
-                                                .contains(text.toLowerCase()))
-                                            .toList();
-                                      });
-                                    },
-                                  ),
+                                  ],
                                 ),
+                                SizedBox(
+                                    height:
+                                        20), // Espaçamento abaixo da linha de pesquisa e filtro
                               ],
                             ),
-                            SizedBox(height: 20), // Espaçamento abaixo da linha de pesquisa e filtro
-                          ],
-                        ),
-                      ),
-
-
-
-
+                          ),
                           SizedBox(height: 10),
-                           Container(
-                                height: 300,
-                                  child: listaIdeias.isNotEmpty
-                              ? GridView.builder(
-                                  shrinkWrap: true,
-                                  physics: NeverScrollableScrollPhysics(),
-                                  gridDelegate:
-                                      SliverGridDelegateWithFixedCrossAxisCount(
-                                          crossAxisCount: 2,
-                                          crossAxisSpacing: 12,
-                                          mainAxisSpacing: 12,
-                                          mainAxisExtent: 250),
-                                  itemCount: numeroAndlistaFiltrado(),
-                                  itemBuilder: (context, index) {
-                                    return gerarCard(
-                                        listaFiltrada[index].getNomePostagem,
-                                        listaFiltrada[index].getImg1,
-                                        listaFiltrada[index].getDificuldade,
-                                        listaFiltrada[index].getAvaliacao,
-                                        listaFiltrada[index].getDesc,
-                                        listaFiltrada[index].getPassoPasso,
-                                        listaFiltrada[index].getNomeUsuario,
-                                        listaFiltrada[index].getMateriais,
-                                        listaFiltrada[index].getMaterial);
-                                  },
-                                ): Center(
-                                  child: Text(
-                                    "Sem posts no momento. Que tal postar alguma coisa?",
-                                    style: TextStyle(fontSize: 25),
-                                    textAlign: TextAlign.center,
+                          Container(
+                            height: 300,
+                            child: listaIdeias.isNotEmpty
+                                ? GridView.builder(
+                                    shrinkWrap: true,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    gridDelegate:
+                                        SliverGridDelegateWithFixedCrossAxisCount(
+                                            crossAxisCount: 2,
+                                            crossAxisSpacing: 12,
+                                            mainAxisSpacing: 12,
+                                            mainAxisExtent: 250),
+                                    itemCount: numeroAndlistaFiltrado(),
+                                    itemBuilder: (context, index) {
+                                      final Ideia ideia = listaFiltrada[index];
+                                      return gerarCard(
+                                          ideia);
+                                    },
+                                  )
+                                : Center(
+                                    child: Text(
+                                      "Sem posts no momento. Que tal postar alguma coisa?",
+                                      style: TextStyle(fontSize: 25),
+                                      textAlign: TextAlign.center,
+                                    ),
                                   ),
-                                ),),
-                              
+                          ),
                           listaFiltrada.isEmpty
                               ? Center(
                                   child: Text(
@@ -739,74 +841,74 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
   }
 
   Widget gerarCard(
-      String titulo,
-      String imgUrl,
-      String dificuldade,
-      double avaliacao,
-      String desc,
-      String passoPasso,
-      String autor,
-      String listaMat,
-      String material) {
+      Ideia ideia) {
     return MouseRegion(
-        child: GestureDetector(
-      child: Container(
-        padding: EdgeInsets.all(5),
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey[700]!),
-            borderRadius: BorderRadius.circular(10),
-            color: Color.fromARGB(255, 255, 255, 255)),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            SizedBox(
-              width: 200,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: Image.asset(
-                  "$imgUrl",
-                  height: 130,
-                  fit: BoxFit.cover,
+      child: GestureDetector(
+        child: Container(
+          padding: EdgeInsets.all(5),
+          decoration: BoxDecoration(
+              border: Border.all(color: Colors.grey[700]!),
+              borderRadius: BorderRadius.circular(10),
+              color: Color.fromARGB(255, 255, 255, 255)),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              SizedBox(
+                width: 200,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Image.asset(
+                    ideia.img1,
+                    height: 130,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
-            ),
-            Row(mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-            Spacer(),
-            Text(
-              '@'+autor,
-              style: TextStyle(fontStyle: FontStyle.italic,),
-              textAlign: TextAlign.center,
-            ),
-            Spacer(),      
-              Icon(Icons.circle, color: definirCor(dificuldade)),
-            ],),
-            Text(
-              titulo,
-              style: ideaTitle,
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(
-              height: 5,
-            ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("200", style: TextStyle( fontSize: 15),),
-                  Icon(Icons.favorite, color: Colors.redAccent,)
+                  Spacer(),
+                  Text(
+                    '@' + ideia.nomeUsuario,
+                    style: TextStyle(
+                      fontStyle: FontStyle.italic,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  Spacer(),
+                  Icon(Icons.circle, color: definirCor(ideia.dificuldade)),
+                ],
+              ),
+              Text(
+                ideia.nomePostagem,
+                style: ideaTitle,
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "200",
+                    style: TextStyle(fontSize: 15),
+                  ),
+                  Icon(
+                    Icons.favorite,
+                    color: Colors.redAccent,
+                  )
                 ],
               )
-          ],
+            ],
+          ),
         ),
+        onTap: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => PageIdeia.ideia(ideia)));
+        },
       ),
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => PageIdeia(titulo, desc, imgUrl,
-                    dificuldade, passoPasso, avaliacao, autor, listaMat)));
-      },
-    ));
+    );
   }
 
   List<Widget> gerarEstrelaColorida(int n) {
@@ -825,10 +927,14 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
     return avaliacao;
   }
 
-    Color definirCor(String dificuldade){
-    if(dificuldade == "facil"){return  Colors.green;}
-    else if(dificuldade == "media"){return Colors.yellow;}
-    else if (dificuldade == "dificil"){return Colors.red;}
+  Color definirCor(String dificuldade) {
+    if (dificuldade == "facil") {
+      return Colors.green;
+    } else if (dificuldade == "media") {
+      return Colors.yellow;
+    } else if (dificuldade == "dificil") {
+      return Colors.red;
+    }
     return Colors.black;
   }
 }

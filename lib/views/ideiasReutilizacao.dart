@@ -654,15 +654,8 @@ class _IdeiasReutilizacaoState extends State<IdeiasReutilizacao> {
         onTap: () => Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => PageIdeia(
-                ideia.nomePostagem,
-                ideia.desc,
-                ideia.img1,
-                ideia.dificuldade,
-                ideia.passoPasso,
-                ideia.avaliacao,
-                ideia.nomeUsuario,
-                ideia.materiais),
+            builder: (context) => PageIdeia.ideia(
+                ideia),
           ),
         ),
         child: Container(
@@ -819,15 +812,8 @@ class _IdeiasReutilizacaoState extends State<IdeiasReutilizacao> {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => PageIdeia(
-                    ideia.nomePostagem,
-                    ideia.desc,
-                    ideia.img1,
-                    ideia.dificuldade,
-                    ideia.passoPasso,
-                    ideia.avaliacao,
-                    ideia.nomeUsuario,
-                    ideia.materiais)));
+                builder: (context) => PageIdeia.ideia(
+                    ideia)));
       },
     ));
   }
