@@ -1,9 +1,12 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
-import 'package:flutter_application_ecoment_inicial/Data/Get/Postagem/GetPostagem.dart';
+import 'package:flutter_application_ecoment_inicial/Data/Postagem/GetPostagem.dart';
+import 'package:flutter_application_ecoment_inicial/Data/Postagem/Postagem.dart';
+import 'package:flutter_application_ecoment_inicial/Data/Usuario/Usuario.dart';
 import 'package:flutter_application_ecoment_inicial/defaultWidgets/bottomAppBar.dart';
 import 'package:flutter_application_ecoment_inicial/defaultWidgets/drawer.dart';
+import 'package:flutter_application_ecoment_inicial/models/Postagem.dart';
 import 'package:flutter_application_ecoment_inicial/models/ideia.dart';
 import 'package:flutter_application_ecoment_inicial/views/ideia.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -42,7 +45,7 @@ class _IdeiasReutilizacaoState extends State<IdeiasReutilizacao> {
 
   final TextEditingController searchController2 = TextEditingController();
 
-  GetPostagem getPostagem = GetPostagem();
+  Postagem postagemBD = Postagem();
 
   @override
   void initState() {
@@ -56,22 +59,22 @@ class _IdeiasReutilizacaoState extends State<IdeiasReutilizacao> {
       setState(() {
       isLoading = true;
     });
-      listaFiltradaPlastico = await getPostagem.listaIdeiasByMaterialPostagem(1);
+      listaFiltradaPlastico = await postagemBD.getPostagem.listaIdeiasByMaterialPostagem(1);
       int itemCountPlastico = listaFiltradaPlastico.length;
 
-      listaFiltradaMetal = await getPostagem.listaIdeiasByMaterialPostagem(2);
+      listaFiltradaMetal = await postagemBD.getPostagem.listaIdeiasByMaterialPostagem(2);
       int itemCountMetal = listaFiltradaMetal.length;
 
-      listaFiltradaPapel = await getPostagem.listaIdeiasByMaterialPostagem(3);
+      listaFiltradaPapel = await postagemBD.getPostagem.listaIdeiasByMaterialPostagem(3);
       int itemCountPapel = listaFiltradaPapel.length;
 
-      listaFiltradaVidro = await getPostagem.listaIdeiasByMaterialPostagem(4);
+      listaFiltradaVidro = await postagemBD.getPostagem.listaIdeiasByMaterialPostagem(4);
       int itemCountVidro = listaFiltradaVidro.length;
 
-      listaFiltradaMadeira = await getPostagem.listaIdeiasByMaterialPostagem(5);
+      listaFiltradaMadeira = await postagemBD.getPostagem.listaIdeiasByMaterialPostagem(5);
       int itemCountMadeira = listaFiltradaMadeira.length;
 
-      listaFiltradaOrganico = await getPostagem.listaIdeiasByMaterialPostagem(6);
+      listaFiltradaOrganico = await postagemBD.getPostagem.listaIdeiasByMaterialPostagem(6);
       int itemCountOrganico = listaFiltradaOrganico.length;
 
       setState(() {
@@ -224,7 +227,7 @@ class _IdeiasReutilizacaoState extends State<IdeiasReutilizacao> {
                                     "O que é plástico?",
                                     "De onde ele vem?",
                                     "Qual é o descarte correto?",
-                                    "Alternativas ecológicas"),
+                                    "Alternativas ecológicas",1),
                               ),
                             );
                             setState(() {});
@@ -305,7 +308,7 @@ class _IdeiasReutilizacaoState extends State<IdeiasReutilizacao> {
                                     "O que é o metal?",
                                     "De onde ele vem?",
                                     "Qual o descarte correto?",
-                                    "Alternativas sustentáveis"),
+                                    "Alternativas sustentáveis",2),
                               ),
                             );
                             setState(() {});
@@ -384,7 +387,7 @@ class _IdeiasReutilizacaoState extends State<IdeiasReutilizacao> {
                                       "O que é vidro?",
                                       "De onde ele vem?",
                                       "Qual é o descarte correto?",
-                                      "Alternativas ecológicas"),
+                                      "Alternativas ecológicas",4),
                                 ),
                               );
                               setState(() {});
@@ -465,7 +468,7 @@ class _IdeiasReutilizacaoState extends State<IdeiasReutilizacao> {
                                       "O que é o papel?",
                                       "De onde ele vem?",
                                       "Qual é o descarte correto?",
-                                      "Alternativas ecológicas"),
+                                      "Alternativas ecológicas",3),
                                 ),
                               );
                               setState(() {});
@@ -545,7 +548,7 @@ class _IdeiasReutilizacaoState extends State<IdeiasReutilizacao> {
                                     "O que é resíduo orgânico?",
                                     "O que é a compostagem?",
                                     "Passo a passo da compostagem",
-                                    "Tipos de compostagem"),
+                                    "Tipos de compostagem",6),
                               ),
                             );
                             setState(() {});
@@ -626,7 +629,7 @@ class _IdeiasReutilizacaoState extends State<IdeiasReutilizacao> {
                                     "O que é a madeira",
                                     "De onde vem a madeira?",
                                     "Qual é o descarte correto?",
-                                    "Alternativas ecológicas"),
+                                    "Alternativas ecológicas",5),
                               ),
                             );
                             setState(() {});

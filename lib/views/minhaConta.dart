@@ -2,7 +2,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_ecoment_inicial/Data/Get.dart';
+import 'package:flutter_application_ecoment_inicial/Data/Postagem/GetPostagem.dart';
 import 'package:flutter_application_ecoment_inicial/defaultWidgets/appBar.dart';
 import 'package:flutter_application_ecoment_inicial/defaultWidgets/bottomAppBar.dart';
 import 'package:flutter_application_ecoment_inicial/defaultWidgets/drawer.dart';
@@ -55,7 +55,7 @@ class _MinhaContaState extends State<MinhaConta> {
 
   double tamanhoContainterCinza = 500;
 
-  Get getBanco = Get();
+  GetPostagem getPostagem = GetPostagem();
 
   List<Ideia> listaIdeias2 = [];
 
@@ -153,7 +153,7 @@ class _MinhaContaState extends State<MinhaConta> {
 
     try {
       print("Antes da atribuição");
-      listaIdeias2 = await getBanco.findIdeiaByNomeUsuario(user.username);
+      listaIdeias2 = await getPostagem.findIdeiaByNomeUsuario(user.username);
       print("Depois da atribuição");
     } catch (e) {
       print("Erro ao carregar ideias: $e");

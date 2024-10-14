@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors, sized_box_for_whitespace
 
 import 'package:flutter/material.dart';
-import 'package:flutter_application_ecoment_inicial/Data/Get.dart';
+import 'package:flutter_application_ecoment_inicial/Data/Usuario/GetUsuario.dart';
 import 'package:flutter_application_ecoment_inicial/models/pessoa.dart';
 import 'package:flutter_application_ecoment_inicial/models/pessoaProvider.dart';
 import 'package:flutter_application_ecoment_inicial/views/cadastro.dart';
@@ -145,9 +145,9 @@ class _LoginState extends State<Login> {
                             child: ElevatedButton(
                               onPressed: () async {
                                 if (keyVal.currentState!.validate()) {
-                                  bool exist = await bancoGet.verificaUsuarioByEmailOrUsernameAndSenha(usernameEmailController.text, passwordController.text);
+                                  bool exist = await getUsuario.verificaUsuarioByEmailOrUsernameAndSenha(usernameEmailController.text, passwordController.text);
                                   if (exist == true) {
-                                    bancoGet.verificaUsuarioByEmailOrUsernameAndSenhaAndSet(usernameEmailController.text, passwordController.text, context);
+                                    getUsuario.verificaUsuarioByEmailOrUsernameAndSenhaAndSet(usernameEmailController.text, passwordController.text, context);
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
@@ -271,7 +271,7 @@ class _LoginState extends State<Login> {
     );
   }
 
-  Get bancoGet = Get();
+  GetUsuario getUsuario = GetUsuario();
 
   bool isLoading = false;
 }

@@ -2,7 +2,8 @@
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_application_ecoment_inicial/Data/Get.dart';
+import 'package:flutter_application_ecoment_inicial/models/pessoaProvider.dart';
+import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -17,16 +18,17 @@ import 'package:flutter_application_ecoment_inicial/views/minhaConta.dart';
 import 'package:flutter_application_ecoment_inicial/views/pontosColeta.dart';
 
 class Myinicial extends StatefulWidget {
-  Pessoa user = Pessoa.n();
+  Pessoa pessoa = Pessoa.n();
 
   Myinicial({super.key});
-  Myinicial.full(this.user, {super.key});
+  Myinicial.full(this.pessoa, {super.key});
 
   @override
   State<Myinicial> createState() => _MyinicialState();
 }
 
 class _MyinicialState extends State<Myinicial> {
+
   @override
   TextStyle ideaTitle = TextStyle(
     color: Colors.black,
@@ -117,6 +119,7 @@ class _MyinicialState extends State<Myinicial> {
       height: 155, width: 155, child: Image.asset('assets/imgs/lixeira.png'));
 
   Widget build(BuildContext context) {
+    UsuarioProvider user = Provider.of<UsuarioProvider>(context, listen: false);
     return Scaffold(
         key: _scaffoldKey,
         appBar: AppBar(
@@ -228,7 +231,8 @@ class _MyinicialState extends State<Myinicial> {
                                             "O que é plástico?",
                                             "De onde ele vem?",
                                             "Qual é o descarte correto?",
-                                            "Alternativas ecológicas"),
+                                            "Alternativas ecológicas",
+                                            1),
                                       ),
                                     );
                                   },
@@ -263,7 +267,7 @@ class _MyinicialState extends State<Myinicial> {
                                             "O que é o metal?",
                                             "De onde ele vem?",
                                             "Qual o descarte correto?",
-                                            "Alternativas sustentáveis"),
+                                            "Alternativas sustentáveis",2),
                                       ));
                                 },
                               ),
@@ -301,7 +305,7 @@ class _MyinicialState extends State<Myinicial> {
                                               "O que é vidro?",
                                               "De onde ele vem?",
                                               "Qual é o descarte correto?",
-                                              "Alternativas ecológicas"),
+                                              "Alternativas ecológicas",4),
                                         ));
                                   },
                                 )),
@@ -334,7 +338,7 @@ class _MyinicialState extends State<Myinicial> {
                                               "O que é o papel?",
                                               "De onde ele vem?",
                                               "Qual é o descarte correto?",
-                                              "Alternativas ecológicas"),
+                                              "Alternativas ecológicas",3),
                                         ));
                                   },
                                 )),
@@ -372,7 +376,7 @@ class _MyinicialState extends State<Myinicial> {
                                           "O que é resíduo orgânico?",
                                           "O que é a compostagem?",
                                           "Passo a passo da compostagem",
-                                          "Tipos de compostagem"),
+                                          "Tipos de compostagem",6),
                                     ));
                               },
                             ),
@@ -407,7 +411,7 @@ class _MyinicialState extends State<Myinicial> {
                                           "O que é a madeira",
                                           "De onde vem a madeira?",
                                           "Qual é o descarte correto?",
-                                          "Alternativas ecológicas"),
+                                          "Alternativas ecológicas",5),
                                     ));
                               },
                             ),
@@ -438,7 +442,8 @@ class _MyinicialState extends State<Myinicial> {
                             ]),
 
                         SizedBox(
-                            height: 10), // Espaço entre o texto e o carrossel
+                            height: 10),// Espaço entre o texto e o carrossel
+                        user.email != "" ? 
                         CarouselSlider.builder(
                           options: CarouselOptions(
                             onPageChanged: (index, reason) =>
@@ -450,9 +455,10 @@ class _MyinicialState extends State<Myinicial> {
                             final ideia = listaIdeias[index];
                             return buildIdeia(ideia, index);
                           },
-                        ),
+                        ):Center(child: Text("Faça o login para ver suas ideias salvas"),),
                         const SizedBox(height: 32),
-                        buildIndicator(activeIndex2),
+                        user.email != "" ?
+                        buildIndicator(activeIndex2): Center(),
                       ],
                     ),
                   ),

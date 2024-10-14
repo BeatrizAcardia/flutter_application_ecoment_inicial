@@ -1,6 +1,7 @@
 // ignore_for_file: unnecessary_string_interpolations, prefer_const_constructors, sized_box_for_whitespace, avoid_unnecessary_containers, must_be_immutable, avoid_web_libraries_in_flutter, unused_import, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:flutter_application_ecoment_inicial/Data/Postagem/GetPostagem.dart';
 import 'package:flutter_application_ecoment_inicial/defaultWidgets/bottomAppBar.dart';
 import 'package:flutter_application_ecoment_inicial/defaultWidgets/drawer.dart';
 import 'package:flutter_application_ecoment_inicial/models/ideia.dart';
@@ -18,6 +19,7 @@ class Tabbar extends StatefulWidget {
   String descricao2 = "";
   String descricao3 = "";
   String descricao4 = "";
+  int materialPostagem = 0;
 
   Color cor = Colors.transparent;
 
@@ -33,7 +35,9 @@ class Tabbar extends StatefulWidget {
     this.topico,
     this.topico2,
     this.topico3,
-    this.topico4, {
+    this.topico4, 
+    this.materialPostagem,
+    {
     Key? key,
   });
 
@@ -44,10 +48,27 @@ class Tabbar extends StatefulWidget {
 class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
+    List<Ideia> listaIdeias = [];
+
+    List<Ideia> listaFiltrada = [];
+
+    int countListaFiltrada = 0;
+
+    Future<void>_loadData() async{
+    GetPostagem getPostagem = GetPostagem();
+    listaIdeias = await getPostagem.listaIdeiasAll();
+    listaFiltrada = await getPostagem.listaIdeiasByMaterialPostagem(widget.materialPostagem);
+    countListaFiltrada = listaFiltrada.length;
+    setState(() {
+      
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     _tabController = TabController(vsync: this, length: 4);
+    _loadData();
   }
 
   @override
@@ -62,29 +83,6 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
     fontFamily: 'Circe',
     fontWeight: FontWeight.w700,
   );
-
-  List<Ideia> listaIdeias = [
-    Ideia.n(
-        "Apanhador de frutas",
-        "assets/imgs/ideia1.jpg",
-        "dificil",
-        5,
-        "bagulho foda",
-        "1 passo, 2 passo",
-        "carlinhos1",
-        'material 1',
-        1),
-    Ideia.n("titulo2", "assets/imgs/ideia2.jpg", "facil", 4, "bagulho foda",
-        "1 passo, 2 passo", "carlinhos2", 'material 1', 1),
-    Ideia.n("teste3", "assets/imgs/ideia1.jpg", "media", 3, "bagulho foda",
-        "1 passo, 2 passo", "carlinhos3", 'material 1', 2),
-    Ideia.n("teste4", "assets/imgs/ideia2.jpg", "facil", 1, "bagulho foda",
-        "1 passo, 2 passo", "carlinhos4", 'material 1', 3),
-    Ideia.n("titulo5", "assets/imgs/ideia2.jpg", "dificil", 2, "bagulho foda",
-        "1 passo, 2 passo", "carlinhos5", 'material 1', 4),
-  ];
-
-  List<Ideia> listaFiltrada = [];
 
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
@@ -785,14 +783,14 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
                             child: listaIdeias.isNotEmpty
                                 ? GridView.builder(
                                     shrinkWrap: true,
-                                    physics: NeverScrollableScrollPhysics(),
+                                    /* physics: NeverScrollableScrollPhysics(), */
                                     gridDelegate:
                                         SliverGridDelegateWithFixedCrossAxisCount(
                                             crossAxisCount: 2,
                                             crossAxisSpacing: 12,
                                             mainAxisSpacing: 12,
                                             mainAxisExtent: 250),
-                                    itemCount: numeroAndlistaFiltrado(),
+                                    itemCount: countListaFiltrada,
                                     itemBuilder: (context, index) {
                                       final Ideia ideia = listaFiltrada[index];
                                       return gerarCard(
@@ -828,18 +826,6 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
         ));
   }
 
-  int numeroAndlistaFiltrado() {
-    int numero = 0;
-    for (int i = 0; i < listaIdeias.length; i++) {
-      if (listaIdeias[i].getMaterialPostagem ==
-          widget.titulo.toLowerCase()) {
-        numero++;
-        listaFiltrada.add(listaIdeias[i]);
-      }
-    }
-    return numero;
-  }
-
   Widget gerarCard(
       Ideia ideia) {
     return MouseRegion(
@@ -869,7 +855,7 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
                 children: [
                   Spacer(),
                   Text(
-                    '@' + ideia.nomeUsuario,
+                    ideia.nomeUsuario,
                     style: TextStyle(
                       fontStyle: FontStyle.italic,
                     ),
@@ -891,7 +877,7 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "200",
+                    ideia.numeroCurtidas.toString(),
                     style: TextStyle(fontSize: 15),
                   ),
                   Icon(
@@ -942,6 +928,6 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
 void main() {
   runApp(MaterialApp(
     home:
-        Tabbar("", Colors.transparent, "", "", "", "", "", "", "", "", "", ""),
+        Tabbar("", Colors.transparent, "", "", "", "", "", "", "", "", "", "", 0),
   ));
 }

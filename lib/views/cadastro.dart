@@ -5,8 +5,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter_application_ecoment_inicial/Controller/ControllerPessoa.dart';
-import 'package:flutter_application_ecoment_inicial/Data/Get.dart';
-import 'package:flutter_application_ecoment_inicial/Data/Post.dart';
+import 'package:flutter_application_ecoment_inicial/Data/Usuario/GetUsuario.dart';
+import 'package:flutter_application_ecoment_inicial/Data/Usuario/PostUsuario.dart';
+import 'package:flutter_application_ecoment_inicial/Data/Usuario/Usuario.dart';
 import 'package:flutter_application_ecoment_inicial/models/pessoa.dart';
 import 'package:flutter_application_ecoment_inicial/models/pessoaProvider.dart';
 import 'package:flutter_application_ecoment_inicial/repository/pessoaRepository.dart';
@@ -265,7 +266,7 @@ class _CadastroState extends State<Cadastro> {
                         onPressed: () async {
                           if (keyVal.currentState!.validate()) {
                             // Esperar o retorno da função assíncrona
-                            bool exist = await bancoGet.verificaUsuarioExistente(
+                            bool exist = await usuario.getUsuario.verificaUsuarioExistente(
                                 usernameController.text, emailController.text);
 
                             // Verificação simples após a resposta da função assíncrona
@@ -293,13 +294,13 @@ class _CadastroState extends State<Cadastro> {
                               print("Já existe usuário com esses dados");
                             } else {
                               // Se o usuário não existe, cadastrar a pessoa
-                              await bancoPost.cadastrarPessoaEmailSenha(
+                              await usuario.postUsuario.cadastrarPessoaEmailSenha(
                                   usernameController.text,
                                   emailController.text,
                                   passwordController.text
                               );
 
-                              await bancoGet.buscarPessoaByEmailAndSet(emailController.text, context);
+                              await usuario.getUsuario.buscarPessoaByEmailAndSet(emailController.text, context);
 
                               // Atualizar o estado global
                               /* globalState.setUsername(usernameController.text);
@@ -340,7 +341,5 @@ class _CadastroState extends State<Cadastro> {
     );
   }
   
-  Get bancoGet = Get();
-  Post bancoPost = Post();
-
+  Usuario usuario = Usuario();
 }

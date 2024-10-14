@@ -1,6 +1,6 @@
 // ignore_for_file: file_names, unnecessary_getters_setters, avoid_print
 
-class Postagem {
+class Postagemm {
   String _nome = '';
   String _material = '';
   String _descricao = '';
@@ -8,7 +8,7 @@ class Postagem {
   String _instrucoes = '';
   String _dificuldade = '';
 
-  Postagem(this._nome, this._material, this._descricao, this._materiaisNec,
+  Postagemm(this._nome, this._material, this._descricao, this._materiaisNec,
       this._instrucoes, this._dificuldade);
 
   void mostra() {

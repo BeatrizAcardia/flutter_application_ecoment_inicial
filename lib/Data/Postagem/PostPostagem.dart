@@ -1,0 +1,3 @@
+class PostPostagem{
+  String ipMaquina = "";
+}

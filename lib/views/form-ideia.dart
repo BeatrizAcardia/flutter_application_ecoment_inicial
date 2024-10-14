@@ -15,7 +15,7 @@ class FormIdeia extends StatefulWidget {
 
 class _FormIdeiaState extends State<FormIdeia> {
   // Variáveis
-  List<Postagem> posts = [];
+  List<Postagemm> posts = [];
   // variáveis de forms
   GlobalKey<FormState> chave = GlobalKey();
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
@@ -553,8 +553,8 @@ class _FormIdeiaState extends State<FormIdeia> {
 
   void postar(String nome, String material, String descricao, String matNec,
       String instrucoes, String dificuldade) {
-    Postagem post =
-        Postagem(nome, material, descricao, matNec, instrucoes, dificuldade);
+    Postagemm post =
+        Postagemm(nome, material, descricao, matNec, instrucoes, dificuldade);
     posts.add(post);
   }
 

@@ -123,7 +123,7 @@ class _IdeiaState extends State<PageIdeia> {
                       SizedBox(
                         height: 10,
                       ),
-                      Text("@" + widget.ideia.nomeUsuario, style: autor),
+                      Text(widget.ideia.nomeUsuario, style: autor),
                       SizedBox(
                         height: 10,
                       ),
