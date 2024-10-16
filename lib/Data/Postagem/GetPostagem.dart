@@ -22,7 +22,7 @@ class GetPostagem{
     }
     return [];
   }
-  
+
   Future<List<Ideia>> listaIdeiasAll() async{
     var url = Uri.parse("http://${dados.ipMaquina}:${dados.porta}/Ecomoment/postagem");
     http.Response response = await http.get(url);
@@ -60,6 +60,23 @@ class GetPostagem{
       IdeiaRepository ideiaRepo = IdeiaRepository();
       List listaIdeias_ = jsonDecode(response.body) as List;
       return ideiaRepo.listaIdeias = listaIdeias_.map((e) => Ideia.fromJson(e)).toList();
+    }
+    return [];
+  }
+
+  Future<List<Ideia>> listaIdeiaSeguindo(int idSeguindo) async{
+    var url = Uri.parse("http://${dados.ipMaquina}:${dados.porta}/Ecomoment/seguidor/ByIdSeguidor/${idSeguindo}");
+    http.Response response = await http.get(url);
+    if(response.statusCode == 200){
+      var url2 = Uri.parse("http://${dados.ipMaquina}:${dados.porta}/Ecomoment/seguidor/ByIdSeguindo");
+      http.Response response2 = await http.get(url2);
+      if(response2.statusCode == 200){
+        var url3 = Uri.parse("http://${dados.ipMaquina}:${dados.porta}/Ecomoment/postagem/ideiasByNomeWeb");
+        http.Response response3 = await http.get(url3);
+        IdeiaRepository ideiaRepo = IdeiaRepository();
+        List listaIdeiasSeguindo_ = jsonDecode(response3.body) as List;
+        return ideiaRepo.listaIdeias = listaIdeiasSeguindo_.map((e) => Ideia.fromJson(e)).toList();
+      }
     }
     return [];
   }

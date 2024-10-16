@@ -33,8 +33,10 @@ class Myinicial extends StatefulWidget {
 class _MyinicialState extends State<Myinicial> {
   List<Ideia> listaIdeiasMaisAvaliadas = [];
   List<Ideia> listaIdeiasFav = [];
+  List<Ideia> listaIdeiasSeguindo = [];
   int countListaIdeiasFav = 0;
   int countListaIdeiasMaisAvaliadas = 0;
+  int countListaIdeiasSeguindo = 0;
   bool isLoading = false;
   Postagem postagemBD = Postagem();
   GetIdeiaSalva ideiaSalvaBD = GetIdeiaSalva();
@@ -48,10 +50,15 @@ class _MyinicialState extends State<Myinicial> {
       listaIdeiasMaisAvaliadas =
           await postagemBD.getPostagem.listaIdeiasMaisCurtidas();
       countListaIdeiasMaisAvaliadas = listaIdeiasMaisAvaliadas.length;
+
       if (user.idUsuarioWeb != null || user.idUsuarioWeb != 0) {
         listaIdeiasFav = await ideiaSalvaBD
             .listaIdeiasSalvasByIdUsuarioWeb(user.idUsuarioWeb);
         countListaIdeiasFav = listaIdeiasFav.length;
+
+        listaIdeiasSeguindo =
+            await postagemBD.getPostagem.listaIdeiaSeguindo(user.idUsuarioWeb);
+        countListaIdeiasSeguindo = listaIdeiasSeguindo.length;
       }
       setState(() {
         isLoading = true;
@@ -506,31 +513,31 @@ class _MyinicialState extends State<Myinicial> {
                         )
                       : listaIdeiasFav.isEmpty
                           ? Container(
-                            padding: EdgeInsets.all(20),
-                          child: Column(
-                            children: [
-                              Text(
-                                "Favoritos",
-                                style: TextStyle(
-                                  color: Color.fromARGB(255, 58, 125, 68),
-                                  fontSize: 36,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                              padding: EdgeInsets.all(20),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    "Favoritos",
+                                    style: TextStyle(
+                                      color: Color.fromARGB(255, 58, 125, 68),
+                                      fontSize: 36,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  ideiaVerde,
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text(
+                                    "Você não tem nenhuma ideia salva. Que tal salvar algumas ideias?",
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
                               ),
-                              ideiaVerde,
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Text(
-                                "Você não tem nenhuma ideia salva. Que tal salvar algumas ideias?",
-                                style: TextStyle(
-                                  fontSize: 20,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
-                          ),
-                          )
+                            )
                           : Container(
                               height:
                                   500, // Ajuste a altura total conforme necessário
@@ -596,66 +603,65 @@ class _MyinicialState extends State<Myinicial> {
                               ),
                             ],
                           ),
-                        ):listaIdeias.isEmpty
+                        )
+                      : listaIdeiasSeguindo.isEmpty
                           ? Container(
-                            padding: EdgeInsets.all(20),
-                          child: Column(
-                            children: [
-                              Text(
-                                "Favoritos",
-                                style: TextStyle(
-                                  color: Color.fromARGB(255, 58, 125, 68),
-                                  fontSize: 36,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                              padding: EdgeInsets.fromLTRB(20, 20, 20, 80),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    "Seguindo",
+                                    style: TextStyle(
+                                      fontSize: 36,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text(
+                                    "Você não segue nenhum usuario. Que tal seguir alguns usuarios?",
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
                               ),
-                              ideiaVerde,
-                              SizedBox(
-                                height: 5,
+                            )
+                          : Container(
+                              height:
+                                  555, // Ajuste a altura total conforme necessário
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "Seguindo",
+                                    style: TextStyle(
+                                      fontSize: 36,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                      height:
+                                          10), // Espaço entre o texto e o carrossel
+                                  CarouselSlider.builder(
+                                    options: CarouselOptions(
+                                      onPageChanged: (index, reason) =>
+                                          setState(() => activeIndex3 = index),
+                                      height: 300, // Altura do carrossel
+                                    ),
+                                    itemCount: countListaIdeiasSeguindo,
+                                    itemBuilder: (context, index, realIndex) {
+                                      final ideia = listaIdeiasSeguindo[index];
+                                      return buildIdeia(ideia, index);
+                                    },
+                                  ),
+                                  const SizedBox(height: 32),
+                                  buildIndicator(activeIndex3),
+                                ],
                               ),
-                              Text(
-                                "Você não tem nenhuma ideia salva. Que tal salvar algumas ideias?",
-                                style: TextStyle(
-                                  fontSize: 20,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
-                          ),
-                          )
-                      : Container(
-                          height:
-                              555, // Ajuste a altura total conforme necessário
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                "Seguindo",
-                                style: TextStyle(
-                                  fontSize: 36,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              SizedBox(
-                                  height:
-                                      10), // Espaço entre o texto e o carrossel
-                              CarouselSlider.builder(
-                                options: CarouselOptions(
-                                  onPageChanged: (index, reason) =>
-                                      setState(() => activeIndex3 = index),
-                                  height: 300, // Altura do carrossel
-                                ),
-                                itemCount: listaIdeias.length,
-                                itemBuilder: (context, index, realIndex) {
-                                  final ideia = listaIdeias[index];
-                                  return buildIdeia(ideia, index);
-                                },
-                              ),
-                              const SizedBox(height: 32),
-                              buildIndicator(activeIndex3),
-                            ],
-                          ),
-                        ),
+                            ),
                 ],
               ),
             ),
