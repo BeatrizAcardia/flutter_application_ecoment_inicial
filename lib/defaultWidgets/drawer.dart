@@ -136,6 +136,7 @@ Drawer(
                 user.setUsername("");
                 user.setEmail("");
                 user.setSenha("");
+                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Myinicial(),), (route) => false,);
               },
               child: Text("Sair", style: TextStyle(
                 color: Colors.white,

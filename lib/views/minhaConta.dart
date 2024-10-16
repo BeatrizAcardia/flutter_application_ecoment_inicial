@@ -173,8 +173,9 @@ class _MinhaContaState extends State<MinhaConta> {
         _showErrorDialog(context);
       });
       return Scaffold(
-        appBar: AppBar(title: Text("Erro")),
-        body: Center(child: Text("Erro ao carregar a página.")),
+        body: Center(
+          child: Text("Erro ao carregar a página."),
+        ),
       );
     }
 
@@ -325,6 +326,13 @@ class _MinhaContaState extends State<MinhaConta> {
                                   user.setUsername("");
                                   user.setEmail("");
                                   user.setSenha("");
+                                  Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => Myinicial(),
+                                    ),
+                                    (route) => false,
+                                  );
                                 },
                                 icon: Icon(Icons.output_sharp),
                                 color: Colors.white,
@@ -481,7 +489,8 @@ class _MinhaContaState extends State<MinhaConta> {
       );
 //----- FIM CARROSSEL ----
 
-  Widget gerarCard(Ideia ideia,
+  Widget gerarCard(
+      Ideia ideia,
       String titulo,
       String imgUrl,
       String dificuldade,
@@ -540,10 +549,8 @@ class _MinhaContaState extends State<MinhaConta> {
           ),
         ),
         onTap: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => PageIdeia.ideia(ideia)));
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => PageIdeia.ideia(ideia)));
         },
       ),
     );

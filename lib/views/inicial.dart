@@ -2,6 +2,8 @@
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_application_ecoment_inicial/Data/Postagem/GetPostagem.dart';
+import 'package:flutter_application_ecoment_inicial/Data/Postagem/Postagem.dart';
 import 'package:flutter_application_ecoment_inicial/models/pessoaProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -28,6 +30,33 @@ class Myinicial extends StatefulWidget {
 }
 
 class _MyinicialState extends State<Myinicial> {
+  List<Ideia> listaIdeiasMaisAvaliadas = [];
+  int countListaIdeiasMaisAvaliadas = 0;
+  bool isLoading = false;
+  Postagem postagemBD = Postagem();
+
+  Future<void> _loadData() async {
+    try {
+      setState(() {
+        isLoading = false;
+      });
+      listaIdeiasMaisAvaliadas =
+          await postagemBD.getPostagem.listaIdeiasMaisCurtidas();
+      countListaIdeiasMaisAvaliadas = listaIdeiasMaisAvaliadas.length;
+      setState(() {
+        isLoading = true;
+      });
+    } catch (e) {
+      print("Erro em _loadData de Inicial.dart - ${e}");
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _loadData();
+  }
 
   @override
   TextStyle ideaTitle = TextStyle(
@@ -156,26 +185,36 @@ class _MyinicialState extends State<Myinicial> {
                               textAlign: TextAlign.center),
                           SizedBox(height: 40),
 
-                          //começo Carrossel
-
-                          CarouselSlider.builder(
-                            options: CarouselOptions(
-                              onPageChanged: (index, reason) =>
-                                  setState(() => activeIndex = index),
-                              height: 315,
-                              //viewportFraction: 0.55,
-                              // autoPlay: true,
-                              //autoPlayInterval: Duration(seconds: 4),
-                              pageSnapping: false,
-                              enlargeCenterPage: true,
-                              enlargeStrategy: CenterPageEnlargeStrategy.height,
-                            ),
-                            itemCount: listaIdeias.length,
-                            itemBuilder: (context, index, realIndex) {
-                              final ideia = listaIdeias[index];
-                              return buildIdeia(ideia, index);
-                            },
-                          ),
+                          isLoading == false
+                              ? Center(
+                                  child: CircularProgressIndicator(),
+                                )
+                              : listaIdeiasMaisAvaliadas.isEmpty
+                                  ? Center(
+                                      child: Text("Sem Ideias Mais Avaliadas"),
+                                    )
+                                  :
+                                  //começo Carrossel
+                                  CarouselSlider.builder(
+                                      options: CarouselOptions(
+                                        onPageChanged: (index, reason) =>
+                                            setState(() => activeIndex = index),
+                                        height: 315,
+                                        //viewportFraction: 0.55,
+                                        // autoPlay: true,
+                                        //autoPlayInterval: Duration(seconds: 4),
+                                        pageSnapping: false,
+                                        enlargeCenterPage: true,
+                                        enlargeStrategy:
+                                            CenterPageEnlargeStrategy.height,
+                                      ),
+                                      itemCount: countListaIdeiasMaisAvaliadas,
+                                      itemBuilder: (context, index, realIndex) {
+                                        final ideia =
+                                            listaIdeiasMaisAvaliadas[index];
+                                        return buildIdeia(ideia, index);
+                                      },
+                                    ),
                           //fim Carrossel
 
                           const SizedBox(height: 32),
@@ -267,7 +306,8 @@ class _MyinicialState extends State<Myinicial> {
                                             "O que é o metal?",
                                             "De onde ele vem?",
                                             "Qual o descarte correto?",
-                                            "Alternativas sustentáveis",2),
+                                            "Alternativas sustentáveis",
+                                            2),
                                       ));
                                 },
                               ),
@@ -305,7 +345,8 @@ class _MyinicialState extends State<Myinicial> {
                                               "O que é vidro?",
                                               "De onde ele vem?",
                                               "Qual é o descarte correto?",
-                                              "Alternativas ecológicas",4),
+                                              "Alternativas ecológicas",
+                                              4),
                                         ));
                                   },
                                 )),
@@ -338,7 +379,8 @@ class _MyinicialState extends State<Myinicial> {
                                               "O que é o papel?",
                                               "De onde ele vem?",
                                               "Qual é o descarte correto?",
-                                              "Alternativas ecológicas",3),
+                                              "Alternativas ecológicas",
+                                              3),
                                         ));
                                   },
                                 )),
@@ -376,7 +418,8 @@ class _MyinicialState extends State<Myinicial> {
                                           "O que é resíduo orgânico?",
                                           "O que é a compostagem?",
                                           "Passo a passo da compostagem",
-                                          "Tipos de compostagem",6),
+                                          "Tipos de compostagem",
+                                          6),
                                     ));
                               },
                             ),
@@ -411,7 +454,8 @@ class _MyinicialState extends State<Myinicial> {
                                           "O que é a madeira",
                                           "De onde vem a madeira?",
                                           "Qual é o descarte correto?",
-                                          "Alternativas ecológicas",5),
+                                          "Alternativas ecológicas",
+                                          5),
                                     ));
                               },
                             ),
@@ -421,14 +465,12 @@ class _MyinicialState extends State<Myinicial> {
                     ]),
                   ),
                   SizedBox(
-                    height: 50,
+                    height: 30,
                   ),
-                  Container(
-                    height: 500, // Ajuste a altura total conforme necessário
-                    child: Column(
-                      children: [
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                  user.email == ""
+                      ? Container(
+                          padding: EdgeInsets.all(20),
+                          child: Column(
                             children: [
                               Text(
                                 "Favoritos",
@@ -438,61 +480,105 @@ class _MyinicialState extends State<Myinicial> {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              ideiaVerde
-                            ]),
+                              ideiaVerde,
+                              SizedBox(height: 5,),
+                              Text("Você precisa estar logado com a sua conta para ter acesso a esta funcionalidade", style: TextStyle(
+                                fontSize: 20,
+                              ), textAlign: TextAlign.center,),
+                            ],
+                          ),
+                        )
+                      : Container(
+                          height:
+                              500, // Ajuste a altura total conforme necessário
+                          child: Column(
+                            children: [
+                              Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "Favoritos",
+                                      style: TextStyle(
+                                        color: Color.fromARGB(255, 58, 125, 68),
+                                        fontSize: 36,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    ideiaVerde
+                                  ]),
 
-                        SizedBox(
-                            height: 10),// Espaço entre o texto e o carrossel
-                        user.email != "" ? 
-                        CarouselSlider.builder(
-                          options: CarouselOptions(
-                            onPageChanged: (index, reason) =>
-                                setState(() => activeIndex2 = index),
-                            height: 300, // Altura do carrossel
-                          ),
-                          itemCount: listaIdeias.length,
-                          itemBuilder: (context, index, realIndex) {
-                            final ideia = listaIdeias[index];
-                            return buildIdeia(ideia, index);
-                          },
-                        ):Center(child: Text("Faça o login para ver suas ideias salvas"),),
-                        const SizedBox(height: 32),
-                        user.email != "" ?
-                        buildIndicator(activeIndex2): Center(),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    height: 555, // Ajuste a altura total conforme necessário
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Seguindo",
-                          style: TextStyle(
-                            fontSize: 36,
-                            fontWeight: FontWeight.bold,
+                              SizedBox(
+                                  height:
+                                      10), // Espaço entre o texto e o carrossel
+                              CarouselSlider.builder(
+                                options: CarouselOptions(
+                                  onPageChanged: (index, reason) =>
+                                      setState(() => activeIndex2 = index),
+                                  height: 300, // Altura do carrossel
+                                ),
+                                itemCount: listaIdeias.length,
+                                itemBuilder: (context, index, realIndex) {
+                                  final ideia = listaIdeias[index];
+                                  return buildIdeia(ideia, index);
+                                },
+                              ),
+                              const SizedBox(height: 32),
+                              buildIndicator(activeIndex2),
+                            ],
                           ),
                         ),
-                        SizedBox(
-                            height: 10), // Espaço entre o texto e o carrossel
-                        CarouselSlider.builder(
-                          options: CarouselOptions(
-                            onPageChanged: (index, reason) =>
-                                setState(() => activeIndex3 = index),
-                            height: 300, // Altura do carrossel
+                  user.email == ""
+                      ? Container(
+                          padding: EdgeInsets.fromLTRB(20, 20, 20, 80),
+                          child: Column(
+                            children: [
+                              Text(
+                                "Seguindo",
+                                style: TextStyle(
+                                  fontSize: 36,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(height: 5,),
+                              Text("Você precisa estar logado com a sua conta para ter acesso a esta funcionalidade", style: TextStyle(
+                                fontSize: 20,
+                              ), textAlign: TextAlign.center,),
+                            ],
                           ),
-                          itemCount: listaIdeias.length,
-                          itemBuilder: (context, index, realIndex) {
-                            final ideia = listaIdeias[index];
-                            return buildIdeia(ideia, index);
-                          },
+                        )
+                      : Container(
+                          height:
+                              555, // Ajuste a altura total conforme necessário
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Seguindo",
+                                style: TextStyle(
+                                  fontSize: 36,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(
+                                  height:
+                                      10), // Espaço entre o texto e o carrossel
+                              CarouselSlider.builder(
+                                options: CarouselOptions(
+                                  onPageChanged: (index, reason) =>
+                                      setState(() => activeIndex3 = index),
+                                  height: 300, // Altura do carrossel
+                                ),
+                                itemCount: listaIdeias.length,
+                                itemBuilder: (context, index, realIndex) {
+                                  final ideia = listaIdeias[index];
+                                  return buildIdeia(ideia, index);
+                                },
+                              ),
+                              const SizedBox(height: 32),
+                              buildIndicator(activeIndex3),
+                            ],
+                          ),
                         ),
-                        const SizedBox(height: 32),
-                        buildIndicator(activeIndex3),
-                      ],
-                    ),
-                  ),
                 ],
               ),
             ),
@@ -539,7 +625,7 @@ class _MyinicialState extends State<Myinicial> {
                   children: [
                     Spacer(),
                     Text(
-                      '@${ideia.nomeUsuario}',
+                      '${ideia.nomeUsuario}',
                       style: TextStyle(fontStyle: FontStyle.italic),
                     ),
                     Spacer(),
@@ -564,7 +650,7 @@ class _MyinicialState extends State<Myinicial> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "200",
+                      ideia.numeroCurtidas.toString(),
                       style: TextStyle(fontSize: 15),
                     ),
                     Icon(
@@ -593,7 +679,8 @@ class _MyinicialState extends State<Myinicial> {
         ),
       );
 
-  Widget gerarCard(Ideia ideia,
+  Widget gerarCard(
+      Ideia ideia,
       String titulo,
       String imgUrl,
       String dificuldade,
@@ -650,10 +737,8 @@ class _MyinicialState extends State<Myinicial> {
           ),
         ),
         onTap: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => PageIdeia.ideia(ideia)));
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => PageIdeia.ideia(ideia)));
         },
       ),
     );

@@ -52,4 +52,15 @@ class GetPostagem{
     return [];
   }
 
+  Future<List<Ideia>> listaIdeiasMaisCurtidas() async{
+    var url = Uri.parse("http://${dados.ipMaquina}:${dados.porta}/Ecomoment/postagem/maisAvaliadas");
+    http.Response response = await http.get(url);
+    if(response.statusCode == 200){
+      IdeiaRepository ideiaRepo = IdeiaRepository();
+      List listaIdeias_ = jsonDecode(response.body) as List;
+      return ideiaRepo.listaIdeias = listaIdeias_.map((e) => Ideia.fromJson(e)).toList();
+    }
+    return [];
+  }
+
 }
