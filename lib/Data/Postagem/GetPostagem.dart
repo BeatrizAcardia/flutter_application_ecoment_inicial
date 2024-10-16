@@ -22,6 +22,7 @@ class GetPostagem{
     }
     return [];
   }
+  
   Future<List<Ideia>> listaIdeiasAll() async{
     var url = Uri.parse("http://${dados.ipMaquina}:${dados.porta}/Ecomoment/postagem");
     http.Response response = await http.get(url);

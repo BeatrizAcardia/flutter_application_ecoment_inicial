@@ -1,5 +1,5 @@
 class Dados{
-  String ipMaquina = "192.168.142.161";
+  String ipMaquina = "localhost";
   String porta = "8080";
 
   Dados();

@@ -2,6 +2,7 @@
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_application_ecoment_inicial/Data/IdeiaSalva/GetIdeiaSalva.dart';
 import 'package:flutter_application_ecoment_inicial/Data/Postagem/GetPostagem.dart';
 import 'package:flutter_application_ecoment_inicial/Data/Postagem/Postagem.dart';
 import 'package:flutter_application_ecoment_inicial/models/pessoaProvider.dart';
@@ -31,11 +32,15 @@ class Myinicial extends StatefulWidget {
 
 class _MyinicialState extends State<Myinicial> {
   List<Ideia> listaIdeiasMaisAvaliadas = [];
+  List<Ideia> listaIdeiasFav = [];
+  int countListaIdeiasFav = 0;
   int countListaIdeiasMaisAvaliadas = 0;
   bool isLoading = false;
   Postagem postagemBD = Postagem();
+  GetIdeiaSalva ideiaSalvaBD = GetIdeiaSalva();
 
   Future<void> _loadData() async {
+    final user = Provider.of<UsuarioProvider>(context, listen: false);
     try {
       setState(() {
         isLoading = false;
@@ -43,6 +48,11 @@ class _MyinicialState extends State<Myinicial> {
       listaIdeiasMaisAvaliadas =
           await postagemBD.getPostagem.listaIdeiasMaisCurtidas();
       countListaIdeiasMaisAvaliadas = listaIdeiasMaisAvaliadas.length;
+      if (user.idUsuarioWeb != null || user.idUsuarioWeb != 0) {
+        listaIdeiasFav = await ideiaSalvaBD
+            .listaIdeiasSalvasByIdUsuarioWeb(user.idUsuarioWeb);
+        countListaIdeiasFav = listaIdeiasFav.length;
+      }
       setState(() {
         isLoading = true;
       });
@@ -481,52 +491,87 @@ class _MyinicialState extends State<Myinicial> {
                                 ),
                               ),
                               ideiaVerde,
-                              SizedBox(height: 5,),
-                              Text("Você precisa estar logado com a sua conta para ter acesso a esta funcionalidade", style: TextStyle(
-                                fontSize: 20,
-                              ), textAlign: TextAlign.center,),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Text(
+                                "Você precisa estar logado com a sua conta para ter acesso a esta funcionalidade",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
                             ],
                           ),
                         )
-                      : Container(
-                          height:
-                              500, // Ajuste a altura total conforme necessário
+                      : listaIdeiasFav.isEmpty
+                          ? Container(
+                            padding: EdgeInsets.all(20),
                           child: Column(
                             children: [
-                              Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      "Favoritos",
-                                      style: TextStyle(
-                                        color: Color.fromARGB(255, 58, 125, 68),
-                                        fontSize: 36,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    ideiaVerde
-                                  ]),
-
-                              SizedBox(
-                                  height:
-                                      10), // Espaço entre o texto e o carrossel
-                              CarouselSlider.builder(
-                                options: CarouselOptions(
-                                  onPageChanged: (index, reason) =>
-                                      setState(() => activeIndex2 = index),
-                                  height: 300, // Altura do carrossel
+                              Text(
+                                "Favoritos",
+                                style: TextStyle(
+                                  color: Color.fromARGB(255, 58, 125, 68),
+                                  fontSize: 36,
+                                  fontWeight: FontWeight.bold,
                                 ),
-                                itemCount: listaIdeias.length,
-                                itemBuilder: (context, index, realIndex) {
-                                  final ideia = listaIdeias[index];
-                                  return buildIdeia(ideia, index);
-                                },
                               ),
-                              const SizedBox(height: 32),
-                              buildIndicator(activeIndex2),
+                              ideiaVerde,
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Text(
+                                "Você não tem nenhuma ideia salva. Que tal salvar algumas ideias?",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
                             ],
                           ),
-                        ),
+                          )
+                          : Container(
+                              height:
+                                  500, // Ajuste a altura total conforme necessário
+                              child: Column(
+                                children: [
+                                  Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          "Favoritos",
+                                          style: TextStyle(
+                                            color: Color.fromARGB(
+                                                255, 58, 125, 68),
+                                            fontSize: 36,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        ideiaVerde
+                                      ]),
+
+                                  SizedBox(
+                                      height:
+                                          10), // Espaço entre o texto e o carrossel
+                                  CarouselSlider.builder(
+                                    options: CarouselOptions(
+                                      onPageChanged: (index, reason) =>
+                                          setState(() => activeIndex2 = index),
+                                      height: 300, // Altura do carrossel
+                                    ),
+                                    itemCount: countListaIdeiasFav,
+                                    itemBuilder: (context, index, realIndex) {
+                                      final ideia = listaIdeiasFav[index];
+                                      return buildIdeia(ideia, index);
+                                    },
+                                  ),
+                                  const SizedBox(height: 32),
+                                  buildIndicator(activeIndex2),
+                                ],
+                              ),
+                            ),
                   user.email == ""
                       ? Container(
                           padding: EdgeInsets.fromLTRB(20, 20, 20, 80),
@@ -539,13 +584,45 @@ class _MyinicialState extends State<Myinicial> {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              SizedBox(height: 5,),
-                              Text("Você precisa estar logado com a sua conta para ter acesso a esta funcionalidade", style: TextStyle(
-                                fontSize: 20,
-                              ), textAlign: TextAlign.center,),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Text(
+                                "Você precisa estar logado com a sua conta para ter acesso a esta funcionalidade",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
                             ],
                           ),
-                        )
+                        ):listaIdeias.isEmpty
+                          ? Container(
+                            padding: EdgeInsets.all(20),
+                          child: Column(
+                            children: [
+                              Text(
+                                "Favoritos",
+                                style: TextStyle(
+                                  color: Color.fromARGB(255, 58, 125, 68),
+                                  fontSize: 36,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              ideiaVerde,
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Text(
+                                "Você não tem nenhuma ideia salva. Que tal salvar algumas ideias?",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          ),
+                          )
                       : Container(
                           height:
                               555, // Ajuste a altura total conforme necessário

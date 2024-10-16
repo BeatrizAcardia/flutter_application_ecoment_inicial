@@ -2,7 +2,10 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_ecoment_inicial/Data/IdeiaSalva/GetIdeiaSalva.dart';
 import 'package:flutter_application_ecoment_inicial/Data/Postagem/GetPostagem.dart';
+import 'package:flutter_application_ecoment_inicial/Data/Postagem/Postagem.dart';
+import 'package:flutter_application_ecoment_inicial/Funcionalidades/Funcionalidades.dart';
 import 'package:flutter_application_ecoment_inicial/defaultWidgets/appBar.dart';
 import 'package:flutter_application_ecoment_inicial/defaultWidgets/bottomAppBar.dart';
 import 'package:flutter_application_ecoment_inicial/defaultWidgets/drawer.dart';
@@ -55,9 +58,11 @@ class _MinhaContaState extends State<MinhaConta> {
 
   double tamanhoContainterCinza = 500;
 
-  GetPostagem getPostagem = GetPostagem();
+  Postagem getPostagem = Postagem();
+  GetIdeiaSalva getIdeiaSalva = GetIdeiaSalva();
 
   List<Ideia> listaIdeias2 = [];
+  List<Ideia> listaIdeiasFav = [];
 
   List<Ideia> listaIdeias = [
     Ideia(
@@ -133,6 +138,7 @@ class _MinhaContaState extends State<MinhaConta> {
 
   bool isLoading = true;
   bool hasError = false;
+  int countListaFav = 0;
 
   @override
   void initState() {
@@ -150,11 +156,10 @@ class _MinhaContaState extends State<MinhaConta> {
       });
       return;
     }
-
     try {
-      print("Antes da atribuição");
-      listaIdeias2 = await getPostagem.findIdeiaByNomeUsuario(user.username);
-      print("Depois da atribuição");
+      listaIdeias2 = await getPostagem.getPostagem.findIdeiaByNomeUsuario(user.username);
+      listaIdeiasFav = await getIdeiaSalva.listaIdeiasSalvasByIdUsuarioWeb(user.idUsuarioWeb);
+      countListaFav = listaIdeiasFav.length;
     } catch (e) {
       print("Erro ao carregar ideias: $e");
     } finally {
@@ -178,6 +183,8 @@ class _MinhaContaState extends State<MinhaConta> {
         ),
       );
     }
+
+    Funcionalidades funcionalidades = Funcionalidades();
 
     return Scaffold(
         key: _scaffoldKey,
@@ -322,17 +329,7 @@ class _MinhaContaState extends State<MinhaConta> {
                               ),
                               IconButton(
                                 onPressed: () {
-                                  /* user.setName(""); */
-                                  user.setUsername("");
-                                  user.setEmail("");
-                                  user.setSenha("");
-                                  Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => Myinicial(),
-                                    ),
-                                    (route) => false,
-                                  );
+                                  funcionalidades.Sair(context, user);
                                 },
                                 icon: Icon(Icons.output_sharp),
                                 color: Colors.white,
@@ -354,6 +351,8 @@ class _MinhaContaState extends State<MinhaConta> {
                           fontSize: 30,
                           fontWeight: FontWeight.bold),
                     ),
+                    isLoading == true ?
+                    Center(child: CircularProgressIndicator(),):
                     listaIdeias2.isNotEmpty
                         ? CarouselSlider.builder(
                             options: CarouselOptions(
@@ -385,16 +384,18 @@ class _MinhaContaState extends State<MinhaConta> {
                         ideiaVerde,
                       ],
                     ),
-                    listaIdeias.isNotEmpty
+                    isLoading == true ?
+                    Center(child: CircularProgressIndicator(),):
+                    listaIdeiasFav.isNotEmpty
                         ? CarouselSlider.builder(
                             options: CarouselOptions(
                               onPageChanged: (index, reason) =>
                                   setState(() => activeIndex = index),
                               height: 320, // Altura do carrossel
                             ),
-                            itemCount: listaIdeias.length,
+                            itemCount: countListaFav,
                             itemBuilder: (context, index, realIndex) {
-                              final ideia = listaIdeias[index];
+                              final ideia = listaIdeiasFav[index];
                               return buildIdeia(ideia, index);
                             },
                           )

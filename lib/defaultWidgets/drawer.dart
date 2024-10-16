@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_final_fields, unused_field, prefer_const_literals_to_create_immutables, sort_child_properties_last
 
 import 'package:flutter/material.dart';
+import 'package:flutter_application_ecoment_inicial/Funcionalidades/Funcionalidades.dart';
 import 'package:flutter_application_ecoment_inicial/models/pessoaProvider.dart';
 import 'package:flutter_application_ecoment_inicial/views/cadastro.dart';
 import 'package:flutter_application_ecoment_inicial/views/form-ideia.dart';
@@ -20,6 +21,7 @@ class WidgetDrawer extends StatefulWidget {
 }
 
 class _DrawerState extends State<WidgetDrawer> {
+  Funcionalidades funcionalidades = Funcionalidades();
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
@@ -132,11 +134,7 @@ Drawer(
               ),
              ): ElevatedButton(
               onPressed: () {
-                /* user.setName(""); */
-                user.setUsername("");
-                user.setEmail("");
-                user.setSenha("");
-                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Myinicial(),), (route) => false,);
+                funcionalidades.Sair(context, user);
               },
               child: Text("Sair", style: TextStyle(
                 color: Colors.white,
