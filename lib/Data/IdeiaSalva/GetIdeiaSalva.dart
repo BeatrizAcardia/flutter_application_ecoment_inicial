@@ -23,7 +23,30 @@ class GetIdeiaSalva{
         return ideiaRepo.listaIdeias = listaIdeiasSalvasByIdUsuario_.map((e) => Ideia.fromJson(e)).toList();
       }
     }
-    
     return [];
+  }
+
+  Future<bool> isSaved(int idUsuarioWeb, int idPostagem) async{
+    try{
+      var url = Uri.parse("http://${dados.ipMaquina}:${dados.porta}/Ecomoment/salvos/isSaved/${idUsuarioWeb}/${idPostagem}");
+    http.Response response = await http.get(url);
+    if(response.statusCode == 200){
+      if(response.body.isNotEmpty && response.body != "null"){
+        print("ta salvo");
+        print("IdUsuarioWeb: $idUsuarioWeb");
+        print("IdPostagem: $idPostagem");
+        return true;
+      }else{
+        print("não ta salvo");
+        print("IdUsuarioWeb: $idUsuarioWeb");
+        print("IdPostagem: $idPostagem");
+        return false;
+      }
+    }
+    return false;
+    }catch(e){
+      print("erro na requisição [isSaved, GetIdeiaSalva] - $e");
+      return false;
+    }
   }
 }

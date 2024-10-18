@@ -2,17 +2,18 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_ecoment_inicial/Data/Curtida/Curtida.dart';
+import 'package:flutter_application_ecoment_inicial/Data/IdeiaSalva/IdeiaSalvaDATA.dart';
 import 'package:flutter_application_ecoment_inicial/defaultWidgets/bottomAppBar.dart';
 import 'package:flutter_application_ecoment_inicial/defaultWidgets/drawer.dart';
 import 'package:flutter_application_ecoment_inicial/models/ideia.dart';
+import 'package:flutter_application_ecoment_inicial/models/ideiaSalva.dart';
 import 'package:flutter_application_ecoment_inicial/models/pessoaProvider.dart';
 import 'package:flutter_application_ecoment_inicial/views/cadastro.dart';
 import 'package:flutter_application_ecoment_inicial/views/login.dart';
 import 'package:provider/provider.dart';
 
 class PageIdeia extends StatefulWidget {
-  
-
   Ideia ideia = Ideia.vazia();
 
   PageIdeia.ideia(this.ideia, {super.key});
@@ -36,19 +37,31 @@ class _IdeiaState extends State<PageIdeia> {
 
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
-  bool estado = false;
-  bool scaleUp = false;
-
-    Color definirCor(String dificuldade){
-    if(dificuldade == "facil"){return  Colors.green;}
-    else if(dificuldade == "media"){return Colors.yellow;}
-    else if (dificuldade == "dificil"){return Colors.red;}
+  Color definirCor(String dificuldade) {
+    if (dificuldade == "facil") {
+      return Colors.green;
+    } else if (dificuldade == "media") {
+      return Colors.yellow;
+    } else if (dificuldade == "dificil") {
+      return Colors.red;
+    }
     return Colors.black;
   }
 
-  void muda() {
+  Future<void> muda() async {
+    final user = Provider.of<UsuarioProvider>(context, listen: false);
     setState(() {
-      estado = !estado;
+      if (isFavorited) {
+        //função descurtir
+        curtidaBD.postCurtida.descurtir(widget.ideia.idPostagem,
+            user.idUsuarioWeb, widget.ideia.nomeUsuario);
+        isFavorited = !isFavorited;
+      } else {
+        //função curtir
+        curtidaBD.postCurtida.curtir(widget.ideia.idPostagem, user.idUsuarioWeb,
+            widget.ideia.nomeUsuario);
+        isFavorited = !isFavorited;
+      }
       scaleUp = true;
     });
 
@@ -56,6 +69,30 @@ class _IdeiaState extends State<PageIdeia> {
       setState(() {
         scaleUp = false;
       });
+    });
+  }
+
+  Future<void> salvar() async {
+    final user = Provider.of<UsuarioProvider>(context, listen: false);
+    setState(() {
+      if (isSaved) {
+        //função desalvar
+        ideiaSalvaBD.postIdeiaSalva
+            .deleteIdeiaSalva(user.idUsuarioWeb, widget.ideia.idPostagem);
+        isSaved = !isSaved;
+      } else {
+        //função salvar
+        ideiaSalvaBD.postIdeiaSalva
+            .salvarIdeia(user.idUsuarioWeb, widget.ideia.idPostagem);
+        isSaved = !isSaved;
+      }
+      scaleUp2 = true;
+
+      Future.delayed(Duration(milliseconds: 300), () {
+      setState(() {
+        scaleUp2 = false;
+      });
+    });
     });
   }
 
@@ -86,9 +123,33 @@ class _IdeiaState extends State<PageIdeia> {
     );
   }
 
+  bool scaleUp = false;
+  bool scaleUp2 = false;
+  bool isFavorited = false;
+  bool isSaved = false;
+  Curtida curtidaBD = Curtida();
+  IdeiaSalvaData ideiaSalvaBD = IdeiaSalvaData();
+
+  Future<void> _loadData() async {
+    final user = Provider.of<UsuarioProvider>(context, listen: false);
+    isFavorited = await curtidaBD.getCurtida
+        .isFavorited(user.idUsuarioWeb, widget.ideia.idPostagem);
+    isSaved = await ideiaSalvaBD.getIdeiaSalva
+        .isSaved(user.idUsuarioWeb, widget.ideia.idPostagem);
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _loadData();
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<UsuarioProvider>(context);
+    final user = Provider.of<UsuarioProvider>(context, listen: false);
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -145,7 +206,8 @@ class _IdeiaState extends State<PageIdeia> {
                                 Container(
                                   child: Row(
                                     children: [
-                                      ...gerarEstrelaColorida(widget.ideia.avaliacao),
+                                      ...gerarEstrelaColorida(
+                                          widget.ideia.avaliacao),
                                       ...gerarEstrelaNColorida(
                                           5 - widget.ideia.avaliacao)
                                     ],
@@ -163,7 +225,8 @@ class _IdeiaState extends State<PageIdeia> {
                                               TextStyle(fontFamily: 'Poppins'),
                                         ),
                                         Text(
-                                          widget.ideia.qtdeAvaliacoesPostagem.toString(),
+                                          widget.ideia.qtdeAvaliacoesPostagem
+                                              .toString(),
                                           style: TextStyle(
                                               fontFamily: 'Poppins',
                                               fontWeight: FontWeight.bold),
@@ -174,14 +237,88 @@ class _IdeiaState extends State<PageIdeia> {
                                 ),
                               ],
                             ),
-                            Row(
+                            Column(
                               children: [
-                                Text("Dificuldade "),
-                                Icon(
-                                  Icons.circle,
-                                  color: definirCor(widget.ideia.dificuldade),
-                                  size: 30,
+                                Row(
+                                  children: [
+                                    Text("Dificuldade "),
+                                    Icon(
+                                      Icons.circle,
+                                      color:
+                                          definirCor(widget.ideia.dificuldade),
+                                      size: 30,
+                                    ),
+                                  ],
                                 ),
+                                Row(
+                                  children: [
+                                    Text("Salvar"),
+                                    SizedBox(width: 10,),
+                                    MouseRegion(
+                                  cursor: SystemMouseCursors.click,
+                                  child: GestureDetector(
+                                      onTap: /* user.name */ user.email == ""
+                                          ? () {
+                                              showDialog(
+                                                context: context,
+                                                builder: (context) =>
+                                                    CupertinoAlertDialog(
+                                                  title: Text(
+                                                    'Cadastre-se ou faça o Login',
+                                                    style: nunito,
+                                                  ),
+                                                  content: Text(
+                                                    'Essa funcionalidade é inacessivel para convidados. Faça o Login ou cadastre-se para ter acesso a essa funcionalidade',
+                                                    style: nunito,
+                                                  ),
+                                                  actions: [
+                                                    CupertinoDialogAction(
+                                                      child: Text('Entrar',
+                                                          style: nunito),
+                                                      onPressed: () {
+                                                        Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                              builder:
+                                                                  (context) =>
+                                                                      Login(),
+                                                            )); // Fecha o diálogo
+                                                      },
+                                                    ),
+                                                    CupertinoDialogAction(
+                                                      child: Text('Cadastro',
+                                                          style: nunito),
+                                                      onPressed: () {
+                                                        Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                              builder:
+                                                                  (context) =>
+                                                                      Cadastro(),
+                                                            )); // Fecha o diálogo
+                                                      },
+                                                    ),
+                                                  ],
+                                                ),
+                                              );
+                                            }
+                                          : salvar,
+                                      child: AnimatedScale(
+                                        scale: scaleUp2 ? 1.5 : 1.0,
+                                        duration: Duration(milliseconds: 300),
+                                        curve: Curves.easeInOut,
+                                        child: Icon(
+                                          isSaved
+                                              ? Icons.save_as_rounded
+                                              : Icons.save_as_outlined,
+                                          color: Colors.black,
+                                          size: 30,
+                                        ),
+                                      )),
+                                ),
+                                  ],
+                                ),
+                                
                               ],
                             ),
                             Column(
@@ -192,7 +329,8 @@ class _IdeiaState extends State<PageIdeia> {
                                     MouseRegion(
                                       cursor: SystemMouseCursors.click,
                                       child: GestureDetector(
-                                          onTap: /* user.name */ user.email == ""
+                                          onTap: /* user.name */ user.email ==
+                                                  ""
                                               ? () {
                                                   showDialog(
                                                     context: context,
@@ -212,15 +350,26 @@ class _IdeiaState extends State<PageIdeia> {
                                                               style: nunito),
                                                           onPressed: () {
                                                             Navigator.push(
-                                                                context, MaterialPageRoute(builder: (context) => Login(),)); // Fecha o diálogo
+                                                                context,
+                                                                MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) =>
+                                                                          Login(),
+                                                                )); // Fecha o diálogo
                                                           },
                                                         ),
                                                         CupertinoDialogAction(
-                                                          child: Text('Cadastro',
+                                                          child: Text(
+                                                              'Cadastro',
                                                               style: nunito),
                                                           onPressed: () {
                                                             Navigator.push(
-                                                                context, MaterialPageRoute(builder: (context) => Cadastro(),)); // Fecha o diálogo
+                                                                context,
+                                                                MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) =>
+                                                                          Cadastro(),
+                                                                )); // Fecha o diálogo
                                                           },
                                                         ),
                                                       ],
@@ -234,7 +383,7 @@ class _IdeiaState extends State<PageIdeia> {
                                                 Duration(milliseconds: 300),
                                             curve: Curves.easeInOut,
                                             child: Icon(
-                                              estado
+                                              isFavorited
                                                   ? Icons.favorite
                                                   : Icons.favorite_border,
                                               color: Colors.black,
@@ -380,7 +529,12 @@ class _IdeiaState extends State<PageIdeia> {
                             border: Border.all()),
                         child: Column(
                           children: [
-                            Text("@Carlinhos", style: TextStyle(fontFamily: "Poppins", fontWeight: FontWeight.bold),),
+                            Text(
+                              "@Carlinhos",
+                              style: TextStyle(
+                                  fontFamily: "Poppins",
+                                  fontWeight: FontWeight.bold),
+                            ),
                             Text(
                               "Muito lindo, amei <3",
                               textAlign: TextAlign.start,
@@ -388,8 +542,7 @@ class _IdeiaState extends State<PageIdeia> {
                           ],
                         ),
                       ),
-                      //Fim - Comentario do carlinhos 
-
+                      //Fim - Comentario do carlinhos
                     ],
                   ),
                 ),
@@ -402,30 +555,30 @@ class _IdeiaState extends State<PageIdeia> {
     );
   }
 
-List<Widget> gerarEstrelaColorida(double n) {
-  List<Widget> avaliacao = [];
-  int numeroEstrelas = n.floor(); // Arredonda para baixo
-  for (int i = 0; i < numeroEstrelas; i++) {
-    avaliacao.add(Icon(
-      Icons.star,
-      color: Colors.orange,
-      size: 25,
-    ));
+  List<Widget> gerarEstrelaColorida(double n) {
+    List<Widget> avaliacao = [];
+    int numeroEstrelas = n.floor(); // Arredonda para baixo
+    for (int i = 0; i < numeroEstrelas; i++) {
+      avaliacao.add(Icon(
+        Icons.star,
+        color: Colors.orange,
+        size: 25,
+      ));
+    }
+    return avaliacao;
   }
-  return avaliacao;
-}
 
-List<Widget> gerarEstrelaNColorida(double n) {
-  List<Widget> avaliacao = [];
-  for (int i = 0; i < n; i++) {
-    avaliacao.add(Icon(
-      Icons.star_border,
-      color: Colors.orange,
-      size: 25,
-    ));
+  List<Widget> gerarEstrelaNColorida(double n) {
+    List<Widget> avaliacao = [];
+    for (int i = 0; i < n; i++) {
+      avaliacao.add(Icon(
+        Icons.star_border,
+        color: Colors.orange,
+        size: 25,
+      ));
+    }
+    return avaliacao;
   }
-  return avaliacao;
-}
 
   /* List<Widget> materiais() {
     List<Widget> lista = [];

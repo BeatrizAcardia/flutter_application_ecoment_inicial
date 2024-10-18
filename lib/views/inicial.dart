@@ -41,6 +41,20 @@ class _MyinicialState extends State<Myinicial> {
   Postagem postagemBD = Postagem();
   GetIdeiaSalva ideiaSalvaBD = GetIdeiaSalva();
 
+  void _navigateToIdeaPage(Ideia ideia) async {
+  await Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => PageIdeia.ideia(ideia)),
+  );
+
+  // Recarregar os dados após voltar
+  setState(() {
+    // Chame a função que recarrega os dados
+    _loadData(); // Implemente essa função para buscar os dados novamente
+  });
+}
+
+
   Future<void> _loadData() async {
     final user = Provider.of<UsuarioProvider>(context, listen: false);
     try {
@@ -672,12 +686,7 @@ class _MyinicialState extends State<Myinicial> {
 
 //---- CARROSSEL ----
   Widget buildIdeia(Ideia ideia, int index) => GestureDetector(
-        onTap: () => Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => PageIdeia.ideia(ideia),
-          ),
-        ),
+        onTap: () => _navigateToIdeaPage(ideia),
         child: Container(
           margin: EdgeInsets.symmetric(horizontal: 16, vertical: 5),
           width: 390, // Espaçamento fora do card
@@ -724,10 +733,15 @@ class _MyinicialState extends State<Myinicial> {
                     )
                   ],
                 ),
-                Text(
-                  ideia.nomePostagem,
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                  textAlign: TextAlign.center,
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: Text(
+                      ideia.nomePostagem,
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
