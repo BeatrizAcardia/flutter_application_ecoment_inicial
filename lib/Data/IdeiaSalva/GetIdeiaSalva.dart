@@ -32,14 +32,14 @@ class GetIdeiaSalva{
     http.Response response = await http.get(url);
     if(response.statusCode == 200){
       if(response.body.isNotEmpty && response.body != "null"){
-        print("ta salvo");
+        /* print("ta salvo");
         print("IdUsuarioWeb: $idUsuarioWeb");
-        print("IdPostagem: $idPostagem");
+        print("IdPostagem: $idPostagem"); */
         return true;
       }else{
-        print("não ta salvo");
+        /* print("não ta salvo");
         print("IdUsuarioWeb: $idUsuarioWeb");
-        print("IdPostagem: $idPostagem");
+        print("IdPostagem: $idPostagem"); */
         return false;
       }
     }

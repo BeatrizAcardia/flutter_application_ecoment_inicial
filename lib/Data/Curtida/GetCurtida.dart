@@ -13,16 +13,16 @@ class GetCurtida{
     http.Response response = await http.get(url);
     if(response.statusCode == 200){
       if (response.body.isNotEmpty && response.body != "null") {
-      print("Achei");
+      /* print("Achei");
       print("idUsuarioWeb: ${idUsuarioWeb}");
       print("idPostagem: ${idPostagem}");
-      print(response.body);
+      print(response.body); */
       return true;
     }else{
-        print("não achei");
+        /* print("não achei");
         print("idUsuarioWeb: ${idUsuarioWeb}");
         print("idPostagem: ${idPostagem}");
-        print(response.body);
+        print(response.body); */
         return false;
       }
     }

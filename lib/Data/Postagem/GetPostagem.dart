@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_brace_in_string_interps
+
 import 'package:flutter/material.dart';
 import 'package:flutter_application_ecoment_inicial/Data/dados.dart';
 import 'package:flutter_application_ecoment_inicial/models/ideia.dart';
@@ -80,5 +82,57 @@ class GetPostagem{
     }
     return [];
   }
+
+    Future<bool> isRated(int idUsuarioWeb, int idPostagem) async{
+    try{
+    var url = Uri.parse("http://${dados.ipMaquina}:${dados.porta}/Ecomoment/avaliacao/isRated/${idPostagem}/${idUsuarioWeb}");
+    http.Response response = await http.get(url);
+    if(response.statusCode == 200){
+      if(response.body.isNotEmpty && response.body != "null"){
+        print("ja esta avaliado");
+        print("IdUsuarioWeb: $idUsuarioWeb");
+        print("IdPostagem: $idPostagem");
+        return true;
+      }else{
+        print("ainda nn ta avaliado");
+        print("IdUsuarioWeb: $idUsuarioWeb");
+        print("IdPostagem: $idPostagem");
+        return false;
+      }
+    }
+    return false;
+    }catch(e){
+      print("erro na requisição [isRated, GetPostagem] - $e");
+      return false;
+    }
+  }
+
+      Future<int> valorAvaliacao(int idUsuarioWeb, int idPostagem) async{
+    try{
+    var url = Uri.parse("http://${dados.ipMaquina}:${dados.porta}/Ecomoment/avaliacao/isRated/${idPostagem}/${idUsuarioWeb}");
+    http.Response response = await http.get(url);
+    if(response.statusCode == 200){
+      if(response.body.isNotEmpty && response.body != "null"){
+        print("ja esta avaliado");
+        print("IdUsuarioWeb: $idUsuarioWeb");
+        print("IdPostagem: $idPostagem");
+        var dadosAPI = jsonDecode(response.body);
+        int valor = dadosAPI['valor'];
+        print("valor: $valor");
+        return valor;
+      }else{
+        print("ainda nn ta avaliado");
+        print("IdUsuarioWeb: $idUsuarioWeb");
+        print("IdPostagem: $idPostagem");
+        return 0;
+      }
+    }
+    return 0;
+    }catch(e){
+      print("erro na requisição [valorAvaliacao, GetPostagem] - $e");
+      return 0;
+    }
+  }
+
 
 }

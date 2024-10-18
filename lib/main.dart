@@ -14,6 +14,7 @@ import 'package:flutter_application_ecoment_inicial/views/pontosColeta.dart';
 import 'package:flutter_application_ecoment_inicial/views/preferencias.dart';
 import 'package:flutter_application_ecoment_inicial/views/sobre_nos.dart';
 import 'package:flutter_application_ecoment_inicial/views/teste.dart';
+import 'package:flutter_application_ecoment_inicial/views/testes.dart';
 import 'package:provider/provider.dart';
 
 void main() {

@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_ecoment_inicial/Data/Curtida/Curtida.dart';
 import 'package:flutter_application_ecoment_inicial/Data/IdeiaSalva/IdeiaSalvaDATA.dart';
+import 'package:flutter_application_ecoment_inicial/Data/Postagem/Postagem.dart';
 import 'package:flutter_application_ecoment_inicial/defaultWidgets/bottomAppBar.dart';
 import 'package:flutter_application_ecoment_inicial/defaultWidgets/drawer.dart';
 import 'package:flutter_application_ecoment_inicial/models/ideia.dart';
@@ -48,7 +49,7 @@ class _IdeiaState extends State<PageIdeia> {
     return Colors.black;
   }
 
-  Future<void> muda() async {
+  Future<void> curtir() async {
     final user = Provider.of<UsuarioProvider>(context, listen: false);
     setState(() {
       if (isFavorited) {
@@ -72,6 +73,22 @@ class _IdeiaState extends State<PageIdeia> {
     });
   }
 
+  Future<void> avaliar() async {
+    final user = Provider.of<UsuarioProvider>(context, listen: false);
+    setState(() {
+      if (isRated) {
+        //função reavaliar
+        postagemBD.postPostagem.reavaliarIdeia(user.idUsuarioWeb,
+            widget.ideia.idPostagem, _avaliacao, widget.ideia.nomeUsuario);
+      } else {
+        //função avaliar
+        postagemBD.postPostagem.avaliarIdeia(user.idUsuarioWeb,
+            widget.ideia.idPostagem, _avaliacao, widget.ideia.nomeUsuario);
+        isRated = !isRated;
+      }
+    });
+  }
+
   Future<void> salvar() async {
     final user = Provider.of<UsuarioProvider>(context, listen: false);
     setState(() {
@@ -89,10 +106,10 @@ class _IdeiaState extends State<PageIdeia> {
       scaleUp2 = true;
 
       Future.delayed(Duration(milliseconds: 300), () {
-      setState(() {
-        scaleUp2 = false;
+        setState(() {
+          scaleUp2 = false;
+        });
       });
-    });
     });
   }
 
@@ -126,9 +143,12 @@ class _IdeiaState extends State<PageIdeia> {
   bool scaleUp = false;
   bool scaleUp2 = false;
   bool isFavorited = false;
+  bool isRated = false;
   bool isSaved = false;
+  String av = "Enviar avaliação";
   Curtida curtidaBD = Curtida();
   IdeiaSalvaData ideiaSalvaBD = IdeiaSalvaData();
+  Postagem postagemBD = Postagem();
 
   Future<void> _loadData() async {
     final user = Provider.of<UsuarioProvider>(context, listen: false);
@@ -137,6 +157,14 @@ class _IdeiaState extends State<PageIdeia> {
     isSaved = await ideiaSalvaBD.getIdeiaSalva
         .isSaved(user.idUsuarioWeb, widget.ideia.idPostagem);
     setState(() {});
+    isRated = await postagemBD.getPostagem.isRated(user.idUsuarioWeb, widget.ideia.idPostagem);
+    if(isRated){
+      _avaliacao = await postagemBD.getPostagem.valorAvaliacao(user.idUsuarioWeb, widget.ideia.idPostagem);
+      av = "Mudar avaliação";
+      setState(() {
+        
+      });
+    }
   }
 
   @override
@@ -146,6 +174,8 @@ class _IdeiaState extends State<PageIdeia> {
     _loadData();
     setState(() {});
   }
+
+  int _avaliacao = 0; // Armazena a avaliação selecionada
 
   @override
   Widget build(BuildContext context) {
@@ -231,6 +261,7 @@ class _IdeiaState extends State<PageIdeia> {
                                               fontFamily: 'Poppins',
                                               fontWeight: FontWeight.bold),
                                         ),
+                                        /*  */
                                       ],
                                     ),
                                   ),
@@ -253,72 +284,76 @@ class _IdeiaState extends State<PageIdeia> {
                                 Row(
                                   children: [
                                     Text("Salvar"),
-                                    SizedBox(width: 10,),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
                                     MouseRegion(
-                                  cursor: SystemMouseCursors.click,
-                                  child: GestureDetector(
-                                      onTap: /* user.name */ user.email == ""
-                                          ? () {
-                                              showDialog(
-                                                context: context,
-                                                builder: (context) =>
-                                                    CupertinoAlertDialog(
-                                                  title: Text(
-                                                    'Cadastre-se ou faça o Login',
-                                                    style: nunito,
-                                                  ),
-                                                  content: Text(
-                                                    'Essa funcionalidade é inacessivel para convidados. Faça o Login ou cadastre-se para ter acesso a essa funcionalidade',
-                                                    style: nunito,
-                                                  ),
-                                                  actions: [
-                                                    CupertinoDialogAction(
-                                                      child: Text('Entrar',
-                                                          style: nunito),
-                                                      onPressed: () {
-                                                        Navigator.push(
-                                                            context,
-                                                            MaterialPageRoute(
-                                                              builder:
-                                                                  (context) =>
-                                                                      Login(),
-                                                            )); // Fecha o diálogo
-                                                      },
+                                      cursor: SystemMouseCursors.click,
+                                      child: GestureDetector(
+                                          onTap: /* user.name */ user.email ==
+                                                  ""
+                                              ? () {
+                                                  showDialog(
+                                                    context: context,
+                                                    builder: (context) =>
+                                                        CupertinoAlertDialog(
+                                                      title: Text(
+                                                        'Cadastre-se ou faça o Login',
+                                                        style: nunito,
+                                                      ),
+                                                      content: Text(
+                                                        'Essa funcionalidade é inacessivel para convidados. Faça o Login ou cadastre-se para ter acesso a essa funcionalidade',
+                                                        style: nunito,
+                                                      ),
+                                                      actions: [
+                                                        CupertinoDialogAction(
+                                                          child: Text('Entrar',
+                                                              style: nunito),
+                                                          onPressed: () {
+                                                            Navigator.push(
+                                                                context,
+                                                                MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) =>
+                                                                          Login(),
+                                                                )); // Fecha o diálogo
+                                                          },
+                                                        ),
+                                                        CupertinoDialogAction(
+                                                          child: Text(
+                                                              'Cadastro',
+                                                              style: nunito),
+                                                          onPressed: () {
+                                                            Navigator.push(
+                                                                context,
+                                                                MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) =>
+                                                                          Cadastro(),
+                                                                )); // Fecha o diálogo
+                                                          },
+                                                        ),
+                                                      ],
                                                     ),
-                                                    CupertinoDialogAction(
-                                                      child: Text('Cadastro',
-                                                          style: nunito),
-                                                      onPressed: () {
-                                                        Navigator.push(
-                                                            context,
-                                                            MaterialPageRoute(
-                                                              builder:
-                                                                  (context) =>
-                                                                      Cadastro(),
-                                                            )); // Fecha o diálogo
-                                                      },
-                                                    ),
-                                                  ],
-                                                ),
-                                              );
-                                            }
-                                          : salvar,
-                                      child: AnimatedScale(
-                                        scale: scaleUp2 ? 1.5 : 1.0,
-                                        duration: Duration(milliseconds: 300),
-                                        curve: Curves.easeInOut,
-                                        child: Icon(
-                                          isSaved
-                                              ? Icons.save_as_rounded
-                                              : Icons.save_as_outlined,
-                                          color: Colors.black,
-                                          size: 30,
-                                        ),
-                                      )),
-                                ),
+                                                  );
+                                                }
+                                              : salvar,
+                                          child: AnimatedScale(
+                                            scale: scaleUp2 ? 1.5 : 1.0,
+                                            duration:
+                                                Duration(milliseconds: 300),
+                                            curve: Curves.easeInOut,
+                                            child: Icon(
+                                              isSaved
+                                                  ? Icons.save_as_rounded
+                                                  : Icons.save_as_outlined,
+                                              color: Colors.black,
+                                              size: 30,
+                                            ),
+                                          )),
+                                    ),
                                   ],
                                 ),
-                                
                               ],
                             ),
                             Column(
@@ -376,7 +411,7 @@ class _IdeiaState extends State<PageIdeia> {
                                                     ),
                                                   );
                                                 }
-                                              : muda,
+                                              : curtir,
                                           child: AnimatedScale(
                                             scale: scaleUp ? 1.5 : 1.0,
                                             duration:
@@ -454,25 +489,26 @@ class _IdeiaState extends State<PageIdeia> {
                         height: 10,
                       ),
                       Container(
-                          padding: EdgeInsets.symmetric(horizontal: 30),
-                          decoration: BoxDecoration(
-                              color: const Color.fromARGB(255, 217, 217, 217),
-                              borderRadius: BorderRadius.circular(20)),
-                          child: Row(
-                            children: [
-                              Icon(Icons.temple_buddhist_sharp),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                "Passo a Passo",
-                                style: TextStyle(
-                                    fontFamily: 'Circe',
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ],
-                          )),
+                        padding: EdgeInsets.symmetric(horizontal: 30),
+                        decoration: BoxDecoration(
+                            color: const Color.fromARGB(255, 217, 217, 217),
+                            borderRadius: BorderRadius.circular(20)),
+                        child: Row(
+                          children: [
+                            Icon(Icons.temple_buddhist_sharp),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              "Passo a Passo",
+                              style: TextStyle(
+                                  fontFamily: 'Circe',
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                      ),
                       SizedBox(
                         height: 10,
                       ),
@@ -493,7 +529,109 @@ class _IdeiaState extends State<PageIdeia> {
                       SizedBox(
                         height: 10,
                       ),
-
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 30),
+                        decoration: BoxDecoration(
+                            color: const Color.fromARGB(255, 217, 217, 217),
+                            borderRadius: BorderRadius.circular(20)),
+                        child: Row(
+                          children: [
+                            Icon(Icons.temple_buddhist_sharp),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              "Avalie esta ideia!",
+                              style: TextStyle(
+                                  fontFamily: 'Circe',
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: List.generate(5, (index) {
+                          return IconButton(
+                            icon: Icon(
+                              index < _avaliacao
+                                  ? Icons.star
+                                  : Icons.star_border,
+                              color: Colors.amber,
+                              size: 40,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                _avaliacao = index +
+                                    1; // Define a avaliação baseada na estrela clicada
+                              });
+                            },
+                          );
+                        }),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      ElevatedButton(
+                        onPressed: user.email == ""
+                            ? () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => CupertinoAlertDialog(
+                                    title: Text(
+                                      'Cadastre-se ou faça o Login',
+                                      style: nunito,
+                                    ),
+                                    content: Text(
+                                      'Essa funcionalidade é inacessivel para convidados. Faça o Login ou cadastre-se para ter acesso a essa funcionalidade',
+                                      style: nunito,
+                                    ),
+                                    actions: [
+                                      CupertinoDialogAction(
+                                        child: Text('Entrar', style: nunito),
+                                        onPressed: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) => Login(),
+                                              )); // Fecha o diálogo
+                                        },
+                                      ),
+                                      CupertinoDialogAction(
+                                        child: Text('Cadastro', style: nunito),
+                                        onPressed: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    Cadastro(),
+                                              )); // Fecha o diálogo
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              }
+                            : () async {
+                                avaliar();
+                                print('Avaliação enviada: $_avaliacao');
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content: Text(
+                                          'Avaliação de $_avaliacao estrelas!')),
+                                );
+                                setState(() {
+                                });
+                              },
+                        child: Text(av),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
                       Container(
                         padding: EdgeInsets.symmetric(horizontal: 30),
                         decoration: BoxDecoration(
