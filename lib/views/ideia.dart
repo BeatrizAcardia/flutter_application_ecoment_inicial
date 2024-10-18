@@ -89,16 +89,20 @@ class _IdeiaState extends State<PageIdeia> {
     });
   }
 
+  String snackSv = "Adicionado aos Favoritos!";
+
   Future<void> salvar() async {
     final user = Provider.of<UsuarioProvider>(context, listen: false);
     setState(() {
       if (isSaved) {
         //função desalvar
+        snackSv = "Removido dos favoritos!";
         ideiaSalvaBD.postIdeiaSalva
             .deleteIdeiaSalva(user.idUsuarioWeb, widget.ideia.idPostagem);
         isSaved = !isSaved;
       } else {
         //função salvar
+        snackSv = "Adicionado aos Favoritos!";
         ideiaSalvaBD.postIdeiaSalva
             .salvarIdeia(user.idUsuarioWeb, widget.ideia.idPostagem);
         isSaved = !isSaved;
@@ -157,13 +161,13 @@ class _IdeiaState extends State<PageIdeia> {
     isSaved = await ideiaSalvaBD.getIdeiaSalva
         .isSaved(user.idUsuarioWeb, widget.ideia.idPostagem);
     setState(() {});
-    isRated = await postagemBD.getPostagem.isRated(user.idUsuarioWeb, widget.ideia.idPostagem);
-    if(isRated){
-      _avaliacao = await postagemBD.getPostagem.valorAvaliacao(user.idUsuarioWeb, widget.ideia.idPostagem);
+    isRated = await postagemBD.getPostagem
+        .isRated(user.idUsuarioWeb, widget.ideia.idPostagem);
+    if (isRated) {
+      _avaliacao = await postagemBD.getPostagem
+          .valorAvaliacao(user.idUsuarioWeb, widget.ideia.idPostagem);
       av = "Mudar avaliação";
-      setState(() {
-        
-      });
+      setState(() {});
     }
   }
 
@@ -337,7 +341,18 @@ class _IdeiaState extends State<PageIdeia> {
                                                     ),
                                                   );
                                                 }
-                                              : salvar,
+                                              : () async {
+                                                  salvar();
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                    SnackBar(
+                                                        content: Text(
+                                                            snackSv)),
+                                                  );
+                                                  setState(() {
+                                                    
+                                                  });
+                                                },
                                           child: AnimatedScale(
                                             scale: scaleUp2 ? 1.5 : 1.0,
                                             duration:
@@ -411,7 +426,15 @@ class _IdeiaState extends State<PageIdeia> {
                                                     ),
                                                   );
                                                 }
-                                              : curtir,
+                                              : () async {
+                                                  curtir();
+                                                  /* ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                    SnackBar(
+                                                        content: Text(
+                                                            'Avaliação de $_avaliacao estrelas!')),
+                                                  ); */
+                                                },
                                           child: AnimatedScale(
                                             scale: scaleUp ? 1.5 : 1.0,
                                             duration:
@@ -624,8 +647,7 @@ class _IdeiaState extends State<PageIdeia> {
                                       content: Text(
                                           'Avaliação de $_avaliacao estrelas!')),
                                 );
-                                setState(() {
-                                });
+                                setState(() {});
                               },
                         child: Text(av),
                       ),
