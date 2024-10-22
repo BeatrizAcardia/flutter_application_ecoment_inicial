@@ -10,6 +10,7 @@ import 'package:flutter_application_ecoment_inicial/views/inicial.dart';
 import 'package:flutter_application_ecoment_inicial/views/login.dart';
 import 'package:flutter_application_ecoment_inicial/views/materiais.dart';
 import 'package:flutter_application_ecoment_inicial/views/minhaConta.dart';
+import 'package:flutter_application_ecoment_inicial/views/outraConta.dart';
 import 'package:flutter_application_ecoment_inicial/views/pontosColeta.dart';
 import 'package:flutter_application_ecoment_inicial/views/preferencias.dart';
 import 'package:flutter_application_ecoment_inicial/views/sobre_nos.dart';
@@ -39,7 +40,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255,58,125,68)),
         useMaterial3: true,
       ),
-      home: Myinicial(),
+      home: ContaUsuario(),
     );
   }
 }

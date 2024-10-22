@@ -96,9 +96,10 @@ class _MyinicialState extends State<Myinicial> {
     fontWeight: FontWeight.w700,
   );
 
-  final ondaVerde = SizedBox(child: Image.asset('assets/imgs/ondaInicio.png'));
+  final ondaVerde = SizedBox(width: double.infinity, child: Image.asset('assets/imgs/ondaInicio.png'));
 
   final onda2 = SizedBox(
+    width: double.infinity,
     child: Image.asset('assets/imgs/ondaFinal.png'),
   );
 
@@ -542,6 +543,7 @@ class _MyinicialState extends State<Myinicial> {
                                   SizedBox(
                                     height: 5,
                                   ),
+
                                   Text(
                                     "Você não tem nenhuma ideia salva. Que tal salvar algumas ideias?",
                                     style: TextStyle(
