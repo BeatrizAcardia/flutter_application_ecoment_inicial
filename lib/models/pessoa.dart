@@ -1,6 +1,9 @@
 // ignore_for_file: unnecessary_this, non_constant_identifier_names, unnecessary_new, avoid_print, unused_import, unnecessary_string_interpolations, invalid_required_positional_param
 
 
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 
 class Pessoa{
@@ -8,7 +11,7 @@ class Pessoa{
   String username = "";
   String email = "";
   String senha = "";
-  String fotoPerfil = "";
+  Uint8List? fotoPerfil;
   int qtdeSeguidores = 0;
   int qtdeSeguindo = 0;
   int qtdeCurtidas = 0;
@@ -41,11 +44,15 @@ class Pessoa{
   qtdePostagens = json['qtdePostagens'] ?? "",
   reputacao = json['reputacao'] ?? "",
   ativo = json['ativo'] ?? "",
-  fotoPerfil = json['fotoPerfil'] ?? ""
+  fotoPerfil = json['fotoPerfil'] != null ? base64Decode(json['fotoPerfil'])  // Decodifica a string base64 em Uint8List
+          : null  // Ou deixa null caso não exista
   ;
 
   Pessoa.n();
 
+   Uint8List? get getFotoPerfil => this.fotoPerfil;
+
+ set setFotoPerfil(Uint8List fotoPerfil) => this.fotoPerfil = fotoPerfil;
 
 get getIdUsuarioWeb => this.idUsuarioWeb;
 
@@ -62,10 +69,6 @@ get getIdUsuarioWeb => this.idUsuarioWeb;
   get getSenha => this.senha;
 
  set setSenha( senha) => this.senha = senha;
-
-  get getFotoPerfil => this.fotoPerfil;
-
- set setFotoPerfil( fotoPerfil) => this.fotoPerfil = fotoPerfil;
 
   get getQtdeSeguidores => this.qtdeSeguidores;
 

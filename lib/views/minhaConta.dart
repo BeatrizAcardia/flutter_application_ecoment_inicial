@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_ecoment_inicial/Data/IdeiaSalva/GetIdeiaSalva.dart';
 import 'package:flutter_application_ecoment_inicial/Data/Postagem/GetPostagem.dart';
 import 'package:flutter_application_ecoment_inicial/Data/Postagem/Postagem.dart';
+import 'package:flutter_application_ecoment_inicial/Data/Seguidor/GetSeguidor.dart';
 import 'package:flutter_application_ecoment_inicial/Funcionalidades/Funcionalidades.dart';
 import 'package:flutter_application_ecoment_inicial/defaultWidgets/appBar.dart';
 import 'package:flutter_application_ecoment_inicial/defaultWidgets/bottomAppBar.dart';
@@ -139,6 +140,9 @@ class _MinhaContaState extends State<MinhaConta> {
   bool isLoading = true;
   bool hasError = false;
   int countListaFav = 0;
+  List<Pessoa> listaUsuariosSeguindo = [];
+  List<Pessoa> listaUsuariosSeguidores = [];
+  GetSeguidor getSeguidorBD = GetSeguidor();
 
   @override
   void initState() {
@@ -146,9 +150,93 @@ class _MinhaContaState extends State<MinhaConta> {
     carregarIdeias();
   }
 
+  void _mostrarListaUsuarioSeguindo(BuildContext context) {
+    final user = Provider.of<UsuarioProvider>(context, listen: false);
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("Usuarios que eu sigo:"),
+          content: Container(
+            width: double.maxFinite, // para garantir que o conteúdo se ajuste
+            child: ListView.builder(
+              shrinkWrap: true, // para ajustar a lista no diálogo
+              itemCount: user.qtdeSeguindo,
+              itemBuilder: (BuildContext context, int index) {
+                return 
+                listaUsuariosSeguindo.isNotEmpty ?
+                Container(
+                  padding: EdgeInsets.all(10),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          listaUsuariosSeguidores[index].fotoPerfil != null ?
+                          Image.memory(listaUsuariosSeguidores[index].fotoPerfil!, height: 20, width: 20, color: Colors.black,)
+                          : Image.asset("assets/imgs/do-utilizador.png"),
+                          SizedBox(width: 20,),
+                          Text(listaUsuariosSeguindo[index].username)
+                        ],
+                      )
+                    ],
+                  ),
+                ) : Center(child: Text("Nenhum usuario seguindo no momento"),);
+              },
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+    void _mostrarListaUsuarioSeguidores(BuildContext context) {
+    final user = Provider.of<UsuarioProvider>(context, listen: false);
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("Usuarios que me seguem:"),
+          content: Container(
+            width: double.maxFinite, // para garantir que o conteúdo se ajuste
+            child: ListView.builder(
+              shrinkWrap: true, // para ajustar a lista no diálogo
+              itemCount: user.qtdeSeguidores,
+              itemBuilder: (BuildContext context, int index) {
+                return 
+                listaUsuariosSeguidores.isNotEmpty ?
+                Container(
+                  padding: EdgeInsets.all(10),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          listaUsuariosSeguidores[index].fotoPerfil != null ?
+                          Image.memory(listaUsuariosSeguidores[index].fotoPerfil!, height: 20, width: 20,)
+                          : Image.asset("assets/imgs/do-utilizador.png", height: 20, width: 20, color: Colors.black),
+                          SizedBox(width: 20,),
+                          Text(listaUsuariosSeguidores[index].username)
+                        ],
+                      )
+                    ],
+                  ),
+                ) : Center(child: Text("Nenhum usuario esta te seguindo no momento"),);
+              },
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+
   // Função assíncrona para carregar as ideias
   Future<void> carregarIdeias() async {
     final user = Provider.of<UsuarioProvider>(context, listen: false);
+    listaUsuariosSeguindo =
+        await getSeguidorBD.listaUsuariosSeguindo(user.idUsuarioWeb);
+    listaUsuariosSeguidores =
+        await getSeguidorBD.listaUsuariosSeguidores(user.idUsuarioWeb);
+
     if (user.email == "" || user.email == null) {
       // Se o usuário não estiver logado, exibe o diálogo de erro
       setState(() {
@@ -157,8 +245,10 @@ class _MinhaContaState extends State<MinhaConta> {
       return;
     }
     try {
-      listaIdeias2 = await getPostagem.getPostagem.findIdeiaByNomeUsuario(user.username);
-      listaIdeiasFav = await getIdeiaSalva.listaIdeiasSalvasByIdUsuarioWeb(user.idUsuarioWeb);
+      listaIdeias2 =
+          await getPostagem.getPostagem.findIdeiaByNomeUsuario(user.username);
+      listaIdeiasFav = await getIdeiaSalva
+          .listaIdeiasSalvasByIdUsuarioWeb(user.idUsuarioWeb);
       countListaFav = listaIdeiasFav.length;
     } catch (e) {
       print("Erro ao carregar ideias: $e");
@@ -262,47 +352,56 @@ class _MinhaContaState extends State<MinhaConta> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      RichText(
-                                        text: TextSpan(children: [
-                                          TextSpan(
-                                            text: "Seguidores: ",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontFamily: 'Poppins',
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 15),
-                                          ),
-                                          TextSpan(
-                                            text:
-                                                user.qtdeSeguidores.toString(),
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontFamily: 'Poppins',
-                                                fontSize: 15),
-                                          ),
-                                        ]),
+                                      GestureDetector(
+                                        onTap: () => _mostrarListaUsuarioSeguidores(context),
+                                        child: RichText(
+                                          text: TextSpan(children: [
+                                            TextSpan(
+                                              text: "Seguidores: ",
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontFamily: 'Poppins',
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 15),
+                                            ),
+                                            TextSpan(
+                                              text:
+                                                  user.qtdeSeguidores.toString(),
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontFamily: 'Poppins',
+                                                  fontSize: 15),
+                                            ),
+                                          ]),
+                                        ),
                                       ),
                                       SizedBox(
                                         width: 20,
                                       ),
-                                      RichText(
-                                        text: TextSpan(children: [
-                                          TextSpan(
-                                            text: "Seguindo: ",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontFamily: 'Poppins',
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 15),
-                                          ),
-                                          TextSpan(
-                                            text: user.qtdeSeguindo.toString(),
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontFamily: 'Poppins',
-                                                fontSize: 15),
-                                          ),
-                                        ]),
+                                      GestureDetector(
+                                        onTap: () =>
+                                            _mostrarListaUsuarioSeguindo(
+                                                context),
+                                        child: RichText(
+                                          text: TextSpan(children: [
+                                            TextSpan(
+                                              text: "Seguindo: ",
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontFamily: 'Poppins',
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 15),
+                                            ),
+                                            TextSpan(
+                                              text:
+                                                  user.qtdeSeguindo.toString(),
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontFamily: 'Poppins',
+                                                  fontSize: 15),
+                                            ),
+                                          ]),
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -351,24 +450,26 @@ class _MinhaContaState extends State<MinhaConta> {
                           fontSize: 30,
                           fontWeight: FontWeight.bold),
                     ),
-                    isLoading == true ?
-                    Center(child: CircularProgressIndicator(),):
-                    listaIdeias2.isNotEmpty
-                        ? CarouselSlider.builder(
-                            options: CarouselOptions(
-                              onPageChanged: (index, reason) =>
-                                  setState(() => activeIndex = index),
-                              height: 320, // Altura do carrossel
-                            ),
-                            itemCount: listaIdeias2.length,
-                            itemBuilder: (context, index, realIndex) {
-                              final ideia = listaIdeias2[index];
-                              return buildIdeia(ideia, index);
-                            },
+                    isLoading == true
+                        ? Center(
+                            child: CircularProgressIndicator(),
                           )
-                        : Center(
-                            child: Text("Nenhuma ideia encontrada"),
-                          ),
+                        : listaIdeias2.isNotEmpty
+                            ? CarouselSlider.builder(
+                                options: CarouselOptions(
+                                  onPageChanged: (index, reason) =>
+                                      setState(() => activeIndex = index),
+                                  height: 320, // Altura do carrossel
+                                ),
+                                itemCount: listaIdeias2.length,
+                                itemBuilder: (context, index, realIndex) {
+                                  final ideia = listaIdeias2[index];
+                                  return buildIdeia(ideia, index);
+                                },
+                              )
+                            : Center(
+                                child: Text("Nenhuma ideia encontrada"),
+                              ),
                     SizedBox(height: 60),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -384,24 +485,26 @@ class _MinhaContaState extends State<MinhaConta> {
                         ideiaVerde,
                       ],
                     ),
-                    isLoading == true ?
-                    Center(child: CircularProgressIndicator(),):
-                    listaIdeiasFav.isNotEmpty
-                        ? CarouselSlider.builder(
-                            options: CarouselOptions(
-                              onPageChanged: (index, reason) =>
-                                  setState(() => activeIndex = index),
-                              height: 320, // Altura do carrossel
-                            ),
-                            itemCount: countListaFav,
-                            itemBuilder: (context, index, realIndex) {
-                              final ideia = listaIdeiasFav[index];
-                              return buildIdeia(ideia, index);
-                            },
+                    isLoading == true
+                        ? Center(
+                            child: CircularProgressIndicator(),
                           )
-                        : Center(
-                            child: Text("Nenhuma ideia encontrada"),
-                          ),
+                        : listaIdeiasFav.isNotEmpty
+                            ? CarouselSlider.builder(
+                                options: CarouselOptions(
+                                  onPageChanged: (index, reason) =>
+                                      setState(() => activeIndex = index),
+                                  height: 320, // Altura do carrossel
+                                ),
+                                itemCount: countListaFav,
+                                itemBuilder: (context, index, realIndex) {
+                                  final ideia = listaIdeiasFav[index];
+                                  return buildIdeia(ideia, index);
+                                },
+                              )
+                            : Center(
+                                child: Text("Nenhuma ideia encontrada"),
+                              ),
                   ]),
                 ),
                 height: 1190,

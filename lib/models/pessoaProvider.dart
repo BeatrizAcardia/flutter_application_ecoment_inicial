@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_application_ecoment_inicial/models/pessoa.dart';
 
@@ -5,7 +7,7 @@ class UsuarioProvider with ChangeNotifier {
   String _username = "";
   String _email = "";
   String _senha = "";
-  String _fotoPerfil = "";
+  Uint8List? _fotoPerfil;
   int _idUsuarioWeb = 0;
   int _qtdeSeguidores = 0;
   int _qtdeSeguindo = 0;
@@ -18,7 +20,7 @@ class UsuarioProvider with ChangeNotifier {
   String get username => _username;
   String get email => _email;
   String get senha => _senha;
-  String get fotoPerfil => _fotoPerfil;
+  Uint8List? get fotoPerfil => _fotoPerfil;
   int get idUsuarioWeb => _idUsuarioWeb;
   int get qtdeSeguidores => _qtdeSeguidores;
   int get qtdeSeguindo => _qtdeSeguindo;
