@@ -270,7 +270,7 @@ class _MinhaContaState extends State<MinhaConta> {
     }
     try {
       listaIdeias2 =
-          await getPostagem.getPostagem.findIdeiaByNomeUsuario(user.username);
+          await getPostagem.getPostagem.findIdeiaByNomeUsuarioOrderByNCurtidas(user.username);
       listaIdeiasFav = await getIdeiaSalva
           .listaIdeiasSalvasByIdUsuarioWeb(user.idUsuarioWeb);
       countListaFav = listaIdeiasFav.length;
@@ -476,34 +476,6 @@ class _MinhaContaState extends State<MinhaConta> {
                       child: Image.asset("assets/imgs/ondaVerdeconta.png"),
                     ),
                     SizedBox(height: 20),
-                    Text(
-                      "Minhas ideias",
-                      style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    isLoading == true
-                        ? Center(
-                            child: CircularProgressIndicator(),
-                          )
-                        : listaIdeias2.isNotEmpty
-                            ? CarouselSlider.builder(
-                                options: CarouselOptions(
-                                  onPageChanged: (index, reason) =>
-                                      setState(() => activeIndex = index),
-                                  height: 320, // Altura do carrossel
-                                ),
-                                itemCount: listaIdeias2.length,
-                                itemBuilder: (context, index, realIndex) {
-                                  final ideia = listaIdeias2[index];
-                                  return buildIdeia(ideia, index);
-                                },
-                              )
-                            : Center(
-                                child: Text("Nenhuma ideia encontrada"),
-                              ),
-                    SizedBox(height: 60),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -538,14 +510,74 @@ class _MinhaContaState extends State<MinhaConta> {
                             : Center(
                                 child: Text("Nenhuma ideia encontrada"),
                               ),
+                              SizedBox(height: 60),
+                    Text(
+                      "Minhas ideias",
+                      style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    isLoading == true
+                        ? Center(
+                            child: CircularProgressIndicator(),
+                          )
+                        : listaIdeias2.isNotEmpty
+                            ? GridView.builder(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: definirNumeroColunas(
+                              context), // Define dinamicamente o número de colunas
+                          crossAxisSpacing: 10, // Espaçamento entre as colunas
+                          mainAxisSpacing: 10, // Espaçamento entre as linhas
+                          childAspectRatio: definirProporcao(
+                              context), // Ajusta a proporção dinamicamente
+                        ),
+                        itemCount: listaIdeias2.length,
+                        itemBuilder: (context, index) {
+                          final ideia = listaIdeias2[index];
+                          return buildIdeia2(ideia, index);
+                        },
+                        padding:
+                            EdgeInsets.all(10), // Padding ao redor do GridView
+                        shrinkWrap:
+                            true, // Permite que o GridView se ajuste ao conteúdo
+                        physics:
+                            BouncingScrollPhysics(), // Comportamento de rolagem
+                      )
+                            : Center(
+                                child: Text("Nenhuma ideia encontrada"),
+                              ),
+                    
                   ]),
                 ),
-                height: 1190,
               ),
             ),
             WidgetBottomAppBar(scaffoldKey: _scaffoldKey)
           ],
         ));
+  }
+
+    int definirNumeroColunas(BuildContext context) {
+    double larguraTela = MediaQuery.of(context).size.width;
+    if (larguraTela >= 1200) {
+      return 4; // Tela muito grande (desktop, etc)
+    } else if (larguraTela >= 800) {
+      return 3; // Tela média (tablets)
+    } else if (larguraTela >= 600) {
+      return 2; // Telas pequenas ou celulares grandes
+    } else {
+      return 2; // Celulares menores (1 coluna)
+    }
+  }
+
+// Função para definir a proporção dinamicamente
+  double definirProporcao(BuildContext context) {
+    int colunas = definirNumeroColunas(context);
+    if (colunas == 1) {
+      return 1.5; // Proporção mais alta para quando há 1 coluna
+    } else {
+      return 0.75; // Proporção mais equilibrada para 2 ou mais colunas
+    }
   }
 
   //---- CARROSSEL ----
@@ -625,6 +657,109 @@ class _MinhaContaState extends State<MinhaConta> {
         ),
       );
 //----- FIM CARROSSEL ----
+
+  Widget buildIdeia2(Ideia ideia, int index) => GestureDetector(
+        onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => PageIdeia.ideia(ideia),
+          ),
+        ),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white, // Cor de fundo do card
+            borderRadius: BorderRadius.circular(15.0),
+            border: Border.all(color: Colors.grey[700]!, width: 2),
+          ),
+          child: Stack(
+            children: [
+              // Imagem da ideia
+              ClipRRect(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(15.0),
+                  topRight: Radius.circular(15.0),
+                ),
+                child: Image.asset(
+                  ideia.img1,
+                  fit: BoxFit.cover,
+                  width:
+                      MediaQuery.of(context).size.width, // Ocupa toda a largura
+                  height: 250, // Ajuste de altura conforme necessário
+                ),
+              ),
+              // Informações acima da imagem
+              Positioned(
+                bottom: 0, // Posição no topo
+                left: 0,
+                right: 0,
+                child: Container(
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: Colors.white, // Fundo branco
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(15.0),
+                    ),
+                  ),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Spacer(),
+                          Text(
+                            '${ideia.nomeUsuario}',
+                            style: TextStyle(
+                              fontStyle: FontStyle.italic,
+                            ),
+                          ),
+                          Spacer(),
+                          Icon(
+                            Icons.circle,
+                            color: definirCor(ideia.dificuldade),
+                            size: 20,
+                          ),
+                          SizedBox(
+                            width: 15,
+                          )
+                        ],
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        ideia.nomePostagem,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                        maxLines: 2, // Limita a no máximo 2 linhas
+                        overflow: TextOverflow
+                            .ellipsis, // Adiciona "..." se o texto exceder 2 linhas
+                      ),
+                      SizedBox(height: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            ideia.numeroCurtidas.toString(),
+                            style: TextStyle(fontSize: 15),
+                          ),
+                          Icon(
+                            Icons.favorite,
+                            color: Colors.redAccent,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+
+//----- CARD ----
+
 
   Widget gerarCard(
       Ideia ideia,

@@ -55,6 +55,25 @@ class GetPostagem{
     return [];
   }
 
+      Future<List<Ideia>> findIdeiaByNomeUsuarioOrderByNCurtidas(String nomeUsuario) async{
+    print(nomeUsuario);
+    var url = Uri.parse(
+          "http://${dados.ipMaquina}:${dados.porta}/Ecomoment/postagem/ideiasByNomeWebOrderByNCurtidas/${nomeUsuario}");
+    http.Response response = await http.get(url);
+    if(response.statusCode == 200){
+      List listaIdeia = jsonDecode(response.body) as List;
+      listaIdeia.forEach(
+        (element) {
+          print(element.toString());
+        },
+      );
+      IdeiaRepository ideiaRepo = IdeiaRepository();
+      ideiaRepo.listaIdeias = listaIdeia.map((e) => Ideia.fromJson(e)).toList();
+      return ideiaRepo.listaIdeias;
+    }
+    return [];
+  }
+
   Future<List<Ideia>> listaIdeiasMaisCurtidas() async{
     var url = Uri.parse("http://${dados.ipMaquina}:${dados.porta}/Ecomoment/postagem/maisAvaliadas");
     http.Response response = await http.get(url);
