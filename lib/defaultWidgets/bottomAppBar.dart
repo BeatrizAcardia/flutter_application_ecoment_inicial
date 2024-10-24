@@ -2,11 +2,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_ecoment_inicial/models/pessoa.dart';
+import 'package:flutter_application_ecoment_inicial/models/pessoaProvider.dart';
+import 'package:flutter_application_ecoment_inicial/views/contaSemLogin.dart';
 import 'package:flutter_application_ecoment_inicial/views/form-ideia.dart';
 import 'package:flutter_application_ecoment_inicial/views/ideiasReutilizacao.dart';
 import 'package:flutter_application_ecoment_inicial/views/inicial.dart';
 import 'package:flutter_application_ecoment_inicial/views/minhaConta.dart';
 import 'package:flutter_application_ecoment_inicial/views/pontosColeta.dart';
+import 'package:provider/provider.dart';
 
 class WidgetBottomAppBar extends StatefulWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
@@ -21,6 +24,7 @@ class _WidgetBottomAppBarState extends State<WidgetBottomAppBar> {
   
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<UsuarioProvider>(context, listen: false);
     return Positioned(
             bottom: 0,
             left: 0,
@@ -66,6 +70,8 @@ class _WidgetBottomAppBarState extends State<WidgetBottomAppBar> {
                       IconButton(
                         icon: Icon(Icons.person_2_outlined, color: Colors.black),
                         onPressed: () {
+                          user.email == "" ?
+                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SemLoginConta(),)) :
                           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MinhaConta(),));
                         },
                       ),

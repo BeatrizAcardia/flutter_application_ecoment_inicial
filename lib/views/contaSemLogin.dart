@@ -1,6 +1,9 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:flutter_application_ecoment_inicial/views/cadastro.dart';
+import 'package:flutter_application_ecoment_inicial/views/login.dart';
+import 'package:flutter_application_ecoment_inicial/views/preferencias.dart';
 
 class SemLoginConta extends StatefulWidget {
   const SemLoginConta({super.key});
@@ -21,6 +24,17 @@ class _SemLoginContaState extends State<SemLoginConta> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 59, 113, 39),
+        actions: [
+          IconButton(
+              icon: Icon(Icons.brightness_low_rounded),
+              color: Colors.white,
+              onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => TelaPreferencias(),
+                  )),
+            )
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -89,7 +103,12 @@ class _SemLoginContaState extends State<SemLoginConta> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Login(),));
+                          setState(() {
+                            
+                          });
+                        },
                         child: Text("faça login",
                             style: TextStyle(
                                 color: Colors.white,
@@ -106,6 +125,7 @@ class _SemLoginContaState extends State<SemLoginConta> {
                       SizedBox(width: 40),
                       ElevatedButton(
                         onPressed: () {
+                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Cadastro(),));
                           setState(() {});
                         },
                         child: Text("Cadastre-se",

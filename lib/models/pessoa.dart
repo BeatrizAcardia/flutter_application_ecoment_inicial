@@ -11,6 +11,8 @@ class Pessoa{
   String username = "";
   String email = "";
   String senha = "";
+  String biografia = "";
+
   Uint8List? fotoPerfil;
   int qtdeSeguidores = 0;
   int qtdeSeguindo = 0;
@@ -38,6 +40,7 @@ class Pessoa{
   username = json['nomeWeb'] ?? "",
   email = json['emailWeb'] ?? "",
   senha = json['senhaWeb'] ?? "",
+  biografia = json['biografia'] ?? "Sem biografia no momento.",
   qtdeSeguidores = json['qtdeSeguidores'] ?? "",
   qtdeSeguindo = json['qtdeSeguindo'] ?? "",
   qtdeCurtidas = json['qtdeCurtidas'] ?? "",
@@ -49,6 +52,10 @@ class Pessoa{
   ;
 
   Pessoa.n();
+
+String get getBiografia => this.biografia;
+
+ set setBiografia(String biografia) => this.biografia = biografia;
 
    Uint8List? get getFotoPerfil => this.fotoPerfil;
 

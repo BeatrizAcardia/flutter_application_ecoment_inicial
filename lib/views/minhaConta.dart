@@ -18,6 +18,7 @@ import 'package:flutter_application_ecoment_inicial/views/cadastro.dart';
 import 'package:flutter_application_ecoment_inicial/views/ideia.dart';
 import 'package:flutter_application_ecoment_inicial/views/inicial.dart';
 import 'package:flutter_application_ecoment_inicial/views/login.dart';
+import 'package:flutter_application_ecoment_inicial/views/outraConta.dart';
 import 'package:flutter_application_ecoment_inicial/views/pontosColeta.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_application_ecoment_inicial/views/preferencias.dart';
@@ -159,7 +160,8 @@ class _MinhaContaState extends State<MinhaConta> {
           title: Text("Usuarios que eu sigo:"),
           content: Container(
             width: double.maxFinite, // para garantir que o conteúdo se ajuste
-            child: ListView.builder(
+            child: ListView.separated(
+              separatorBuilder: (context, index) => Divider(color: Colors.black,),
               shrinkWrap: true, // para ajustar a lista no diálogo
               itemCount: user.qtdeSeguindo,
               itemBuilder: (BuildContext context, int index) {
@@ -169,14 +171,22 @@ class _MinhaContaState extends State<MinhaConta> {
                   padding: EdgeInsets.all(10),
                   child: Column(
                     children: [
-                      Row(
-                        children: [
-                          listaUsuariosSeguidores[index].fotoPerfil != null ?
-                          Image.memory(listaUsuariosSeguidores[index].fotoPerfil!, height: 20, width: 20, color: Colors.black,)
-                          : Image.asset("assets/imgs/do-utilizador.png"),
-                          SizedBox(width: 20,),
-                          Text(listaUsuariosSeguindo[index].username)
-                        ],
+                      GestureDetector(
+                        onTap: () async{
+                          _navigatorToAntoherAccount(listaUsuariosSeguindo[index]);
+                        },
+                        child: Row(
+                          children: [
+                            listaUsuariosSeguindo[index].fotoPerfil != null ?
+                            ClipRRect(
+                              child: Image.memory(listaUsuariosSeguindo[index].fotoPerfil!, height: 40, width: 40,),
+                              borderRadius: BorderRadius.all(Radius.circular(50)),
+                            )
+                            : Image.asset("assets/imgs/do-utilizador.png", height: 40, width: 40, color: Colors.black),
+                            SizedBox(width: 10,),
+                            Text(listaUsuariosSeguindo[index].username)
+                          ],
+                        ),
                       )
                     ],
                   ),
@@ -198,7 +208,8 @@ class _MinhaContaState extends State<MinhaConta> {
           title: Text("Usuarios que me seguem:"),
           content: Container(
             width: double.maxFinite, // para garantir que o conteúdo se ajuste
-            child: ListView.builder(
+            child: ListView.separated(
+              separatorBuilder: (context, index) => Divider(color: Colors.black,),
               shrinkWrap: true, // para ajustar a lista no diálogo
               itemCount: user.qtdeSeguidores,
               itemBuilder: (BuildContext context, int index) {
@@ -208,14 +219,22 @@ class _MinhaContaState extends State<MinhaConta> {
                   padding: EdgeInsets.all(10),
                   child: Column(
                     children: [
-                      Row(
-                        children: [
-                          listaUsuariosSeguidores[index].fotoPerfil != null ?
-                          Image.memory(listaUsuariosSeguidores[index].fotoPerfil!, height: 20, width: 20,)
-                          : Image.asset("assets/imgs/do-utilizador.png", height: 20, width: 20, color: Colors.black),
-                          SizedBox(width: 20,),
-                          Text(listaUsuariosSeguidores[index].username)
-                        ],
+                      GestureDetector(
+                        onTap: () async {
+                          _navigatorToAntoherAccount(listaUsuariosSeguidores[index]);
+                        },
+                        child: Row(
+                          children: [
+                            listaUsuariosSeguidores[index].fotoPerfil != null ?
+                            ClipRRect(
+                              child: Image.memory(listaUsuariosSeguidores[index].fotoPerfil!, height: 40, width: 40,),
+                              borderRadius: BorderRadius.all(Radius.circular(50)),
+                            )
+                            : Image.asset("assets/imgs/do-utilizador.png", height: 40, width: 40, color: Colors.black),
+                            SizedBox(width: 20,),
+                            Text(listaUsuariosSeguidores[index].username)
+                          ],
+                        ),
                       )
                     ],
                   ),
@@ -228,12 +247,17 @@ class _MinhaContaState extends State<MinhaConta> {
     );
   }
 
+  Future<void> _navigatorToAntoherAccount(Pessoa pessoa) async{
+    Navigator.push(context, MaterialPageRoute(builder: (context) => ContaUsuario.pessoa(pessoa),));
+  }
+
 
   // Função assíncrona para carregar as ideias
   Future<void> carregarIdeias() async {
     final user = Provider.of<UsuarioProvider>(context, listen: false);
     listaUsuariosSeguindo =
         await getSeguidorBD.listaUsuariosSeguindo(user.idUsuarioWeb);
+
     listaUsuariosSeguidores =
         await getSeguidorBD.listaUsuariosSeguidores(user.idUsuarioWeb);
 
@@ -287,6 +311,7 @@ class _MinhaContaState extends State<MinhaConta> {
               fontFamily: 'Poppins',
             ),
           ),
+          automaticallyImplyLeading: false,
           actions: [
             IconButton(
               icon: Icon(Icons.brightness_low_rounded),
@@ -299,7 +324,6 @@ class _MinhaContaState extends State<MinhaConta> {
             )
           ],
         ),
-        drawer: WidgetDrawer(),
         backgroundColor: const Color.fromARGB(255, 224, 224, 224),
         body: Stack(
           alignment: Alignment.center,
@@ -322,11 +346,20 @@ class _MinhaContaState extends State<MinhaConta> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
+                              user.fotoPerfil == null ?
                               SizedBox(
                                 width: 90,
                                 height: 90,
                                 child: Image.asset(
                                     "assets/imgs/do-utilizador.png"),
+                              ) :
+                              SizedBox(
+                                width: 90,
+                                height: 90,
+                                child: ClipRRect(
+                                  child: Image.memory(user.fotoPerfil!),
+                                  borderRadius: BorderRadius.all(Radius.circular(50)),
+                                )
                               ),
                               SizedBox(
                                 width: 20,

@@ -25,7 +25,7 @@ class _DrawerState extends State<WidgetDrawer> {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<UsuarioProvider>(context);
+    final user = Provider.of<UsuarioProvider>(context, listen: false);
     return 
 Drawer(
   child: ListView(
