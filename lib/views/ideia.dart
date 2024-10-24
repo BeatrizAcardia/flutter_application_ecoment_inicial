@@ -2,11 +2,13 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_ecoment_inicial/Data/Comentario/GetComentario.dart';
 import 'package:flutter_application_ecoment_inicial/Data/Curtida/Curtida.dart';
 import 'package:flutter_application_ecoment_inicial/Data/IdeiaSalva/IdeiaSalvaDATA.dart';
 import 'package:flutter_application_ecoment_inicial/Data/Postagem/Postagem.dart';
 import 'package:flutter_application_ecoment_inicial/defaultWidgets/bottomAppBar.dart';
 import 'package:flutter_application_ecoment_inicial/defaultWidgets/drawer.dart';
+import 'package:flutter_application_ecoment_inicial/models/Comentarios.dart';
 import 'package:flutter_application_ecoment_inicial/models/ideia.dart';
 import 'package:flutter_application_ecoment_inicial/models/ideiaSalva.dart';
 import 'package:flutter_application_ecoment_inicial/models/pessoaProvider.dart';
@@ -149,13 +151,23 @@ class _IdeiaState extends State<PageIdeia> {
   bool isFavorited = false;
   bool isRated = false;
   bool isSaved = false;
+  bool isLoading = false;
   String av = "Enviar avaliação";
   Curtida curtidaBD = Curtida();
   IdeiaSalvaData ideiaSalvaBD = IdeiaSalvaData();
   Postagem postagemBD = Postagem();
+  GetComentario getCometariosBD = GetComentario();
+  List<Comentarios> listaComentarios = [];
+  int countComentarios = 0;
 
   Future<void> _loadData() async {
+    setState(() {
+      isLoading = false;
+    });
     final user = Provider.of<UsuarioProvider>(context, listen: false);
+    listaComentarios =
+        await getCometariosBD.listaComentarios(widget.ideia.idPostagem);
+    countComentarios = listaComentarios.length;
     isFavorited = await curtidaBD.getCurtida
         .isFavorited(user.idUsuarioWeb, widget.ideia.idPostagem);
     isSaved = await ideiaSalvaBD.getIdeiaSalva
@@ -167,7 +179,9 @@ class _IdeiaState extends State<PageIdeia> {
       _avaliacao = await postagemBD.getPostagem
           .valorAvaliacao(user.idUsuarioWeb, widget.ideia.idPostagem);
       av = "Mudar avaliação";
-      setState(() {});
+      setState(() {
+        isLoading = true;
+      });
     }
   }
 
@@ -346,12 +360,9 @@ class _IdeiaState extends State<PageIdeia> {
                                                   ScaffoldMessenger.of(context)
                                                       .showSnackBar(
                                                     SnackBar(
-                                                        content: Text(
-                                                            snackSv)),
+                                                        content: Text(snackSv)),
                                                   );
-                                                  setState(() {
-                                                    
-                                                  });
+                                                  setState(() {});
                                                 },
                                           child: AnimatedScale(
                                             scale: scaleUp2 ? 1.5 : 1.0,
@@ -681,7 +692,7 @@ class _IdeiaState extends State<PageIdeia> {
                       ),
 
                       //Começo - Comentario do carlinhos
-                      Container(
+                      /* Container(
                         width: 300,
                         padding: EdgeInsets.all(10),
                         decoration: BoxDecoration(
@@ -701,8 +712,46 @@ class _IdeiaState extends State<PageIdeia> {
                             )
                           ],
                         ),
-                      ),
+                      ), */
                       //Fim - Comentario do carlinhos
+
+                      //ListView De Comentarios
+                      isLoading ?
+                      Center(child: CircularProgressIndicator(),):
+                      listaComentarios.isNotEmpty
+                          ? ListView.builder(
+                              shrinkWrap: true,
+                              itemBuilder: (context, index) {
+                                return Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Container(
+                                    width: 300,
+                                    padding: EdgeInsets.all(10),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(20),
+                                        border: Border.all()),
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          listaComentarios[index].nomeWeb,
+                                          style: TextStyle(
+                                              fontFamily: "Poppins",
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Text(
+                                          listaComentarios[index].comentario,
+                                          textAlign: TextAlign.start,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                              itemCount: countComentarios,
+                            )
+                          : Center(
+                              child: Text("Nenhum Comentario"),
+                            ),
                     ],
                   ),
                 ),
