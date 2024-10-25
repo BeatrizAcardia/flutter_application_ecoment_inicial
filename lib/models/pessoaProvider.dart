@@ -16,6 +16,16 @@ class UsuarioProvider with ChangeNotifier {
   int _ativo = 0;
   double _reputacao = 0;
 
+  void incrementarQtdeSeguindo() {
+    _qtdeSeguindo++;
+    notifyListeners(); // Notifica os ouvintes sobre a mudança
+  }
+
+  void decrementarQtdeSeguindo() {
+    _qtdeSeguindo--;
+    notifyListeners();
+  }
+
   // Getters
   String get username => _username;
   String get email => _email;

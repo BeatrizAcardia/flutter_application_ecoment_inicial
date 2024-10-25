@@ -841,14 +841,22 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
             children: [
               SizedBox(
                 width: 200,
-                child: ClipRRect(
+                child: 
+                ideia.img1 == null ? ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: Image.asset(
-                    ideia.img1,
+                    "assets/imgs/ideia1.jpg",
                     height: 130,
                     fit: BoxFit.cover,
                   ),
-                ),
+                ): ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Image.memory(
+                    ideia.img1!,
+                    height: 130,
+                    fit: BoxFit.cover,
+                  ),
+                )
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,

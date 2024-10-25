@@ -119,51 +119,6 @@ class _MyinicialState extends State<Myinicial> {
   int activeIndex2 = 0;
   int activeIndex3 = 0;
 
-  List<Ideia> listaIdeias = [
-    Ideia("Apanhador de frutas", "assets/imgs/ideia1.jpg", "dificil", 5,
-        "Exemplo", "1 passo, 2 passo", "Usuario1", 'material 1'),
-    Ideia(
-      "titulo2",
-      "assets/imgs/ideia2.jpg",
-      "facil",
-      4,
-      "Exemplo1",
-      "1 passo, 2 passo",
-      "Usuario2",
-      'material 1',
-    ),
-    Ideia(
-      "titulo3",
-      "assets/imgs/ideia1.jpg",
-      "media",
-      3,
-      "Exemplo2",
-      "1 passo, 2 passo",
-      "Usuario3",
-      'material 1',
-    ),
-    Ideia(
-      "titulo4",
-      "assets/imgs/ideia2.jpg",
-      "facil",
-      1,
-      "Exemplo3",
-      "1 passo, 2 passo",
-      "Usuario4",
-      'material 1',
-    ),
-    Ideia(
-      "titulo5",
-      "assets/imgs/ideia2.jpg",
-      "dificil",
-      2,
-      "Exemplo4",
-      "1 passo, 2 passo",
-      "Usuario5",
-      'material 1',
-    ),
-  ];
-
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
   final metal = SizedBox(
@@ -250,7 +205,7 @@ class _MyinicialState extends State<Myinicial> {
                           //fim Carrossel
 
                           const SizedBox(height: 32),
-                          buildIndicator(activeIndex),
+                          buildIndicatorMaisAvaliadas(activeIndex),
                           SizedBox(height: 50),
                         ],
                       ),
@@ -674,7 +629,7 @@ class _MyinicialState extends State<Myinicial> {
                                     },
                                   ),
                                   const SizedBox(height: 32),
-                                  buildIndicator(activeIndex3),
+                                  buildIndicatorSeguindo(activeIndex3),
                                 ],
                               ),
                             ),
@@ -704,11 +659,21 @@ class _MyinicialState extends State<Myinicial> {
                 SizedBox(
                   height: 10,
                 ),
+                ideia.img1 == null ?
                 ClipRRect(
                   borderRadius: BorderRadius.circular(
                       15.0), // Define o border radius na imagem
                   child: Image.asset(
-                    ideia.img1,
+                    "assets/imgs/ideia1.jpg",
+                    fit: BoxFit.cover,
+                    height: 170,
+                    width: 200,
+                  ),
+                ) : ClipRRect(
+                  borderRadius: BorderRadius.circular(
+                      15.0), // Define o border radius na imagem
+                  child: Image.memory(
+                    ideia.img1!,
                     fit: BoxFit.cover,
                     height: 170,
                     width: 200,
@@ -768,7 +733,31 @@ class _MyinicialState extends State<Myinicial> {
 //---- PONTO DE CONTAGEM CARROSSEL ----
   Widget buildIndicator(int x) => AnimatedSmoothIndicator(
         activeIndex: x,
-        count: listaIdeias.length,
+        count: listaIdeiasFav.length,
+        effect: ScrollingDotsEffect(
+          dotWidth: 12,
+          dotHeight: 12,
+          dotColor: Color.fromARGB(255, 223, 223, 223), // Cor dos dots inativos
+          activeDotColor:
+              const Color.fromARGB(255, 58, 125, 68), // Cor do dot ativo
+        ),
+      );
+
+      Widget buildIndicatorMaisAvaliadas(int x) => AnimatedSmoothIndicator(
+        activeIndex: x,
+        count: listaIdeiasMaisAvaliadas.length,
+        effect: ScrollingDotsEffect(
+          dotWidth: 12,
+          dotHeight: 12,
+          dotColor: Color.fromARGB(255, 223, 223, 223), // Cor dos dots inativos
+          activeDotColor:
+              const Color.fromARGB(255, 58, 125, 68), // Cor do dot ativo
+        ),
+      );
+
+      Widget buildIndicatorSeguindo(int x) => AnimatedSmoothIndicator(
+        activeIndex: x,
+        count: listaIdeiasSeguindo.length,
         effect: ScrollingDotsEffect(
           dotWidth: 12,
           dotHeight: 12,
@@ -798,10 +787,19 @@ class _MyinicialState extends State<Myinicial> {
             children: [
               SizedBox(
                 width: 200,
-                child: ClipRRect(
+                child: 
+                ideia.img1 == null ?
+                ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: Image.asset(
-                    ideia.img1,
+                    "assets/imgs/ideia1.jpg",
+                    height: 130,
+                    fit: BoxFit.cover,
+                  ),
+                ) : ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Image.memory(
+                    ideia.img1!,
                     height: 130,
                     fit: BoxFit.cover,
                   ),
