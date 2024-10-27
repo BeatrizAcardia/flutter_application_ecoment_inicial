@@ -74,7 +74,7 @@ class _EditarPerfilState extends State<EditarPerfil> {
                       isDense: true,
                     ),
                   ),
-                  SizedBox(height: 40),
+                  SizedBox(height: 20),
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
@@ -104,6 +104,23 @@ class _EditarPerfilState extends State<EditarPerfil> {
                     style: TextStyle(fontSize: 16),
                   ),
                   SizedBox(
+                    height: 20,
+                  ),
+                  ElevatedButton(
+                    onPressed: () {},
+                    child: Text(
+                      "Alterar perfil",
+                      style: TextStyle(
+                        fontFamily: 'Circe',
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromARGB(255, 58, 125, 68),
+                    ),
+                  ),
+                  SizedBox(
                     height: 50,
                   ),
                   Align(
@@ -115,10 +132,6 @@ class _EditarPerfilState extends State<EditarPerfil> {
                           fontWeight: FontWeight.bold,
                           fontSize: 20),
                     ),
-                  ),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text("(Deixe os campos em branco para não alterar)"),
                   ),
                   SizedBox(height: 30),
                   Align(
@@ -193,10 +206,12 @@ class _EditarPerfilState extends State<EditarPerfil> {
                     ),
                   ),
                   SizedBox(
-                    height: 50,
+                    height: 20,
                   ),
-                  ElevatedButton(onPressed: () {}, child: Text(
-                      "Alterar perfil",
+                  ElevatedButton(
+                    onPressed: () {},
+                    child: Text(
+                      "Alterar senha",
                       style: TextStyle(
                         fontFamily: 'Circe',
                         fontWeight: FontWeight.bold,
@@ -205,7 +220,8 @@ class _EditarPerfilState extends State<EditarPerfil> {
                     ),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color.fromARGB(255, 58, 125, 68),
-                    ),)
+                    ),
+                  )
                 ],
               ),
             ),
