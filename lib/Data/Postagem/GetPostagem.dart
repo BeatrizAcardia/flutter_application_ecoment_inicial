@@ -43,11 +43,6 @@ class GetPostagem{
     http.Response response = await http.get(url);
     if(response.statusCode == 200){
       List listaIdeia = jsonDecode(response.body) as List;
-      listaIdeia.forEach(
-        (element) {
-          print(element.toString());
-        },
-      );
       IdeiaRepository ideiaRepo = IdeiaRepository();
       ideiaRepo.listaIdeias = listaIdeia.map((e) => Ideia.fromJson(e)).toList();
       return ideiaRepo.listaIdeias;
@@ -62,11 +57,6 @@ class GetPostagem{
     http.Response response = await http.get(url);
     if(response.statusCode == 200){
       List listaIdeia = jsonDecode(response.body) as List;
-      listaIdeia.forEach(
-        (element) {
-          print(element.toString());
-        },
-      );
       IdeiaRepository ideiaRepo = IdeiaRepository();
       ideiaRepo.listaIdeias = listaIdeia.map((e) => Ideia.fromJson(e)).toList();
       return ideiaRepo.listaIdeias;
@@ -108,14 +98,8 @@ class GetPostagem{
     http.Response response = await http.get(url);
     if(response.statusCode == 200){
       if(response.body.isNotEmpty && response.body != "null"){
-        print("ja esta avaliado");
-        print("IdUsuarioWeb: $idUsuarioWeb");
-        print("IdPostagem: $idPostagem");
         return true;
       }else{
-        print("ainda nn ta avaliado");
-        print("IdUsuarioWeb: $idUsuarioWeb");
-        print("IdPostagem: $idPostagem");
         return false;
       }
     }
@@ -132,17 +116,10 @@ class GetPostagem{
     http.Response response = await http.get(url);
     if(response.statusCode == 200){
       if(response.body.isNotEmpty && response.body != "null"){
-        print("ja esta avaliado");
-        print("IdUsuarioWeb: $idUsuarioWeb");
-        print("IdPostagem: $idPostagem");
         var dadosAPI = jsonDecode(response.body);
         int valor = dadosAPI['valor'];
-        print("valor: $valor");
         return valor;
       }else{
-        print("ainda nn ta avaliado");
-        print("IdUsuarioWeb: $idUsuarioWeb");
-        print("IdPostagem: $idPostagem");
         return 0;
       }
     }
@@ -153,5 +130,22 @@ class GetPostagem{
     }
   }
 
+  Future<Ideia> buscarIdeiaByNomePostagem(String nomePostagem) async{
+    try {
+      var url = Uri.parse(
+          "http://${dados.ipMaquina}:${dados.porta}/Ecomoment/postagem/findByNomePostagem/${nomePostagem}");
+      http.Response response = await http.get(url);
+      if (response.statusCode == 200) {
+        Ideia ideia = Ideia.vazia();
+        return ideia = Ideia.fromJson(jsonDecode(response.body));
+      } else {
+        print("[buscarIdeiaByNomePostagem] Erro StatusCode != 200. Status: ${response.statusCode}");
+        return Ideia.vazia();
+      }
+    } catch (e) {
+      print("[buscarIdeiaByNomePostagem] Catch - Erro: $e");
+      return Ideia.vazia();
+    }
+  }
 
 }

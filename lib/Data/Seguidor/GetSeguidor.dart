@@ -31,4 +31,26 @@ class GetSeguidor{
     }
     return [];
   }
+
+    Future<bool> isFollower(int meuIdUsuarioWeb, int usuarioIdSeguido) async {
+    var url = Uri.parse("http://${dados.ipMaquina}:${dados.porta}/Ecomoment/seguidor/isFollower/${meuIdUsuarioWeb}/${usuarioIdSeguido}");
+    http.Response response = await http.get(url);
+    if(response.statusCode == 200){
+      if (response.body.isNotEmpty && response.body != "null") {
+      print("Achei");
+      print("meuIdUsuarioWeb: ${meuIdUsuarioWeb}");
+      print("usuarioIdSeguido: ${usuarioIdSeguido}");
+      print(response.body);
+      return true;
+    }else{
+        print("não achei");
+        print("meuIdUsuarioWeb: ${meuIdUsuarioWeb}");
+        print("usuarioIdSeguido: ${usuarioIdSeguido}");
+        print(response.body);
+        return false;
+      }
+    }
+    return false;
+  }
+
 }

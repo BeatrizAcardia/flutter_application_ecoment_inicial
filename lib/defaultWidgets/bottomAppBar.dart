@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_final_fields, use_key_in_widget_constructors
 
 import 'package:flutter/material.dart';
+import 'package:flutter_application_ecoment_inicial/Data/Usuario/GetUsuario.dart';
 import 'package:flutter_application_ecoment_inicial/models/pessoa.dart';
 import 'package:flutter_application_ecoment_inicial/models/pessoaProvider.dart';
 import 'package:flutter_application_ecoment_inicial/views/contaSemLogin.dart';
@@ -72,6 +73,7 @@ class _WidgetBottomAppBarState extends State<WidgetBottomAppBar> {
                         onPressed: () {
                           user.email == "" ?
                           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SemLoginConta(),)) :
+                          
                           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MinhaConta(),));
                         },
                       ),

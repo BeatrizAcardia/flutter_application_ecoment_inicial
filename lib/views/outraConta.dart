@@ -1,12 +1,19 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_ecoment_inicial/Data/Postagem/Postagem.dart';
 import 'package:flutter_application_ecoment_inicial/Data/Seguidor/GetSeguidor.dart';
+import 'package:flutter_application_ecoment_inicial/Data/Seguidor/Seguidor.dart';
+import 'package:flutter_application_ecoment_inicial/Data/Usuario/GetUsuario.dart';
 import 'package:flutter_application_ecoment_inicial/models/ideia.dart';
 import 'package:flutter_application_ecoment_inicial/models/pessoa.dart';
+import 'package:flutter_application_ecoment_inicial/models/pessoaProvider.dart';
+import 'package:flutter_application_ecoment_inicial/views/cadastro.dart';
 import 'package:flutter_application_ecoment_inicial/views/ideia.dart';
+import 'package:flutter_application_ecoment_inicial/views/login.dart';
+import 'package:provider/provider.dart';
 
 class ContaUsuario extends StatefulWidget {
   Pessoa pessoa = Pessoa.n();
@@ -30,6 +37,7 @@ class _ContaUsuarioState extends State<ContaUsuario> {
   List<Ideia> listaIdeias2 = [];
 
   bool isLoading = false;
+  bool isFollow = false;
 
   int activeIndex = 0;
 
@@ -38,6 +46,44 @@ class _ContaUsuarioState extends State<ContaUsuario> {
   List<Pessoa> listaUsuariosSeguindo = [];
   List<Pessoa> listaUsuariosSeguidores = [];
   GetSeguidor getSeguidorBD = GetSeguidor();
+  TextStyle nunito = TextStyle(fontFamily: 'Nunito');
+  void _showErrorDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => CupertinoAlertDialog(
+        title: Text(
+          'Cadastre-se ou faça o Login',
+          style: nunito,
+        ),
+        content: Text(
+          'Essa funcionalidade é inacessivel para convidados. Faça o Login ou cadastre-se para ter acesso a essa funcionalidade',
+          style: nunito,
+        ),
+        actions: [
+          CupertinoDialogAction(
+            child: Text('Entrar', style: nunito),
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Login(),
+                  )); // Fecha o diálogo
+            },
+          ),
+          CupertinoDialogAction(
+            child: Text('Cadastro', style: nunito),
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Cadastro(),
+                  )); // Fecha o diálogo
+            },
+          ),
+        ],
+      ),
+    );
+  }
 
   void _mostrarListaUsuarioSeguindo(BuildContext context) {
     showDialog(
@@ -52,7 +98,7 @@ class _ContaUsuarioState extends State<ContaUsuario> {
                 color: Colors.black,
               ),
               shrinkWrap: true, // para ajustar a lista no diálogo
-              itemCount: widget.pessoa.qtdeSeguindo,
+              itemCount: usuario.qtdeSeguindo,
               itemBuilder: (BuildContext context, int index) {
                 return listaUsuariosSeguindo.isNotEmpty
                     ? Container(
@@ -104,6 +150,35 @@ class _ContaUsuarioState extends State<ContaUsuario> {
     );
   }
 
+    Future<void> seguir() async {
+    final user = Provider.of<UsuarioProvider>(context, listen: false);
+    setState(() {
+      if (isFollow) {
+        //função unfollow
+        seguirTxt = "Deixar de seguir";
+        seguidorBD.postSeguidor.unfollow(usuario.username, user.idUsuarioWeb);
+        seguirTxt = "Seguir";
+        isFollow = !isFollow;
+      } else {
+        //função follow
+        seguirTxt = "Seguir";
+        seguidorBD.postSeguidor.follow(usuario.username, user.idUsuarioWeb);
+        seguirTxt = "Deixar de seguir";
+        isFollow = !isFollow;
+      }
+      scaleUp2 = true;
+
+      Future.delayed(Duration(milliseconds: 300), () {
+        setState(() {
+          scaleUp2 = false;
+        });
+      });
+    });
+  }
+  Seguidor seguidorBD = Seguidor();
+  String seguirTxt = "Seguir";
+  bool scaleUp2 = false;
+
   void _mostrarListaUsuarioSeguidores(BuildContext context) {
     showDialog(
       context: context,
@@ -117,7 +192,7 @@ class _ContaUsuarioState extends State<ContaUsuario> {
                 color: Colors.black,
               ),
               shrinkWrap: true, // para ajustar a lista no diálogo
-              itemCount: widget.pessoa.qtdeSeguidores,
+              itemCount: usuario.qtdeSeguidores,
               itemBuilder: (BuildContext context, int index) {
                 return listaUsuariosSeguidores.isNotEmpty
                     ? Container(
@@ -178,25 +253,32 @@ class _ContaUsuarioState extends State<ContaUsuario> {
         ));
   }
 
+Pessoa usuario = Pessoa.n();
   Future<void> loadData() async {
-    try {
+    setState(() {
+      isLoading = true;
+    });
+      final user = Provider.of<UsuarioProvider>(context, listen: false);
+      usuario = await GetUsuario().buscarPessoaByNomeWeb(widget.pessoa.username);
+      isFollow = await seguidorBD.getSeguidor.isFollower(user.idUsuarioWeb, usuario.idUsuarioWeb);
+      if (isFollow){
+        seguirTxt = "Deixar de seguir";
+      }
       listaUsuariosSeguindo =
-          await getSeguidorBD.listaUsuariosSeguindo(widget.pessoa.idUsuarioWeb);
+          await getSeguidorBD.listaUsuariosSeguindo(usuario.idUsuarioWeb);
 
       listaUsuariosSeguidores = await getSeguidorBD
-          .listaUsuariosSeguidores(widget.pessoa.idUsuarioWeb);
+          .listaUsuariosSeguidores(usuario.idUsuarioWeb);
 
       listaIdeias2 = await getPostagem.getPostagem
-          .findIdeiaByNomeUsuarioOrderByNCurtidas(widget.pessoa.username);
-    } catch (e) {
-      print("Erro ao carregar ideias: $e");
-    } finally {
-      // Atualiza o estado para remover o loader
-      setState(() {
+          .findIdeiaByNomeUsuarioOrderByNCurtidas(usuario.username);
+    
+    setState(() {
         isLoading = false;
       });
     }
-  }
+      // Atualiza o estado para remover o loader
+      
 
   @override
   void initState() {
@@ -207,7 +289,16 @@ class _ContaUsuarioState extends State<ContaUsuario> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    final user = Provider.of<UsuarioProvider>(context, listen: false);
+    return isLoading ?
+     Center(
+       child: SizedBox(
+          width: 20.0, // Defina a largura desejada
+          height: 20.0, // Defina a altura desejada
+          child: CircularProgressIndicator(),
+        ),
+     ) :
+    Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 59, 113, 39),
@@ -225,14 +316,14 @@ class _ContaUsuarioState extends State<ContaUsuario> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      widget.pessoa.fotoPerfil == null
+                      usuario.fotoPerfil == null
                           ? Image.asset("assets/imgs/do-utilizador.png",
                               width: 100, height: 100)
                           : ClipRRect(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(50)),
                               child: Image.memory(
-                                widget.pessoa.fotoPerfil!,
+                                usuario.fotoPerfil!,
                                 width: 100,
                                 height: 100,
                               )),
@@ -250,7 +341,7 @@ class _ContaUsuarioState extends State<ContaUsuario> {
                             ),
                           ),
                           Text(
-                            widget.pessoa.username,
+                            usuario.username,
                             style: TextStyle(
                               fontFamily: 'Circe',
                               color: Colors.white,
@@ -268,7 +359,7 @@ class _ContaUsuarioState extends State<ContaUsuario> {
                       children: [
                         Flexible(
                           child: Text(
-                            widget.pessoa.biografia,
+                            usuario.biografia,
                             style: TextStyle(
                               fontFamily: 'Circe',
                               fontSize: 15,
@@ -298,7 +389,7 @@ class _ContaUsuarioState extends State<ContaUsuario> {
                                     fontSize: 15),
                               ),
                               TextSpan(
-                                text: widget.pessoa.qtdeSeguidores.toString(),
+                                text: usuario.qtdeSeguidores.toString(),
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontFamily: 'Poppins',
@@ -324,7 +415,7 @@ class _ContaUsuarioState extends State<ContaUsuario> {
                                     fontSize: 15),
                               ),
                               TextSpan(
-                                text: widget.pessoa.qtdeSeguindo.toString(),
+                                text: usuario.qtdeSeguindo.toString(),
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontFamily: 'Poppins',
@@ -348,7 +439,7 @@ class _ContaUsuarioState extends State<ContaUsuario> {
                                   fontSize: 15),
                             ),
                             TextSpan(
-                              text: widget.pessoa.qtdeCurtidas.toString(),
+                              text: usuario.qtdeCurtidas.toString(),
                               style: TextStyle(
                                   color: Colors.white,
                                   fontFamily: 'Poppins',
@@ -373,9 +464,9 @@ class _ContaUsuarioState extends State<ContaUsuario> {
                       Container(
                         child: Row(
                           children: [
-                            ...gerarEstrelaColorida(widget.pessoa.reputacao),
+                            ...gerarEstrelaColorida(usuario.reputacao),
                             ...gerarEstrelaNColorida(
-                                5 - widget.pessoa.reputacao)
+                                5 - usuario.reputacao)
                           ],
                         ),
                       ),
@@ -386,9 +477,17 @@ class _ContaUsuarioState extends State<ContaUsuario> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          if (user.email == "" || user.email == null) {
+                            _showErrorDialog(context);
+                          } else{
+                            await seguir();
+                            setState(() {
+                            });
+                          }
+                        },
                         child: Text(
-                          "Seguir",
+                          seguirTxt,
                           style: TextStyle(
                               color: Colors.white,
                               fontFamily: 'Circe',
@@ -476,13 +575,37 @@ class _ContaUsuarioState extends State<ContaUsuario> {
           child: Stack(
             children: [
               // Imagem da ideia
+              /* usuario.fotoPerfil == null
+                          ? Image.asset("assets/imgs/do-utilizador.png",
+                              width: 100, height: 100)
+                          : ClipRRect(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(50)),
+                              child: Image.memory(
+                                usuario.fotoPerfil!,
+                                width: 100,
+                                height: 100,
+                              )), */
+                              ideia.img1 != null ?
               ClipRRect(
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(15.0),
                   topRight: Radius.circular(15.0),
                 ),
+                child: Image.memory(
+                  ideia.img1!,
+                  fit: BoxFit.cover,
+                  width:
+                      MediaQuery.of(context).size.width, // Ocupa toda a largura
+                  height: 250, // Ajuste de altura conforme necessário
+                ),
+              ): ClipRRect(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(15.0),
+                  topRight: Radius.circular(15.0),
+                ),
                 child: Image.asset(
-                  ideia.img1,
+                  "assets/imgs/ideia1.jpg",
                   fit: BoxFit.cover,
                   width:
                       MediaQuery.of(context).size.width, // Ocupa toda a largura

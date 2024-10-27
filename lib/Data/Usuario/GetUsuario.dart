@@ -16,7 +16,7 @@ class GetUsuario{
   GetUsuario();
 
     //Metodo para buscar Usuario a partir do email
-  Future<Pessoa> buscarPessoaByEmail(String email, BuildContext context) async {
+  Future<Pessoa> buscarPessoaByEmail(String email) async {
     try {
       var url = Uri.parse(
           "http://${dados.ipMaquina}:${dados.porta}/Ecomoment/usuario/verificaUsuarioByEmail/${email}");
@@ -26,6 +26,24 @@ class GetUsuario{
         return usuario = Pessoa.fromJson(jsonDecode(response.body));
       } else {
         print("[buscarPessoaByEmail] Erro StatusCode != 200. Status: ${response.statusCode}");
+        return Pessoa.n();
+      }
+    } catch (e) {
+      print("[buscarPessoaByEmail] Catch - Erro: $e");
+      return Pessoa.n();
+    }
+  }
+
+    Future<Pessoa> buscarPessoaByNomeWeb(String nomeWeb) async {
+    try {
+      var url = Uri.parse(
+          "http://${dados.ipMaquina}:${dados.porta}/Ecomoment/usuario/verificaUsuarioByNomeWeb/${nomeWeb}");
+      http.Response response = await http.get(url);
+      if (response.statusCode == 200) {
+        Pessoa usuario = Pessoa.n();
+        return usuario = Pessoa.fromJson(jsonDecode(response.body));
+      } else {
+        print("[buscarPessoaByNomeWeb] Erro StatusCode != 200. Status: ${response.statusCode}");
         return Pessoa.n();
       }
     } catch (e) {
@@ -89,12 +107,10 @@ class GetUsuario{
       http.Response response = await http.get(url);
         Map<String, dynamic> dadosAPI = jsonDecode(response.body);
         if (dadosAPI == null) {
-          print(dadosAPI.toString());
           return false;
         } else {
           Pessoa usuario_a = Pessoa.n();
           usuario_a = Pessoa.fromJson(dadosAPI);
-          print(dadosAPI.toString());
           return true;
         }
     } catch (e, stackTrace) {
@@ -111,7 +127,6 @@ class GetUsuario{
       http.Response response = await http.get(url);
         Map<String, dynamic> dadosAPI = jsonDecode(response.body);
         if (dadosAPI == null) {
-          print(dadosAPI.toString());
           return false;
         } else {
           Pessoa usuario_a = Pessoa.n();
@@ -119,7 +134,6 @@ class GetUsuario{
           UsuarioProvider user =
             Provider.of<UsuarioProvider>(context, listen: false);
         user.setUsuarioProvider(UsuarioProvider.fromPessoa(usuario_a));
-          print(dadosAPI.toString());
           return true;
         }
     } catch (e, stackTrace) {

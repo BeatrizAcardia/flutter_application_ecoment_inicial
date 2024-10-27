@@ -678,11 +678,20 @@ class _IdeiasReutilizacaoState extends State<IdeiasReutilizacao> {
                 SizedBox(
                   height: 10,
                 ),
+                ideia.img1 != null ?
                 ClipRRect(
                   borderRadius: BorderRadius.circular(
                       15.0), // Define o border radius na imagem
+                  child: Image.memory(
+                    ideia.img1!,
+                    fit: BoxFit.cover,
+                    height: 170,
+                  ),
+                ) : ClipRRect(
+                  borderRadius: BorderRadius.circular(
+                      15.0), // Define o border radius na imagem
                   child: Image.asset(
-                    ideia.img1,
+                    "assets/imgs/ideia1.jpg",
                     fit: BoxFit.cover,
                     height: 170,
                   ),
@@ -751,11 +760,21 @@ class _IdeiasReutilizacaoState extends State<IdeiasReutilizacao> {
               SizedBox(
                 height: 10,
               ),
+              ideia.img1 != null ?
               ClipRRect(
                 borderRadius: BorderRadius.circular(
                     15.0), // Define o border radius na imagem
+                child: Image.memory(
+                  ideia.img1!,
+                  fit: BoxFit.cover,
+                  height: 170,
+                  width: 220,
+                ),
+              ) : ClipRRect(
+                borderRadius: BorderRadius.circular(
+                    15.0), // Define o border radius na imagem
                 child: Image.asset(
-                  ideia.img1,
+                  "assets/imgs/ideia1.jpg",
                   fit: BoxFit.cover,
                   height: 170,
                   width: 220,
