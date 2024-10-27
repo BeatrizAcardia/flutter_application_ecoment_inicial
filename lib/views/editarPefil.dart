@@ -187,7 +187,7 @@ class _EditarPerfilState extends State<EditarPerfil> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      "Confirme a senha atual",
+                      "Confirme a senha atual: ",
                       style: TextStyle(
                           fontFamily: 'Circe', fontWeight: FontWeight.bold),
                     ),
