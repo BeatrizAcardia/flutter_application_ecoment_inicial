@@ -1,3 +1,7 @@
+// ignore_for_file: unnecessary_brace_in_string_interps
+
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_application_ecoment_inicial/Data/dados.dart';
 import 'package:flutter_application_ecoment_inicial/models/pessoa.dart';
@@ -14,7 +18,7 @@ class PostUsuario{
 
   PostUsuario();
 
-      Future<void> cadastrarPessoaEmailSenha(
+  Future<void> cadastrarPessoaEmailSenha(
       String username, String email, String password) async {
     var url = Uri.parse(
         "http://${dados.ipMaquina}:${dados.porta}/Ecomoment/usuario/cadastrar/@${username}/${email}/${password}");
@@ -23,6 +27,67 @@ class PostUsuario{
       print('Pessoa cadastrada com sucesso');
     } else {
       print('Erro ao cadastrar pessoa');
+    }
+  }
+
+    Future<void> atualizarFotoAndNomeUsuarioAndSobreMim(Uint8List foto, String nomeUsuario, String biografia, int id) async {
+    var url = Uri.parse(
+        "http://${dados.ipMaquina}:${dados.porta}/Ecomoment/usuario/atualizarFotoNomeBio/${foto}/${nomeUsuario}/${biografia}/${id}");
+    http.Response response = await http.post(url);
+    if (response.statusCode == 200) {
+      print('Pessoa atualizada com sucesso [foto/nome/bio]');
+    } else {
+      print('Erro ao atualizar pessoa [foto/nome/bio]');
+    }
+  }
+
+  Future<void> atualizarUsuario(Uint8List foto, String nome, String biografia, int idUsuarioWeb) async {
+    Dados dados2 = Dados();
+
+  final String base64Foto = base64Encode(foto); // Converter a imagem para base64
+  
+  final Map<String, dynamic> dados = {
+    'foto': base64Foto,
+    'nome': nome,
+    'biografia': biografia,
+    'idUsuarioWeb': idUsuarioWeb,
+  };
+
+  final response = await http.post(Uri.parse("http://192.168.3.115:8080/Ecomoment/usuario/atualizarFotoNomeBio"),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: jsonEncode(dados),
+  );
+
+  if (response.statusCode == 200) {
+    // A atualização foi bem-sucedida
+    print('Atualizado com sucesso!');
+  } else {
+    // Lidar com o erro
+    print('Falha ao atualizar: ${response.body}');
+  }
+}
+
+  Future<void> atualizarSenha(String senha, int id) async {
+    var url = Uri.parse(
+        "http://${dados.ipMaquina}:${dados.porta}/Ecomoment/usuario/atualizarSenha/${senha}/${id}");
+    http.Response response = await http.post(url);
+    if (response.statusCode == 200) {
+      print('Pessoa atualizada com sucesso [senha]');
+    } else {
+      print('Erro ao atualizar pessoa [senha]');
+    }
+  }
+
+  Future<void> excluirConta(int id, String nome) async {
+    var url = Uri.parse(
+        "http://${dados.ipMaquina}:${dados.porta}/Ecomoment/usuario/excluirConta/${id}/${nome}");
+    http.Response response = await http.post(url);
+    if (response.statusCode == 200) {
+      print('Pessoa excluida com sucesso');
+    } else {
+      print('Erro ao excluir pessoa');
     }
   }
 }

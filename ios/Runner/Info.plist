@@ -26,6 +26,10 @@
 	<true/>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>EcoMoment precisa acessar a galeria de fotos para usar em foto de perfil</string>
+	<key>NSCameraUsageDescription</key>
+	<string>EcoMoment precisa acessar a camera do iphone para tirar uma foto de perfil</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>UISupportedInterfaceOrientations</key>

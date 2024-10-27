@@ -1,8 +1,18 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, use_build_context_synchronously
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_ecoment_inicial/Data/Usuario/Usuario.dart';
+import 'package:flutter_application_ecoment_inicial/Funcionalidades/Funcionalidades.dart';
 import 'package:flutter_application_ecoment_inicial/defaultWidgets/drawer.dart';
+import 'package:flutter_application_ecoment_inicial/models/pessoa.dart';
+import 'package:flutter_application_ecoment_inicial/models/pessoaProvider.dart';
+import 'package:flutter_application_ecoment_inicial/views/cadastro.dart';
+import 'package:flutter_application_ecoment_inicial/views/editarPefil.dart';
+import 'package:flutter_application_ecoment_inicial/views/inicial.dart';
+import 'package:flutter_application_ecoment_inicial/views/login.dart';
 import 'package:flutter_application_ecoment_inicial/views/sobre_nos.dart';
+import 'package:provider/provider.dart';
 
 class TelaPreferencias extends StatefulWidget {
   const TelaPreferencias({super.key});
@@ -12,10 +22,121 @@ class TelaPreferencias extends StatefulWidget {
 }
 
 class _TelaPreferenciasState extends State<TelaPreferencias> {
+
+
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  TextStyle nunito = TextStyle(fontFamily: 'Nunito');
+    void _showErrorDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => CupertinoAlertDialog(
+        title: Text(
+          'Cadastre-se ou faça o Login',
+          style: nunito,
+        ),
+        content: Text(
+          'Essa funcionalidade é inacessivel para convidados. Faça o Login ou cadastre-se para ter acesso a essa funcionalidade',
+          style: nunito,
+        ),
+        actions: [
+          CupertinoDialogAction(
+            child: Text('Entrar', style: nunito),
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Login(),
+                  )); // Fecha o diálogo
+            },
+          ),
+          CupertinoDialogAction(
+            child: Text('Cadastro', style: nunito),
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Cadastro(),
+                  )); // Fecha o diálogo
+            },
+          ),
+        ],
+      ),
+    ).then((_) {
+      // Quando o diálogo é fechado (incluindo ao clicar fora)
+      // Redireciona para a página de Login ou inicial se necessário
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                Myinicial()), // Pode ser a página inicial ou login
+        (route) => false, // Remove todas as rotas anteriores
+      );
+    });
+  }
+
+Future<void> _showDeleteAccountDialog(BuildContext context) async {
+  final user = Provider.of<UsuarioProvider>(context, listen: false);
+  showDialog(
+    context: context,
+    builder: (context) => CupertinoAlertDialog(
+      title: Text(
+        'Excluir conta',
+        style: nunito,
+      ),
+      content: Text(
+        'Você tem certeza que deseja excluir sua conta EcoMoment?',
+        style: nunito,
+      ),
+      actions: [
+        CupertinoDialogAction(
+          child: Text('Sim', style: nunito),
+          onPressed: () async {
+            // Deletar Conta
+            await usuarioBD.postUsuario.excluirConta(usuario.idUsuarioWeb, usuario.username);
+            Funcionalidades().Sair(context, user);
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => Myinicial()),
+              (route) => false,
+            );
+          },
+        ),
+        CupertinoDialogAction(
+          child: Text('Não', style: nunito),
+          onPressed: () {
+            Navigator.pop(context); // Fecha o diálogo sem ação
+          },
+        ),
+      ],
+    ),
+  );
+}
+  Pessoa usuario = Pessoa.n();
+  Usuario usuarioBD = Usuario();
+  bool isLogged = false;
+
+  Future<void>loadData() async{
+    final user = Provider.of<UsuarioProvider>(context, listen: false);
+    usuario = await usuarioBD.getUsuario.buscarPessoaByEmail(user.email);
+    setState(() {
+      if(usuario.email.isEmpty || usuario.email == ""){
+      isLogged = false;
+    }else{
+      isLogged = true;
+    }
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    loadData();
+  }
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<UsuarioProvider>(context, listen: false);
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -173,7 +294,8 @@ class _TelaPreferenciasState extends State<TelaPreferencias> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           GestureDetector(
-                            onTap: () => null,
+                            onTap: 
+                            isLogged ? () => Navigator.push(context, MaterialPageRoute(builder: (context) => EditarPerfil(),)) : () => _showErrorDialog(context),
                             child: Row(
                               children: [
                                 IconButton(
@@ -216,7 +338,10 @@ class _TelaPreferenciasState extends State<TelaPreferencias> {
                             ),
                           ),
                           GestureDetector(
-                            onTap: () => null,
+                            onTap:
+                            isLogged
+      ? () => _showDeleteAccountDialog(context) 
+      : () => _showErrorDialog(context),
                             child: Row(
                               children: [
                                 IconButton(

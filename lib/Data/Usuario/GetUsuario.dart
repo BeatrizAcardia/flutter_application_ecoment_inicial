@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_brace_in_string_interps, non_constant_identifier_names
+
 import 'package:flutter/material.dart';
 import 'package:flutter_application_ecoment_inicial/Data/dados.dart';
 import 'package:flutter_application_ecoment_inicial/models/ideia.dart';
@@ -96,7 +98,6 @@ class GetUsuario{
     } catch (e) {
       print("[verificaUsuarioExistente] Catch - Erro: $e");
     }
-
     return false; // Retorna false em caso de erro ou se o código não for 200
   }
 
@@ -106,12 +107,31 @@ class GetUsuario{
           "http://${dados.ipMaquina}:${dados.porta}/Ecomoment/usuario/verificaUsuarioByEmailOrUsernameAndSenha/${emailOrUsername}/${senha}");
       http.Response response = await http.get(url);
         Map<String, dynamic> dadosAPI = jsonDecode(response.body);
-        if (dadosAPI == null) {
+        if (response.body.isEmpty && response.body == "null") {
           return false;
         } else {
           Pessoa usuario_a = Pessoa.n();
           usuario_a = Pessoa.fromJson(dadosAPI);
           return true;
+        }
+    } catch (e, stackTrace) {
+      print('Erro na requisição: $e');
+      print('StackTrace: $stackTrace');
+      return false;
+    }
+  }
+
+  Future<bool> verificaUsuarioNomeWeb(String nomeUsuario) async {
+    try {
+      var url = Uri.parse(
+          "http://${dados.ipMaquina}:${dados.porta}/Ecomoment/usuario/verificaUsuarioByNomeWeb/${nomeUsuario}");
+      http.Response response = await http.get(url);
+        if (response.body.isNotEmpty && response.body != "null") {
+          print("achei");
+          return true;
+        } else {
+          print("Nao achei");
+          return false;
         }
     } catch (e, stackTrace) {
       print('Erro na requisição: $e');
@@ -126,7 +146,7 @@ class GetUsuario{
           "http://${dados.ipMaquina}:${dados.porta}/Ecomoment/usuario/verificaUsuarioByEmailOrUsernameAndSenha/${emailOrUsername}/${senha}");
       http.Response response = await http.get(url);
         Map<String, dynamic> dadosAPI = jsonDecode(response.body);
-        if (dadosAPI == null) {
+        if (response.body.isEmpty && response.body == "null") {
           return false;
         } else {
           Pessoa usuario_a = Pessoa.n();

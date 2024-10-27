@@ -47,9 +47,10 @@ class Pessoa{
   qtdePostagens = json['qtdePostagens'] ?? "",
   reputacao = json['reputacao'] ?? "",
   ativo = json['ativo'] ?? "",
-  fotoPerfil = json['fotoPerfil'] != null ? base64Decode(json['fotoPerfil'])  // Decodifica a string base64 em Uint8List
-          : null  // Ou deixa null caso não exista
-  ;
+  fotoPerfil = (json['fotoPerfil'] != null && json['fotoPerfil'] != 'W10=') 
+    ? base64Decode(json['fotoPerfil']) 
+    : null;
+  
 
   Pessoa.n();
 

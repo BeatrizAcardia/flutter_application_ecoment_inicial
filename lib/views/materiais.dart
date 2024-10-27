@@ -1,4 +1,4 @@
-// ignore_for_file: unnecessary_string_interpolations, prefer_const_constructors, sized_box_for_whitespace, avoid_unnecessary_containers, must_be_immutable, avoid_web_libraries_in_flutter, unused_import, prefer_const_literals_to_create_immutables
+// ignore_for_file: unnecessary_string_interpolations, prefer_const_constructors, sized_box_for_whitespace, avoid_unnecessary_containers, must_be_immutable, avoid_web_libraries_in_flutter, unused_import, prefer_const_literals_to_create_immutables, prefer_conditional_assignment
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_ecoment_inicial/Data/Postagem/GetPostagem.dart';
@@ -35,9 +35,8 @@ class Tabbar extends StatefulWidget {
     this.topico,
     this.topico2,
     this.topico3,
-    this.topico4, 
-    this.materialPostagem,
-    {
+    this.topico4,
+    this.materialPostagem, {
     Key? key,
   });
 
@@ -48,20 +47,43 @@ class Tabbar extends StatefulWidget {
 class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
-    List<Ideia> listaIdeias = [];
+  List<Ideia> listaFiltradaEscolhida = [];
+  List<Ideia> listaFiltradaAll = [];
+  List<Ideia> listaFiltradaCurtidas = [];
+  List<Ideia> listaFiltradaAvaliadas = [];
+  List<Ideia> listaFiltradaDificuldade = [];
 
-    List<Ideia> listaFiltrada = [];
+  int countlistaFiltradaAll = 0;
 
-    int countListaFiltrada = 0;
-
-    Future<void>_loadData() async{
-    GetPostagem getPostagem = GetPostagem();
-    listaIdeias = await getPostagem.listaIdeiasAll();
-    listaFiltrada = await getPostagem.listaIdeiasByMaterialPostagem(widget.materialPostagem);
-    countListaFiltrada = listaFiltrada.length;
+  Future<void> filtro(String escolha) async {
+    // final opcoes = ['Todas','Dificuldade', 'Avaliações', 'Curtidas'];
+    if (escolha == "Todas") {
+      listaFiltradaEscolhida = listaFiltradaAll;
+      countlistaFiltradaAll = listaFiltradaAll.length;
+    } else if (escolha == "Dificuldade") {
+      listaFiltradaEscolhida = listaFiltradaDificuldade;
+      countlistaFiltradaAll = listaFiltradaDificuldade.length;
+    } else if (escolha == "Curtidas") {
+      listaFiltradaEscolhida = listaFiltradaCurtidas;
+      countlistaFiltradaAll = listaFiltradaCurtidas.length;
+    } else if (escolha == "Avaliações") {
+      listaFiltradaEscolhida = listaFiltradaAvaliadas;
+      countlistaFiltradaAll = listaFiltradaAvaliadas.length;
+    }
     setState(() {
       
     });
+  }
+
+  Future<void> _loadData() async {
+    GetPostagem getPostagem = GetPostagem();
+    listaFiltradaAll = await getPostagem.listaIdeiasByMaterialPostagem(widget.materialPostagem);
+    listaFiltradaEscolhida = listaFiltradaAll;
+    listaFiltradaCurtidas = await getPostagem.listaIdeiasMaisCurtidas2(widget.materialPostagem);
+    listaFiltradaAvaliadas = await getPostagem.listaIdeiasMaisAvaliadas2(widget.materialPostagem);
+    listaFiltradaDificuldade = await getPostagem.listaIdeiasMaisDificuldade2(widget.materialPostagem);
+    countlistaFiltradaAll = listaFiltradaAll.length;
+    setState(() {});
   }
 
   @override
@@ -87,7 +109,7 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
   final dropValue = ValueNotifier('');
-  final opcoes = ['Dificuldade', 'Avaliações', 'Curtidas'];
+  final opcoes = ['Todas', 'Dificuldade', 'Avaliações', 'Curtidas'];
 
   final TextEditingController searchController = TextEditingController();
 
@@ -142,16 +164,12 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
     },
   ];
 
-  final List<Map<String, String>> table2 = [
-    {},
-    {},
-    {},
-  ];
+  ScrollController sc1 = ScrollController();
+  ScrollController sc2 = ScrollController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: WidgetDrawer(),
         key: _scaffoldKey,
         appBar: AppBar(
           backgroundColor: Colors.white,
@@ -238,8 +256,10 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
         ),
         body: Stack(
           fit: StackFit.expand,
+          alignment: Alignment.center,
           children: [
             SingleChildScrollView(
+              controller: sc1,
                 child: Container(
               child: Column(
                 children: [
@@ -707,9 +727,14 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
                                                 value: (value.isEmpty)
                                                     ? null
                                                     : value,
-                                                onChanged: (escolha) =>
-                                                    dropValue.value =
-                                                        escolha.toString(),
+                                                onChanged: (value) async {
+                                                  if (value == null ||
+                                                      value.isEmpty) {
+                                                    value =
+                                                        "Todas"; // Define o padrão como "Todas"
+                                                  }
+                                                  await filtro(value);
+                                                },
                                                 items: opcoes
                                                     .map(
                                                       (op) => DropdownMenuItem<
@@ -757,15 +782,7 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
                                           ),
                                         ),
                                         onChanged: (text) {
-                                          setState(() {
-                                            listaFiltrada = listaIdeias
-                                                .where((idea) => idea
-                                                    .getNomePostagem
-                                                    .toLowerCase()
-                                                    .contains(
-                                                        text.toLowerCase()))
-                                                .toList();
-                                          });
+                                          setState(() {});
                                         },
                                       ),
                                     ),
@@ -779,23 +796,32 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
                           ),
                           SizedBox(height: 10),
                           Container(
-                            height: 300,
-                            child: listaIdeias.isNotEmpty
+                            child: listaFiltradaAll.isNotEmpty
                                 ? GridView.builder(
-                                    shrinkWrap: true,
-                                    /* physics: NeverScrollableScrollPhysics(), */
+                                  controller: sc1,
                                     gridDelegate:
                                         SliverGridDelegateWithFixedCrossAxisCount(
-                                            crossAxisCount: 2,
-                                            crossAxisSpacing: 12,
-                                            mainAxisSpacing: 12,
-                                            mainAxisExtent: 250),
-                                    itemCount: countListaFiltrada,
+                                      crossAxisCount: definirNumeroColunas(
+                                          context), // Define dinamicamente o número de colunas
+                                      crossAxisSpacing:
+                                          10, // Espaçamento entre as colunas
+                                      mainAxisSpacing:
+                                          10, // Espaçamento entre as linhas
+                                      childAspectRatio: definirProporcao(
+                                          context), // Ajusta a proporção dinamicamente
+                                    ),
+                                    itemCount: listaFiltradaEscolhida.length,
                                     itemBuilder: (context, index) {
-                                      final Ideia ideia = listaFiltrada[index];
-                                      return gerarCard(
-                                          ideia);
+                                      final ideia =
+                                          listaFiltradaEscolhida[index];
+                                      return buildIdeia(ideia, index);
                                     },
+                                    padding: EdgeInsets.all(
+                                        10), // Padding ao redor do GridView
+                                    shrinkWrap:
+                                        true, // Permite que o GridView se ajuste ao conteúdo
+                                    physics:
+                                        BouncingScrollPhysics(), // Comportamento de rolagem
                                   )
                                 : Center(
                                     child: Text(
@@ -805,7 +831,7 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
                                     ),
                                   ),
                           ),
-                          listaFiltrada.isEmpty
+                          listaFiltradaAll.isEmpty
                               ? Center(
                                   child: Text(
                                     "Sem posts no momento. Que tal postar alguma coisa?",
@@ -826,8 +852,157 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
         ));
   }
 
-  Widget gerarCard(
-      Ideia ideia) {
+  Widget buildIdeia(Ideia ideia, int index) => GestureDetector(
+        onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => PageIdeia.ideia(ideia),
+          ),
+        ),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white, // Cor de fundo do card
+            borderRadius: BorderRadius.circular(15.0),
+            border: Border.all(color: Colors.grey[700]!, width: 2),
+          ),
+          child: Stack(
+            children: [
+              // Imagem da ideia
+              /* usuario.fotoPerfil == null
+                          ? Image.asset("assets/imgs/do-utilizador.png",
+                              width: 100, height: 100)
+                          : ClipRRect(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(50)),
+                              child: Image.memory(
+                                usuario.fotoPerfil!,
+                                width: 100,
+                                height: 100,
+                              )), */
+              ideia.img1 != null
+                  ? ClipRRect(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(15.0),
+                        topRight: Radius.circular(15.0),
+                      ),
+                      child: Image.memory(
+                        ideia.img1!,
+                        fit: BoxFit.cover,
+                        width: MediaQuery.of(context)
+                            .size
+                            .width, // Ocupa toda a largura
+                        height: 250, // Ajuste de altura conforme necessário
+                      ),
+                    )
+                  : ClipRRect(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(15.0),
+                        topRight: Radius.circular(15.0),
+                      ),
+                      child: Image.asset(
+                        "assets/imgs/ideia1.jpg",
+                        fit: BoxFit.cover,
+                        width: MediaQuery.of(context)
+                            .size
+                            .width, // Ocupa toda a largura
+                        height: 250, // Ajuste de altura conforme necessário
+                      ),
+                    ),
+              // Informações acima da imagem
+              Positioned(
+                bottom: 0, // Posição no topo
+                left: 0,
+                right: 0,
+                child: Container(
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: Colors.white, // Fundo branco
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(15.0),
+                    ),
+                  ),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Spacer(),
+                          Text(
+                            '${ideia.nomeUsuario}',
+                            style: TextStyle(
+                              fontStyle: FontStyle.italic,
+                            ),
+                          ),
+                          Spacer(),
+                          Icon(
+                            Icons.circle,
+                            color: definirCor(ideia.dificuldade),
+                            size: 20,
+                          ),
+                          SizedBox(
+                            width: 15,
+                          )
+                        ],
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        ideia.nomePostagem,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                        maxLines: 2, // Limita a no máximo 2 linhas
+                        overflow: TextOverflow
+                            .ellipsis, // Adiciona "..." se o texto exceder 2 linhas
+                      ),
+                      SizedBox(height: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            ideia.numeroCurtidas.toString(),
+                            style: TextStyle(fontSize: 15),
+                          ),
+                          Icon(
+                            Icons.favorite,
+                            color: Colors.redAccent,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+
+  int definirNumeroColunas(BuildContext context) {
+    double larguraTela = MediaQuery.of(context).size.width;
+    if (larguraTela >= 1200) {
+      return 4; // Tela muito grande (desktop, etc)
+    } else if (larguraTela >= 800) {
+      return 3; // Tela média (tablets)
+    } else if (larguraTela >= 600) {
+      return 2; // Telas pequenas ou celulares grandes
+    } else {
+      return 2; // Celulares menores (1 coluna)
+    }
+  }
+
+// Função para definir a proporção dinamicamente
+  double definirProporcao(BuildContext context) {
+    int colunas = definirNumeroColunas(context);
+    if (colunas == 1) {
+      return 1.5; // Proporção mais alta para quando há 1 coluna
+    } else {
+      return 0.75; // Proporção mais equilibrada para 2 ou mais colunas
+    }
+  }
+
+  Widget gerarCard(Ideia ideia) {
     return MouseRegion(
       child: GestureDetector(
         child: Container(
@@ -840,24 +1015,24 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               SizedBox(
-                width: 200,
-                child: 
-                ideia.img1 == null ? ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: Image.asset(
-                    "assets/imgs/ideia1.jpg",
-                    height: 130,
-                    fit: BoxFit.cover,
-                  ),
-                ): ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: Image.memory(
-                    ideia.img1!,
-                    height: 130,
-                    fit: BoxFit.cover,
-                  ),
-                )
-              ),
+                  width: 200,
+                  child: ideia.img1 == null
+                      ? ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: Image.asset(
+                            "assets/imgs/ideia1.jpg",
+                            height: 130,
+                            fit: BoxFit.cover,
+                          ),
+                        )
+                      : ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: Image.memory(
+                            ideia.img1!,
+                            height: 130,
+                            fit: BoxFit.cover,
+                          ),
+                        )),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -935,7 +1110,7 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
 
 void main() {
   runApp(MaterialApp(
-    home:
-        Tabbar("", Colors.transparent, "", "", "", "", "", "", "", "", "", "", 0),
+    home: Tabbar(
+        "", Colors.transparent, "", "", "", "", "", "", "", "", "", "", 0),
   ));
 }

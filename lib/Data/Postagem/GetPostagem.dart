@@ -25,6 +25,39 @@ class GetPostagem{
     return [];
   }
 
+  Future<List<Ideia>> listaIdeiasMaisAvaliadas2(int materialPostagem) async{
+    var url = Uri.parse("http://${dados.ipMaquina}:${dados.porta}/Ecomoment/postagem/maisAvaliadas2/${materialPostagem}");
+    http.Response response = await http.get(url);
+    if(response.statusCode == 200){
+      IdeiaRepository ideiaRepo = IdeiaRepository();
+      List listaIdeias_ = jsonDecode(response.body) as List;
+      return ideiaRepo.listaIdeias = listaIdeias_.map((e) => Ideia.fromJson(e)).toList();
+    }
+    return [];
+  }
+
+  Future<List<Ideia>> listaIdeiasMaisCurtidas2(int materialPostagem) async{
+    var url = Uri.parse("http://${dados.ipMaquina}:${dados.porta}/Ecomoment/postagem/maisCurtidas/${materialPostagem}");
+    http.Response response = await http.get(url);
+    if(response.statusCode == 200){
+      IdeiaRepository ideiaRepo = IdeiaRepository();
+      List listaIdeias_ = jsonDecode(response.body) as List;
+      return ideiaRepo.listaIdeias = listaIdeias_.map((e) => Ideia.fromJson(e)).toList();
+    }
+    return [];
+  }
+
+  Future<List<Ideia>> listaIdeiasMaisDificuldade2(int materialPostagem) async{
+    var url = Uri.parse("http://${dados.ipMaquina}:${dados.porta}/Ecomoment/postagem/maisDificuldade/${materialPostagem}");
+    http.Response response = await http.get(url);
+    if(response.statusCode == 200){
+      IdeiaRepository ideiaRepo = IdeiaRepository();
+      List listaIdeias_ = jsonDecode(response.body) as List;
+      return ideiaRepo.listaIdeias = listaIdeias_.map((e) => Ideia.fromJson(e)).toList();
+    }
+    return [];
+  }
+
   Future<List<Ideia>> listaIdeiasAll() async{
     var url = Uri.parse("http://${dados.ipMaquina}:${dados.porta}/Ecomoment/postagem");
     http.Response response = await http.get(url);
