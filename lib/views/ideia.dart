@@ -3,6 +3,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_ecoment_inicial/Data/Comentario/GetComentario.dart';
+import 'package:flutter_application_ecoment_inicial/Data/Comentario/PostComentario.dart';
 import 'package:flutter_application_ecoment_inicial/Data/Curtida/Curtida.dart';
 import 'package:flutter_application_ecoment_inicial/Data/IdeiaSalva/IdeiaSalvaDATA.dart';
 import 'package:flutter_application_ecoment_inicial/Data/Postagem/GetPostagem.dart';
@@ -43,6 +44,8 @@ class _IdeiaState extends State<PageIdeia> {
     fontFamily: 'Poppins',
   );
 
+  TextEditingController controllerComentario = TextEditingController();
+
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
   Color definirCor(String dificuldade) {
@@ -77,6 +80,21 @@ class _IdeiaState extends State<PageIdeia> {
       setState(() {
         scaleUp = false;
       });
+    });
+  }
+
+  Future<void> comentar(
+      int idPostagem, int idUsuarioWeb, String comentario) async {
+    final user = Provider.of<UsuarioProvider>(context, listen: false);
+    PostComentario().comentar(idPostagem, idUsuarioWeb, comentario);
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text("Comentario feito com sucesso"),
+        duration: Durations.short2,
+      ),
+    );
+    setState(() {
+      
     });
   }
 
@@ -224,578 +242,571 @@ class _IdeiaState extends State<PageIdeia> {
   Widget build(BuildContext context) {
     final user = Provider.of<UsuarioProvider>(context, listen: false);
     return Scaffold(
-            key: _scaffoldKey,
-            appBar: AppBar(
-              backgroundColor: Colors.transparent,
-              elevation: 0,
-              toolbarHeight: 0,
-            ),
-            backgroundColor: const Color(0xfff4f4f4),
-            body: SafeArea(
-              child: Stack(
-                fit: StackFit.expand,
-                children: [
-                  SingleChildScrollView(
-                    child: 
-                    Container(
-                      padding: EdgeInsets.fromLTRB(20, 20, 20, 80),
-                      child: Center(
-                        child: Column(
+      key: _scaffoldKey,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        toolbarHeight: 0,
+      ),
+      backgroundColor: const Color(0xfff4f4f4),
+      body: SafeArea(
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            SingleChildScrollView(
+              child: Container(
+                padding: EdgeInsets.fromLTRB(20, 20, 20, 80),
+                child: Center(
+                  child: Column(
+                    children: [
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: IconButton(
+                          onPressed: () => Navigator.pop(context),
+                          icon: Icon(Icons.arrow_back),
+                        ),
+                      ),
+                      Text(
+                        ideia.nomePostagem,
+                        style: titulo,
+                        textAlign: TextAlign.center,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+
+                      GestureDetector(
+                        onTap: () => user.username == ideia.nomeUsuario
+                            ? Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => MinhaConta(),
+                                ))
+                            : Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      ContaUsuario.pessoa(pessoa),
+                                )),
+                        child: Text(ideia.nomeUsuario, style: autor),
+                      ),
+
+                      SizedBox(
+                        height: 10,
+                      ),
+                      SizedBox(
+                          child: ideia.img1 != null
+                              ? ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: Image.memory(
+                                    ideia.img1!,
+                                    fit: BoxFit.contain,
+                                  ),
+                                )
+                              : ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: Image.asset(
+                                    "assets/imgs/ideia1.jpg",
+                                    fit: BoxFit.contain,
+                                  ),
+                                )),
+                      Container(
+                        padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Align(
-                              alignment: Alignment.topLeft,
-                              child: IconButton(
-                                onPressed: () => Navigator.pop(context),
-                                icon: Icon(Icons.arrow_back),
-                              ),
-                            ),
-                            Text(
-                              ideia.nomePostagem,
-                              style: titulo,
-                              textAlign: TextAlign.center,
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-
-                            GestureDetector(
-                              onTap: () => user.username == ideia.nomeUsuario
-                                  ? Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => MinhaConta(),
-                                      ))
-                                  : Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            ContaUsuario.pessoa(pessoa),
-                                      )),
-                              child: Text(ideia.nomeUsuario, style: autor),
-                            ),
-
-                            SizedBox(
-                              height: 10,
-                            ),
-                            SizedBox(
-                              child: 
-                              ideia.img1 != null ?
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: Image.memory(
-                                  ideia.img1!,
-                                  fit: BoxFit.contain,
-                                ),
-                              ) : ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: Image.asset(
-                                  "assets/imgs/ideia1.jpg",
-                                  fit: BoxFit.contain,
-                                ),
-                              )
-                            ),
-                            Container(
-                              padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Column(
+                            Column(
+                              children: [
+                                Container(
+                                  child: Row(
                                     children: [
-                                      Container(
-                                        child: Row(
-                                          children: [
-                                            ...gerarEstrelaColorida(
-                                                ideia.avaliacao),
-                                            ...gerarEstrelaNColorida(
-                                                5 - ideia.avaliacao)
-                                          ],
-                                        ),
-                                      ),
-                                      Container(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 10),
-                                        child: Align(
-                                          alignment: Alignment.topLeft,
-                                          child: Row(
-                                            children: [
-                                              Text(
-                                                "Avaliações: ",
-                                                style: TextStyle(
-                                                    fontFamily: 'Poppins'),
-                                              ),
-                                              Text(
-                                                ideia.qtdeAvaliacoesPostagem
-                                                    .toString(),
-                                                style: TextStyle(
-                                                    fontFamily: 'Poppins',
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                              /*  */
-                                            ],
-                                          ),
-                                        ),
-                                      ),
+                                      ...gerarEstrelaColorida(ideia.avaliacao),
+                                      ...gerarEstrelaNColorida(
+                                          5 - ideia.avaliacao)
                                     ],
                                   ),
-                                  Column(
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Text("Dificuldade "),
-                                          Icon(
-                                            Icons.circle,
-                                            color:
-                                                definirCor(ideia.dificuldade),
-                                            size: 30,
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        children: [
-                                          Text("Salvar"),
-                                          SizedBox(
-                                            width: 10,
-                                          ),
-                                          MouseRegion(
-                                            cursor: SystemMouseCursors.click,
-                                            child: GestureDetector(
-                                                onTap: /* user.name */ user
-                                                            .email ==
-                                                        ""
-                                                    ? () {
-                                                        showDialog(
-                                                          context: context,
-                                                          builder: (context) =>
-                                                              CupertinoAlertDialog(
-                                                            title: Text(
-                                                              'Cadastre-se ou faça o Login',
-                                                              style: nunito,
-                                                            ),
-                                                            content: Text(
-                                                              'Essa funcionalidade é inacessivel para convidados. Faça o Login ou cadastre-se para ter acesso a essa funcionalidade',
-                                                              style: nunito,
-                                                            ),
-                                                            actions: [
-                                                              CupertinoDialogAction(
-                                                                child: Text(
-                                                                    'Entrar',
-                                                                    style:
-                                                                        nunito),
-                                                                onPressed: () {
-                                                                  Navigator.push(
-                                                                      context,
-                                                                      MaterialPageRoute(
-                                                                        builder:
-                                                                            (context) =>
-                                                                                Login(),
-                                                                      )); // Fecha o diálogo
-                                                                },
-                                                              ),
-                                                              CupertinoDialogAction(
-                                                                child: Text(
-                                                                    'Cadastro',
-                                                                    style:
-                                                                        nunito),
-                                                                onPressed: () {
-                                                                  Navigator.push(
-                                                                      context,
-                                                                      MaterialPageRoute(
-                                                                        builder:
-                                                                            (context) =>
-                                                                                Cadastro(),
-                                                                      )); // Fecha o diálogo
-                                                                },
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        );
-                                                      }
-                                                    : () async {
-                                                        salvar();
-                                                        ScaffoldMessenger.of(
-                                                                context)
-                                                            .showSnackBar(
-                                                          SnackBar(
-                                                              content: Text(
-                                                                  snackSv)),
-                                                        );
-                                                        setState(() {});
-                                                      },
-                                                child: AnimatedScale(
-                                                  scale: scaleUp2 ? 1.5 : 1.0,
-                                                  duration: Duration(
-                                                      milliseconds: 300),
-                                                  curve: Curves.easeInOut,
-                                                  child: Icon(
-                                                    isSaved
-                                                        ? Icons.save_as_rounded
-                                                        : Icons
-                                                            .save_as_outlined,
-                                                    color: Colors.black,
-                                                    size: 30,
-                                                  ),
-                                                )),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
+                                ),
+                                Container(
+                                  padding: EdgeInsets.symmetric(horizontal: 10),
+                                  child: Align(
+                                    alignment: Alignment.topLeft,
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          "Avaliações: ",
+                                          style:
+                                              TextStyle(fontFamily: 'Poppins'),
+                                        ),
+                                        Text(
+                                          ideia.qtdeAvaliacoesPostagem
+                                              .toString(),
+                                          style: TextStyle(
+                                              fontFamily: 'Poppins',
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        /*  */
+                                      ],
+                                    ),
                                   ),
-                                  Column(
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Text("Favoritar "),
-                                          MouseRegion(
-                                            cursor: SystemMouseCursors.click,
-                                            child: GestureDetector(
-                                                onTap: /* user.name */
-                                                    user.email == ""
-                                                        ? () {
-                                                            _showErrorDialog(
-                                                                context);
-                                                          }
-                                                        : () async {
-                                                            curtir();
-                                                            /* ScaffoldMessenger.of(context)
+                                ),
+                              ],
+                            ),
+                            Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    Text("Dificuldade "),
+                                    Icon(
+                                      Icons.circle,
+                                      color: definirCor(ideia.dificuldade),
+                                      size: 30,
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Text("Salvar"),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    MouseRegion(
+                                      cursor: SystemMouseCursors.click,
+                                      child: GestureDetector(
+                                          onTap: /* user.name */ user.email ==
+                                                  ""
+                                              ? () {
+                                                  showDialog(
+                                                    context: context,
+                                                    builder: (context) =>
+                                                        CupertinoAlertDialog(
+                                                      title: Text(
+                                                        'Cadastre-se ou faça o Login',
+                                                        style: nunito,
+                                                      ),
+                                                      content: Text(
+                                                        'Essa funcionalidade é inacessivel para convidados. Faça o Login ou cadastre-se para ter acesso a essa funcionalidade',
+                                                        style: nunito,
+                                                      ),
+                                                      actions: [
+                                                        CupertinoDialogAction(
+                                                          child: Text('Entrar',
+                                                              style: nunito),
+                                                          onPressed: () {
+                                                            Navigator.push(
+                                                                context,
+                                                                MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) =>
+                                                                          Login(),
+                                                                )); // Fecha o diálogo
+                                                          },
+                                                        ),
+                                                        CupertinoDialogAction(
+                                                          child: Text(
+                                                              'Cadastro',
+                                                              style: nunito),
+                                                          onPressed: () {
+                                                            Navigator.push(
+                                                                context,
+                                                                MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) =>
+                                                                          Cadastro(),
+                                                                )); // Fecha o diálogo
+                                                          },
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  );
+                                                }
+                                              : () async {
+                                                  salvar();
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                    SnackBar(
+                                                        content: Text(snackSv)),
+                                                  );
+                                                  setState(() {});
+                                                },
+                                          child: AnimatedScale(
+                                            scale: scaleUp2 ? 1.5 : 1.0,
+                                            duration:
+                                                Duration(milliseconds: 300),
+                                            curve: Curves.easeInOut,
+                                            child: Icon(
+                                              isSaved
+                                                  ? Icons.save_as_rounded
+                                                  : Icons.save_as_outlined,
+                                              color: Colors.black,
+                                              size: 30,
+                                            ),
+                                          )),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    Text("Favoritar "),
+                                    MouseRegion(
+                                      cursor: SystemMouseCursors.click,
+                                      child: GestureDetector(
+                                          onTap: /* user.name */
+                                              user.email == ""
+                                                  ? () {
+                                                      _showErrorDialog(context);
+                                                    }
+                                                  : () async {
+                                                      curtir();
+                                                      /* ScaffoldMessenger.of(context)
                                                       .showSnackBar(
                                                     SnackBar(
                                                         content: Text(
                                                             'Avaliação de $_avaliacao estrelas!')),
                                                   ); */
-                                                          },
-                                                child: AnimatedScale(
-                                                  scale: scaleUp ? 1.5 : 1.0,
-                                                  duration: Duration(
-                                                      milliseconds: 300),
-                                                  curve: Curves.easeInOut,
-                                                  child: Icon(
-                                                    isFavorited
-                                                        ? Icons.favorite
-                                                        : Icons.favorite_border,
-                                                    color: Colors.black,
-                                                    size: 30,
-                                                  ),
-                                                )),
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        children: [
-                                          Text("Compartilhar "),
-                                          MouseRegion(
-                                            cursor: SystemMouseCursors.click,
-                                            child: GestureDetector(
-                                              child: Row(
-                                                children: [
-                                                  Icon(
-                                                    Icons.share,
-                                                    size: 30,
-                                                  ),
-                                                ],
-                                              ),
-                                              onTap: () async {},
+                                                    },
+                                          child: AnimatedScale(
+                                            scale: scaleUp ? 1.5 : 1.0,
+                                            duration:
+                                                Duration(milliseconds: 300),
+                                            curve: Curves.easeInOut,
+                                            child: Icon(
+                                              isFavorited
+                                                  ? Icons.favorite
+                                                  : Icons.favorite_border,
+                                              color: Colors.black,
+                                              size: 30,
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Container(
-                                padding: EdgeInsets.symmetric(horizontal: 30),
-                                decoration: BoxDecoration(
-                                    color: const Color.fromARGB(
-                                        255, 217, 217, 217),
-                                    borderRadius: BorderRadius.circular(20)),
-                                child: Row(
-                                  children: [
-                                    Icon(Icons.check_box_outline_blank),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text(
-                                      "Materiais",
-                                      style: TextStyle(
-                                          fontSize: 24,
-                                          fontFamily: 'Circe',
-                                          fontWeight: FontWeight.bold),
+                                          )),
                                     ),
                                   ],
-                                )),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Container(
-                              padding: EdgeInsets.symmetric(horizontal: 30),
-                              alignment: Alignment.topLeft,
-                              child: Column(
-                                children: [Text(ideia.materiais)],
-                              ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Container(
-                              padding: EdgeInsets.symmetric(horizontal: 30),
-                              decoration: BoxDecoration(
-                                  color:
-                                      const Color.fromARGB(255, 217, 217, 217),
-                                  borderRadius: BorderRadius.circular(20)),
-                              child: Row(
-                                children: [
-                                  Icon(Icons.temple_buddhist_sharp),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text(
-                                    "Passo a Passo",
-                                    style: TextStyle(
-                                        fontFamily: 'Circe',
-                                        fontSize: 24,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Container(
-                              alignment: Alignment.topLeft,
-                              padding: EdgeInsets.symmetric(horizontal: 30),
-                              child: Column(
-                                children: [
-                                  Text(
-                                    ideia.passoPasso,
-                                    style: TextStyle(
-                                      fontFamily: 'Nunito',
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Container(
-                              padding: EdgeInsets.symmetric(horizontal: 30),
-                              decoration: BoxDecoration(
-                                  color:
-                                      const Color.fromARGB(255, 217, 217, 217),
-                                  borderRadius: BorderRadius.circular(20)),
-                              child: Row(
-                                children: [
-                                  Icon(Icons.temple_buddhist_sharp),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text(
-                                    "Avalie esta ideia!",
-                                    style: TextStyle(
-                                        fontFamily: 'Circe',
-                                        fontSize: 24,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: List.generate(5, (index) {
-                                return IconButton(
-                                  icon: Icon(
-                                    index < _avaliacao
-                                        ? Icons.star
-                                        : Icons.star_border,
-                                    color: Colors.amber,
-                                    size: 40,
-                                  ),
-                                  onPressed: () {
-                                    setState(() {
-                                      _avaliacao = index +
-                                          1; // Define a avaliação baseada na estrela clicada
-                                    });
-                                  },
-                                );
-                              }),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            ElevatedButton(
-                              onPressed: user.email == ""
-                                  ? () {
-                                      showDialog(
-                                        context: context,
-                                        builder: (context) =>
-                                            CupertinoAlertDialog(
-                                          title: Text(
-                                            'Cadastre-se ou faça o Login',
-                                            style: nunito,
-                                          ),
-                                          content: Text(
-                                            'Essa funcionalidade é inacessivel para convidados. Faça o Login ou cadastre-se para ter acesso a essa funcionalidade',
-                                            style: nunito,
-                                          ),
-                                          actions: [
-                                            CupertinoDialogAction(
-                                              child:
-                                                  Text('Entrar', style: nunito),
-                                              onPressed: () {
-                                                Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          Login(),
-                                                    )); // Fecha o diálogo
-                                              },
-                                            ),
-                                            CupertinoDialogAction(
-                                              child: Text('Cadastro',
-                                                  style: nunito),
-                                              onPressed: () {
-                                                Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          Cadastro(),
-                                                    )); // Fecha o diálogo
-                                              },
+                                ),
+                                Row(
+                                  children: [
+                                    Text("Compartilhar "),
+                                    MouseRegion(
+                                      cursor: SystemMouseCursors.click,
+                                      child: GestureDetector(
+                                        child: Row(
+                                          children: [
+                                            Icon(
+                                              Icons.share,
+                                              size: 30,
                                             ),
                                           ],
                                         ),
-                                      );
-                                    }
-                                  : () async {
-                                      avaliar();
-                                      print('Avaliação enviada: $_avaliacao');
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        SnackBar(
-                                            content: Text(
-                                                'Avaliação de $_avaliacao estrelas!')),
-                                      );
-                                      setState(() {});
-                                    },
-                              child: Text(av),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Container(
-                              padding: EdgeInsets.symmetric(horizontal: 30),
-                              decoration: BoxDecoration(
-                                  color:
-                                      const Color.fromARGB(255, 217, 217, 217),
-                                  borderRadius: BorderRadius.circular(20)),
-                              child: Row(
-                                children: [
-                                  Icon(Icons.chat_bubble),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text(
-                                    "Comentários",
-                                    style: TextStyle(
-                                        fontFamily: 'Circe',
-                                        fontSize: 24,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ],
-                              ),
-                            ),
-
-                            SizedBox(
-                              height: 10,
-                            ),
-
-                            //Começo - Comentario do carlinhos
-                            /* Container(
-                        width: 300,
-                        padding: EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            border: Border.all()),
-                        child: Column(
-                          children: [
-                            Text(
-                              "@Carlinhos",
-                              style: TextStyle(
-                                  fontFamily: "Poppins",
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              "Muito lindo, amei <3",
-                              textAlign: TextAlign.start,
+                                        onTap: () async {},
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
                             )
                           ],
                         ),
-                      ), */
-                            //Fim - Comentario do carlinhos
-
-                            //ListView De Comentarios
-                            isLoading
-                                ? Center(
-                                    child: CircularProgressIndicator(),
-                                  )
-                                : listaComentarios.isNotEmpty
-                                    ? ListView.builder(
-                                        shrinkWrap: true,
-                                        itemBuilder: (context, index) {
-                                          return Padding(
-                                            padding: const EdgeInsets.all(10.0),
-                                            child: Container(
-                                              width: 300,
-                                              padding: EdgeInsets.all(10),
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(20),
-                                                  border: Border.all()),
-                                              child: Column(
-                                                children: [
-                                                  Text(
-                                                    listaComentarios[index]
-                                                        .nomeWeb,
-                                                    style: TextStyle(
-                                                        fontFamily: "Poppins",
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                  ),
-                                                  Text(
-                                                    listaComentarios[index]
-                                                        .comentario,
-                                                    textAlign: TextAlign.start,
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                        itemCount: countComentarios,
-                                      )
-                                    : Center(
-                                        child: Text("Nenhum Comentario"),
-                                      ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                          padding: EdgeInsets.symmetric(horizontal: 30),
+                          decoration: BoxDecoration(
+                              color: const Color.fromARGB(255, 217, 217, 217),
+                              borderRadius: BorderRadius.circular(20)),
+                          child: Row(
+                            children: [
+                              Icon(Icons.check_box_outline_blank),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                "Materiais",
+                                style: TextStyle(
+                                    fontSize: 24,
+                                    fontFamily: 'Circe',
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          )),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 30),
+                        alignment: Alignment.topLeft,
+                        child: Column(
+                          children: [Text(ideia.materiais)],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 30),
+                        decoration: BoxDecoration(
+                            color: const Color.fromARGB(255, 217, 217, 217),
+                            borderRadius: BorderRadius.circular(20)),
+                        child: Row(
+                          children: [
+                            Icon(Icons.temple_buddhist_sharp),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              "Passo a Passo",
+                              style: TextStyle(
+                                  fontFamily: 'Circe',
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold),
+                            ),
                           ],
                         ),
                       ),
-                    ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                        alignment: Alignment.topLeft,
+                        padding: EdgeInsets.symmetric(horizontal: 30),
+                        child: Column(
+                          children: [
+                            Text(
+                              ideia.passoPasso,
+                              style: TextStyle(
+                                fontFamily: 'Nunito',
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 30),
+                        decoration: BoxDecoration(
+                            color: const Color.fromARGB(255, 217, 217, 217),
+                            borderRadius: BorderRadius.circular(20)),
+                        child: Row(
+                          children: [
+                            Icon(Icons.temple_buddhist_sharp),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              "Avalie esta ideia!",
+                              style: TextStyle(
+                                  fontFamily: 'Circe',
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: List.generate(5, (index) {
+                          return IconButton(
+                            icon: Icon(
+                              index < _avaliacao
+                                  ? Icons.star
+                                  : Icons.star_border,
+                              color: Colors.amber,
+                              size: 40,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                _avaliacao = index +
+                                    1; // Define a avaliação baseada na estrela clicada
+                              });
+                            },
+                          );
+                        }),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      ElevatedButton(
+                        onPressed: user.email == ""
+                            ? () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => CupertinoAlertDialog(
+                                    title: Text(
+                                      'Cadastre-se ou faça o Login',
+                                      style: nunito,
+                                    ),
+                                    content: Text(
+                                      'Essa funcionalidade é inacessivel para convidados. Faça o Login ou cadastre-se para ter acesso a essa funcionalidade',
+                                      style: nunito,
+                                    ),
+                                    actions: [
+                                      CupertinoDialogAction(
+                                        child: Text('Entrar', style: nunito),
+                                        onPressed: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) => Login(),
+                                              )); // Fecha o diálogo
+                                        },
+                                      ),
+                                      CupertinoDialogAction(
+                                        child: Text('Cadastro', style: nunito),
+                                        onPressed: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    Cadastro(),
+                                              )); // Fecha o diálogo
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              }
+                            : () async {
+                                avaliar();
+                                print('Avaliação enviada: $_avaliacao');
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content: Text(
+                                          'Avaliação de $_avaliacao estrelas!')),
+                                );
+                                setState(() {});
+                              },
+                        child: Text(av),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 30),
+                        decoration: BoxDecoration(
+                            color: const Color.fromARGB(255, 217, 217, 217),
+                            borderRadius: BorderRadius.circular(20)),
+                        child: Row(
+                          children: [
+                            Icon(Icons.chat_bubble),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              "Comentários",
+                              style: TextStyle(
+                                  fontFamily: 'Circe',
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      SizedBox(
+                        height: 10,
+                      ),
+
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        child: TextField(
+                          controller: controllerComentario,
+                          decoration: InputDecoration(
+                            suffixIcon: IconButton(
+                              onPressed: () async{
+                                user.email == "" ?
+                                _showErrorDialog(context) :
+                                await comentar(widget.ideia.idPostagem, user.idUsuarioWeb, controllerComentario.text);
+                                setState(() {
+                                  
+                                });
+                              },
+                              icon: Icon(Icons.send),
+                            ),
+                            labelText: "Deixe seu comentário!",
+                            border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20)),
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      //ListView De Comentarios
+                      listaComentarios.isNotEmpty
+                              ? ListView.builder(
+                                  shrinkWrap: true,
+                                  itemBuilder: (context, index) {
+                                    return Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: Container(
+                                        width: 300,
+                                        padding: EdgeInsets.all(10),
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                            border: Border.all()),
+                                        child: Column(
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                SizedBox(),
+                                                Text(
+                                                  listaComentarios[index]
+                                                      .nomeWeb,
+                                                  style: TextStyle(
+                                                      fontFamily: "Poppins",
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                                user.idUsuarioWeb ==
+                                                        listaComentarios[index]
+                                                            .idUsuarioWeb
+                                                    ? IconButton(
+                                                        onPressed: () {
+                                                          //deletarComentario();
+                                                          PostComentario().deletarComentario(widget.ideia.idPostagem, user.idUsuarioWeb, listaComentarios[index].comentario);
+                                                        },
+                                                        icon: Icon(
+                                                            Icons.delete, color: Colors.red,),
+                                                      )
+                                                    : SizedBox()
+                                              ],
+                                            ),
+                                            Text(
+                                              listaComentarios[index]
+                                                  .comentario,
+                                              textAlign: TextAlign.start,
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  itemCount: countComentarios,
+                                )
+                              : Center(
+                                  child: Text("Nenhum Comentario"),
+                                ),
+                    ],
                   ),
-                  WidgetBottomAppBar(scaffoldKey: _scaffoldKey)
-                ],
+                ),
               ),
             ),
-          );
+            WidgetBottomAppBar(scaffoldKey: _scaffoldKey)
+          ],
+        ),
+      ),
+    );
   }
 
   List<Widget> gerarEstrelaColorida(double n) {
