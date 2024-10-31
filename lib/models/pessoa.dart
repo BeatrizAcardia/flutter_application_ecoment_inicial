@@ -47,7 +47,7 @@ class Pessoa{
   qtdePostagens = json['qtdePostagens'] ?? "",
   reputacao = json['reputacao'] ?? "",
   ativo = json['ativo'] ?? "",
-  fotoPerfil = (json['fotoPerfil'] != null && json['fotoPerfil'] != 'W10=') 
+  fotoPerfil = (json['fotoPerfil'] != null && json['fotoPerfil'] != 'W10=')
     ? base64Decode(json['fotoPerfil']) 
     : null;
   

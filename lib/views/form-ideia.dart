@@ -1,9 +1,20 @@
 // ignore_for_file: file_names, prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_print
 
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_ecoment_inicial/Data/Postagem/PostPostagem.dart';
+import 'package:flutter_application_ecoment_inicial/Data/Usuario/Usuario.dart';
 import 'package:flutter_application_ecoment_inicial/defaultWidgets/bottomAppBar.dart';
 import 'package:flutter_application_ecoment_inicial/defaultWidgets/drawer.dart';
+import 'package:flutter_application_ecoment_inicial/models/pessoa.dart';
+import 'package:flutter_application_ecoment_inicial/models/pessoaProvider.dart';
+import 'package:flutter_application_ecoment_inicial/views/inicial.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 import '../models/Postagem.dart';
 
 class FormIdeia extends StatefulWidget {
@@ -23,7 +34,7 @@ class _FormIdeiaState extends State<FormIdeia> {
   TextEditingController ctrlDescricao = TextEditingController();
   TextEditingController ctrlMateriais = TextEditingController();
   TextEditingController ctrlInstrucoes = TextEditingController();
-  String material = '';
+  int material = 0;
   String dificuldade = '';
   TextStyle obg = TextStyle(
       color: Color.fromARGB(255, 58, 125, 68),
@@ -43,6 +54,20 @@ class _FormIdeiaState extends State<FormIdeia> {
   final espacoW10 = SizedBox(width: 10);
   // final espacoW20 = SizedBox(width: 20);
 
+  Pessoa usuario = Pessoa.n();
+  Usuario usuarioBD = Usuario();
+  Future<void> loadData() async {
+    final user = Provider.of<UsuarioProvider>(context, listen: false);
+    usuario = await usuarioBD.getUsuario.buscarPessoaByEmail(user.email);
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    loadData();
+  }
+
   // Construção do app
   @override
   Widget build(BuildContext context) {
@@ -53,7 +78,6 @@ class _FormIdeiaState extends State<FormIdeia> {
         elevation: 0,
         toolbarHeight: 0,
       ),
-      drawer: WidgetDrawer(),
       backgroundColor: Color.fromARGB(255, 244, 244, 244),
       body: Stack(
         alignment: Alignment.center,
@@ -63,13 +87,6 @@ class _FormIdeiaState extends State<FormIdeia> {
             child: Container(
               child: Column(
                 children: [
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: IconButton(
-                      onPressed: () => Navigator.pop(context),
-                      icon: Icon(Icons.arrow_back),
-                    ),
-                  ),
                   Container(
                     padding: EdgeInsets.fromLTRB(35, 10, 35, 20),
                     child: Form(
@@ -144,9 +161,9 @@ class _FormIdeiaState extends State<FormIdeia> {
                             children: [criaLabel('Tipo de material: ')],
                           ),
                           FormField(
-                            initialValue: '',
+                            initialValue: 0,
                             validator: (value) {
-                              if (value == '' || material == '') {
+                              if (value == 0 || material == 0) {
                                 return 'Selecione o material correspondente';
                               } else {
                                 return null;
@@ -162,7 +179,7 @@ class _FormIdeiaState extends State<FormIdeia> {
                                           children: [
                                             RadioListTile(
                                               title: Text('Plástico'),
-                                              value: '1',
+                                              value: 1,
                                               groupValue: material,
                                               onChanged: (value) {
                                                 material = value!;
@@ -172,7 +189,7 @@ class _FormIdeiaState extends State<FormIdeia> {
                                             ),
                                             RadioListTile(
                                               title: Text('Metal'),
-                                              value: '2',
+                                              value: 2,
                                               groupValue: material,
                                               onChanged: (value) {
                                                 material = value!;
@@ -182,7 +199,7 @@ class _FormIdeiaState extends State<FormIdeia> {
                                             ),
                                             RadioListTile(
                                               title: Text('Papel'),
-                                              value: '3',
+                                              value: 3,
                                               groupValue: material,
                                               onChanged: (value) {
                                                 material = value!;
@@ -198,7 +215,7 @@ class _FormIdeiaState extends State<FormIdeia> {
                                           children: [
                                             RadioListTile(
                                               title: Text('Vidro'),
-                                              value: '4',
+                                              value: 4,
                                               groupValue: material,
                                               onChanged: (value) {
                                                 material = value!;
@@ -208,7 +225,7 @@ class _FormIdeiaState extends State<FormIdeia> {
                                             ),
                                             RadioListTile(
                                               title: Text('Madeira'),
-                                              value: '5',
+                                              value: 5,
                                               groupValue: material,
                                               onChanged: (value) {
                                                 material = value!;
@@ -218,7 +235,7 @@ class _FormIdeiaState extends State<FormIdeia> {
                                             ),
                                             RadioListTile(
                                               title: Text('Resíduo orgânico'),
-                                              value: '6',
+                                              value: 6,
                                               groupValue: material,
                                               onChanged: (value) {
                                                 material = value!;
@@ -398,7 +415,7 @@ class _FormIdeiaState extends State<FormIdeia> {
                                     width: 200,
                                     child: RadioListTile(
                                       title: Text('Fácil'),
-                                      value: '1',
+                                      value: 'facil',
                                       groupValue: dificuldade,
                                       activeColor:
                                           Color.fromARGB(255, 78, 158, 90),
@@ -413,7 +430,7 @@ class _FormIdeiaState extends State<FormIdeia> {
                                     width: 200,
                                     child: RadioListTile(
                                       title: Text('Média'),
-                                      value: '2',
+                                      value: 'media',
                                       groupValue: dificuldade,
                                       activeColor:
                                           Color.fromARGB(255, 255, 188, 54),
@@ -428,7 +445,7 @@ class _FormIdeiaState extends State<FormIdeia> {
                                     width: 200,
                                     child: RadioListTile(
                                       title: Text('Difícil'),
-                                      value: '3',
+                                      value: 'dificil',
                                       groupValue: dificuldade,
                                       activeColor:
                                           Color.fromARGB(255, 207, 18, 18),
@@ -458,47 +475,104 @@ class _FormIdeiaState extends State<FormIdeia> {
                               );
                             },
                           ),
-                          espacoH10,
                           espacoH5,
+                          Container(
+                              height: MediaQuery.of(context).size.height * 0.35,
+                              width: MediaQuery.of(context).size.height * 0.35,
+                              decoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20)),
+                                border: Border.all(width: 2),
+                              ),
+                              child: imageFileList.isEmpty
+                                  ? Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          "Selecione suas fotos",
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              color: Colors.black),
+                                        ),
+                                        ElevatedButton(
+                                            onPressed: () {
+                                              selectImages();
+                                            },
+                                            child: Text("Selecionar"))
+                                      ],
+                                    )
+                                  : Container(
+                                      padding: EdgeInsets.all(10),
+                                      child: Column(
+                                        children: [
+                                          Expanded(
+                                            child: CarouselSlider.builder(
+                                              itemCount: imageFileList.length,
+                                              itemBuilder:
+                                                  (BuildContext context,
+                                                      int index,
+                                                      int realIndex) {
+                                                return Container(
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20),
+                                                    image: DecorationImage(
+                                                      image: FileImage(File(
+                                                          imageFileList[index]
+                                                              .path)),
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                                  ),
+                                                );
+                                              },
+                                              options: CarouselOptions(
+                                                autoPlay: true,
+                                                enlargeCenterPage: true,
+                                                aspectRatio: 2.0,
+                                                viewportFraction: 0.8,
+                                              ),
+                                            ),
+                                          ),
+                                          ElevatedButton(
+                                              onPressed: () {
+                                                selectImages();
+                                              },
+                                              child: Text("Mudar"))
+                                        ],
+                                      ),
+                                    )),
+                          espacoH10,
                           ElevatedButton(
-                            onPressed: () {
+                            onPressed: () async{
                               if (chave.currentState!.validate()) {
-                                showDialog(
-                                    context: context,
-                                    builder: (context) => CupertinoAlertDialog(
-                                          title: Text(
-                                            'Postagem realizada com sucesso!',
-                                            style: nunito,
-                                          ),
-                                          content: Text(
-                                            'Obrigado pela contribuição!',
-                                            style: nunito,
-                                          ),
-                                          actions: [
-                                            CupertinoDialogAction(
-                                              child: Text('OK', style: nunito),
-                                              onPressed: () =>
-                                                  Navigator.pop(context, 'OK'),
-                                            )
-                                          ],
-                                        ));
-                                postar(
-                                    ctrlNome.text,
-                                    material,
-                                    ctrlDescricao.text,
-                                    ctrlInstrucoes.text,
-                                    ctrlMateriais.text,
-                                    dificuldade);
-                                print('--------- IDEIAS ---------');
-                                for (var ideia in posts) {
-                                  ideia.mostra();
+                                if (imageFileList.isEmpty) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                          "Adicione pelo menos uma imagem da sua ideia"),
+                                      duration: Duration(seconds: 2),
+                                    ),
+                                  );
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                          "Postagem realizada com sucesso!"),
+                                      duration: Duration(seconds: 2),
+                                    ),
+                                  );
+                                  await publicar();
+                                  ctrlDescricao.clear();
+                                  ctrlInstrucoes.clear();
+                                  ctrlMateriais.clear();
+                                  ctrlNome.clear();
+                                  material = 0;
+                                  dificuldade = '';
+                                  imageFileList = [];
+                                  setState(() {});
                                 }
-                                ctrlDescricao.clear();
-                                ctrlInstrucoes.clear();
-                                ctrlMateriais.clear();
-                                ctrlNome.clear();
-                                material = '';
-                                dificuldade = '';
                               } else {
                                 showDialog(
                                     context: context,
@@ -551,11 +625,41 @@ class _FormIdeiaState extends State<FormIdeia> {
     );
   }
 
-  void postar(String nome, String material, String descricao, String matNec,
-      String instrucoes, String dificuldade) {
-    Postagemm post =
-        Postagemm(nome, material, descricao, matNec, instrucoes, dificuldade);
-    posts.add(post);
+  List<XFile> imageFileList = []; // Lista de strings (URLs ou Base64) das fotos
+  final ImagePicker imagePicker = ImagePicker();
+
+  void selectImages() async {
+    imageFileList = [];
+
+    final List<XFile>? selectedImages = await imagePicker.pickMultiImage();
+    if (selectedImages != null && selectedImages.isNotEmpty) {
+      // Limite de 10 imagens
+      if (imageFileList.length + selectedImages.length > 10) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Você não pode selecionar mais de 10 imagens."),
+            duration: Duration(seconds: 2),
+          ),
+        );
+        return; // Retorna sem adicionar mais imagens
+      }
+
+      // Adiciona as imagens selecionadas à lista
+      imageFileList.addAll(selectedImages);
+    }
+    setState(() {});
+  }
+
+  Future<void> publicar() async {
+    PostPostagem().publicar(
+        ctrlNome.text,
+        usuario.username,
+        material,
+        ctrlDescricao.text,
+        ctrlMateriais.text,
+        ctrlInstrucoes.text,
+        dificuldade,
+        imageFileList);
   }
 
   RichText criaLabel(String text) {

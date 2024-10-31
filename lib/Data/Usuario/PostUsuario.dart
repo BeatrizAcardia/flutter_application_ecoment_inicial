@@ -30,14 +30,18 @@ class PostUsuario{
     }
   }
 
-    Future<void> atualizarFotoAndNomeUsuarioAndSobreMim(Uint8List foto, String nomeUsuario, String biografia, int id) async {
+    Future<void> atualizarFotoAndNomeUsuarioAndSobreMim(String? foto, String nomeUsuario, String biografia, int id) async {
     var url = Uri.parse(
-        "http://${dados.ipMaquina}:${dados.porta}/Ecomoment/usuario/atualizarFotoNomeBio/${foto}/${nomeUsuario}/${biografia}/${id}");
-    http.Response response = await http.post(url);
+        "http://${dados.ipMaquina}:${dados.porta}/Ecomoment/usuario/atualizarFotoNomeBio");
+    http.Response response = await http.post(url, body: {
+      'foto': foto,
+      'nome': nomeUsuario,
+      'bio': biografia,
+      'id': id.toString(),
+    });
     if (response.statusCode == 200) {
       print('Pessoa atualizada com sucesso [foto/nome/bio]');
     } else {
-      print('Erro ao atualizar pessoa [foto/nome/bio]');
     }
   }
 

@@ -239,6 +239,7 @@ Pessoa meuUser = Pessoa.n();
   Future<void> carregarIdeias() async {
     final user = Provider.of<UsuarioProvider>(context, listen: false);
     meuUser = await GetUsuario().buscarPessoaByEmail(user.email);
+    print(meuUser.fotoPerfil.toString());
     listaUsuariosSeguindo =
         await getSeguidorBD.listaUsuariosSeguindo(meuUser.idUsuarioWeb);
     countSeguindo = listaUsuariosSeguindo.length;
@@ -340,7 +341,7 @@ final user = Provider.of<UsuarioProvider>(context, listen: false);
                                 width: 90,
                                 height: 90,
                                 child: ClipRRect(
-                                  child: Image.memory(meuUser.fotoPerfil!),
+                                  child: Image.memory(meuUser.fotoPerfil!, fit: BoxFit.cover,),
                                   borderRadius: BorderRadius.all(Radius.circular(50)),
                                 )
                               ),

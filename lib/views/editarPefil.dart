@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, non_constant_identifier_names
 
+import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -33,22 +34,23 @@ class _EditarPerfilState extends State<EditarPerfil> {
     usuario = await usuarioBD.getUsuario.buscarPessoaByEmail(user.email);
     controller_nomeUsuario.text = usuario.username;
     controller_sobreMim.text = usuario.biografia;
-
+    fotoBlob = usuario.fotoPerfil!;
 
     // Adiciona um listener para verificar mudanças no campo de texto
-  controller_nomeUsuario.addListener(() {
-    final text = controller_nomeUsuario.text;
-    // Garante que o texto sempre começa com "@"
-    if (!text.startsWith("@")) {
-      controller_nomeUsuario.value = TextEditingValue(
-        text: "@${text.replaceAll('@', '')}", // Insere "@" no início e remove outros
-        selection: TextSelection.fromPosition(
-          TextPosition(offset: controller_nomeUsuario.text.length),
-        ),
-      );
-    }
-  });
-
+    controller_nomeUsuario.addListener(() {
+      final text = controller_nomeUsuario.text;
+      // Garante que o texto sempre começa com "@"
+      if (!text.startsWith("@")) {
+        controller_nomeUsuario.value = TextEditingValue(
+          text:
+              "@${text.replaceAll('@', '')}", // Insere "@" no início e remove outros
+          selection: TextSelection.fromPosition(
+            TextPosition(offset: controller_nomeUsuario.text.length),
+          ),
+        );
+      }
+    });
+    setState(() {});
   }
 
   @override
@@ -81,7 +83,9 @@ class _EditarPerfilState extends State<EditarPerfil> {
                       ? CircleAvatar(
                           radius: 75,
                           backgroundColor: Colors.grey[200],
-                          child: Image.memory(usuario.fotoPerfil!),
+                          backgroundImage: usuario.fotoPerfil != null
+                              ? MemoryImage(fotoBlob)
+                              : null,
                         )
                       : CircleAvatar(
                           radius: 75,
@@ -242,13 +246,13 @@ class _EditarPerfilState extends State<EditarPerfil> {
                       children: [
                         TextFormField(
                           validator: (value) {
-                          if (value!.trim().isEmpty) {
-                            return "Este campo não pode estar vazio. Preencha o campo corretamente";
-                          }else if(value.trim() != usuario.senha){
-                            return "Senha incorreta!";
-                          }
-                          return null;
-                        },
+                            if (value!.trim().isEmpty) {
+                              return "Este campo não pode estar vazio. Preencha o campo corretamente";
+                            } else if (value.trim() != usuario.senha) {
+                              return "Senha incorreta!";
+                            }
+                            return null;
+                          },
                           controller: controller_senhaAtual,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
@@ -277,11 +281,11 @@ class _EditarPerfilState extends State<EditarPerfil> {
                         ),
                         TextFormField(
                           validator: (value) {
-                          if (value!.trim().isEmpty) {
-                            return "Este campo não pode estar vazio. Preencha o campo corretamente";
-                          } 
-                          return null;
-                        },
+                            if (value!.trim().isEmpty) {
+                              return "Este campo não pode estar vazio. Preencha o campo corretamente";
+                            }
+                            return null;
+                          },
                           controller: controller_novaSenha1,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
@@ -308,13 +312,14 @@ class _EditarPerfilState extends State<EditarPerfil> {
                         ),
                         TextFormField(
                           validator: (value) {
-                          if (value!.trim().isEmpty) {
-                            return "Este campo não pode estar vazio. Preencha o campo corretamente";
-                          } else if(controller_novaSenha1.text.trim() != controller_novaSenha2.text.trim()){
-                            return "As senhas devem ser iguais!";
-                          }
-                          return null;
-                        },
+                            if (value!.trim().isEmpty) {
+                              return "Este campo não pode estar vazio. Preencha o campo corretamente";
+                            } else if (controller_novaSenha1.text.trim() !=
+                                controller_novaSenha2.text.trim()) {
+                              return "As senhas devem ser iguais!";
+                            }
+                            return null;
+                          },
                           controller: controller_novaSenha2,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
@@ -337,7 +342,7 @@ class _EditarPerfilState extends State<EditarPerfil> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      if (keyVal2.currentState!.validate()){
+                      if (keyVal2.currentState!.validate()) {
                         _salvarSenha();
                       }
                     },
@@ -388,7 +393,7 @@ class _EditarPerfilState extends State<EditarPerfil> {
 
   _salvarFotoNomeBio() {
     usuarioBD.postUsuario.atualizarFotoAndNomeUsuarioAndSobreMim(
-        fotoBlob,
+        fotoBase64,
         controller_nomeUsuario.text,
         controller_sobreMim.text,
         usuario.idUsuarioWeb);
@@ -398,15 +403,19 @@ class _EditarPerfilState extends State<EditarPerfil> {
     );
   }
 
-  _salvarSenha(){
-    usuarioBD.postUsuario.atualizarSenha(controller_novaSenha2.text, usuario.idUsuarioWeb);
+  _salvarSenha() {
+    usuarioBD.postUsuario
+        .atualizarSenha(controller_novaSenha2.text, usuario.idUsuarioWeb);
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text("Senha atualizada com sucesso!"),),
+      SnackBar(
+        content: Text("Senha atualizada com sucesso!"),
+      ),
     );
   }
 
   final imagePicker = ImagePicker();
   File? imageFile;
+  String? fotoBase64;
 
   pick(ImageSource source) async {
     final pickedFile = await imagePicker.pickImage(source: source);
@@ -417,6 +426,13 @@ class _EditarPerfilState extends State<EditarPerfil> {
       });
       // Convertendo a imagem para formato blob (Uint8List)
       fotoBlob = await imageFile!.readAsBytes();
+
+      setState(() {
+        
+      });
+
+      // Codificando a imagem para Base64
+      fotoBase64 = base64Encode(fotoBlob);
     }
   }
 
@@ -443,7 +459,7 @@ class _EditarPerfilState extends State<EditarPerfil> {
                   'Galeria',
                   style: Theme.of(context).textTheme.bodyLarge,
                 ),
-                onTap: () {
+                onTap: ()  {
                   Navigator.of(context).pop();
                   // Buscar imagem da galeria
                   pick(ImageSource.gallery);
@@ -488,6 +504,8 @@ class _EditarPerfilState extends State<EditarPerfil> {
                   // Tornar a foto null
                   setState(() {
                     imageFile = null;
+                    fotoBlob = Uint8List(0);
+                    fotoBase64 = "";
                   });
                 },
               ),

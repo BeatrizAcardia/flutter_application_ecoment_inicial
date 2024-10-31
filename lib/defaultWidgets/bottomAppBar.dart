@@ -1,13 +1,16 @@
 // ignore_for_file: prefer_const_constructors, prefer_final_fields, use_key_in_widget_constructors
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_ecoment_inicial/Data/Usuario/GetUsuario.dart';
 import 'package:flutter_application_ecoment_inicial/models/pessoa.dart';
 import 'package:flutter_application_ecoment_inicial/models/pessoaProvider.dart';
+import 'package:flutter_application_ecoment_inicial/views/cadastro.dart';
 import 'package:flutter_application_ecoment_inicial/views/contaSemLogin.dart';
 import 'package:flutter_application_ecoment_inicial/views/form-ideia.dart';
 import 'package:flutter_application_ecoment_inicial/views/ideiasReutilizacao.dart';
 import 'package:flutter_application_ecoment_inicial/views/inicial.dart';
+import 'package:flutter_application_ecoment_inicial/views/login.dart';
 import 'package:flutter_application_ecoment_inicial/views/minhaConta.dart';
 import 'package:flutter_application_ecoment_inicial/views/pontosColeta.dart';
 import 'package:provider/provider.dart';
@@ -22,6 +25,55 @@ class WidgetBottomAppBar extends StatefulWidget {
 }
 
 class _WidgetBottomAppBarState extends State<WidgetBottomAppBar> {
+  TextStyle nunito = TextStyle(fontFamily: 'Nunito');
+    void _showErrorDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => CupertinoAlertDialog(
+        title: Text(
+          'Cadastre-se ou faça o Login',
+          style: nunito,
+        ),
+        content: Text(
+          'Essa funcionalidade é inacessivel para convidados. Faça o Login ou cadastre-se para ter acesso a essa funcionalidade',
+          style: nunito,
+        ),
+        actions: [
+          CupertinoDialogAction(
+            child: Text('Entrar', style: nunito),
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Login(),
+                  )); // Fecha o diálogo
+            },
+          ),
+          CupertinoDialogAction(
+            child: Text('Cadastro', style: nunito),
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Cadastro(),
+                  )); // Fecha o diálogo
+            },
+          ),
+        ],
+      ),
+    ).then((_) {
+      // Quando o diálogo é fechado (incluindo ao clicar fora)
+      // Redireciona para a página de Login ou inicial se necessário
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                Myinicial()), // Pode ser a página inicial ou login
+        (route) => false, // Remove todas as rotas anteriores
+      );
+    });
+  }
+
   
   @override
   Widget build(BuildContext context) {
@@ -59,6 +111,7 @@ class _WidgetBottomAppBarState extends State<WidgetBottomAppBar> {
                       IconButton(
                         icon: Icon(Icons.add, color: Colors.black),
                         onPressed: () {
+                          user.email == "" ? _showErrorDialog(context) :
                           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => FormIdeia(),));
                         },
                       ),

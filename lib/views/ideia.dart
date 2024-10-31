@@ -1,5 +1,8 @@
 // ignore_for_file: prefer_const_constructors, must_be_immutable, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, prefer_interpolation_to_compose_strings, prefer_final_fields, avoid_function_literals_in_foreach_calls, unused_import, prefer_const_declarations, unused_local_variable
 
+import 'dart:typed_data';
+
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_ecoment_inicial/Data/Comentario/GetComentario.dart';
@@ -93,9 +96,7 @@ class _IdeiaState extends State<PageIdeia> {
         duration: Durations.short2,
       ),
     );
-    setState(() {
-      
-    });
+    setState(() {});
   }
 
   Future<void> avaliar() async {
@@ -199,7 +200,8 @@ class _IdeiaState extends State<PageIdeia> {
   int countComentarios = 0;
   Pessoa pessoa = Pessoa.n();
   Ideia ideia = Ideia.vazia();
-
+  List<Uint8List> imagens = [];
+  bool isLoading2 = true;
   Future<void> _loadData() async {
     setState(() {
       isLoading = false;
@@ -207,6 +209,21 @@ class _IdeiaState extends State<PageIdeia> {
     final user = Provider.of<UsuarioProvider>(context, listen: false);
     ideia = await GetPostagem()
         .buscarIdeiaByNomePostagem(widget.ideia.nomePostagem);
+        // Adiciona as imagens não nulas à lista
+      if (ideia.img1 != null) imagens.add(ideia.img1!);
+      if (ideia.img2 != null) imagens.add(ideia.img2!);
+      if (ideia.img3 != null) imagens.add(ideia.img3!);
+      if (ideia.img4 != null) imagens.add(ideia.img4!);
+      if (ideia.img5 != null) imagens.add(ideia.img5!);
+      if (ideia.img6 != null) imagens.add(ideia.img6!);
+      if (ideia.img7 != null) imagens.add(ideia.img7!);
+      if (ideia.img8 != null) imagens.add(ideia.img8!);
+      if (ideia.img9 != null) imagens.add(ideia.img9!);
+      if (ideia.img10 != null) imagens.add(ideia.img10!);
+      isLoading2 = false;
+      setState(() {
+        
+      });
     listaComentarios = await getCometariosBD.listaComentarios(ideia.idPostagem);
     countComentarios = listaComentarios.length;
     pessoa =
@@ -233,13 +250,16 @@ class _IdeiaState extends State<PageIdeia> {
     // TODO: implement initState
     super.initState();
     _loadData();
+    
     setState(() {});
   }
 
   int _avaliacao = 0; // Armazena a avaliação selecionada
-
+  
   @override
   Widget build(BuildContext context) {
+     
+
     final user = Provider.of<UsuarioProvider>(context, listen: false);
     return Scaffold(
       key: _scaffoldKey,
@@ -294,22 +314,36 @@ class _IdeiaState extends State<PageIdeia> {
                       SizedBox(
                         height: 10,
                       ),
-                      SizedBox(
-                          child: ideia.img1 != null
-                              ? ClipRRect(
+                      isLoading2
+          ? Center(child: CircularProgressIndicator()) // Exibe o indicador de progresso
+          :
+                      imagens.isNotEmpty
+                          ? CarouselSlider.builder(
+                              itemCount: imagens.length,
+                              itemBuilder: (BuildContext context, int index,
+                                  int realIndex) {
+                                return ClipRRect(
                                   borderRadius: BorderRadius.circular(10),
                                   child: Image.memory(
-                                    ideia.img1!,
+                                    imagens[index],
                                     fit: BoxFit.contain,
                                   ),
-                                )
-                              : ClipRRect(
-                                  borderRadius: BorderRadius.circular(10),
-                                  child: Image.asset(
-                                    "assets/imgs/ideia1.jpg",
-                                    fit: BoxFit.contain,
-                                  ),
-                                )),
+                                );
+                              },
+                              options: CarouselOptions(
+                                autoPlay: true,
+                                enlargeCenterPage: true,
+                                aspectRatio: 2.0,
+                                viewportFraction: 0.8,
+                              ),
+                            )
+                          : ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: Image.asset(
+                                "assets/imgs/ideia1.jpg",
+                                fit: BoxFit.contain,
+                              ),
+                            ),
                       Container(
                         padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
                         child: Row(
@@ -719,13 +753,14 @@ class _IdeiaState extends State<PageIdeia> {
                           controller: controllerComentario,
                           decoration: InputDecoration(
                             suffixIcon: IconButton(
-                              onPressed: () async{
-                                user.email == "" ?
-                                _showErrorDialog(context) :
-                                await comentar(widget.ideia.idPostagem, user.idUsuarioWeb, controllerComentario.text);
-                                setState(() {
-                                  
-                                });
+                              onPressed: () async {
+                                user.email == ""
+                                    ? _showErrorDialog(context)
+                                    : await comentar(
+                                        widget.ideia.idPostagem,
+                                        user.idUsuarioWeb,
+                                        controllerComentario.text);
+                                setState(() {});
                               },
                               icon: Icon(Icons.send),
                             ),
@@ -740,63 +775,67 @@ class _IdeiaState extends State<PageIdeia> {
 
                       //ListView De Comentarios
                       listaComentarios.isNotEmpty
-                              ? ListView.builder(
-                                  shrinkWrap: true,
-                                  itemBuilder: (context, index) {
-                                    return Padding(
-                                      padding: const EdgeInsets.all(10.0),
-                                      child: Container(
-                                        width: 300,
-                                        padding: EdgeInsets.all(10),
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(20),
-                                            border: Border.all()),
-                                        child: Column(
+                          ? ListView.builder(
+                              shrinkWrap: true,
+                              itemBuilder: (context, index) {
+                                return Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Container(
+                                    width: 300,
+                                    padding: EdgeInsets.all(10),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(20),
+                                        border: Border.all()),
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                SizedBox(),
-                                                Text(
-                                                  listaComentarios[index]
-                                                      .nomeWeb,
-                                                  style: TextStyle(
-                                                      fontFamily: "Poppins",
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                                user.idUsuarioWeb ==
-                                                        listaComentarios[index]
-                                                            .idUsuarioWeb
-                                                    ? IconButton(
-                                                        onPressed: () {
-                                                          //deletarComentario();
-                                                          PostComentario().deletarComentario(widget.ideia.idPostagem, user.idUsuarioWeb, listaComentarios[index].comentario);
-                                                        },
-                                                        icon: Icon(
-                                                            Icons.delete, color: Colors.red,),
-                                                      )
-                                                    : SizedBox()
-                                              ],
-                                            ),
+                                            SizedBox(),
                                             Text(
-                                              listaComentarios[index]
-                                                  .comentario,
-                                              textAlign: TextAlign.start,
-                                            )
+                                              listaComentarios[index].nomeWeb,
+                                              style: TextStyle(
+                                                  fontFamily: "Poppins",
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            user.idUsuarioWeb ==
+                                                    listaComentarios[index]
+                                                        .idUsuarioWeb
+                                                ? IconButton(
+                                                    onPressed: () {
+                                                      //deletarComentario();
+                                                      PostComentario()
+                                                          .deletarComentario(
+                                                              widget.ideia
+                                                                  .idPostagem,
+                                                              user.idUsuarioWeb,
+                                                              listaComentarios[
+                                                                      index]
+                                                                  .comentario);
+                                                    },
+                                                    icon: Icon(
+                                                      Icons.delete,
+                                                      color: Colors.red,
+                                                    ),
+                                                  )
+                                                : SizedBox()
                                           ],
                                         ),
-                                      ),
-                                    );
-                                  },
-                                  itemCount: countComentarios,
-                                )
-                              : Center(
-                                  child: Text("Nenhum Comentario"),
-                                ),
+                                        Text(
+                                          listaComentarios[index].comentario,
+                                          textAlign: TextAlign.start,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                              itemCount: countComentarios,
+                            )
+                          : Center(
+                              child: Text("Nenhum Comentario"),
+                            ),
                     ],
                   ),
                 ),
