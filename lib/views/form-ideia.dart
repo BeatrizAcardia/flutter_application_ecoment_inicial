@@ -490,7 +490,7 @@ class _FormIdeiaState extends State<FormIdeia> {
                                           MainAxisAlignment.center,
                                       children: [
                                         Text(
-                                          "Selecione suas fotos",
+                                          "Selecione suas fotos (Max: 10)",
                                           style: TextStyle(
                                               fontSize: 18,
                                               color: Colors.black),
@@ -528,7 +528,8 @@ class _FormIdeiaState extends State<FormIdeia> {
                                                 );
                                               },
                                               options: CarouselOptions(
-                                                autoPlay: true,
+                                                autoPlay:true,
+                                                enableInfiniteScroll: imageFileList.length >= 3 ? true : false,
                                                 enlargeCenterPage: true,
                                                 aspectRatio: 2.0,
                                                 viewportFraction: 0.8,

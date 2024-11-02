@@ -144,7 +144,6 @@ Future<void> _showDeleteAccountDialog(BuildContext context) async {
         elevation: 0,
         toolbarHeight: 0,
       ),
-      drawer: WidgetDrawer(),
       backgroundColor: Color(0xfff4f4f4),
       body: Center(
         child: Container(

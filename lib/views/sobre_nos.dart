@@ -74,7 +74,6 @@ class _SobreNosState extends State<SobreNos> {
         elevation: 0,
         toolbarHeight: 0,
       ),
-      drawer: WidgetDrawer(),
       key: _scaffoldKey,
       backgroundColor: Color(0xfff4f4f4),
       body: Stack(

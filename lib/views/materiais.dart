@@ -782,7 +782,11 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
                                           ),
                                         ),
                                         onChanged: (text) {
-                                          setState(() {});
+                                          filtrarIdeias(searchController.text);
+                                          //usando o listaFiltradaEscolhida, fazer com que mostre somente as ideias que começam com as letyras que o usuario for digitando
+                                          setState(() {
+                                            
+                                          });
                                         },
                                       ),
                                     ),
@@ -797,32 +801,32 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
                           SizedBox(height: 10),
                           Container(
                             child: listaFiltradaAll.isNotEmpty
-                                ? GridView.builder(
-                                  controller: sc1,
-                                    gridDelegate:
-                                        SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: definirNumeroColunas(
-                                          context), // Define dinamicamente o número de colunas
-                                      crossAxisSpacing:
-                                          10, // Espaçamento entre as colunas
-                                      mainAxisSpacing:
-                                          10, // Espaçamento entre as linhas
-                                      childAspectRatio: definirProporcao(
-                                          context), // Ajusta a proporção dinamicamente
-                                    ),
-                                    itemCount: listaFiltradaEscolhida.length,
-                                    itemBuilder: (context, index) {
-                                      final ideia =
-                                          listaFiltradaEscolhida[index];
-                                      return buildIdeia(ideia, index);
-                                    },
-                                    padding: EdgeInsets.all(
-                                        10), // Padding ao redor do GridView
-                                    shrinkWrap:
-                                        true, // Permite que o GridView se ajuste ao conteúdo
-                                    physics:
-                                        BouncingScrollPhysics(), // Comportamento de rolagem
-                                  )
+                                ? Container(
+                                padding: EdgeInsets.symmetric(horizontal: 10),
+                                child: GridView.builder(
+                                  gridDelegate:
+                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: definirNumeroColunas(
+                                        context), // Define dinamicamente o número de colunas
+                                    crossAxisSpacing:
+                                        10, // Espaçamento entre as colunas
+                                    mainAxisSpacing:
+                                        10, // Espaçamento entre as linhas
+                                    childAspectRatio: definirProporcao(
+                                        context), // Ajusta a proporção dinamicamente
+                                  ),
+                                  itemCount: listaFiltradaEscolhida.length,
+                                  itemBuilder: (context, index) {
+                                    final ideia = listaFiltradaEscolhida[index];
+                                    return buildIdeiaGridView(ideia, index);
+                                  },
+
+                                  shrinkWrap:
+                                      true, // Permite que o GridView se ajuste ao conteúdo
+                                  physics:
+                                      BouncingScrollPhysics(), // Comportamento de rolagem
+                                ),
+                              )
                                 : Center(
                                     child: Text(
                                       "Sem posts no momento. Que tal postar alguma coisa?",
@@ -852,7 +856,25 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
         ));
   }
 
-  Widget buildIdeia(Ideia ideia, int index) => GestureDetector(
+  void filtrarIdeias(String textoDigitado) {
+    setState(() {
+      if (textoDigitado.isEmpty) {
+        listaFiltradaEscolhida = List.from(listaFiltradaAll);
+        isDropdownVisible = false; // Esconde o dropdown se o campo estiver vazio
+      } else {
+        listaFiltradaEscolhida = listaFiltradaAll.where((ideia) {
+          final nomeIdeia = ideia.nomePostagem.toLowerCase();
+          final texto = textoDigitado.toLowerCase();
+          return nomeIdeia.contains(texto); // Filtra as ideias que contêm o texto digitado
+        }).toList();
+        isDropdownVisible = true; // Mostra o dropdown ao começar a digitar
+      }
+    });
+  }
+
+  bool isDropdownVisible = false;
+
+  Widget buildIdeiaGridView(Ideia ideia, int index) => GestureDetector(
         onTap: () => Navigator.push(
           context,
           MaterialPageRoute(
@@ -868,22 +890,13 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
           child: Stack(
             children: [
               // Imagem da ideia
-              /* usuario.fotoPerfil == null
-                          ? Image.asset("assets/imgs/do-utilizador.png",
-                              width: 100, height: 100)
-                          : ClipRRect(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(50)),
-                              child: Image.memory(
-                                usuario.fotoPerfil!,
-                                width: 100,
-                                height: 100,
-                              )), */
               ideia.img1 != null
                   ? ClipRRect(
                       borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(15.0),
-                        topRight: Radius.circular(15.0),
+                        topLeft: Radius.circular(13.0),
+                        topRight: Radius.circular(13.0),
+                        bottomLeft: Radius.circular(15.0),
+                        bottomRight: Radius.circular(15.0),
                       ),
                       child: Image.memory(
                         ideia.img1!,
@@ -896,8 +909,10 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
                     )
                   : ClipRRect(
                       borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(15.0),
-                        topRight: Radius.circular(15.0),
+                        topLeft: Radius.circular(13.0),
+                        topRight: Radius.circular(13.0),
+                        bottomLeft: Radius.circular(15.0),
+                        bottomRight: Radius.circular(15.0),
                       ),
                       child: Image.asset(
                         "assets/imgs/ideia1.jpg",
@@ -914,34 +929,31 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
                 left: 0,
                 right: 0,
                 child: Container(
-                  padding: EdgeInsets.all(10),
+                  padding: EdgeInsets.symmetric(horizontal: 5),
                   decoration: BoxDecoration(
                     color: Colors.white, // Fundo branco
                     borderRadius: BorderRadius.vertical(
                       top: Radius.circular(15.0),
+                      bottom: Radius.circular(15.0),
                     ),
                   ),
                   child: Column(
                     children: [
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          Spacer(),
-                          Text(
-                            '${ideia.nomeUsuario}',
-                            style: TextStyle(
-                              fontStyle: FontStyle.italic,
-                            ),
-                          ),
-                          Spacer(),
+                          
                           Icon(
                             Icons.circle,
                             color: definirCor(ideia.dificuldade),
                             size: 20,
                           ),
-                          SizedBox(
-                            width: 15,
-                          )
+                          Text(
+                            '${ideia.nomeUsuario}',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),SizedBox(),
                         ],
                       ),
                       SizedBox(height: 10),
@@ -952,7 +964,7 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
                           fontWeight: FontWeight.bold,
                           fontSize: 18,
                         ),
-                        maxLines: 2, // Limita a no máximo 2 linhas
+                        maxLines: 1, // Limita a no máximo 2 linhas
                         overflow: TextOverflow
                             .ellipsis, // Adiciona "..." se o texto exceder 2 linhas
                       ),
@@ -1000,84 +1012,6 @@ class _TabbarState extends State<Tabbar> with SingleTickerProviderStateMixin {
     } else {
       return 0.75; // Proporção mais equilibrada para 2 ou mais colunas
     }
-  }
-
-  Widget gerarCard(Ideia ideia) {
-    return MouseRegion(
-      child: GestureDetector(
-        child: Container(
-          padding: EdgeInsets.all(5),
-          decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey[700]!),
-              borderRadius: BorderRadius.circular(10),
-              color: Color.fromARGB(255, 255, 255, 255)),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              SizedBox(
-                  width: 200,
-                  child: ideia.img1 == null
-                      ? ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: Image.asset(
-                            "assets/imgs/ideia1.jpg",
-                            height: 130,
-                            fit: BoxFit.cover,
-                          ),
-                        )
-                      : ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: Image.memory(
-                            ideia.img1!,
-                            height: 130,
-                            fit: BoxFit.cover,
-                          ),
-                        )),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Spacer(),
-                  Text(
-                    ideia.nomeUsuario,
-                    style: TextStyle(
-                      fontStyle: FontStyle.italic,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  Spacer(),
-                  Icon(Icons.circle, color: definirCor(ideia.dificuldade)),
-                ],
-              ),
-              Text(
-                ideia.nomePostagem,
-                style: ideaTitle,
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(
-                height: 5,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    ideia.numeroCurtidas.toString(),
-                    style: TextStyle(fontSize: 15),
-                  ),
-                  Icon(
-                    Icons.favorite,
-                    color: Colors.redAccent,
-                  )
-                ],
-              )
-            ],
-          ),
-        ),
-        onTap: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => PageIdeia.ideia(ideia)));
-        },
-      ),
-    );
   }
 
   List<Widget> gerarEstrelaColorida(int n) {

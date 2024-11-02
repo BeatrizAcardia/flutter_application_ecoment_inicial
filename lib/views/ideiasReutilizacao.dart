@@ -33,13 +33,13 @@ class _IdeiasReutilizacaoState extends State<IdeiasReutilizacao> {
     fontWeight: FontWeight.w700,
   );
 
-  List<Ideia> listaFiltrada = [];
   List<Ideia> listaFiltradaPlastico = [];
   List<Ideia> listaFiltradaMetal = [];
   List<Ideia> listaFiltradaVidro = [];
   List<Ideia> listaFiltradaPapel = [];
   List<Ideia> listaFiltradaOrganico = [];
   List<Ideia> listaFiltradaMadeira = [];
+  List<Ideia> listaFiltradaEscolhida = [];
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
@@ -54,39 +54,68 @@ class _IdeiasReutilizacaoState extends State<IdeiasReutilizacao> {
     loadData();
   }
 
-  Future<void> loadData() async{
-    try{
+  Future<void> loadData() async {
+    try {
       setState(() {
-      isLoading = true;
-    });
-      listaFiltradaPlastico = await postagemBD.getPostagem.listaIdeiasByMaterialPostagem(1);
-      int itemCountPlastico = listaFiltradaPlastico.length;
+        isLoading = true;
+      });
 
-      listaFiltradaMetal = await postagemBD.getPostagem.listaIdeiasByMaterialPostagem(2);
-      int itemCountMetal = listaFiltradaMetal.length;
+      listaIdeias2 = await postagemBD.getPostagem.listaIdeiasAll();
+      listaFiltradaEscolhida = List.from(listaIdeias2);
+      
 
-      listaFiltradaPapel = await postagemBD.getPostagem.listaIdeiasByMaterialPostagem(3);
-      int itemCountPapel = listaFiltradaPapel.length;
+      listaFiltradaPlastico =
+          await postagemBD.getPostagem.listaIdeiasByMaterialPostagem(1);
+      
 
-      listaFiltradaVidro = await postagemBD.getPostagem.listaIdeiasByMaterialPostagem(4);
-      int itemCountVidro = listaFiltradaVidro.length;
+      listaFiltradaMetal =
+          await postagemBD.getPostagem.listaIdeiasByMaterialPostagem(2);
+      
 
-      listaFiltradaMadeira = await postagemBD.getPostagem.listaIdeiasByMaterialPostagem(5);
-      int itemCountMadeira = listaFiltradaMadeira.length;
+      listaFiltradaPapel =
+          await postagemBD.getPostagem.listaIdeiasByMaterialPostagem(3);
+      
 
-      listaFiltradaOrganico = await postagemBD.getPostagem.listaIdeiasByMaterialPostagem(6);
-      int itemCountOrganico = listaFiltradaOrganico.length;
+      listaFiltradaVidro =
+          await postagemBD.getPostagem.listaIdeiasByMaterialPostagem(4);
+      
+
+      listaFiltradaMadeira =
+          await postagemBD.getPostagem.listaIdeiasByMaterialPostagem(5);
+      
+
+      listaFiltradaOrganico =
+          await postagemBD.getPostagem.listaIdeiasByMaterialPostagem(6);
+      
 
       setState(() {
-      isLoading = false;
-    });
-    } catch(e){
+        isLoading = false;
+      });
+    } catch (e) {
       print("Erro em loadData[Materiais]: ${e}");
       setState(() {
         isLoading = false; // Termina o carregamento em caso de erro
       });
     }
-    
+  }
+
+  bool isDropDown = false;
+
+  void filtrarIdeias(String textoDigitado) {
+    setState(() {
+      if (textoDigitado.isEmpty) {
+        listaFiltradaEscolhida = List.from(listaIdeias2);
+        isDropDown = false; // Esconde o dropdown se o campo estiver vazio
+      } else {
+        listaFiltradaEscolhida = listaIdeias2.where((ideia) {
+          final nomeIdeia = ideia.nomePostagem.toLowerCase();
+          final texto = textoDigitado.toLowerCase();
+          return nomeIdeia
+              .contains(texto); // Filtra as ideias que contêm o texto digitado
+        }).toList();
+        isDropDown = true;
+      }
+    });
   }
 
   @override
@@ -98,7 +127,6 @@ class _IdeiasReutilizacaoState extends State<IdeiasReutilizacao> {
         elevation: 0,
         toolbarHeight: 0,
       ),
-      drawer: WidgetDrawer(),
       backgroundColor: const Color.fromARGB(255, 224, 224, 224),
       body: Stack(
         alignment: Alignment.center,
@@ -122,15 +150,7 @@ class _IdeiasReutilizacaoState extends State<IdeiasReutilizacao> {
                     width: 350,
                     height: 40,
                     child: TextField(
-                      onChanged: (text) {
-                        setState(() {
-                          listaFiltrada = listaIdeias2
-                              .where((idea) => idea.getNomePostagem
-                                  .toLowerCase()
-                                  .contains(text.toLowerCase()))
-                              .toList();
-                        });
-                      },
+                      onChanged: (value) => filtrarIdeias(searchController2.text),
                       controller: searchController2,
                       decoration: InputDecoration(
                         filled: true,
@@ -154,7 +174,51 @@ class _IdeiasReutilizacaoState extends State<IdeiasReutilizacao> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 50),
+                  if (isDropDown) ...[
+                    SizedBox(height: 10),
+                    Container(
+                      constraints: BoxConstraints(
+                        maxHeight: listaFiltradaEscolhida.length > 1 ? 260 : 50,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 1,
+                            blurRadius: 5,
+                            offset: Offset(0, 3),
+                          ),
+                        ],
+                      ),
+                      child: Center(
+                        child: ListView.separated(
+                          separatorBuilder: (context, index) => Divider(),
+                          itemCount: listaFiltradaEscolhida.length,
+                          itemBuilder: (context, index) {
+                            final Ideia ideia = listaFiltradaEscolhida[index];
+                            return Center(
+                              child: GestureDetector(
+                                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => PageIdeia.ideia(ideia),)),
+                                child: Center(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Text(ideia.nomePostagem, style: TextStyle(fontSize: 18),),
+                                      Text(ideia.nomeUsuario, style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    )
+                  ] else
+                    SizedBox(height: 50),
                   Text(
                     "Veja outras ideias com:",
                     style: TextStyle(
@@ -181,29 +245,43 @@ class _IdeiasReutilizacaoState extends State<IdeiasReutilizacao> {
                   Container(
                     child: Column(
                       children: [
-                        isLoading ?
-                        Center(child: CircularProgressIndicator(),):
-                        listaFiltradaPlastico.isNotEmpty
-                          ? CarouselSlider.builder(
-                              options: CarouselOptions(
-                                onPageChanged: (index, reason) =>
-                                    setState(() => activeIndex = index),
-                                height: 320, // Altura do carrossel
-                              ),
-                              itemCount: listaFiltradaPlastico.length,
-                              itemBuilder: (context, index, realIndex) {
-                                final ideia = listaFiltradaPlastico[index];
-                                return buildIdeia(ideia, index);
-                              },
-                            )
-                          : Center(
-                              child: Center(
-                                child: Text(
-                                  "Sem posts por enquanto. Que tal postar uma ideia com esse material?",
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                            ),
+                        isLoading
+                            ? Center(
+                                child: CircularProgressIndicator(),
+                              )
+                            : listaFiltradaPlastico.isNotEmpty
+                                ? CarouselSlider.builder(
+                                    options: CarouselOptions(
+                                      onPageChanged: (index, reason) =>
+                                          setState(() => activeIndex = index),
+                                      height: 280, // Altura do carrossel
+                                      viewportFraction:
+                                          0.6, // Controla a largura do item visível
+                                      enableInfiniteScroll:
+                                          listaFiltradaPlastico.length >= 3
+                                              ? true
+                                              : false, // Altura do carrossel
+                                    ),
+                                    itemCount: listaFiltradaPlastico.length,
+                                    itemBuilder: (context, index, realIndex) {
+                                      final ideia =
+                                          listaFiltradaPlastico[index];
+                                      return Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 20),
+                                        child:
+                                            buildIdeiaCarrossel(ideia, index),
+                                      );
+                                    },
+                                  )
+                                : Center(
+                                    child: Center(
+                                      child: Text(
+                                        "Sem posts por enquanto. Que tal postar uma ideia com esse material?",
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                  ),
                         const SizedBox(height: 32),
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
@@ -227,7 +305,8 @@ class _IdeiasReutilizacaoState extends State<IdeiasReutilizacao> {
                                     "O que é plástico?",
                                     "De onde ele vem?",
                                     "Qual é o descarte correto?",
-                                    "Alternativas ecológicas",1),
+                                    "Alternativas ecológicas",
+                                    1),
                               ),
                             );
                             setState(() {});
@@ -262,29 +341,42 @@ class _IdeiasReutilizacaoState extends State<IdeiasReutilizacao> {
                   ),
                   Container(
                       child: Column(
-                    children: [isLoading ?
-                        Center(child: CircularProgressIndicator(),):
-                      listaFiltradaMetal.isNotEmpty
-                          ? CarouselSlider.builder(
-                              options: CarouselOptions(
-                                onPageChanged: (index, reason) =>
-                                    setState(() => activeIndex = index),
-                                height: 320, // Altura do carrossel
-                              ),
-                              itemCount: listaFiltradaMetal.length,
-                              itemBuilder: (context, index, realIndex) {
-                                final ideia = listaFiltradaMetal[index];
-                                return buildIdeia(ideia, index);
-                              },
+                    children: [
+                      isLoading
+                          ? Center(
+                              child: CircularProgressIndicator(),
                             )
-                          : Center(
-                              child: Center(
-                                child: Text(
-                                  "Sem posts por enquanto. Que tal postar uma ideia com esse material?",
-                                  textAlign: TextAlign.center,
+                          : listaFiltradaMetal.isNotEmpty
+                              ? CarouselSlider.builder(
+                                  options: CarouselOptions(
+                                    onPageChanged: (index, reason) =>
+                                        setState(() => activeIndex = index),
+                                    height: 280, // Altura do carrossel
+                                    viewportFraction:
+                                        0.6, // Controla a largura do item visível
+                                    enableInfiniteScroll:
+                                        listaFiltradaMetal.length >= 3
+                                            ? true
+                                            : false, // Altura do carrossel
+                                  ),
+                                  itemCount: listaFiltradaMetal.length,
+                                  itemBuilder: (context, index, realIndex) {
+                                    final ideia = listaFiltradaMetal[index];
+                                    return Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 20),
+                                      child: buildIdeiaCarrossel(ideia, index),
+                                    );
+                                  },
+                                )
+                              : Center(
+                                  child: Center(
+                                    child: Text(
+                                      "Sem posts por enquanto. Que tal postar uma ideia com esse material?",
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
                       const SizedBox(height: 32),
                       ElevatedButton(
                           style: ElevatedButton.styleFrom(
@@ -308,7 +400,8 @@ class _IdeiasReutilizacaoState extends State<IdeiasReutilizacao> {
                                     "O que é o metal?",
                                     "De onde ele vem?",
                                     "Qual o descarte correto?",
-                                    "Alternativas sustentáveis",2),
+                                    "Alternativas sustentáveis",
+                                    2),
                               ),
                             );
                             setState(() {});
@@ -341,29 +434,43 @@ class _IdeiasReutilizacaoState extends State<IdeiasReutilizacao> {
                   ),
                   Container(
                     child: Column(
-                      children: [isLoading ?
-                        Center(child: CircularProgressIndicator(),):
-                        listaFiltradaVidro.isNotEmpty
-                          ? CarouselSlider.builder(
-                              options: CarouselOptions(
-                                onPageChanged: (index, reason) =>
-                                    setState(() => activeIndex = index),
-                                height: 320, // Altura do carrossel
-                              ),
-                              itemCount: listaFiltradaVidro.length,
-                              itemBuilder: (context, index, realIndex) {
-                                final ideia = listaFiltradaVidro[index];
-                                return buildIdeia(ideia, index);
-                              },
-                            )
-                          : Center(
-                              child: Center(
-                                child: Text(
-                                  "Sem posts por enquanto. Que tal postar uma ideia com esse material?",
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                            ),
+                      children: [
+                        isLoading
+                            ? Center(
+                                child: CircularProgressIndicator(),
+                              )
+                            : listaFiltradaVidro.isNotEmpty
+                                ? CarouselSlider.builder(
+                                    options: CarouselOptions(
+                                      onPageChanged: (index, reason) =>
+                                          setState(() => activeIndex = index),
+                                      height: 280, // Altura do carrossel
+                                      viewportFraction:
+                                          0.6, // Controla a largura do item visível
+                                      enableInfiniteScroll:
+                                          listaFiltradaVidro.length >= 3
+                                              ? true
+                                              : false, // Altura do carrossel
+                                    ),
+                                    itemCount: listaFiltradaVidro.length,
+                                    itemBuilder: (context, index, realIndex) {
+                                      final ideia = listaFiltradaVidro[index];
+                                      return Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 20),
+                                        child:
+                                            buildIdeiaCarrossel(ideia, index),
+                                      );
+                                    },
+                                  )
+                                : Center(
+                                    child: Center(
+                                      child: Text(
+                                        "Sem posts por enquanto. Que tal postar uma ideia com esse material?",
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                  ),
                         const SizedBox(height: 32),
                         ElevatedButton(
                             style: ElevatedButton.styleFrom(
@@ -387,7 +494,8 @@ class _IdeiasReutilizacaoState extends State<IdeiasReutilizacao> {
                                       "O que é vidro?",
                                       "De onde ele vem?",
                                       "Qual é o descarte correto?",
-                                      "Alternativas ecológicas",4),
+                                      "Alternativas ecológicas",
+                                      4),
                                 ),
                               );
                               setState(() {});
@@ -421,29 +529,43 @@ class _IdeiasReutilizacaoState extends State<IdeiasReutilizacao> {
                   ),
                   Container(
                     child: Column(
-                      children: [isLoading ?
-                        Center(child: CircularProgressIndicator(),):
-                        listaFiltradaPapel.isNotEmpty
-                          ? CarouselSlider.builder(
-                              options: CarouselOptions(
-                                onPageChanged: (index, reason) =>
-                                    setState(() => activeIndex = index),
-                                height: 320, // Altura do carrossel
-                              ),
-                              itemCount: listaFiltradaPapel.length,
-                              itemBuilder: (context, index, realIndex) {
-                                final ideia = listaFiltradaPapel[index];
-                                return buildIdeia(ideia, index);
-                              },
-                            )
-                          : Center(
-                              child: Center(
-                                child: Text(
-                                  "Sem posts por enquanto. Que tal postar uma ideia com esse material?",
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                            ),
+                      children: [
+                        isLoading
+                            ? Center(
+                                child: CircularProgressIndicator(),
+                              )
+                            : listaFiltradaPapel.isNotEmpty
+                                ? CarouselSlider.builder(
+                                    options: CarouselOptions(
+                                      onPageChanged: (index, reason) =>
+                                          setState(() => activeIndex = index),
+                                      height: 280, // Altura do carrossel
+                                      viewportFraction:
+                                          0.6, // Controla a largura do item visível
+                                      enableInfiniteScroll:
+                                          listaFiltradaPapel.length >= 3
+                                              ? true
+                                              : false, // Altura do carrossel
+                                    ),
+                                    itemCount: listaFiltradaPapel.length,
+                                    itemBuilder: (context, index, realIndex) {
+                                      final ideia = listaFiltradaPapel[index];
+                                      return Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 20),
+                                        child:
+                                            buildIdeiaCarrossel(ideia, index),
+                                      );
+                                    },
+                                  )
+                                : Center(
+                                    child: Center(
+                                      child: Text(
+                                        "Sem posts por enquanto. Que tal postar uma ideia com esse material?",
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                  ),
                         const SizedBox(height: 32),
                         ElevatedButton(
                             style: ElevatedButton.styleFrom(
@@ -468,7 +590,8 @@ class _IdeiasReutilizacaoState extends State<IdeiasReutilizacao> {
                                       "O que é o papel?",
                                       "De onde ele vem?",
                                       "Qual é o descarte correto?",
-                                      "Alternativas ecológicas",3),
+                                      "Alternativas ecológicas",
+                                      3),
                                 ),
                               );
                               setState(() {});
@@ -502,29 +625,42 @@ class _IdeiasReutilizacaoState extends State<IdeiasReutilizacao> {
                   ),
                   Container(
                       child: Column(
-                    children: [isLoading ?
-                        Center(child: CircularProgressIndicator(),):
-                      listaFiltradaOrganico.isNotEmpty
-                          ? CarouselSlider.builder(
-                              options: CarouselOptions(
-                                onPageChanged: (index, reason) =>
-                                    setState(() => activeIndex = index),
-                                height: 320, // Altura do carrossel
-                              ),
-                              itemCount: listaFiltradaOrganico.length,
-                              itemBuilder: (context, index, realIndex) {
-                                final ideia = listaFiltradaOrganico[index];
-                                return buildIdeia(ideia, index);
-                              },
+                    children: [
+                      isLoading
+                          ? Center(
+                              child: CircularProgressIndicator(),
                             )
-                          : Center(
-                              child: Center(
-                                child: Text(
-                                  "Sem posts por enquanto. Que tal postar uma ideia com esse material?",
-                                  textAlign: TextAlign.center,
+                          : listaFiltradaOrganico.isNotEmpty
+                              ? CarouselSlider.builder(
+                                  options: CarouselOptions(
+                                    onPageChanged: (index, reason) =>
+                                        setState(() => activeIndex = index),
+                                    height: 280, // Altura do carrossel
+                                    viewportFraction:
+                                        0.6, // Controla a largura do item visível
+                                    enableInfiniteScroll:
+                                        listaFiltradaOrganico.length >= 3
+                                            ? true
+                                            : false, // Altura do carrossel
+                                  ),
+                                  itemCount: listaFiltradaOrganico.length,
+                                  itemBuilder: (context, index, realIndex) {
+                                    final ideia = listaFiltradaOrganico[index];
+                                    return Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 20),
+                                      child: buildIdeiaCarrossel(ideia, index),
+                                    );
+                                  },
+                                )
+                              : Center(
+                                  child: Center(
+                                    child: Text(
+                                      "Sem posts por enquanto. Que tal postar uma ideia com esse material?",
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
                       const SizedBox(height: 32),
                       ElevatedButton(
                           style: ElevatedButton.styleFrom(
@@ -548,7 +684,8 @@ class _IdeiasReutilizacaoState extends State<IdeiasReutilizacao> {
                                     "O que é resíduo orgânico?",
                                     "O que é a compostagem?",
                                     "Passo a passo da compostagem",
-                                    "Tipos de compostagem",6),
+                                    "Tipos de compostagem",
+                                    6),
                               ),
                             );
                             setState(() {});
@@ -583,29 +720,43 @@ class _IdeiasReutilizacaoState extends State<IdeiasReutilizacao> {
                   ),
                   Container(
                     child: Column(
-                      children: [isLoading ?
-                        Center(child: CircularProgressIndicator(),):
-                        listaFiltradaMadeira.isNotEmpty
-                          ? CarouselSlider.builder(
-                              options: CarouselOptions(
-                                onPageChanged: (index, reason) =>
-                                    setState(() => activeIndex = index),
-                                height: 320, // Altura do carrossel
-                              ),
-                              itemCount: listaFiltradaMadeira.length,
-                              itemBuilder: (context, index, realIndex) {
-                                final ideia = listaFiltradaMadeira[index];
-                                return buildIdeia(ideia, index);
-                              },
-                            )
-                          : Center(
-                              child: Center(
-                                child: Text(
-                                  "Sem posts por enquanto. Que tal postar uma ideia com esse material?",
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                            ),
+                      children: [
+                        isLoading
+                            ? Center(
+                                child: CircularProgressIndicator(),
+                              )
+                            : listaFiltradaMadeira.isNotEmpty
+                                ? CarouselSlider.builder(
+                                    options: CarouselOptions(
+                                      onPageChanged: (index, reason) =>
+                                          setState(() => activeIndex = index),
+                                      height: 280, // Altura do carrossel
+                                      viewportFraction:
+                                          0.6, // Controla a largura do item visível
+                                      enableInfiniteScroll:
+                                          listaFiltradaMadeira.length >= 3
+                                              ? true
+                                              : false, // Altura do carrossel
+                                    ),
+                                    itemCount: listaFiltradaMadeira.length,
+                                    itemBuilder: (context, index, realIndex) {
+                                      final ideia = listaFiltradaMadeira[index];
+                                      return Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 20),
+                                        child:
+                                            buildIdeiaCarrossel(ideia, index),
+                                      );
+                                    },
+                                  )
+                                : Center(
+                                    child: Center(
+                                      child: Text(
+                                        "Sem posts por enquanto. Que tal postar uma ideia com esse material?",
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                  ),
                         const SizedBox(height: 32),
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
@@ -629,7 +780,8 @@ class _IdeiasReutilizacaoState extends State<IdeiasReutilizacao> {
                                     "O que é a madeira",
                                     "De onde vem a madeira?",
                                     "Qual é o descarte correto?",
-                                    "Alternativas ecológicas",5),
+                                    "Alternativas ecológicas",
+                                    5),
                               ),
                             );
                             setState(() {});
@@ -656,204 +808,101 @@ class _IdeiasReutilizacaoState extends State<IdeiasReutilizacao> {
   }
 
   //---- CARROSSEL ----
-  Widget buildIdeia(Ideia ideia, int index) => GestureDetector(
+  Widget buildIdeiaCarrossel(Ideia ideia, int index) => GestureDetector(
         onTap: () => Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => PageIdeia.ideia(ideia),
           ),
         ),
-        child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-          width: 390, // Espaçamento fora do card
-          decoration: BoxDecoration(
-            color: Colors.white, // Cor de fundo do card
-            borderRadius: BorderRadius.circular(15.0),
-            border: Border.all(color: Colors.grey[700]!),
-          ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(15.0),
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 10,
-                ),
-                ideia.img1 != null ?
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(
-                      15.0), // Define o border radius na imagem
-                  child: Image.memory(
-                    ideia.img1!,
-                    fit: BoxFit.cover,
-                    height: 170,
-                  ),
-                ) : ClipRRect(
-                  borderRadius: BorderRadius.circular(
-                      15.0), // Define o border radius na imagem
-                  child: Image.asset(
-                    "assets/imgs/ideia1.jpg",
-                    fit: BoxFit.cover,
-                    height: 170,
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+        child: Stack(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white, // Cor de fundo do card
+                borderRadius: BorderRadius.circular(15.0),
+                border: Border.all(color: Colors.grey[700]!),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(15.0),
+                child: Column(
                   children: [
-                    Spacer(),
-                    Text(
-                      '${ideia.nomeUsuario}',
-                      style: TextStyle(fontStyle: FontStyle.italic),
+                    ideia.img1 != null
+                        ? Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(
+                                  15.0), // Define o border radius na imagem
+                              child: Image.memory(
+                                ideia.img1!,
+                                fit: BoxFit.cover,
+                                height: 170,
+                                width: 220,
+                              ),
+                            ),
+                          )
+                        : Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(
+                                  15.0), // Define o border radius na imagem
+                              child: Image.asset(
+                                "assets/imgs/ideia1.jpg",
+                                fit: BoxFit.cover,
+                                height: 170,
+                                width: 220,
+                              ),
+                            ),
+                          ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        SizedBox(),
+                        Text('${ideia.nomeUsuario}',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            )),
+                        Container(
+                          child: Icon(
+                            Icons.circle,
+                            color: definirCor(ideia.dificuldade),
+                            size: 20,
+                          ),
+                        ),
+                      ],
                     ),
-                    Spacer(),
-                    Container(
-                      child: Icon(
-                        Icons.circle,
-                        color: definirCor(ideia.dificuldade),
-                        size: 20,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 5),
+                      child: Text(
+                        ideia.nomePostagem,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 18),
                       ),
                     ),
-                    SizedBox(
-                      width: 15,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          ideia.numeroCurtidas.toString(),
+                          style: TextStyle(fontSize: 15),
+                        ),
+                        Icon(
+                          Icons.favorite,
+                          color: Colors.redAccent,
+                        )
+                      ],
                     )
                   ],
                 ),
-                Text(
-                  ideia.nomePostagem,
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                  textAlign: TextAlign.center,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      ideia.numeroCurtidas.toString(),
-                      style: TextStyle(fontSize: 15),
-                    ),
-                    Icon(
-                      Icons.favorite,
-                      color: Colors.redAccent,
-                    )
-                  ],
-                )
-              ],
+              ),
             ),
-          ),
+          ],
         ),
       );
 //----- FIM CARROSSEL ----
-
-  Widget gerarCard(Ideia ideia) {
-    return MouseRegion(
-        child: GestureDetector(
-      child: Container(
-        padding: EdgeInsets.all(5),
-        width: 500, // Espaçamento fora do card
-        decoration: BoxDecoration(
-          color: Colors.white, // Cor de fundo do card
-          borderRadius: BorderRadius.circular(15.0),
-          border: Border.all(color: Colors.grey[700]!),
-        ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(15.0),
-          child: Column(
-            children: [
-              SizedBox(
-                height: 10,
-              ),
-              ideia.img1 != null ?
-              ClipRRect(
-                borderRadius: BorderRadius.circular(
-                    15.0), // Define o border radius na imagem
-                child: Image.memory(
-                  ideia.img1!,
-                  fit: BoxFit.cover,
-                  height: 170,
-                  width: 220,
-                ),
-              ) : ClipRRect(
-                borderRadius: BorderRadius.circular(
-                    15.0), // Define o border radius na imagem
-                child: Image.asset(
-                  "assets/imgs/ideia1.jpg",
-                  fit: BoxFit.cover,
-                  height: 170,
-                  width: 220,
-                ),
-              ),
-              SizedBox(
-                height: 5,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Spacer(),
-                  Text(
-                    '${ideia.nomeUsuario}',
-                    style: TextStyle(fontStyle: FontStyle.italic),
-                  ),
-                  Spacer(),
-                  Container(
-                    child: Icon(
-                      Icons.circle,
-                      color: definirCor(ideia.dificuldade),
-                      size: 20,
-                    ),
-                  ),
-                  SizedBox(
-                    width: 15,
-                  )
-                ],
-              ),
-              Expanded(
-                child: Text(
-                  ideia.nomePostagem,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    ideia.numeroCurtidas.toString(),
-                    style: TextStyle(fontSize: 15),
-                  ),
-                  Icon(
-                    Icons.favorite,
-                    color: Colors.redAccent,
-                  )
-                ],
-              )
-
-              // Adicione mais informações da ideia aqui
-            ],
-          ),
-        ),
-      ),
-      onTap: () {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => PageIdeia.ideia(ideia)));
-      },
-    ));
-  }
-
-  List<Widget> gerarEstrelaColorida(int n) {
-    List<Widget> avaliacao = [];
-    for (int i = 0; i < n; i++) {
-      avaliacao.add(Icon(Icons.star, color: Colors.orange));
-    }
-    return avaliacao;
-  }
-
-  List<Widget> gerarEstrelaNColorida(int n) {
-    List<Widget> avaliacao = [];
-    for (int i = 0; i < n; i++) {
-      avaliacao.add(Icon(Icons.star_border, color: Colors.orange));
-    }
-    return avaliacao;
-  }
 
   Color definirCor(String dificuldade) {
     if (dificuldade == "facil") {

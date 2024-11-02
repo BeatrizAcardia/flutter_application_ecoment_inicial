@@ -38,6 +38,20 @@ class PostPostagem{
     }
   }
 
+  Future<void> excluirIdeia(int idPostagem, int idUsuarioWeb) async{
+    try{
+      var url = Uri.parse("http://${dados.ipMaquina}:${dados.porta}/Ecomoment/postagem/deletePostagem/${idPostagem}/${idUsuarioWeb}");
+    http.Response response = await http.post(url);
+    if(response.statusCode == 200){
+      print("Ideia excluida com sucesso!");
+    }else{
+      print("Erro ao excluir ideia");
+    }
+    }catch(e){
+      print("Erro na requisição excluirIdeia: $e");
+    }
+  }
+
   Future<void> publicar(String nomeIdeia, String nomeUsuario, int tipoMaterial, String descricao, String materiaisNecessarios, String passoPasso, String dificuldade, List<XFile> imageFiles) async{
 
   // Converta cada XFile em Base64

@@ -900,7 +900,6 @@ class _PontosColetaState extends State<PontosColeta> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      drawer: WidgetDrawer(),
       body: SingleChildScrollView(
         child: Center(
           child: Column(

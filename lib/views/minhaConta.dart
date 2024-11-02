@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_ecoment_inicial/Data/IdeiaSalva/GetIdeiaSalva.dart';
 import 'package:flutter_application_ecoment_inicial/Data/Postagem/GetPostagem.dart';
+import 'package:flutter_application_ecoment_inicial/Data/Postagem/PostPostagem.dart';
 import 'package:flutter_application_ecoment_inicial/Data/Postagem/Postagem.dart';
 import 'package:flutter_application_ecoment_inicial/Data/Seguidor/GetSeguidor.dart';
 import 'package:flutter_application_ecoment_inicial/Data/Usuario/GetUsuario.dart';
@@ -50,6 +51,10 @@ class _MinhaContaState extends State<MinhaConta> {
   final ideiaVerde = SizedBox(
       width: 40,
       height: 40,
+      child: Image.asset('assets/imgs/ideiaIconVerde.png'));
+
+      final ideiaVerde2 = SizedBox(
+      width: 40,
       child: Image.asset('assets/imgs/ideiaIconVerde.png'));
 
   TextStyle ideaTitle = TextStyle(
@@ -143,36 +148,54 @@ class _MinhaContaState extends State<MinhaConta> {
           content: Container(
             width: double.maxFinite, // para garantir que o conteúdo se ajuste
             child: ListView.separated(
-              separatorBuilder: (context, index) => Divider(color: Colors.black,),
+              separatorBuilder: (context, index) => Divider(
+                color: Colors.black,
+              ),
               shrinkWrap: true, // para ajustar a lista no diálogo
               itemCount: countSeguindo,
               itemBuilder: (BuildContext context, int index) {
-                return 
-                listaUsuariosSeguindo.isNotEmpty ?
-                Container(
-                  padding: EdgeInsets.all(10),
-                  child: Column(
-                    children: [
-                      GestureDetector(
-                        onTap: () async{
-                          _navigatorToAntoherAccount(listaUsuariosSeguindo[index]);
-                        },
-                        child: Row(
+                return listaUsuariosSeguindo.isNotEmpty
+                    ? Container(
+                        padding: EdgeInsets.all(10),
+                        child: Column(
                           children: [
-                            listaUsuariosSeguindo[index].fotoPerfil != null ?
-                            ClipRRect(
-                              child: Image.memory(listaUsuariosSeguindo[index].fotoPerfil!, height: 40, width: 40,),
-                              borderRadius: BorderRadius.all(Radius.circular(50)),
+                            GestureDetector(
+                              onTap: () async {
+                                _navigatorToAntoherAccount(
+                                    listaUsuariosSeguindo[index]);
+                              },
+                              child: Row(
+                                children: [
+                                  listaUsuariosSeguindo[index].fotoPerfil !=
+                                          null
+                                      ? ClipRRect(
+                                          child: Image.memory(
+                                            listaUsuariosSeguindo[index]
+                                                .fotoPerfil!,
+                                            height: 40,
+                                            width: 40,
+                                          ),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(50)),
+                                        )
+                                      : Image.asset(
+                                          "assets/imgs/do-utilizador.png",
+                                          height: 40,
+                                          width: 40,
+                                          color: Colors.black),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(listaUsuariosSeguindo[index].username)
+                                ],
+                              ),
                             )
-                            : Image.asset("assets/imgs/do-utilizador.png", height: 40, width: 40, color: Colors.black),
-                            SizedBox(width: 10,),
-                            Text(listaUsuariosSeguindo[index].username)
                           ],
                         ),
                       )
-                    ],
-                  ),
-                ) : Center(child: Text("Nenhum usuario seguindo no momento"),);
+                    : Center(
+                        child: Text("Nenhum usuario seguindo no momento"),
+                      );
               },
             ),
           ),
@@ -181,7 +204,7 @@ class _MinhaContaState extends State<MinhaConta> {
     );
   }
 
-    void _mostrarListaUsuarioSeguidores(BuildContext context) {
+  void _mostrarListaUsuarioSeguidores(BuildContext context) {
     final user = Provider.of<UsuarioProvider>(context, listen: false);
     showDialog(
       context: context,
@@ -191,36 +214,55 @@ class _MinhaContaState extends State<MinhaConta> {
           content: Container(
             width: double.maxFinite, // para garantir que o conteúdo se ajuste
             child: ListView.separated(
-              separatorBuilder: (context, index) => Divider(color: Colors.black,),
+              separatorBuilder: (context, index) => Divider(
+                color: Colors.black,
+              ),
               shrinkWrap: true, // para ajustar a lista no diálogo
               itemCount: countSeguidor,
               itemBuilder: (BuildContext context, int index) {
-                return 
-                listaUsuariosSeguidores.isNotEmpty ?
-                Container(
-                  padding: EdgeInsets.all(10),
-                  child: Column(
-                    children: [
-                      GestureDetector(
-                        onTap: () async {
-                          _navigatorToAntoherAccount(listaUsuariosSeguidores[index]);
-                        },
-                        child: Row(
+                return listaUsuariosSeguidores.isNotEmpty
+                    ? Container(
+                        padding: EdgeInsets.all(10),
+                        child: Column(
                           children: [
-                            listaUsuariosSeguidores[index].fotoPerfil != null ?
-                            ClipRRect(
-                              child: Image.memory(listaUsuariosSeguidores[index].fotoPerfil!, height: 40, width: 40,),
-                              borderRadius: BorderRadius.all(Radius.circular(50)),
+                            GestureDetector(
+                              onTap: () async {
+                                _navigatorToAntoherAccount(
+                                    listaUsuariosSeguidores[index]);
+                              },
+                              child: Row(
+                                children: [
+                                  listaUsuariosSeguidores[index].fotoPerfil !=
+                                          null
+                                      ? ClipRRect(
+                                          child: Image.memory(
+                                            listaUsuariosSeguidores[index]
+                                                .fotoPerfil!,
+                                            height: 40,
+                                            width: 40,
+                                          ),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(50)),
+                                        )
+                                      : Image.asset(
+                                          "assets/imgs/do-utilizador.png",
+                                          height: 40,
+                                          width: 40,
+                                          color: Colors.black),
+                                  SizedBox(
+                                    width: 20,
+                                  ),
+                                  Text(listaUsuariosSeguidores[index].username)
+                                ],
+                              ),
                             )
-                            : Image.asset("assets/imgs/do-utilizador.png", height: 40, width: 40, color: Colors.black),
-                            SizedBox(width: 20,),
-                            Text(listaUsuariosSeguidores[index].username)
                           ],
                         ),
                       )
-                    ],
-                  ),
-                ) : Center(child: Text("Nenhum usuario esta te seguindo no momento"),);
+                    : Center(
+                        child:
+                            Text("Nenhum usuario esta te seguindo no momento"),
+                      );
               },
             ),
           ),
@@ -229,11 +271,15 @@ class _MinhaContaState extends State<MinhaConta> {
     );
   }
 
-  Future<void> _navigatorToAntoherAccount(Pessoa pessoa) async{
-    Navigator.push(context, MaterialPageRoute(builder: (context) => ContaUsuario.pessoa(pessoa),));
+  Future<void> _navigatorToAntoherAccount(Pessoa pessoa) async {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ContaUsuario.pessoa(pessoa),
+        ));
   }
 
-Pessoa meuUser = Pessoa.n();
+  Pessoa meuUser = Pessoa.n();
 
   // Função assíncrona para carregar as ideias
   Future<void> carregarIdeias() async {
@@ -254,8 +300,8 @@ Pessoa meuUser = Pessoa.n();
       return;
     }
     try {
-      listaIdeias2 =
-          await getPostagem.getPostagem.findIdeiaByNomeUsuarioOrderByNCurtidas(user.username);
+      listaIdeias2 = await getPostagem.getPostagem
+          .findIdeiaByNomeUsuarioOrderByNCurtidas(user.username);
       listaIdeiasFav = await getIdeiaSalva
           .listaIdeiasSalvasByIdUsuarioWeb(user.idUsuarioWeb);
       countListaFav = listaIdeiasFav.length;
@@ -283,7 +329,7 @@ Pessoa meuUser = Pessoa.n();
     }
 
     Funcionalidades funcionalidades = Funcionalidades();
-final user = Provider.of<UsuarioProvider>(context, listen: false);
+    final user = Provider.of<UsuarioProvider>(context, listen: false);
     return Scaffold(
         key: _scaffoldKey,
         appBar: AppBar(
@@ -315,7 +361,7 @@ final user = Provider.of<UsuarioProvider>(context, listen: false);
           children: [
             SingleChildScrollView(
               child: Container(
-                padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                padding: EdgeInsets.fromLTRB(0, 0, 0, 80),
                 child: Center(
                   child: Column(children: [
                     DecoratedBox(
@@ -330,21 +376,24 @@ final user = Provider.of<UsuarioProvider>(context, listen: false);
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              meuUser.fotoPerfil == null ?
-                              SizedBox(
-                                width: 90,
-                                height: 90,
-                                child: Image.asset(
-                                    "assets/imgs/do-utilizador.png"),
-                              ) :
-                              SizedBox(
-                                width: 90,
-                                height: 90,
-                                child: ClipRRect(
-                                  child: Image.memory(meuUser.fotoPerfil!, fit: BoxFit.cover,),
-                                  borderRadius: BorderRadius.all(Radius.circular(50)),
-                                )
-                              ),
+                              meuUser.fotoPerfil == null
+                                  ? SizedBox(
+                                      width: 90,
+                                      height: 90,
+                                      child: Image.asset(
+                                          "assets/imgs/do-utilizador.png"),
+                                    )
+                                  : SizedBox(
+                                      width: 90,
+                                      height: 90,
+                                      child: ClipRRect(
+                                        child: Image.memory(
+                                          meuUser.fotoPerfil!,
+                                          fit: BoxFit.cover,
+                                        ),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(50)),
+                                      )),
                               SizedBox(
                                 width: 20,
                               ),
@@ -370,7 +419,9 @@ final user = Provider.of<UsuarioProvider>(context, listen: false);
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       GestureDetector(
-                                        onTap: () => _mostrarListaUsuarioSeguidores(context),
+                                        onTap: () =>
+                                            _mostrarListaUsuarioSeguidores(
+                                                context),
                                         child: RichText(
                                           text: TextSpan(children: [
                                             TextSpan(
@@ -382,8 +433,8 @@ final user = Provider.of<UsuarioProvider>(context, listen: false);
                                                   fontSize: 15),
                                             ),
                                             TextSpan(
-                                              text:
-                                                  meuUser.qtdeSeguidores.toString(),
+                                              text: meuUser.qtdeSeguidores
+                                                  .toString(),
                                               style: TextStyle(
                                                   color: Colors.white,
                                                   fontFamily: 'Poppins',
@@ -410,8 +461,8 @@ final user = Provider.of<UsuarioProvider>(context, listen: false);
                                                   fontSize: 15),
                                             ),
                                             TextSpan(
-                                              text:
-                                                  meuUser.qtdeSeguindo.toString(),
+                                              text: meuUser.qtdeSeguindo
+                                                  .toString(),
                                               style: TextStyle(
                                                   color: Colors.white,
                                                   fontFamily: 'Poppins',
@@ -483,18 +534,25 @@ final user = Provider.of<UsuarioProvider>(context, listen: false);
                                 options: CarouselOptions(
                                   onPageChanged: (index, reason) =>
                                       setState(() => activeIndex = index),
-                                  height: 320, // Altura do carrossel
+                                  height: 280, // Altura do carrossel
+                                  viewportFraction:
+                                      0.6, // Controla a largura do item visível
+                                  enableInfiniteScroll: true,
                                 ),
                                 itemCount: countListaFav,
                                 itemBuilder: (context, index, realIndex) {
                                   final ideia = listaIdeiasFav[index];
-                                  return buildIdeia(ideia, index);
+                                  return Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 20),
+                                    child: buildIdeiaCarrosselComFolinha(ideia, index),
+                                  );
                                 },
                               )
                             : Center(
                                 child: Text("Nenhuma ideia encontrada"),
                               ),
-                              SizedBox(height: 60),
+                    SizedBox(height: 60),
                     Text(
                       "Minhas ideias",
                       style: TextStyle(
@@ -507,31 +565,35 @@ final user = Provider.of<UsuarioProvider>(context, listen: false);
                             child: CircularProgressIndicator(),
                           )
                         : listaIdeias2.isNotEmpty
-                            ? GridView.builder(
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: definirNumeroColunas(
-                              context), // Define dinamicamente o número de colunas
-                          crossAxisSpacing: 10, // Espaçamento entre as colunas
-                          mainAxisSpacing: 10, // Espaçamento entre as linhas
-                          childAspectRatio: definirProporcao(
-                              context), // Ajusta a proporção dinamicamente
-                        ),
-                        itemCount: listaIdeias2.length,
-                        itemBuilder: (context, index) {
-                          final ideia = listaIdeias2[index];
-                          return buildIdeia2(ideia, index);
-                        },
-                        padding:
-                            EdgeInsets.all(10), // Padding ao redor do GridView
-                        shrinkWrap:
-                            true, // Permite que o GridView se ajuste ao conteúdo
-                        physics:
-                            BouncingScrollPhysics(), // Comportamento de rolagem
-                      )
+                            ? Container(
+                                padding: EdgeInsets.symmetric(horizontal: 10),
+                                child: GridView.builder(
+                                  gridDelegate:
+                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: definirNumeroColunas(
+                                        context), // Define dinamicamente o número de colunas
+                                    crossAxisSpacing:
+                                        10, // Espaçamento entre as colunas
+                                    mainAxisSpacing:
+                                        10, // Espaçamento entre as linhas
+                                    childAspectRatio: definirProporcao(
+                                        context), // Ajusta a proporção dinamicamente
+                                  ),
+                                  itemCount: listaIdeias2.length,
+                                  itemBuilder: (context, index) {
+                                    final ideia = listaIdeias2[index];
+                                    return buildIdeiaGridView(ideia, index);
+                                  },
+
+                                  shrinkWrap:
+                                      true, // Permite que o GridView se ajuste ao conteúdo
+                                  physics:
+                                      BouncingScrollPhysics(), // Comportamento de rolagem
+                                ),
+                              )
                             : Center(
                                 child: Text("Nenhuma ideia encontrada"),
                               ),
-                    
                   ]),
                 ),
               ),
@@ -541,7 +603,9 @@ final user = Provider.of<UsuarioProvider>(context, listen: false);
         ));
   }
 
-    int definirNumeroColunas(BuildContext context) {
+
+
+  int definirNumeroColunas(BuildContext context) {
     double larguraTela = MediaQuery.of(context).size.width;
     if (larguraTela >= 1200) {
       return 4; // Tela muito grande (desktop, etc)
@@ -565,94 +629,197 @@ final user = Provider.of<UsuarioProvider>(context, listen: false);
   }
 
   //---- CARROSSEL ----
-  Widget buildIdeia(Ideia ideia, int index) => GestureDetector(
+  Widget buildIdeiaCarrossel(Ideia ideia, int index) => GestureDetector(
         onTap: () => Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => PageIdeia.ideia(ideia),
           ),
         ),
-        child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 16, vertical: 15),
-          width: 400, // Espaçamento fora do card
-          decoration: BoxDecoration(
-            color: Colors.white, // Cor de fundo do card
-            borderRadius: BorderRadius.circular(15.0),
-            border: Border.all(color: Colors.grey[700]!),
-          ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(15.0),
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 10,
-                ),
-                ideia.img1 != null ?
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(
-                      15.0), // Define o border radius na imagem
-                  child: Image.memory(
-                    ideia.img1!,
-                    fit: BoxFit.cover,
-                    height: 170,
-                    width: 220,
-                  ),
-                ): ClipRRect(
-                  borderRadius: BorderRadius.circular(
-                      15.0), // Define o border radius na imagem
-                  child: Image.asset(
-                    "assets/imgs/ideia1.jpg",
-                    fit: BoxFit.cover,
-                    height: 170,
-                    width: 220,
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+        child: Stack(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white, // Cor de fundo do card
+                borderRadius: BorderRadius.circular(15.0),
+                border: Border.all(color: Colors.grey[700]!),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(15.0),
+                child: Column(
                   children: [
-                    Spacer(),
-                    Text(
-                      '${ideia.nomeUsuario}',
-                      style: TextStyle(fontStyle: FontStyle.italic),
+                    ideia.img1 != null
+                        ? Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: ClipRRect(
+                              borderRadius: BorderRadius.circular(
+                                  15.0), // Define o border radius na imagem
+                              child: Image.memory(
+                                ideia.img1!,
+                                fit: BoxFit.cover,
+                                height: 170,
+                                width: 220,
+                              ),
+                            ),
+                        )
+                        : Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: ClipRRect(
+                              borderRadius: BorderRadius.circular(
+                                  15.0), // Define o border radius na imagem
+                              child: Image.asset(
+                                "assets/imgs/ideia1.jpg",
+                                fit: BoxFit.cover,
+                                height: 170,
+                                width: 220,
+                              ),
+                            ),
+                        ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        SizedBox(),
+                        Text(
+                          '${ideia.nomeUsuario}',
+                          style: TextStyle(fontWeight: FontWeight.bold,)
+                        ),
+                        Container(
+                          child: Icon(
+                            Icons.circle,
+                            color: definirCor(ideia.dificuldade),
+                            size: 20,
+                          ),
+                        ),
+                      ],
                     ),
-                    Spacer(),
-                    Container(
-                      child: Icon(
-                        Icons.circle,
-                        color: definirCor(ideia.dificuldade),
-                        size: 20,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 5),
+                      child: Text(
+                        ideia.nomePostagem,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                       ),
                     ),
-                    SizedBox(
-                      width: 15,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          ideia.numeroCurtidas.toString(),
+                          style: TextStyle(fontSize: 15),
+                        ),
+                        Icon(
+                          Icons.favorite,
+                          color: Colors.redAccent,
+                        )
+                      ],
                     )
                   ],
                 ),
-                Text(
-                  ideia.nomePostagem,
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      ideia.numeroCurtidas.toString(),
-                      style: TextStyle(fontSize: 15),
-                    ),
-                    Icon(
-                      Icons.favorite,
-                      color: Colors.redAccent,
-                    )
-                  ],
-                )
-              ],
+              ),
             ),
-          ),
+          ],
         ),
       );
 //----- FIM CARROSSEL ----
 
-  Widget buildIdeia2(Ideia ideia, int index) => GestureDetector(
+        Widget buildIdeiaCarrosselComFolinha(Ideia ideia, int index) => GestureDetector(
+        onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => PageIdeia.ideia(ideia),
+          ),
+        ),
+        child: Stack(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white, // Cor de fundo do card
+                borderRadius: BorderRadius.circular(15.0),
+                border: Border.all(color: Colors.grey[700]!),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(15.0),
+                child: Column(
+                  children: [
+                    ideia.img1 != null
+                        ? Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: ClipRRect(
+                              borderRadius: BorderRadius.circular(
+                                  15.0), // Define o border radius na imagem
+                              child: Image.memory(
+                                ideia.img1!,
+                                fit: BoxFit.cover,
+                                height: 170,
+                                width: 220,
+                              ),
+                            ),
+                        )
+                        : Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: ClipRRect(
+                              borderRadius: BorderRadius.circular(
+                                  15.0), // Define o border radius na imagem
+                              child: Image.asset(
+                                "assets/imgs/ideia1.jpg",
+                                fit: BoxFit.cover,
+                                height: 170,
+                                width: 220,
+                              ),
+                            ),
+                        ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        SizedBox(),
+                        Text(
+                          '${ideia.nomeUsuario}',
+                          style: TextStyle(fontWeight: FontWeight.bold,)
+                        ),
+                        Container(
+                          child: Icon(
+                            Icons.circle,
+                            color: definirCor(ideia.dificuldade),
+                            size: 20,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 5),
+                      child: Text(
+                        ideia.nomePostagem,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          ideia.numeroCurtidas.toString(),
+                          style: TextStyle(fontSize: 15),
+                        ),
+                        Icon(
+                          Icons.favorite,
+                          color: Colors.redAccent,
+                        )
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            ),
+            Positioned(child: ideiaVerde, top: -5, right: 10,)
+          ],
+        ),
+      );
+
+  Widget buildIdeiaGridView(Ideia ideia, int index) => GestureDetector(
         onTap: () => Navigator.push(
           context,
           MaterialPageRoute(
@@ -668,66 +835,88 @@ final user = Provider.of<UsuarioProvider>(context, listen: false);
           child: Stack(
             children: [
               // Imagem da ideia
-              ideia.img1 != null ?
-              ClipRRect(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(15.0),
-                  topRight: Radius.circular(15.0),
-                ),
-                child: Image.memory(
-                  ideia.img1!,
-                  fit: BoxFit.cover,
-                  width:
-                      MediaQuery.of(context).size.width, // Ocupa toda a largura
-                  height: 250, // Ajuste de altura conforme necessário
-                ),
-              ): ClipRRect(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(15.0),
-                  topRight: Radius.circular(15.0),
-                ),
-                child: Image.asset(
-                  "assets/imgs/ideia1.jpg",
-                  fit: BoxFit.cover,
-                  width:
-                      MediaQuery.of(context).size.width, // Ocupa toda a largura
-                  height: 250, // Ajuste de altura conforme necessário
-                ),
-              ),
+              ideia.img1 != null
+                  ? ClipRRect(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(13.0),
+                        topRight: Radius.circular(13.0),
+                        bottomLeft: Radius.circular(15.0),
+                        bottomRight: Radius.circular(15.0),
+                      ),
+                      child: Image.memory(
+                        ideia.img1!,
+                        fit: BoxFit.cover,
+                        width: MediaQuery.of(context)
+                            .size
+                            .width, // Ocupa toda a largura
+                        height: 250, // Ajuste de altura conforme necessário
+                      ),
+                    )
+                  : ClipRRect(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(13.0),
+                        topRight: Radius.circular(13.0),
+                        bottomLeft: Radius.circular(15.0),
+                        bottomRight: Radius.circular(15.0),
+                      ),
+                      child: Image.asset(
+                        "assets/imgs/ideia1.jpg",
+                        fit: BoxFit.cover,
+                        width: MediaQuery.of(context)
+                            .size
+                            .width, // Ocupa toda a largura
+                        height: 250, // Ajuste de altura conforme necessário
+                      ),
+                    ),
               // Informações acima da imagem
               Positioned(
                 bottom: 0, // Posição no topo
                 left: 0,
                 right: 0,
                 child: Container(
-                  padding: EdgeInsets.all(10),
+                  padding: EdgeInsets.symmetric(horizontal: 5),
                   decoration: BoxDecoration(
                     color: Colors.white, // Fundo branco
                     borderRadius: BorderRadius.vertical(
                       top: Radius.circular(15.0),
+                      bottom: Radius.circular(15.0),
                     ),
                   ),
                   child: Column(
                     children: [
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Spacer(),
-                          Text(
-                            '${ideia.nomeUsuario}',
-                            style: TextStyle(
-                              fontStyle: FontStyle.italic,
-                            ),
-                          ),
-                          Spacer(),
                           Icon(
                             Icons.circle,
                             color: definirCor(ideia.dificuldade),
                             size: 20,
                           ),
-                          SizedBox(
-                            width: 15,
-                          )
+                          Text(
+                            '${ideia.nomeUsuario}',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          PopupMenuButton<String>(
+                            icon: Icon(Icons.more_horiz),
+                            onSelected: (value) async {
+                              value == "excluir"
+                                  ? await PostPostagem().excluirIdeia(
+                                      ideia.idPostagem,
+                                      widget.pessoa.idUsuarioWeb)
+                                  : null;
+                            },
+                            itemBuilder: (context) => <PopupMenuEntry<String>>[
+                              PopupMenuItem(
+                                child: Text(
+                                  "Excluir",
+                                  style: TextStyle(color: Colors.red),
+                                ),
+                                value: "excluir",
+                              ),
+                            ],
+                          ),
                         ],
                       ),
                       SizedBox(height: 10),
@@ -738,7 +927,7 @@ final user = Provider.of<UsuarioProvider>(context, listen: false);
                           fontWeight: FontWeight.bold,
                           fontSize: 18,
                         ),
-                        maxLines: 2, // Limita a no máximo 2 linhas
+                        maxLines: 1, // Limita a no máximo 2 linhas
                         overflow: TextOverflow
                             .ellipsis, // Adiciona "..." se o texto exceder 2 linhas
                       ),
@@ -764,76 +953,6 @@ final user = Provider.of<UsuarioProvider>(context, listen: false);
           ),
         ),
       );
-
-//----- CARD ----
-
-
-  Widget gerarCard(
-      Ideia ideia,
-      String titulo,
-      String imgUrl,
-      String dificuldade,
-      double avaliacao,
-      String desc,
-      String passoPasso,
-      String autor,
-      String listaMat) {
-    return MouseRegion(
-      child: GestureDetector(
-        child: Container(
-          padding: EdgeInsets.all(5),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: const Color.fromARGB(255, 217, 217, 217)),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              SizedBox(
-                width: 200,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: Image.asset(
-                    "$imgUrl",
-                    height: 130,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-              Text(
-                titulo,
-                style: ideaTitle,
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(
-                height: 5,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      ...gerarEstrelaColorida(avaliacao),
-                      ...gerarEstrelaNColorida(5 - avaliacao)
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Icon(Icons.circle, color: definirCor(dificuldade)),
-                    ],
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-        onTap: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => PageIdeia.ideia(ideia)));
-        },
-      ),
-    );
-  }
 
   List<Widget> gerarEstrelaColorida(double n) {
     List<Widget> avaliacao = [];
