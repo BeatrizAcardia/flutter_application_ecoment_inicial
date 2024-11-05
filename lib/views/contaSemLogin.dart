@@ -48,11 +48,11 @@ class _SemLoginContaState extends State<SemLoginConta> {
         children: [
           SingleChildScrollView(
             child: Container(
-              padding: EdgeInsets.fromLTRB(0, 0, 0, 50),
+              padding: EdgeInsets.fromLTRB(0, 0, 0, 60),
               child: Column(
                 children: [
                   Container(
-                    height: MediaQuery.of(context).size.height * 0.20,
+                    height: MediaQuery.of(context).size.height * 0.23,
                     decoration: BoxDecoration(
                       color: Color.fromARGB(255, 59, 113, 39),
                       border: Border.all(color: Colors.transparent, width: 0), // Evita bordas brancas

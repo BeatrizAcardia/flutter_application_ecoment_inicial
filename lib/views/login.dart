@@ -30,13 +30,13 @@ class _LoginState extends State<Login> {
       body: SingleChildScrollView(
         child: Stack(
           children: [
-            Container(
-              height: 900,
-              width: 1000,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage("assets/imgs/Teladelogin.png"),
-                  fit: BoxFit.cover,
+            Positioned.fill(
+              child: Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage("assets/imgs/Teladelogin.png"),
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
             ),

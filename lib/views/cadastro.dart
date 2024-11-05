@@ -50,13 +50,13 @@ class _CadastroState extends State<Cadastro> {
       body: SingleChildScrollView(
         child: Stack(
           children: [
-            Container(
-              height: 900,
-              width: 1000,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage("assets/imgs/TeladeCadastro.png"),
-                  fit: BoxFit.cover,
+            Positioned.fill(
+              child: Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage("assets/imgs/Teladecadastro.png"),
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
             ),
