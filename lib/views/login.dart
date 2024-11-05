@@ -72,7 +72,7 @@ class _LoginState extends State<Login> {
                           SizedBox(
                             width: 400,
                             child: Text(
-                              "Email:",
+                              "Email ou nome de usuário:",
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 color: Colors.white,
