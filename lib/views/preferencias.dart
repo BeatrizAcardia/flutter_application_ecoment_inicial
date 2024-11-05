@@ -314,29 +314,6 @@ Future<void> _showDeleteAccountDialog(BuildContext context) async {
                             ),
                           ),
                           GestureDetector(
-                            onTap: () => null,
-                            child: Row(
-                              children: [
-                                IconButton(
-                                  onPressed: () {},
-                                  icon: Image.asset(
-                                    "assets/icon/mudar.png",
-                                    height: 30,
-                                    color: Color(0xff3A7D44),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text("Trocar a senha",
-                                    style: TextStyle(
-                                      fontFamily: "Poppins",
-                                      fontSize: 17,
-                                    )),
-                              ],
-                            ),
-                          ),
-                          GestureDetector(
                             onTap:
                             isLogged
       ? () => _showDeleteAccountDialog(context) 
