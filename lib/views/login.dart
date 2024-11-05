@@ -30,8 +30,9 @@ class _LoginState extends State<Login> {
       body: SingleChildScrollView(
         child: Stack(
           children: [
-            Positioned.fill(
-              child: Container(
+              Container(
+                height: MediaQuery.of(context).size.height * 1,
+                width: MediaQuery.of(context).size.width * 1,
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage("assets/imgs/Teladelogin.png"),
@@ -39,7 +40,7 @@ class _LoginState extends State<Login> {
                   ),
                 ),
               ),
-            ),
+            
             Form(
               key: keyVal,
               child: Container(
