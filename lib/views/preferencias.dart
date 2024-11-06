@@ -305,6 +305,9 @@ Future<void> _showDeleteAccountDialog(BuildContext context) async {
                                     color: Color(0xff3A7D44),
                                   ),
                                 ),
+                                SizedBox(
+                                  width: 10,
+                                ),
                                 Text(
                                   "Editar perfil",
                                   style: TextStyle(

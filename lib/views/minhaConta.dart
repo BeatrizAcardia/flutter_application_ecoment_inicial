@@ -143,7 +143,7 @@ class _MinhaContaState extends State<MinhaConta> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text("Usuarios que eu sigo:"),
+          title: Text("Usuários que eu sigo:"),
           content: Container(
             width: double.maxFinite, // para garantir que o conteúdo se ajuste
             child: ListView.separated(
@@ -209,7 +209,7 @@ class _MinhaContaState extends State<MinhaConta> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text("Usuarios que me seguem:"),
+          title: Text("Usuários que me seguem:"),
           content: Container(
             width: double.maxFinite, // para garantir que o conteúdo se ajuste
             child: ListView.separated(
@@ -539,6 +539,7 @@ class _MinhaContaState extends State<MinhaConta> {
                         ideiaVerde,
                       ],
                     ),
+                    SizedBox(height: 30,),
                     isLoading == true
                         ? Center(
                             child: CircularProgressIndicator(),
@@ -576,6 +577,7 @@ class _MinhaContaState extends State<MinhaConta> {
                           fontSize: 30,
                           fontWeight: FontWeight.bold),
                     ),
+                    SizedBox(height: 30,),
                     isLoading == true
                         ? Center(
                             child: CircularProgressIndicator(),
