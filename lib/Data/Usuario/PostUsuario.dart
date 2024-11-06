@@ -92,6 +92,8 @@ class PostUsuario{
       print('Pessoa excluida com sucesso');
     } else {
       print('Erro ao excluir pessoa');
+      print(id.toString());
+      print(nome);
     }
   }
 }

@@ -397,7 +397,7 @@ class _IdeiaState extends State<PageIdeia> {
                                 ),
                                 Row(
                                   children: [
-                                    Text("Salvar"),
+                                    Text("Favoritar"),
                                     SizedBox(
                                       width: 10,
                                     ),
@@ -456,7 +456,10 @@ class _IdeiaState extends State<PageIdeia> {
                                                   ScaffoldMessenger.of(context)
                                                       .showSnackBar(
                                                     SnackBar(
-                                                        content: Text(snackSv)),
+                                                      content: Text(snackSv),
+                                                      duration:
+                                                          Duration(seconds: 1),
+                                                    ),
                                                   );
                                                   setState(() {});
                                                 },
@@ -467,8 +470,8 @@ class _IdeiaState extends State<PageIdeia> {
                                             curve: Curves.easeInOut,
                                             child: Icon(
                                               isSaved
-                                                  ? Icons.save_as_rounded
-                                                  : Icons.save_as_outlined,
+                                                  ? Icons.star_rate_rounded
+                                                  : Icons.star_border_rounded,
                                               color: Colors.black,
                                               size: 30,
                                             ),
@@ -482,7 +485,7 @@ class _IdeiaState extends State<PageIdeia> {
                               children: [
                                 Row(
                                   children: [
-                                    Text("Favoritar "),
+                                    Text("Curtir "),
                                     MouseRegion(
                                       cursor: SystemMouseCursors.click,
                                       child: GestureDetector(
@@ -714,7 +717,10 @@ class _IdeiaState extends State<PageIdeia> {
                                 );
                                 setState(() {});
                               },
-                        child: Text(av),
+                              style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromARGB(255, 58, 125, 68),
+                    ),
+                        child: Text(av, style: TextStyle(color: Colors.white),),
                       ),
                       SizedBox(
                         height: 10,
@@ -811,6 +817,16 @@ class _IdeiaState extends State<PageIdeia> {
                                                               listaComentarios[
                                                                       index]
                                                                   .comentario);
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(
+                                                        SnackBar(
+                                                          content: Text(
+                                                              "Comentario excluido com sucesso!"),
+                                                          duration: Duration(
+                                                              seconds: 2),
+                                                        ),
+                                                      );
                                                     },
                                                     icon: Icon(
                                                       Icons.delete,

@@ -499,7 +499,10 @@ class _FormIdeiaState extends State<FormIdeia> {
                                             onPressed: () {
                                               selectImages();
                                             },
-                                            child: Text("Selecionar"))
+                                            style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromARGB(255, 58, 125, 68),
+                    ),
+                                            child: Text("Selecionar", style: TextStyle(color: Colors.white),))
                                       ],
                                     )
                                   : Container(
@@ -540,7 +543,10 @@ class _FormIdeiaState extends State<FormIdeia> {
                                               onPressed: () {
                                                 selectImages();
                                               },
-                                              child: Text("Mudar"))
+                                              style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromARGB(255, 58, 125, 68),
+                    ),
+                                              child: Text("Mudar", style: TextStyle(color: Colors.white),))
                                         ],
                                       ),
                                     )),

@@ -399,7 +399,7 @@ class _EditarPerfilState extends State<EditarPerfil> {
         usuario.idUsuarioWeb);
 
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text("Atualizado com sucesso!")),
+      SnackBar(content: Text("Atualizado com sucesso!"), duration: Duration(seconds: 1),),
     );
   }
 

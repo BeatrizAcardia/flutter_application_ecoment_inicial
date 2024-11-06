@@ -53,9 +53,8 @@ class _MinhaContaState extends State<MinhaConta> {
       height: 40,
       child: Image.asset('assets/imgs/ideiaIconVerde.png'));
 
-      final ideiaVerde2 = SizedBox(
-      width: 40,
-      child: Image.asset('assets/imgs/ideiaIconVerde.png'));
+  final ideiaVerde2 =
+      SizedBox(width: 40, child: Image.asset('assets/imgs/ideiaIconVerde.png'));
 
   TextStyle ideaTitle = TextStyle(
     color: Colors.black,
@@ -503,6 +502,21 @@ class _MinhaContaState extends State<MinhaConta> {
                               )
                             ],
                           ),
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: RichText(
+                              textAlign: TextAlign.center,
+                              text: TextSpan(children: [
+                                TextSpan(
+                                  text: meuUser.biografia.toString(),
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontFamily: 'Poppins',
+                                      fontSize: 15),
+                                ),
+                              ]),
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -537,7 +551,8 @@ class _MinhaContaState extends State<MinhaConta> {
                                   height: 280, // Altura do carrossel
                                   viewportFraction:
                                       0.6, // Controla a largura do item visível
-                                  enableInfiniteScroll: true,
+                                  enableInfiniteScroll:
+                                      listaIdeiasFav.length >= 3 ? true : false,
                                 ),
                                 itemCount: countListaFav,
                                 itemBuilder: (context, index, realIndex) {
@@ -545,7 +560,8 @@ class _MinhaContaState extends State<MinhaConta> {
                                   return Padding(
                                     padding:
                                         EdgeInsets.symmetric(horizontal: 20),
-                                    child: buildIdeiaCarrosselComFolinha(ideia, index),
+                                    child: buildIdeiaCarrosselComFolinha(
+                                        ideia, index),
                                   );
                                 },
                               )
@@ -603,8 +619,6 @@ class _MinhaContaState extends State<MinhaConta> {
         ));
   }
 
-
-
   int definirNumeroColunas(BuildContext context) {
     double larguraTela = MediaQuery.of(context).size.width;
     if (larguraTela >= 1200) {
@@ -650,8 +664,8 @@ class _MinhaContaState extends State<MinhaConta> {
                   children: [
                     ideia.img1 != null
                         ? Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: ClipRRect(
+                            padding: const EdgeInsets.all(10.0),
+                            child: ClipRRect(
                               borderRadius: BorderRadius.circular(
                                   15.0), // Define o border radius na imagem
                               child: Image.memory(
@@ -661,10 +675,10 @@ class _MinhaContaState extends State<MinhaConta> {
                                 width: 220,
                               ),
                             ),
-                        )
+                          )
                         : Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: ClipRRect(
+                            padding: const EdgeInsets.all(10),
+                            child: ClipRRect(
                               borderRadius: BorderRadius.circular(
                                   15.0), // Define o border radius na imagem
                               child: Image.asset(
@@ -674,15 +688,15 @@ class _MinhaContaState extends State<MinhaConta> {
                                 width: 220,
                               ),
                             ),
-                        ),
+                          ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         SizedBox(),
-                        Text(
-                          '${ideia.nomeUsuario}',
-                          style: TextStyle(fontWeight: FontWeight.bold,)
-                        ),
+                        Text('${ideia.nomeUsuario}',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            )),
                         Container(
                           child: Icon(
                             Icons.circle,
@@ -699,7 +713,8 @@ class _MinhaContaState extends State<MinhaConta> {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 18),
                       ),
                     ),
                     Row(
@@ -724,7 +739,8 @@ class _MinhaContaState extends State<MinhaConta> {
       );
 //----- FIM CARROSSEL ----
 
-        Widget buildIdeiaCarrosselComFolinha(Ideia ideia, int index) => GestureDetector(
+  Widget buildIdeiaCarrosselComFolinha(Ideia ideia, int index) =>
+      GestureDetector(
         onTap: () => Navigator.push(
           context,
           MaterialPageRoute(
@@ -745,8 +761,8 @@ class _MinhaContaState extends State<MinhaConta> {
                   children: [
                     ideia.img1 != null
                         ? Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: ClipRRect(
+                            padding: const EdgeInsets.all(10.0),
+                            child: ClipRRect(
                               borderRadius: BorderRadius.circular(
                                   15.0), // Define o border radius na imagem
                               child: Image.memory(
@@ -756,10 +772,10 @@ class _MinhaContaState extends State<MinhaConta> {
                                 width: 220,
                               ),
                             ),
-                        )
+                          )
                         : Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: ClipRRect(
+                            padding: const EdgeInsets.all(10),
+                            child: ClipRRect(
                               borderRadius: BorderRadius.circular(
                                   15.0), // Define o border radius na imagem
                               child: Image.asset(
@@ -769,15 +785,15 @@ class _MinhaContaState extends State<MinhaConta> {
                                 width: 220,
                               ),
                             ),
-                        ),
+                          ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         SizedBox(),
-                        Text(
-                          '${ideia.nomeUsuario}',
-                          style: TextStyle(fontWeight: FontWeight.bold,)
-                        ),
+                        Text('${ideia.nomeUsuario}',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            )),
                         Container(
                           child: Icon(
                             Icons.circle,
@@ -794,7 +810,8 @@ class _MinhaContaState extends State<MinhaConta> {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 18),
                       ),
                     ),
                     Row(
@@ -814,7 +831,11 @@ class _MinhaContaState extends State<MinhaConta> {
                 ),
               ),
             ),
-            Positioned(child: ideiaVerde, top: -5, right: 10,)
+            Positioned(
+              child: ideiaVerde,
+              top: -5,
+              right: 10,
+            )
           ],
         ),
       );
@@ -892,10 +913,13 @@ class _MinhaContaState extends State<MinhaConta> {
                             color: definirCor(ideia.dificuldade),
                             size: 20,
                           ),
-                          Text(
-                            '${ideia.nomeUsuario}',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
+                          Expanded(
+                            child: Text(
+                              textAlign: TextAlign.center,
+                              '${ideia.nomeUsuario}',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                           PopupMenuButton<String>(

@@ -3,6 +3,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_ecoment_inicial/Data/Postagem/PostPostagem.dart';
 import 'package:flutter_application_ecoment_inicial/Data/Postagem/Postagem.dart';
 import 'package:flutter_application_ecoment_inicial/Data/Seguidor/GetSeguidor.dart';
 import 'package:flutter_application_ecoment_inicial/Data/Seguidor/Seguidor.dart';
@@ -30,7 +31,7 @@ class _ContaUsuarioState extends State<ContaUsuario> {
   TextStyle ideaTitle = TextStyle(
     color: Colors.black,
     fontSize: 15,
-    fontFamily: 'Circe',
+    fontFamily: 'Poppins',
     fontWeight: FontWeight.w700,
   );
 
@@ -332,9 +333,9 @@ Pessoa usuario = Pessoa.n();
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Nome do Usuário",
+                            "Nome de Usuário",
                             style: TextStyle(
-                              fontFamily: 'Circe',
+                              fontFamily: 'Poppins',
                               color: Colors.white,
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
@@ -343,7 +344,7 @@ Pessoa usuario = Pessoa.n();
                           Text(
                             usuario.username,
                             style: TextStyle(
-                              fontFamily: 'Circe',
+                              fontFamily: 'Poppins',
                               color: Colors.white,
                               fontSize: 16,
                             ),
@@ -361,7 +362,7 @@ Pessoa usuario = Pessoa.n();
                           child: Text(
                             usuario.biografia,
                             style: TextStyle(
-                              fontFamily: 'Circe',
+                              fontFamily: 'Poppins',
                               fontSize: 15,
                               color: Colors.white,
                             ),
@@ -458,7 +459,7 @@ Pessoa usuario = Pessoa.n();
                         "Reputação: ",
                         style: TextStyle(
                             color: Colors.white,
-                            fontFamily: 'Circe',
+                            fontFamily: 'Poppins',
                             fontWeight: FontWeight.bold),
                       ),
                       Container(
@@ -490,7 +491,7 @@ Pessoa usuario = Pessoa.n();
                           seguirTxt,
                           style: TextStyle(
                               color: Colors.white,
-                              fontFamily: 'Circe',
+                              fontFamily: 'Poppins',
                               fontWeight: FontWeight.bold),
                         ),
                         style: ElevatedButton.styleFrom(
@@ -540,7 +541,7 @@ Pessoa usuario = Pessoa.n();
                         itemCount: listaIdeias2.length,
                         itemBuilder: (context, index) {
                           final ideia = listaIdeias2[index];
-                          return buildIdeia(ideia, index);
+                          return buildIdeiaGridView(ideia, index);
                         },
                         padding:
                             EdgeInsets.all(10), // Padding ao redor do GridView
@@ -559,7 +560,7 @@ Pessoa usuario = Pessoa.n();
     );
   }
 
-  Widget buildIdeia(Ideia ideia, int index) => GestureDetector(
+  Widget buildIdeiaGridView(Ideia ideia, int index) => GestureDetector(
         onTap: () => Navigator.push(
           context,
           MaterialPageRoute(
@@ -575,77 +576,88 @@ Pessoa usuario = Pessoa.n();
           child: Stack(
             children: [
               // Imagem da ideia
-              /* usuario.fotoPerfil == null
-                          ? Image.asset("assets/imgs/do-utilizador.png",
-                              width: 100, height: 100)
-                          : ClipRRect(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(50)),
-                              child: Image.memory(
-                                usuario.fotoPerfil!,
-                                width: 100,
-                                height: 100,
-                              )), */
-                              ideia.img1 != null ?
-              ClipRRect(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(15.0),
-                  topRight: Radius.circular(15.0),
-                ),
-                child: Image.memory(
-                  ideia.img1!,
-                  fit: BoxFit.cover,
-                  width:
-                      MediaQuery.of(context).size.width, // Ocupa toda a largura
-                  height: 250, // Ajuste de altura conforme necessário
-                ),
-              ): ClipRRect(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(15.0),
-                  topRight: Radius.circular(15.0),
-                ),
-                child: Image.asset(
-                  "assets/imgs/ideia1.jpg",
-                  fit: BoxFit.cover,
-                  width:
-                      MediaQuery.of(context).size.width, // Ocupa toda a largura
-                  height: 250, // Ajuste de altura conforme necessário
-                ),
-              ),
+              ideia.img1 != null
+                  ? ClipRRect(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(13.0),
+                        topRight: Radius.circular(13.0),
+                        bottomLeft: Radius.circular(15.0),
+                        bottomRight: Radius.circular(15.0),
+                      ),
+                      child: Image.memory(
+                        ideia.img1!,
+                        fit: BoxFit.cover,
+                        width: MediaQuery.of(context)
+                            .size
+                            .width, // Ocupa toda a largura
+                        height: 250, // Ajuste de altura conforme necessário
+                      ),
+                    )
+                  : ClipRRect(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(13.0),
+                        topRight: Radius.circular(13.0),
+                        bottomLeft: Radius.circular(15.0),
+                        bottomRight: Radius.circular(15.0),
+                      ),
+                      child: Image.asset(
+                        "assets/imgs/ideia1.jpg",
+                        fit: BoxFit.cover,
+                        width: MediaQuery.of(context)
+                            .size
+                            .width, // Ocupa toda a largura
+                        height: 250, // Ajuste de altura conforme necessário
+                      ),
+                    ),
               // Informações acima da imagem
               Positioned(
                 bottom: 0, // Posição no topo
                 left: 0,
                 right: 0,
                 child: Container(
-                  padding: EdgeInsets.all(10),
+                  padding: EdgeInsets.symmetric(horizontal: 5),
                   decoration: BoxDecoration(
                     color: Colors.white, // Fundo branco
                     borderRadius: BorderRadius.vertical(
                       top: Radius.circular(15.0),
+                      bottom: Radius.circular(15.0),
                     ),
                   ),
                   child: Column(
                     children: [
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Spacer(),
-                          Text(
-                            '${ideia.nomeUsuario}',
-                            style: TextStyle(
-                              fontStyle: FontStyle.italic,
-                            ),
-                          ),
-                          Spacer(),
                           Icon(
                             Icons.circle,
                             color: definirCor(ideia.dificuldade),
                             size: 20,
                           ),
-                          SizedBox(
-                            width: 15,
-                          )
+                          Text(
+                            '${ideia.nomeUsuario}',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          PopupMenuButton<String>(
+                            icon: Icon(Icons.more_horiz),
+                            onSelected: (value) async {
+                              value == "excluir"
+                                  ? await PostPostagem().excluirIdeia(
+                                      ideia.idPostagem,
+                                      widget.pessoa.idUsuarioWeb)
+                                  : null;
+                            },
+                            itemBuilder: (context) => <PopupMenuEntry<String>>[
+                              PopupMenuItem(
+                                child: Text(
+                                  "Excluir",
+                                  style: TextStyle(color: Colors.red),
+                                ),
+                                value: "excluir",
+                              ),
+                            ],
+                          ),
                         ],
                       ),
                       SizedBox(height: 10),
@@ -656,7 +668,7 @@ Pessoa usuario = Pessoa.n();
                           fontWeight: FontWeight.bold,
                           fontSize: 18,
                         ),
-                        maxLines: 2, // Limita a no máximo 2 linhas
+                        maxLines: 1, // Limita a no máximo 2 linhas
                         overflow: TextOverflow
                             .ellipsis, // Adiciona "..." se o texto exceder 2 linhas
                       ),

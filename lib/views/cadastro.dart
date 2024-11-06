@@ -55,17 +55,17 @@ class _CadastroState extends State<Cadastro> {
                 width: MediaQuery.of(context).size.width * 1,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage("assets/imgs/Teladecadastro.png"),
+                    image: AssetImage("assets/imgs/TeladeCadastro.png"),
                     fit: BoxFit.cover,
                   ),
                 ),
               ),
-            
             Form(
               key: keyVal,
               child: Container(
+                
                 width: MediaQuery.of(context).size.width,
-                padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
+                padding: EdgeInsets.fromLTRB(30, 40, 30, 0),
                 child: Column(
                   children: [
                     Align(
