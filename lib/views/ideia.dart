@@ -48,6 +48,8 @@ class _IdeiaState extends State<PageIdeia> {
     fontFamily: 'Poppins',
   );
 
+  String tipo = "";
+
   TextEditingController controllerComentario = TextEditingController();
 
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();

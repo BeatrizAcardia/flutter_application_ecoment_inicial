@@ -1,4 +1,4 @@
-// ignore_for_file: unnecessary_brace_in_string_interps
+// ignore_for_file: unnecessary_brace_in_string_interps, prefer_is_empty
 
 import 'dart:io';
 
@@ -52,7 +52,7 @@ class PostPostagem{
     }
   }
 
-  Future<void> publicar(String nomeIdeia, String nomeUsuario, int tipoMaterial, String descricao, String materiaisNecessarios, String passoPasso, String dificuldade, List<XFile> imageFiles) async{
+  Future<void> publicar(String nomeIdeia, String nomeUsuario, int tipoMaterial, String descricao, String materiaisNecessarios, String passoPasso, String dificuldade, List<XFile> imageFiles, List<String> tipo) async{
 
   // Converta cada XFile em Base64
   List<String> imagensBase64 = [];
@@ -76,17 +76,28 @@ class PostPostagem{
       'passoPasso': passoPasso,
       'tipoMaterial': tipoMaterial.toString(),
       'dificuldade': dificuldade,
+      
       // Adicione as imagens codificadas
       'img1': imagensBase64.length > 0 ? imagensBase64[0] : '',
+      'tipo1': tipo.length > 0 ? tipo[0] : '',
       'img2': imagensBase64.length > 1 ? imagensBase64[1] : '',
+      'tipo2': tipo.length > 1 ? tipo[1] : '',
       'img3': imagensBase64.length > 2 ? imagensBase64[2] : '',
+      'tipo3': tipo.length > 2 ? tipo[2] : '',
       'img4': imagensBase64.length > 3 ? imagensBase64[3] : '',
+      'tipo4': tipo.length > 3 ? tipo[3] : '',
       'img5': imagensBase64.length > 4 ? imagensBase64[4] : '',
+      'tipo5': tipo.length > 4 ? tipo[4] : '',
       'img6': imagensBase64.length > 5 ? imagensBase64[5] : '',
+      'tipo6': tipo.length > 5 ? tipo[5] : '',
       'img7': imagensBase64.length > 6 ? imagensBase64[6] : '',
+      'tipo7': tipo.length > 6 ? tipo[6] : '',
       'img8': imagensBase64.length > 7 ? imagensBase64[7] : '',
+      'tipo8': tipo.length > 7 ? tipo[7] : '',
       'img9': imagensBase64.length > 8 ? imagensBase64[8] : '',
+      'tipo9': tipo.length > 8 ? tipo[8] : '',
       'img10': imagensBase64.length > 9 ? imagensBase64[9] : '',
+      'tipo10': tipo.length > 9 ? tipo[9] : '',
     });
     if(response.statusCode == 200){
       print("Ideia publicada com sucesso!");

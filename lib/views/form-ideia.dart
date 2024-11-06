@@ -500,9 +500,15 @@ class _FormIdeiaState extends State<FormIdeia> {
                                               selectImages();
                                             },
                                             style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 58, 125, 68),
-                    ),
-                                            child: Text("Selecionar", style: TextStyle(color: Colors.white),))
+                                              backgroundColor:
+                                                  const Color.fromARGB(
+                                                      255, 58, 125, 68),
+                                            ),
+                                            child: Text(
+                                              "Selecionar",
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                            ))
                                       ],
                                     )
                                   : Container(
@@ -531,8 +537,11 @@ class _FormIdeiaState extends State<FormIdeia> {
                                                 );
                                               },
                                               options: CarouselOptions(
-                                                autoPlay:true,
-                                                enableInfiniteScroll: imageFileList.length >= 3 ? true : false,
+                                                autoPlay: true,
+                                                enableInfiniteScroll:
+                                                    imageFileList.length >= 3
+                                                        ? true
+                                                        : false,
                                                 enlargeCenterPage: true,
                                                 aspectRatio: 2.0,
                                                 viewportFraction: 0.8,
@@ -544,15 +553,21 @@ class _FormIdeiaState extends State<FormIdeia> {
                                                 selectImages();
                                               },
                                               style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 58, 125, 68),
-                    ),
-                                              child: Text("Mudar", style: TextStyle(color: Colors.white),))
+                                                backgroundColor:
+                                                    const Color.fromARGB(
+                                                        255, 58, 125, 68),
+                                              ),
+                                              child: Text(
+                                                "Mudar",
+                                                style: TextStyle(
+                                                    color: Colors.white),
+                                              ))
                                         ],
                                       ),
                                     )),
                           espacoH10,
                           ElevatedButton(
-                            onPressed: () async{
+                            onPressed: () async {
                               if (chave.currentState!.validate()) {
                                 if (imageFileList.isEmpty) {
                                   ScaffoldMessenger.of(context).showSnackBar(
@@ -632,11 +647,15 @@ class _FormIdeiaState extends State<FormIdeia> {
     );
   }
 
-  List<XFile> imageFileList = []; // Lista de strings (URLs ou Base64) das fotos
+  List<String> tipo = ['png', 'jpg', 'jpeg', 'mp4'];
+  List<String> tiposSelecionados =
+      []; // Lista para armazenar os tipos de cada arquivo
+  List<XFile> imageFileList = []; // Lista de imagens selecionadas
   final ImagePicker imagePicker = ImagePicker();
 
   void selectImages() async {
     imageFileList = [];
+    tiposSelecionados = []; // Limpa a lista ao selecionar novas imagens
 
     final List<XFile>? selectedImages = await imagePicker.pickMultiImage();
     if (selectedImages != null && selectedImages.isNotEmpty) {
@@ -648,11 +667,46 @@ class _FormIdeiaState extends State<FormIdeia> {
             duration: Duration(seconds: 2),
           ),
         );
-        return; // Retorna sem adicionar mais imagens
+        return;
       }
 
-      // Adiciona as imagens selecionadas à lista
-      imageFileList.addAll(selectedImages);
+      // Filtra as imagens que estão nos formatos permitidos
+      List<XFile> filteredImages = selectedImages.where((image) {
+        String extension = image.name.split('.').last.toLowerCase();
+        return tipo.contains(extension);
+      }).toList();
+
+      // Verifica se algum arquivo foi descartado devido ao formato
+      if (filteredImages.length < selectedImages.length) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+                "Alguns arquivos foram ignorados por não estarem em um formato permitido."),
+            duration: Duration(seconds: 2),
+          ),
+        );
+      }
+
+      // Adiciona as imagens filtradas e seus tipos às listas
+      imageFileList.addAll(filteredImages);
+
+      tiposSelecionados.addAll(
+        filteredImages.map((image) {
+          String extension = image.name.split('.').last.toLowerCase();
+          switch (extension) {
+            case 'jpeg':
+              return "image/jpeg";
+            case 'jpg':
+              return "image/jpg";
+            case 'png':
+              return "image/png";
+            case 'mp4':
+              return "video/mp4";
+            default:
+              return "unknown";
+          }
+        }),
+      );
     }
     setState(() {});
   }
@@ -666,7 +720,8 @@ class _FormIdeiaState extends State<FormIdeia> {
         ctrlMateriais.text,
         ctrlInstrucoes.text,
         dificuldade,
-        imageFileList);
+        imageFileList,
+        tiposSelecionados);
   }
 
   RichText criaLabel(String text) {

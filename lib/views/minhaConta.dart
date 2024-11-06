@@ -503,7 +503,7 @@ class _MinhaContaState extends State<MinhaConta> {
                             ],
                           ),
                           Padding(
-                            padding: const EdgeInsets.all(10.0),
+                            padding: const EdgeInsets.fromLTRB(70, 10, 10, 10),
                             child: RichText(
                               textAlign: TextAlign.center,
                               text: TextSpan(children: [

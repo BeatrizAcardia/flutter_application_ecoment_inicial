@@ -8,6 +8,7 @@ import 'package:flutter_application_ecoment_inicial/Data/Postagem/Postagem.dart'
 import 'package:flutter_application_ecoment_inicial/Data/Seguidor/GetSeguidor.dart';
 import 'package:flutter_application_ecoment_inicial/Data/Seguidor/Seguidor.dart';
 import 'package:flutter_application_ecoment_inicial/Data/Usuario/GetUsuario.dart';
+import 'package:flutter_application_ecoment_inicial/defaultWidgets/bottomAppBar.dart';
 import 'package:flutter_application_ecoment_inicial/models/ideia.dart';
 import 'package:flutter_application_ecoment_inicial/models/pessoa.dart';
 import 'package:flutter_application_ecoment_inicial/models/pessoaProvider.dart';
@@ -304,258 +305,265 @@ Pessoa usuario = Pessoa.n();
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 59, 113, 39),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              height: MediaQuery.of(context).size.height * 0.44,
-              decoration: BoxDecoration(
-                color: Color.fromARGB(255, 59, 113, 39),
-              ),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+      body: Stack(
+        fit: StackFit.expand,
+        alignment: Alignment.center,
+        children: [          
+          SingleChildScrollView(
+            child: Column(
+              children: [
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.44,
+                  decoration: BoxDecoration(
+                    color: Color.fromARGB(255, 59, 113, 39),
+                  ),
+                  child: Column(
                     children: [
-                      usuario.fotoPerfil == null
-                          ? Image.asset("assets/imgs/do-utilizador.png",
-                              width: 100, height: 100)
-                          : ClipRRect(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(50)),
-                              child: Image.memory(
-                                usuario.fotoPerfil!,
-                                width: 100,
-                                height: 100,
-                              )),
-                      SizedBox(width: 10),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(
-                            "Nome de Usuário",
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
+                          usuario.fotoPerfil == null
+                              ? Image.asset("assets/imgs/do-utilizador.png",
+                                  width: 100, height: 100)
+                              : ClipRRect(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(50)),
+                                  child: Image.memory(
+                                    usuario.fotoPerfil!,
+                                    width: 100,
+                                    height: 100,
+                                  )),
+                          SizedBox(width: 10),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Nome de Usuário",
+                                style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                usuario.username,
+                                style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Flexible(
+                              child: Text(
+                                usuario.biografia,
+                                style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontSize: 15,
+                                  color: Colors.white,
+                                ),
+                                softWrap: true,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.all(1),
+                            child: GestureDetector(
+                              onTap: () => _mostrarListaUsuarioSeguidores(context),
+                              child: RichText(
+                                text: TextSpan(children: [
+                                  TextSpan(
+                                    text: "Seguidores: ",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: 'Poppins',
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15),
+                                  ),
+                                  TextSpan(
+                                    text: usuario.qtdeSeguidores.toString(),
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: 'Poppins',
+                                        fontSize: 15),
+                                  ),
+                                ]),
+                              ),
                             ),
                           ),
+                          SizedBox(width: 20),
+                          Padding(
+                            padding: EdgeInsets.all(1),
+                            child: GestureDetector(
+                              onTap: () => _mostrarListaUsuarioSeguindo(context),
+                              child: RichText(
+                                text: TextSpan(children: [
+                                  TextSpan(
+                                    text: "Seguindo: ",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: 'Poppins',
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15),
+                                  ),
+                                  TextSpan(
+                                    text: usuario.qtdeSeguindo.toString(),
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: 'Poppins',
+                                        fontSize: 15),
+                                  ),
+                                ]),
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 20),
+                          Padding(
+                            padding: EdgeInsets.all(1),
+                            child: RichText(
+                              text: TextSpan(children: [
+                                TextSpan(
+                                  text: "Curtidas: ",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontFamily: 'Poppins',
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15),
+                                ),
+                                TextSpan(
+                                  text: usuario.qtdeCurtidas.toString(),
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontFamily: 'Poppins',
+                                      fontSize: 15),
+                                ),
+                              ]),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 20),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
                           Text(
-                            usuario.username,
+                            "Reputação: ",
                             style: TextStyle(
-                              fontFamily: 'Poppins',
-                              color: Colors.white,
-                              fontSize: 16,
+                                color: Colors.white,
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.bold),
+                          ),
+                          Container(
+                            child: Row(
+                              children: [
+                                ...gerarEstrelaColorida(usuario.reputacao),
+                                ...gerarEstrelaNColorida(
+                                    5 - usuario.reputacao)
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 20),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ElevatedButton(
+                            onPressed: () async {
+                              if (user.email == "" || user.email == null) {
+                                _showErrorDialog(context);
+                              } else{
+                                await seguir();
+                                setState(() {
+                                });
+                              }
+                            },
+                            child: Text(
+                              seguirTxt,
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  const Color.fromARGB(255, 59, 83, 100),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
                             ),
                           ),
                         ],
                       ),
                     ],
                   ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Flexible(
-                          child: Text(
-                            usuario.biografia,
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontSize: 15,
-                              color: Colors.white,
-                            ),
-                            softWrap: true,
-                          ),
-                        ),
-                      ],
-                    ),
+                ),
+                SizedBox(
+                  width: double.infinity,
+                  child: Image.asset(
+                    "assets/imgs/ondaVerdeconta.png",
+                    fit: BoxFit.cover,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.all(1),
-                        child: GestureDetector(
-                          onTap: () => _mostrarListaUsuarioSeguidores(context),
-                          child: RichText(
-                            text: TextSpan(children: [
-                              TextSpan(
-                                text: "Seguidores: ",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 15),
-                              ),
-                              TextSpan(
-                                text: usuario.qtdeSeguidores.toString(),
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontFamily: 'Poppins',
-                                    fontSize: 15),
-                              ),
-                            ]),
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 20),
-                      Padding(
-                        padding: EdgeInsets.all(1),
-                        child: GestureDetector(
-                          onTap: () => _mostrarListaUsuarioSeguindo(context),
-                          child: RichText(
-                            text: TextSpan(children: [
-                              TextSpan(
-                                text: "Seguindo: ",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 15),
-                              ),
-                              TextSpan(
-                                text: usuario.qtdeSeguindo.toString(),
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontFamily: 'Poppins',
-                                    fontSize: 15),
-                              ),
-                            ]),
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 20),
-                      Padding(
-                        padding: EdgeInsets.all(1),
-                        child: RichText(
-                          text: TextSpan(children: [
-                            TextSpan(
-                              text: "Curtidas: ",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'Poppins',
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15),
-                            ),
-                            TextSpan(
-                              text: usuario.qtdeCurtidas.toString(),
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'Poppins',
-                                  fontSize: 15),
-                            ),
-                          ]),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Reputação: ",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.bold),
-                      ),
-                      Container(
-                        child: Row(
-                          children: [
-                            ...gerarEstrelaColorida(usuario.reputacao),
-                            ...gerarEstrelaNColorida(
-                                5 - usuario.reputacao)
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ElevatedButton(
-                        onPressed: () async {
-                          if (user.email == "" || user.email == null) {
-                            _showErrorDialog(context);
-                          } else{
-                            await seguir();
-                            setState(() {
-                            });
-                          }
-                        },
-                        child: Text(
-                          seguirTxt,
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.bold),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              const Color.fromARGB(255, 59, 83, 100),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(
-              width: double.infinity,
-              child: Image.asset(
-                "assets/imgs/ondaVerdeconta.png",
-                fit: BoxFit.cover,
-              ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Text(
-              "Minhas ideias",
-              style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold),
-            ),
-            isLoading == true
-                ? Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : listaIdeias2.isNotEmpty
-                    ? GridView.builder(
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: definirNumeroColunas(
-                              context), // Define dinamicamente o número de colunas
-                          crossAxisSpacing: 10, // Espaçamento entre as colunas
-                          mainAxisSpacing: 10, // Espaçamento entre as linhas
-                          childAspectRatio: definirProporcao(
-                              context), // Ajusta a proporção dinamicamente
-                        ),
-                        itemCount: listaIdeias2.length,
-                        itemBuilder: (context, index) {
-                          final ideia = listaIdeias2[index];
-                          return buildIdeiaGridView(ideia, index);
-                        },
-                        padding:
-                            EdgeInsets.all(10), // Padding ao redor do GridView
-                        shrinkWrap:
-                            true, // Permite que o GridView se ajuste ao conteúdo
-                        physics:
-                            BouncingScrollPhysics(), // Comportamento de rolagem
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  "Minhas ideias",
+                  style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold),
+                ),
+                isLoading == true
+                    ? Center(
+                        child: CircularProgressIndicator(),
                       )
-                    : Center(
-                        child: Text("Nenhuma ideia encontrada"),
-                      ),
-            SizedBox(height: 60),
-          ],
-        ),
+                    : listaIdeias2.isNotEmpty
+                        ? GridView.builder(
+                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: definirNumeroColunas(
+                                  context), // Define dinamicamente o número de colunas
+                              crossAxisSpacing: 10, // Espaçamento entre as colunas
+                              mainAxisSpacing: 10, // Espaçamento entre as linhas
+                              childAspectRatio: definirProporcao(
+                                  context), // Ajusta a proporção dinamicamente
+                            ),
+                            itemCount: listaIdeias2.length,
+                            itemBuilder: (context, index) {
+                              final ideia = listaIdeias2[index];
+                              return buildIdeiaGridView(ideia, index);
+                            },
+                            padding:
+                                EdgeInsets.all(10), // Padding ao redor do GridView
+                            shrinkWrap:
+                                true, // Permite que o GridView se ajuste ao conteúdo
+                            physics:
+                                BouncingScrollPhysics(), // Comportamento de rolagem
+                          )
+                        : Center(
+                            child: Text("Nenhuma ideia encontrada"),
+                          ),
+                SizedBox(height: 60),
+              ],
+            ),
+          ),
+          WidgetBottomAppBar(scaffoldKey: _scaffoldKey),
+        ],
       ),
     );
   }
