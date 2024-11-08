@@ -1,15 +1,22 @@
 // ignore_for_file: unnecessary_this
 
+import 'package:flutter/material.dart';
+
 class Endereco{
 
+  Color color = Colors.transparent;
   String title = "";
   String adress = "";
   String type = "";
   String time = "";
   double lat = 0, long = 0;
 
-  Endereco(this.lat, this.long, this.title, this.type, this.adress, this.time);
+  Endereco(this.color, this.lat, this.long, this.title, this.type, this.adress, this.time);
   Endereco.vazio();
+
+  Color get getColor => this.color;
+
+ set setColor(Color color) => this.color = color;
 
  String get getTitle => this.title;
 
