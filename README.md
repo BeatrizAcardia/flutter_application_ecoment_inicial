@@ -1,16 +1,45 @@
-# flutter_application_ecoment_inicial
+# 🌱 EcoMoment Mobile
 
-A new Flutter project.
+Versão **Mobile** do EcoMoment, desenvolvida para Android e iOS, focada nos **usuários finais** que desejam compartilhar e descobrir ideias de reutilização e reciclagem.
 
-## Getting Started
+---
 
-This project is a starting point for a Flutter application.
+## 📋 Sobre o Projeto
+O **EcoMoment Mobile** é uma rede social voltada para a sustentabilidade.  
+Aqui os usuários podem publicar, curtir e comentar ideias de reaproveitamento, acompanhar perfis, visualizar no mapa as ideias postadas e interagir com a comunidade.
 
-A few resources to get you started if this is your first Flutter project:
+---
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## 📱 Funcionalidades Principais
+- **Cadastro e Login de Usuário**
+- **Publicar Ideias e Projetos**
+- **Curtir, Comentar e Compartilhar**
+- **Seguir outros usuários e visualizar seus perfis**
+- **Mapa Interativo**
+  - Veja localização de coletas reciclaveis.
+- **Gerenciar perfil (foto, bio, etc.)**
+- **Integração com o EcoMoment Web**
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+---
+
+## 👥 Papéis de Usuário
+- **Usuário Comum**
+  - Publica ideias, interage com outros usuários e visualiza no mapa as postagens.
+- **Moderador / Admin**
+  - Acessam via versão Desktop para gerenciar usuários/postagens (não disponível no mobile).
+
+---
+
+## 🛠️ Tecnologias Utilizadas
+- **Flutter**
+- **Dart**
+- **API REST** para comunicação com o backend
+- **MySQL** como banco de dados remoto
+- **Mapas** integrados com serviço de geolocalização (OpenStreetMap)
+
+---
+
+## 🚀 Como Executar
+1. Clone este repositório:
+   ```bash
+   git clone https://github.com/BeatrizAcardia/flutter_application_ecoment_inicial.git
